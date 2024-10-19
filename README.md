@@ -1,1 +1,1 @@
-# strategy-ui
+# Strategy UI
