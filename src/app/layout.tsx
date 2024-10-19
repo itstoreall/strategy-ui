@@ -6,7 +6,7 @@ type ChildrenProps = {
 };
 
 export const metadata: Metadata = {
-  title: "Strategy",
+  title: "Strategy PWA",
 };
 
 export default function RootLayout({ children }: ChildrenProps) {
