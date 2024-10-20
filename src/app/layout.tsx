@@ -6,7 +6,9 @@ type ChildrenProps = {
 };
 
 export const metadata: Metadata = {
+  manifest: "/manifest.json",
   title: "Strategy PWA",
+  description: "Crypto market strategies",
 };
 
 export default function RootLayout({ children }: ChildrenProps) {
