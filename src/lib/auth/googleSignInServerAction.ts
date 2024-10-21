@@ -10,3 +10,12 @@ export const handleGoogleSignIn = async () => {
     throw error;
   }
 };
+
+// export const handleGoogleSignIn = async () => {
+//   try {
+//     await signIn("google", { callbackUrl: "/dashboard" });
+//   } catch (error) {
+//     console.error("Error during Google sign-in:", error);
+//     throw error;
+//   }
+// };
