@@ -1,0 +1,30 @@
+form.email-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+
+  .form-input {
+    padding: 1rem;
+    font-size: 1rem;
+    border: solid;
+    border-color: hsl(0, 0%, 70%);
+    border-radius: 0.5rem;
+  }
+
+  .submit-button {
+    padding: 1rem;
+    font-size: 1rem;
+    color: white;
+    background-color: hsl(208, 86%, 48%);
+    border: solid;
+    border-radius: 0.5rem;
+    border-color: hsl(208, 86%, 48%);
+    cursor: pointer;
+
+    &:hover {
+      background-color: hsl(208, 86%, 58%);
+      border-color: hsl(208, 86%, 58%);
+    }
+  }
+}

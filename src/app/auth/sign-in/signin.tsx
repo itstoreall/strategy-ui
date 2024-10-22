@@ -13,7 +13,8 @@ export const SignInPage: React.FC = () => {
     event.preventDefault();
     try {
       startTransition(async () => {
-        await handleEmailSignIn(formData.email);
+        const url = await handleEmailSignIn(formData.email);
+        console.log("url =======>", url);
       });
     } catch (error) {
       console.error(error);
@@ -25,7 +26,7 @@ export const SignInPage: React.FC = () => {
       <div className="signin-card">
         <h2>Sign In</h2>
         <div className="form-container">
-          <form className="email-signin-form" onSubmit={handleSubmit}>
+          <form className="email-form" onSubmit={handleSubmit}>
             <input
               className="form-input"
               type="email"

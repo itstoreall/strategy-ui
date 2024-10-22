@@ -1,27 +1,73 @@
+"use client";
+
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { RxCheckCircled } from "react-icons/rx";
+import axios from "axios";
+
+const strategyApiUrl = process.env.NEXT_PUBLIC_STRATEGY_API_URL;
+
+const config = {
+  formHeadingMsg: "Success! Please check your email",
+  formBottomMsg: "Did not receive an email? ",
+};
 
 const AuthSuccessPage: React.FC = () => {
+  const [isPending, startTransition] = useTransition();
+  const [inputValue, setInputValue] = useState("");
+
+  const router = useRouter();
+
+  const makeReq = async () => {
+    try {
+      startTransition(async () => {
+        const reqUrl = `${strategyApiUrl}/api/user/verify/code/${inputValue}`;
+        const res = await axios.get(reqUrl);
+        if (res.data.url) router.push(res.data.url);
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="auth-success-page">
       <div className="auth-success-card">
-        <div className="auth-success">
+        <div className="form-heading-info-success">
           <RxCheckCircled className="icon" />
-
-          <p>{"Success! Please check your email inbox for sign in link."}</p>
+          <p>{config.formHeadingMsg}</p>
         </div>
 
         <div>
-          <p>
-            {
-              "Didn't receive an email? To go back to the sign-in page and try again, "
-            }
+          <form className="email-form" onSubmit={makeReq}>
+            <input
+              className="form-input"
+              placeholder="Code"
+              maxLength={4}
+              value={inputValue}
+              onChange={(event) => {
+                const value = event.target.value;
+                if (/^\d*$/.test(value)) setInputValue(value);
+              }}
+              disabled={isPending}
+              required
+            />
 
-            <a
-              href="/api/auth/signin"
-              style={{ cursor: "pointer", textDecoration: "underline" }}
+            <button
+              className="submit-button"
+              disabled={isPending}
+              type="submit"
             >
-              Click Here
-            </a>
+              Send Code
+            </button>
+          </form>
+        </div>
+
+        <div className="form-bottom-info-success">
+          <p>
+            {config.formBottomMsg}
+
+            <a href="/api/auth/signin">Try again</a>
           </p>
         </div>
       </div>

@@ -1,0 +1,22 @@
+.auth {
+  &-success-page,
+  &-error-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100svh;
+    background-color: hsl(0, 0%, 97.5%);
+
+    .auth-success-card,
+    .auth-error-card {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 2rem;
+      width: 19rem;
+      background-color: white;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 8px hsl(0, 0%, 70%);
+    }
+  }
+}

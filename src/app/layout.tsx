@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
 import "@/src/sass/globals.scss";
 
 type ChildrenProps = {
@@ -14,7 +15,9 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: ChildrenProps) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <SessionProvider>
+        <body>{children}</body>
+      </SessionProvider>
     </html>
   );
 }
