@@ -1,3 +1,20 @@
+import React from 'react';
+
+type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
+
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, ...props }, ref) => {
+    return (
+      <input className={`default-input ${className}`} ref={ref} {...props} />
+    );
+  }
+);
+
+Input.displayName = 'Input';
+
+export default Input;
+
+/*
 type InputProps = {
   className?: string;
   type?: 'email' | 'password' | 'number' | 'text';
@@ -36,3 +53,4 @@ const Input = (props: InputProps) => {
 };
 
 export default Input;
+*/

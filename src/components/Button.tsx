@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 
 type ButtonProps = {
   children?: React.ReactNode;
+  style?: React.CSSProperties;
   className?: string;
   type?: 'submit' | 'button';
   clickContent?: (() => void) | string;
@@ -12,9 +13,10 @@ type ButtonProps = {
 
 const Button = (props: ButtonProps) => {
   const {
-    type = 'submit',
     children = 'Submit',
+    style,
     className,
+    type = 'submit',
     clickContent,
     disabled,
   } = props;
@@ -33,7 +35,7 @@ const Button = (props: ButtonProps) => {
 
   return (
     <button
-      style={{ cursor: 'pointer' }}
+      style={{ cursor: 'pointer', ...style }}
       className={btnStyle}
       type={type}
       onClick={() => onClickHandler()}
