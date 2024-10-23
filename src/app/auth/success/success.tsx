@@ -1,20 +1,27 @@
-"use client";
+'use client';
 
-import { useState, useTransition } from "react";
-import { useRouter } from "next/navigation";
-import { RxCheckCircled } from "react-icons/rx";
-import axios from "axios";
+import { RxCheckCircled } from 'react-icons/rx';
+
+/*
+import { useState, useTransition } from 'react';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import Input from '@/src/components/Input';
+import Button from '@/src/components/Button';
+import Form from '@/src/components/Form';
 
 const strategyApiUrl = process.env.NEXT_PUBLIC_STRATEGY_API_URL;
+*/
 
 const config = {
-  formHeadingMsg: "Success! Please check your email",
-  formBottomMsg: "Did not receive an email? ",
+  formHeadingMsg: 'Success! Please check your email',
+  formBottomMsg: 'Did not receive an email? ',
 };
 
 const AuthSuccessPage: React.FC = () => {
+  /*
   const [isPending, startTransition] = useTransition();
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
 
   const router = useRouter();
 
@@ -34,6 +41,12 @@ const AuthSuccessPage: React.FC = () => {
     }
   };
 
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    if (/^\d*$/.test(value)) setInputValue(value);
+  };
+  */
+
   return (
     <div className="auth-success-page">
       <div className="auth-success-card">
@@ -42,30 +55,20 @@ const AuthSuccessPage: React.FC = () => {
           <p>{config.formHeadingMsg}</p>
         </div>
 
-        <div>
-          <form className="email-form" onSubmit={makeReq}>
-            <input
-              className="form-input"
+        {/* <div>
+          <Form className="email-form" handleSubmit={makeReq}>
+            <Input
               placeholder="Code"
               maxLength={4}
               value={inputValue}
-              onChange={(event) => {
-                const value = event.target.value;
-                if (/^\d*$/.test(value)) setInputValue(value);
-              }}
+              handleChange={handleInputChange}
               disabled={isPending}
               required
             />
 
-            <button
-              className="submit-button"
-              disabled={isPending}
-              type="submit"
-            >
-              Send Code
-            </button>
-          </form>
-        </div>
+            <Button disabled={isPending}>Send Code</Button>
+          </Form>
+        </div> */}
 
         <div className="form-bottom-info-success">
           <p>

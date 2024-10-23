@@ -1,0 +1,16 @@
+button.default-button {
+  padding: 1rem;
+  font-size: 1rem;
+  color: white;
+  background-color: hsl(208, 86%, 48%);
+  border: solid;
+  border-radius: 0.5rem;
+  border-color: hsl(208, 86%, 48%);
+  cursor: pointer;
+
+  &.disabled,
+  &:hover {
+    background-color: hsl(208, 86%, 58%);
+    border-color: hsl(208, 86%, 58%);
+  }
+}

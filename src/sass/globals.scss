@@ -1,17 +1,22 @@
-@use "@/src/sass/base/base.scss";
-@use "@/src/sass/base/typography.scss";
+@use '@/src/sass/base/base.scss';
+@use '@/src/sass/base/typography.scss';
 
-@use "@/src/sass/components/sign-in-button.scss";
-@use "@/src/sass/components/sign-out-button.scss";
+// Button:
+@use '@/src/sass/components/button/default-button.scss';
+@use '@/src/sass/components/button/custom-button.scss';
+@use '@/src/sass/components/sign-in-button.scss';
+@use '@/src/sass/components/sign-out-button.scss';
 
 // Form:
-@use "@/src/sass/components/form/email-form.scss";
-@use "@/src/sass/components/form/form-heading-info.scss";
-@use "@/src/sass/components/form/form-bottom-info.scss";
+@use '@/src/sass/components/form/default-form.scss';
+@use '@/src/sass/components/form/default-input.scss';
+
+@use '@/src/sass/components/form/form-heading-info.scss';
+@use '@/src/sass/components/form/form-bottom-info.scss';
 
 // @use "@/src/sass/pages/admin.scss";
-@use "@/src/sass/pages/home.scss";
-@use "@/src/sass/pages/signin.scss";
+@use '@/src/sass/pages/home.scss';
+@use '@/src/sass/pages/signin.scss';
 // @use "@/src/sass/pages/auth-error.scss";
-@use "@/src/sass/pages/auth.scss";
-@use "@/src/sass/pages/dashboard.scss";
+@use '@/src/sass/pages/auth.scss';
+@use '@/src/sass/pages/dashboard.scss';

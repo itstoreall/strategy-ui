@@ -1,15 +1,15 @@
 import { redirect } from 'next/navigation';
 import { checkIsAuthenticated } from '@/src/lib/auth/checkIsAuthenticated';
-import { SignInPage } from '@/src/app/auth/sign-in/signin';
+import { SignUpPage } from '@/src/app/auth/sign-up/signup';
 
-const SignIn: React.FC = async () => {
+const SignUp: React.FC = async () => {
   const isAuthenticated = await checkIsAuthenticated();
 
   if (isAuthenticated) {
     redirect('/dashboard');
   } else {
-    return <SignInPage />;
+    return <SignUpPage />;
   }
 };
 
-export default SignIn;
+export default SignUp;

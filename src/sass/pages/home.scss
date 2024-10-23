@@ -4,4 +4,13 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
+
+  .button-block {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 200px;
+    padding: 1rem;
+  }
 }

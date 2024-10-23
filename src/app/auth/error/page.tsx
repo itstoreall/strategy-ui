@@ -1,8 +1,8 @@
-import { RxExclamationTriangle } from "react-icons/rx";
+import { RxExclamationTriangle } from 'react-icons/rx';
 
 const config = {
-  formHeadingMsg: "Oops, something went wrong.",
-  formBottomMsg: "To go back to the sign in page, ",
+  formHeadingMsg: 'Oops, something went wrong.',
+  formBottomMsg: 'To go back to the sign in page, ',
 };
 
 const AuthErrorPage: React.FC = () => {

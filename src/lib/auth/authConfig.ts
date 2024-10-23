@@ -1,84 +1,27 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import NextAuth from "next-auth";
-import axios from "axios";
-import Google from "next-auth/providers/google";
-import Nodemailer, { NodemailerConfig } from "next-auth/providers/nodemailer";
-import { PrismaAdapter } from "@auth/prisma-adapter";
-import { createTransport } from "nodemailer";
-import { prisma } from "@/src/lib/prisma/client";
-import { clearExpiredVerificationTokens } from "@/src/lib/auth/clearStaleTokensServerAction";
-import { error } from "console";
-
-const strategyApiUrl = process.env.NEXT_PUBLIC_STRATEGY_API_URL;
+import NextAuth from 'next-auth';
+import Google from 'next-auth/providers/google';
+import Nodemailer from 'next-auth/providers/nodemailer';
+import { PrismaAdapter } from '@auth/prisma-adapter';
+import { prisma } from '@/src/lib/prisma/client';
+import { clearExpiredVerificationTokens } from '@/src/lib/auth/clearStaleTokensServerAction';
 
 /*
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_SERVER_HOST,
-  port: parseInt(process.env.EMAIL_SERVER_PORT!, 10),
-  auth: {
-    user: process.env.EMAIL_SERVER_USER,
-    pass: process.env.EMAIL_SERVER_PASSWORD,
-  },
-});
-
-function generateRandomNumbers() {
-  let verificationCode = "";
-  for (let i = 0; i < 4; i++) {
-    verificationCode += Math.floor(Math.random() * 10);
-  }
-  return verificationCode;
-}
-
-type Args = {
-  identifier: string;
-  url: string;
-};
-
-const sendVerificationEmail = async ({ identifier, url }: Args) => {
-  const code = generateRandomNumbers();
-  console.log(1, "strategyApiUrl", strategyApiUrl);
-  const payload = { identifier, code, url };
-  await axios.post(`${strategyApiUrl}/api/user/verify/code`, payload);
-
-  await transporter.sendMail({
-    from: process.env.EMAIL_FROM,
-    to: identifier,
-    subject: "Sign in to Strategy",
-    text: `Sign in to the app`,
-    html: `<p>Code:</p>
-           <p><strong>${code}</strong></p>`,
-  });
-};
+import axios from 'axios';
+import { createTransport } from 'nodemailer';
+import { error } from 'console';
 */
 
-// const transporter = nodemailer.createTransport({
-//   host: process.env.EMAIL_SERVER_HOST,
-//   port: parseInt(process.env.EMAIL_SERVER_PORT!, 10),
-//   auth: {
-//     user: process.env.EMAIL_SERVER_USER,
-//     pass: process.env.EMAIL_SERVER_PASSWORD,
-//   },
-// });
+/*
+const strategyApiUrl = process.env.NEXT_PUBLIC_STRATEGY_API_URL;
 
 type VerifyReqParams = {
   identifier: string;
   url: string;
   provider: NodemailerConfig;
-  // provider: {
-  //   server: {
-  //     host: string;
-  //     port: number;
-  //     auth: {
-  //       user: string;
-  //       pass: string;
-  //     };
-  //   };
-  // from: string;
-  // };
 };
 
 const generateRandomNumbers = () => {
-  let verificationCode = "";
+  let verificationCode = '';
   for (let i = 0; i < 4; i++) {
     verificationCode += Math.floor(Math.random() * 10);
   }
@@ -113,7 +56,7 @@ const text = ({ url, host }: { url: string; host: string }) => {
 
 const html = (params: { url: string; host: string; code: string }) => {
   const { url, host, code } = params;
-  console.log("host:::::", host);
+  console.log('host:::::', host);
   return `
     <body>
       <a href="${url}" target="_blank">Sign in</a>
@@ -121,20 +64,21 @@ const html = (params: { url: string; host: string; code: string }) => {
     </body>
   `;
 };
+*/
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   trustHost: true,
   adapter: PrismaAdapter(prisma),
   secret: process.env.AUTH_SECRET,
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
 
   pages: {
-    signIn: "/auth/sign-in",
-    verifyRequest: `/auth/success/`,
-    error: "/auth/error",
+    signIn: '/auth/sign-in',
+    verifyRequest: '/auth/success',
+    error: '/auth/error',
   },
 
   providers: [
@@ -143,15 +87,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientSecret: process.env.AUTH_GOOGLE_SECRET,
       allowDangerousEmailAccountLinking: true,
     }),
-
-    /*
-    Nodemailer({
-      async generateVerificationToken() {
-        console.log(111);
-        return crypto.randomUUID();
-      },
-    }),
-    */
 
     /*
     {
@@ -164,7 +99,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     */
 
-    // /*
     Nodemailer({
       server: {
         host: process.env.EMAIL_SERVER_HOST,
@@ -175,34 +109,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         },
       },
       from: process.env.EMAIL_FROM,
+      /*
       sendVerificationRequest({ identifier, url, provider }) {
         sendVerificationRequest({ identifier, url, provider });
       },
+      */
     }),
-    // */
-
-    /*
-    Nodemailer({
-      server: {
-        host: process.env.EMAIL_SERVER_HOST,
-        port: parseInt(process.env.EMAIL_SERVER_PORT!, 10),
-        auth: {
-          user: process.env.EMAIL_SERVER_USER,
-          pass: process.env.EMAIL_SERVER_PASSWORD,
-        },
-      },
-      from: process.env.EMAIL_FROM,
-      async generateVerificationToken() {
-        console.log(111);
-        return crypto.randomUUID();
-      },
-    }),
-    // */
   ],
 
   callbacks: {
     async jwt({ token, user, session, trigger }) {
-      console.log("------ jwt trigger | session ------", trigger, session);
+      console.log('------ jwt trigger | session ------', trigger, session);
 
       if (user) {
         await clearExpiredVerificationTokens();

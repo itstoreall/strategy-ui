@@ -1,6 +1,6 @@
-"use server";
+'use server';
 
-import { prisma } from "@/src/lib/prisma/client";
+import { prisma } from '@/src/lib/prisma/client';
 
 export const clearExpiredVerificationTokens = async () => {
   const now = new Date().toISOString();

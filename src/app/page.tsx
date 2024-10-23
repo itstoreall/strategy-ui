@@ -1,14 +1,16 @@
-"use client";
+'use client';
 
-import SignInButton from "@/src/components/SignInButton";
+import Button from '@/src/components/Button';
 
 const Home: React.FC = () => {
   return (
     <div>
       <div className="home-page">
         <h2>Home</h2>
-        <div>
-          <SignInButton className="sign-in-button" />
+        <div className="button-block">
+          <Button clickContent="/auth/sign-in">Sign In</Button>
+
+          <Button clickContent="/auth/sign-up">Sign Up</Button>
         </div>
       </div>
     </div>
