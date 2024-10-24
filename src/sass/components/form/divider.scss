@@ -1,0 +1,17 @@
+div.divider {
+  display: flex;
+  align-items: center;
+  width: 75%;
+  padding: 1.5rem;
+
+  .line {
+    flex-grow: 1;
+    height: 1px;
+    background-color: hsl(0, 0%, 70%);
+  }
+
+  .or {
+    padding: 0 1rem;
+    color: hsl(0, 0%, 60%);
+  }
+}

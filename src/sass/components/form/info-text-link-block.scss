@@ -1,0 +1,20 @@
+div.info-text-link-block {
+  display: grid;
+  padding: 1rem 1rem;
+  text-align: center;
+  gap: 10px;
+
+  > p {
+    margin: 0;
+    font-size: 0.8rem;
+
+    > a {
+      margin: 0;
+      color: hsl(208, 86%, 48%);
+
+      &:hover {
+        color: hsl(208, 86%, 58%);
+      }
+    }
+  }
+}

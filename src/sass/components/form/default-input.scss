@@ -1,7 +1,40 @@
+$borderColor: hsl(0, 0%, 70%);
+$activeColor: #333333;
+$errorColor: red;
+
 input.default-input {
   padding: 1rem;
   width: calc(100% - 2rem - 2px);
-  font-size: 14px;
-  border: 1px solid hsl(0, 0%, 70%);
+  font-size: 13px;
+  color: $activeColor;
+  border: 1px solid $borderColor;
   border-radius: 0.5rem;
+  outline: none;
+
+  &:focus {
+    color: $activeColor;
+    border-color: $activeColor;
+
+    &::placeholder {
+      color: $activeColor;
+    }
+  }
+
+  &.error {
+    color: $errorColor;
+    border-color: $errorColor;
+
+    &::placeholder {
+      color: $errorColor;
+    }
+
+    &:focus {
+      color: $activeColor;
+      border-color: $activeColor;
+
+      &::placeholder {
+        color: $borderColor;
+      }
+    }
+  }
 }

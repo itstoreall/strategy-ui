@@ -1,13 +1,15 @@
 .signin-page {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 100svh;
   background-color: hsl(0, 0%, 97.5%);
 
   .signin-card {
     width: 20rem;
     padding: 2rem;
+    margin-bottom: 1rem;
     border-radius: 1rem;
     box-shadow: 0 4px 8px hsl(0, 0%, 70%);
     background-color: white;
@@ -17,53 +19,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-
-      .divider {
-        display: flex;
-        align-items: center;
-        width: 75%;
-        padding: 1.5rem;
-
-        .line {
-          flex-grow: 1;
-          height: 1px;
-          background-color: hsl(0, 0%, 70%);
-        }
-
-        .or {
-          padding: 0 1rem;
-          color: hsl(0, 0%, 60%);
-        }
-      }
-
-      .social-logins {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-
-        .google {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 1rem;
-          font-size: medium;
-          font-weight: bold;
-          border: solid;
-          border-radius: 1rem;
-          background-color: transparent;
-
-          .google-icon {
-            margin-right: 1.25rem;
-            width: 1.5rem;
-            height: 1.5rem;
-          }
-
-          &:hover {
-            cursor: pointer;
-            background-color: hsl(0, 0%, 97.5%);
-          }
-        }
-      }
     }
   }
 }

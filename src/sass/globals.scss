@@ -4,15 +4,16 @@
 // Button:
 @use '@/src/sass/components/button/default-button.scss';
 @use '@/src/sass/components/button/custom-button.scss';
-@use '@/src/sass/components/sign-in-button.scss';
-@use '@/src/sass/components/sign-out-button.scss';
+@use '@/src/sass/components/button/signin-google-button.scss';
 
 // Form:
 @use '@/src/sass/components/form/default-form.scss';
 @use '@/src/sass/components/form/default-input.scss';
+@use '@/src/sass/components/form/divider.scss';
 
-@use '@/src/sass/components/form/form-heading-info.scss';
-@use '@/src/sass/components/form/form-bottom-info.scss';
+// Info block:
+@use '@/src/sass/components/form/info-text-link-block.scss';
+@use '@/src/sass/components/form/info-status-block.scss';
 
 // @use "@/src/sass/pages/admin.scss";
 @use '@/src/sass/pages/home.scss';

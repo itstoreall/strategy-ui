@@ -1,16 +1,40 @@
+$colorWhite: white;
+$borderColor: hsl(0, 0%, 70%);
+$activeColor: #333333;
+$blueColor: hsl(208, 86%, 48%);
+$blueColorHover: hsl(208, 86%, 58%);
+$errorColor: red;
+
 button.default-button {
   padding: 1rem;
   font-size: 1rem;
-  color: white;
-  background-color: hsl(208, 86%, 48%);
+  color: $colorWhite;
+  background-color: $blueColor;
   border: solid;
   border-radius: 0.5rem;
-  border-color: hsl(208, 86%, 48%);
+  border-color: $blueColor;
   cursor: pointer;
 
   &.disabled,
   &:hover {
-    background-color: hsl(208, 86%, 58%);
-    border-color: hsl(208, 86%, 58%);
+    background-color: $blueColorHover;
+    border-color: $blueColorHover;
+  }
+
+  &.toggle-password-visibility {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    padding: 0;
+    transform: translateY(-50%);
+    width: 1.2rem;
+    height: 1.2rem;
+    color: $borderColor;
+    background-color: transparent;
+    border: none;
+
+    &:hover {
+      color: $activeColor;
+    }
   }
 }
