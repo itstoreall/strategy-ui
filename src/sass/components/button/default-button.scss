@@ -1,24 +1,20 @@
-$colorWhite: white;
-$borderColor: hsl(0, 0%, 70%);
-$activeColor: #333333;
-$blueColor: hsl(208, 86%, 48%);
-$blueColorHover: hsl(208, 86%, 58%);
-$errorColor: red;
+@use '@/src/sass/base/vars.scss';
 
 button.default-button {
   padding: 1rem;
+  width: 100%;
   font-size: 1rem;
-  color: $colorWhite;
-  background-color: $blueColor;
+  color: vars.$white;
+  background-color: vars.$blue;
   border: solid;
   border-radius: 0.5rem;
-  border-color: $blueColor;
+  border-color: vars.$blue;
   cursor: pointer;
 
   &.disabled,
   &:hover {
-    background-color: $blueColorHover;
-    border-color: $blueColorHover;
+    background-color: vars.$blueHover;
+    border-color: vars.$blueHover;
   }
 
   &.toggle-password-visibility {
@@ -29,12 +25,12 @@ button.default-button {
     transform: translateY(-50%);
     width: 1.2rem;
     height: 1.2rem;
-    color: $borderColor;
+    color: vars.$middleLightGray;
     background-color: transparent;
     border: none;
 
     &:hover {
-      color: $activeColor;
+      color: vars.$middleDarkGray;
     }
   }
 }

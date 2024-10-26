@@ -4,6 +4,7 @@ import Nodemailer from 'next-auth/providers/nodemailer';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from '@/src/lib/prisma/client';
 import { clearExpiredVerificationTokens } from '@/src/lib/auth/clearStaleTokensServerAction';
+import { setName } from './setNameServerAction';
 
 /*
 import axios from 'axios';
@@ -120,6 +121,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async jwt({ token, user, session, trigger }) {
       console.log('------ jwt trigger | session ------', trigger, session);
+
+      if (trigger === 'update' && session?.name !== token.name) {
+        token.name = session.name;
+
+        try {
+          await setName(token.name!);
+        } catch (error) {
+          console.error('Failed to set user name (cfg):', error);
+        }
+      }
 
       if (user) {
         await clearExpiredVerificationTokens();

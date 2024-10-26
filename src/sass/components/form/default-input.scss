@@ -1,39 +1,37 @@
-$borderColor: hsl(0, 0%, 70%);
-$activeColor: #333333;
-$errorColor: red;
+@use '@/src/sass/base/vars.scss';
 
 input.default-input {
   padding: 1rem;
   width: calc(100% - 2rem - 2px);
   font-size: 13px;
-  color: $activeColor;
-  border: 1px solid $borderColor;
+  color: vars.$middleDarkGray;
+  border: 1px solid vars.$middleLightGray;
   border-radius: 0.5rem;
   outline: none;
 
   &:focus {
-    color: $activeColor;
-    border-color: $activeColor;
+    color: vars.$middleDarkGray;
+    border-color: vars.$middleDarkGray;
 
     &::placeholder {
-      color: $activeColor;
+      color: vars.$middleDarkGray;
     }
   }
 
   &.error {
-    color: $errorColor;
-    border-color: $errorColor;
+    color: vars.$red;
+    border-color: vars.$red;
 
     &::placeholder {
-      color: $errorColor;
+      color: vars.$red;
     }
 
     &:focus {
-      color: $activeColor;
-      border-color: $activeColor;
+      color: vars.$middleDarkGray;
+      border-color: vars.$middleDarkGray;
 
       &::placeholder {
-        color: $borderColor;
+        color: vars.$middleLightGray;
       }
     }
   }
