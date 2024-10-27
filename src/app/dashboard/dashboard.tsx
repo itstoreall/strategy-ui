@@ -25,7 +25,7 @@ export const DashboardPage: React.FC = () => {
         setUsername(name);
       }
 
-      const role = await getUserRole();
+      const { role } = await getUserRole();
       if (role) {
         setRole(role);
       }
@@ -33,7 +33,7 @@ export const DashboardPage: React.FC = () => {
 
     const accountLinkStatus = async () => {
       try {
-        const status = await getAccountLinkStatus();
+        const { status } = await getAccountLinkStatus();
         setIsAccountLinked(status);
       } catch (error) {
         console.error('Failed to get account link status:', error);
@@ -45,8 +45,8 @@ export const DashboardPage: React.FC = () => {
 
   const handleGoogleAccount = async () => {
     if (isAccountLinked) {
-      await unlinkGoogleAccount().then(() => {
-        setIsAccountLinked(false);
+      await unlinkGoogleAccount().then(({ unlinked }) => {
+        setIsAccountLinked(unlinked);
       });
     } else {
       await handleGoogleSignIn().then(() => {
