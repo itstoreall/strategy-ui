@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
 type RoleData = { role: 'USER' | 'ADMIN' };
 type RoleRes = AxiosResponse<RoleData>;
@@ -6,6 +6,8 @@ type StatusData = { status: boolean };
 type StatusRes = AxiosResponse<StatusData>;
 type SetNameData = { updated: boolean };
 type SetNameRes = AxiosResponse<SetNameData>;
+type TokensData = { deletedCount: number };
+type TokensRes = AxiosResponse<TokensData>;
 type UnlinkData = { unlinked: boolean };
 type UnlinkRes = AxiosResponse<UnlinkData>;
 type Provider = 'google';
@@ -50,13 +52,26 @@ class UserService {
     }
   }
 
+  async removeTokens() {
+    try {
+      const url = 'token/remove-expired';
+      const res: TokensRes = await axios.delete(url);
+      return res.data;
+    } catch (err: unknown) {
+      const errMsg = err instanceof AxiosError ? err.message : err;
+      console.error('Error clearing expired tokens:', errMsg);
+      throw err;
+    }
+  }
+
   async unlinkAccount(id: string, provider: Provider) {
     try {
       const url = `/account/${provider}/${id}`;
       const res: UnlinkRes = await axios.delete(url);
       return res.data;
-    } catch (err) {
-      console.error('Failed to unlink Google account:', err);
+    } catch (err: unknown) {
+      const errMsg = err instanceof AxiosError ? err.message : err;
+      console.error('An unknown error occurred:', errMsg);
       throw err;
     }
   }

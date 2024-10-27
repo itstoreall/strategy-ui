@@ -3,8 +3,8 @@ import Google from 'next-auth/providers/google';
 import Nodemailer from 'next-auth/providers/nodemailer';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from '@/src/lib/prisma/client';
-import { clearExpiredVerificationTokens } from '@/src/lib/auth/clearStaleTokensServerAction';
-import { setName } from './setNameServerAction';
+import { clearExpiredVerificationTokens } from '@/src/lib/auth/clearExpiredVerificationTokens';
+import { setUserName } from './setNameServerAction';
 
 /*
 import axios from 'axios';
@@ -120,15 +120,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
   callbacks: {
     async jwt({ token, user, session, trigger }) {
-      console.log('------ jwt trigger | session ------', trigger, session);
+      // console.log('------ jwt trigger | session ------', trigger, session);
 
       if (trigger === 'update' && session?.name !== token.name) {
         token.name = session.name;
 
         try {
-          await setName(token.name!);
-        } catch (error) {
-          console.error('Failed to set user name (cfg):', error);
+          await setUserName(token.name!);
+        } catch (err) {
+          console.error('Failed to set user name (cfg):', err);
         }
       }
 
@@ -139,10 +139,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         console.log("clearStaleTokens token ==>", token);
         console.log("clearStaleTokens session ==>", session);
         */
-        return {
-          ...token,
-          id: user.id,
-        };
+        return { ...token, id: user.id };
       }
       return token;
     },
@@ -151,13 +148,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       /*
       console.log("session callback:", { session, token });
       */
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: token.id as string,
-        },
-      };
+      return { ...session, user: { ...session.user, id: token.id as string } };
     },
   },
 });

@@ -46,7 +46,8 @@ export const DashboardPage: React.FC = () => {
   const handleGoogleAccount = async () => {
     if (isAccountLinked) {
       await unlinkGoogleAccount().then(({ unlinked }) => {
-        setIsAccountLinked(unlinked);
+        console.log('unlinked:::', unlinked);
+        setIsAccountLinked(false);
       });
     } else {
       await handleGoogleSignIn().then(() => {
