@@ -15,9 +15,9 @@
 @use '@/src/sass/components/form/info-text-link-block.scss';
 @use '@/src/sass/components/form/info-status-block.scss';
 
-// @use "@/src/sass/pages/admin.scss";
+// Pages:
+@use '@/src/sass/pages/admin.scss';
 @use '@/src/sass/pages/home.scss';
 @use '@/src/sass/pages/signin.scss';
-// @use "@/src/sass/pages/auth-error.scss";
 @use '@/src/sass/pages/auth.scss';
 @use '@/src/sass/pages/dashboard.scss';

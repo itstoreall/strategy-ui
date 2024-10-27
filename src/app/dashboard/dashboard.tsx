@@ -6,6 +6,7 @@ import { getAccountLinkStatus } from '@/src/lib/auth/getAccountLinkStatusServerA
 import { unlinkGoogleAccount } from '@/src/lib/auth/unlinkGoogleAccountServerAction';
 import { handleGoogleSignIn } from '@/src/lib/auth/googleSignInServerAction';
 import { getUserName } from '@/src/lib/auth/getUserNameServerAction';
+import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
 import { handleSignOut } from '@/src/lib/auth/signOutServerAction';
 import BlockColumn from '@/src/components/BlockColumn';
 import Button from '@/src/components/Button';
@@ -13,7 +14,7 @@ import Button from '@/src/components/Button';
 export const DashboardPage: React.FC = () => {
   const [isAccountLinked, setIsAccountLinked] = useState(false);
   const [username, setUsername] = useState('');
-  // const [role, setRole] = useState('');
+  const [role, setRole] = useState('');
 
   const { update } = useSession();
 
@@ -24,16 +25,15 @@ export const DashboardPage: React.FC = () => {
         setUsername(name);
       }
 
-      //   const role = await getUserRole();
-      //   if (role) {
-      //     setRole(role);
-      //   }
+      const role = await getUserRole();
+      if (role) {
+        setRole(role);
+      }
     };
 
     const accountLinkStatus = async () => {
       try {
         const status = await getAccountLinkStatus();
-        console.log('status:', status);
         setIsAccountLinked(status);
       } catch (error) {
         console.error('Failed to get account link status:', error);
@@ -59,6 +59,11 @@ export const DashboardPage: React.FC = () => {
     <div className="dashboard-page">
       <h2>Dashboard</h2>
       <div className="dashboard-card">
+        <a href="/admin">Go to Admin Page</a>
+        <div>
+          <p>Role: {role}</p>
+        </div>
+
         <div style={{ marginBottom: '20px' }} className="name">
           {username}
         </div>
