@@ -1,10 +1,106 @@
-import NextAuth from 'next-auth';
+import NextAuth, { User } from 'next-auth';
 import Google from 'next-auth/providers/google';
+import Credentials from 'next-auth/providers/credentials';
 import Nodemailer from 'next-auth/providers/nodemailer';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from '@/src/lib/prisma/client';
-import { clearExpiredVerificationTokens } from '@/src/lib/auth/clearExpiredVerificationTokens';
+import { clearExpiredTokens } from '@/src/lib/auth/clearExpiredTokens';
 import { setUserName } from './setNameServerAction';
+import { userService } from '@/src/app/api/services/user.service';
+
+export const { handlers, signIn, signOut, auth } = NextAuth({
+  trustHost: true,
+  adapter: PrismaAdapter(prisma),
+  secret: process.env.AUTH_SECRET,
+  session: {
+    strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+
+  pages: {
+    signIn: '/auth/sign-in',
+    verifyRequest: '/auth/success',
+    error: '/auth/error',
+  },
+
+  providers: [
+    Google({
+      clientId: process.env.AUTH_GOOGLE_ID,
+      clientSecret: process.env.AUTH_GOOGLE_SECRET,
+      allowDangerousEmailAccountLinking: true,
+    }),
+    Credentials({
+      credentials: {
+        email: { label: 'email', type: 'email', required: true },
+        password: { label: 'password', type: 'password', required: true },
+      },
+      async authorize(credentials) {
+        const user: User | null = await userService.credsSignIn(
+          credentials.email as string,
+          credentials.password as string
+        );
+        if (!user) return null;
+        console.log('user:', user);
+        return user ?? null;
+      },
+    }),
+    Nodemailer({
+      server: {
+        host: process.env.EMAIL_SERVER_HOST,
+        port: parseInt(process.env.EMAIL_SERVER_PORT!, 10),
+        auth: {
+          user: process.env.EMAIL_SERVER_USER,
+          pass: process.env.EMAIL_SERVER_PASSWORD,
+        },
+      },
+      from: process.env.EMAIL_FROM,
+      /*
+      sendVerificationRequest({ identifier, url, provider }) {
+        sendVerificationRequest({ identifier, url, provider });
+      },
+      */
+    }),
+  ],
+
+  callbacks: {
+    async jwt({ token, user, session, trigger }) {
+      /*
+      console.log('------ jwt token ------', token);
+      console.log('------ jwt user ------', user);
+      console.log('------ jwt session ------', session);
+      console.log('------ jwt trigger ------', trigger);
+      */
+
+      if (trigger === 'update' && session?.name !== token.name) {
+        token.name = session.name;
+
+        try {
+          await setUserName(token.name!);
+        } catch (err) {
+          console.error('Failed to set user name (cfg):', err);
+        }
+      }
+
+      if (user) {
+        await clearExpiredTokens();
+        /*
+        console.log("clearStaleTokens user ==>", user);
+        console.log("clearStaleTokens token ==>", token);
+        console.log("clearStaleTokens session ==>", session);
+        */
+        return { ...token, id: user.id };
+      }
+      return token;
+    },
+
+    async session({ session, token }) {
+      /*
+      console.log("session callback:", { session, token });
+      */
+      return { ...session, user: { ...session.user, id: token.id as string } };
+    },
+  },
+});
 
 /*
 import axios from 'axios';
@@ -66,89 +162,3 @@ const html = (params: { url: string; host: string; code: string }) => {
   `;
 };
 */
-
-export const { handlers, signIn, signOut, auth } = NextAuth({
-  trustHost: true,
-  adapter: PrismaAdapter(prisma),
-  secret: process.env.AUTH_SECRET,
-  session: {
-    strategy: 'jwt',
-    maxAge: 30 * 24 * 60 * 60, // 30 days
-  },
-
-  pages: {
-    signIn: '/auth/sign-in',
-    verifyRequest: '/auth/success',
-    error: '/auth/error',
-  },
-
-  providers: [
-    Google({
-      clientId: process.env.AUTH_GOOGLE_ID,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET,
-      allowDangerousEmailAccountLinking: true,
-    }),
-
-    /*
-    {
-      id: "nodemailer",
-      name: Nodemailer.name,
-      type: "email",
-      sendVerificationRequest: async ({ identifier, url }) => {
-        await sendVerificationEmail({ identifier, url });
-      },
-    },
-    */
-
-    Nodemailer({
-      server: {
-        host: process.env.EMAIL_SERVER_HOST,
-        port: parseInt(process.env.EMAIL_SERVER_PORT!, 10),
-        auth: {
-          user: process.env.EMAIL_SERVER_USER,
-          pass: process.env.EMAIL_SERVER_PASSWORD,
-        },
-      },
-      from: process.env.EMAIL_FROM,
-      /*
-      sendVerificationRequest({ identifier, url, provider }) {
-        sendVerificationRequest({ identifier, url, provider });
-      },
-      */
-    }),
-  ],
-
-  callbacks: {
-    async jwt({ token, user, session, trigger }) {
-      // console.log('------ jwt trigger | session ------', trigger, session);
-
-      if (trigger === 'update' && session?.name !== token.name) {
-        token.name = session.name;
-
-        try {
-          await setUserName(token.name!);
-        } catch (err) {
-          console.error('Failed to set user name (cfg):', err);
-        }
-      }
-
-      if (user) {
-        await clearExpiredVerificationTokens();
-        /*
-        console.log("clearStaleTokens user ==>", user);
-        console.log("clearStaleTokens token ==>", token);
-        console.log("clearStaleTokens session ==>", session);
-        */
-        return { ...token, id: user.id };
-      }
-      return token;
-    },
-
-    async session({ session, token }) {
-      /*
-      console.log("session callback:", { session, token });
-      */
-      return { ...session, user: { ...session.user, id: token.id as string } };
-    },
-  },
-});

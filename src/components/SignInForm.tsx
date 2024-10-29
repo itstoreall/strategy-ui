@@ -1,43 +1,44 @@
+import { FieldError } from 'react-hook-form';
 import useSignInForm from '../hooks/useSignInForm';
-import { handleEmailSignIn } from '../lib/auth/emailSignInServerAction';
-import Form from './Form';
-import TextInput from './TextInput';
-import PasswordInput from './PasswordInput';
-import Button from './Button';
-import Divider from './Divider';
 import SignInGoogleButton from './SignInGoogleButton';
+import PasswordInput from './PasswordInput';
+import TextInput from './TextInput';
+import Divider from './Divider';
+import Button from './Button';
+import Form from './Form';
 
-type OnSubmitCallbackArgs = {
-  email: string;
-  password: string;
-  confirmPassword: string;
+const config = {
+  emailRequired: 'Email is required',
+  passwordRequired: 'Password is required',
+  signInEmail: 'Sign in with email',
+  signingIn: 'Signing in...',
+  signInGoogle: 'Sign in with Google',
+  invalidEmailErr: 'Invalid email address',
+  shortPassErr: 'Password must be at least 6 characters long',
+  credsSignInErr: 'Sign-in unsuccessful. Please try signing in with Google.',
 };
 
 const SignInForm = () => {
-  const onSubmitCallback = async (data: OnSubmitCallbackArgs) => {
-    try {
-      await handleEmailSignIn(data.email);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const { register, onSubmit, errors, isSubmitting, isSignInError } =
+    useSignInForm();
 
-  const { register, onSubmit, errors, isSubmitting } =
-    useSignInForm(onSubmitCallback);
+  const emailError = isSignInError
+    ? ({ message: config.credsSignInErr } as FieldError)
+    : errors.email;
 
   return (
     <div className="form-container">
-      <Form className="email-form" handleSubmit={onSubmit}>
+      <Form handleSubmit={onSubmit}>
         <TextInput
           type="email"
           placeholder="Email Address"
           disabled={isSubmitting}
-          error={errors.email}
+          error={emailError}
           {...register('email', {
-            required: 'Email is required',
+            required: config.emailRequired,
             pattern: {
               value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-              message: 'Invalid email address',
+              message: config.invalidEmailErr,
             },
           })}
         />
@@ -47,22 +48,19 @@ const SignInForm = () => {
           disabled={isSubmitting}
           error={errors.password}
           {...register('password', {
-            required: 'Password is required',
-            minLength: {
-              value: 6,
-              message: 'Password must be at least 6 characters long',
-            },
+            required: config.passwordRequired,
+            minLength: { value: 6, message: config.shortPassErr },
           })}
         />
 
-        <Button disabled={isSubmitting} type="submit">
-          {isSubmitting ? 'Signing in...' : 'Sign in with email'}
+        <Button disabled={isSubmitting || isSignInError} type="submit">
+          {isSubmitting ? config.signingIn : config.signInEmail}
         </Button>
       </Form>
 
       <Divider />
 
-      <SignInGoogleButton title={'Sign in with Google'} />
+      <SignInGoogleButton title={config.signInGoogle} />
     </div>
   );
 };

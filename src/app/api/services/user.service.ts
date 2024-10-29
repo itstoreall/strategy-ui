@@ -1,15 +1,12 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 type RoleData = { role: 'USER' | 'ADMIN' };
-type RoleRes = AxiosResponse<RoleData>;
 type StatusData = { status: boolean };
-type StatusRes = AxiosResponse<StatusData>;
+type SignUpData = { id: string; email: string; role: string };
+type SignInData = { id: string; email: string; role: RoleData } | null;
 type SetNameData = { updated: boolean };
-type SetNameRes = AxiosResponse<SetNameData>;
 type TokensData = { deletedCount: number };
-type TokensRes = AxiosResponse<TokensData>;
 type UnlinkData = { unlinked: boolean };
-type UnlinkRes = AxiosResponse<UnlinkData>;
 type Provider = 'google';
 
 const BASE_URL = process.env.NEXT_PUBLIC_STRATEGY_API_URL;
@@ -17,14 +14,20 @@ const userUrl = `${BASE_URL}/api/user`;
 
 axios.defaults.baseURL = userUrl;
 
+const errorHandler = (msg: string, err: unknown) => {
+  const errMsg = err instanceof AxiosError ? err.response?.statusText : err;
+  console.error(msg, errMsg);
+  return errMsg;
+};
+
 class UserService {
   async getRole(id: string) {
     try {
       const url = `/role/${id}`;
-      const res: RoleRes = await axios.get(url);
+      const res: AxiosResponse<RoleData> = await axios.get(url);
       return res.data;
-    } catch (err) {
-      console.error('Failed to retrieve user role:', err);
+    } catch (err: unknown) {
+      errorHandler('Failed to retrieve user role:', err);
       throw err;
     }
   }
@@ -32,10 +35,37 @@ class UserService {
   async getStatus(id: string) {
     try {
       const url = `/account/google/${id}`;
-      const res: StatusRes = await axios.get(url);
+      const res: AxiosResponse<StatusData> = await axios.get(url);
       return res.data;
-    } catch (err) {
-      console.error('Error checking Google account link status:', err);
+    } catch (err: unknown) {
+      errorHandler('Error checking Google account link status:', err);
+      throw err;
+    }
+  }
+
+  async credsSignUp(email: string, password: string, name: string) {
+    try {
+      const url = '/auth/signup';
+      const payload = { email, password, name };
+      const res: AxiosResponse<SignUpData> = await axios.post(url, payload);
+      return res.data;
+    } catch (err: unknown) {
+      errorHandler('Failed to sign up:', err);
+      throw err;
+    }
+  }
+
+  async credsSignIn(email: string, password: string) {
+    try {
+      const url = '/auth/signin';
+      const payload = { email, password };
+      const res: AxiosResponse<SignInData> = await axios.post(url, payload);
+      // console.log(0, '--- res ---', res);
+      return res.data;
+    } catch (err: unknown) {
+      console.log(1, 'Errr');
+      errorHandler('Failed to sign in:', err);
+      console.log(2, 'Errr');
       throw err;
     }
   }
@@ -44,10 +74,10 @@ class UserService {
     try {
       const url = '/update-name';
       const payload = { userId: id, name };
-      const res: SetNameRes = await axios.put(url, payload);
+      const res: AxiosResponse<SetNameData> = await axios.put(url, payload);
       return res.data;
-    } catch (err) {
-      console.error('Failed to set name:', err);
+    } catch (err: unknown) {
+      errorHandler('Failed to set name:', err);
       throw err;
     }
   }
@@ -55,11 +85,10 @@ class UserService {
   async removeTokens() {
     try {
       const url = 'token/remove-expired';
-      const res: TokensRes = await axios.delete(url);
+      const res: AxiosResponse<TokensData> = await axios.delete(url);
       return res.data;
     } catch (err: unknown) {
-      const errMsg = err instanceof AxiosError ? err.message : err;
-      console.error('Error clearing expired tokens:', errMsg);
+      errorHandler('Error clearing expired tokens:', err);
       throw err;
     }
   }
@@ -67,11 +96,10 @@ class UserService {
   async unlinkAccount(id: string, provider: Provider) {
     try {
       const url = `/account/${provider}/${id}`;
-      const res: UnlinkRes = await axios.delete(url);
+      const res: AxiosResponse<UnlinkData> = await axios.delete(url);
       return res.data;
     } catch (err: unknown) {
-      const errMsg = err instanceof AxiosError ? err.message : err;
-      console.error('An unknown error occurred:', errMsg);
+      errorHandler('An unknown error occurred:', err);
       throw err;
     }
   }

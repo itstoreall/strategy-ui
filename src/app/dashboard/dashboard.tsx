@@ -10,6 +10,48 @@ import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
 import { handleSignOut } from '@/src/lib/auth/signOutServerAction';
 import BlockColumn from '@/src/components/BlockColumn';
 import Button from '@/src/components/Button';
+import Navigation from '@/src/components/Navigation';
+
+// --
+
+// import Link from 'next/link';
+// import { usePathname } from 'next/navigation';
+
+// type NavLink = {
+//   label: string;
+//   href: string;
+// };
+// type Props = {
+//   navLinks: NavLink[];
+// };
+
+// const Navigation = ({ navLinks }: Props) => {
+//   const pathname = usePathname();
+//   const session = useSession();
+
+//   console.log(session);
+
+//   return (
+//     <>
+//       {navLinks.map((link) => {
+//         const isActive = pathname === link.href;
+
+//         return (
+//           <Link
+//             key={link.label}
+//             href={link.href}
+//             className={isActive ? 'active' : ''}
+//           >
+//             {link.label}
+//           </Link>
+//         );
+//       })}
+//       {session?.data && <Button clickContent={handleSignOut}>Log Out</Button>}
+//     </>
+//   );
+// };
+
+// --
 
 export const DashboardPage: React.FC = () => {
   const [isAccountLinked, setIsAccountLinked] = useState(false);
@@ -58,6 +100,10 @@ export const DashboardPage: React.FC = () => {
 
   return (
     <div className="dashboard-page">
+      <header>
+        <Navigation />
+      </header>
+
       <h2>Dashboard</h2>
       <div className="dashboard-card">
         <a href="/admin">Go to Admin Page</a>
@@ -92,9 +138,10 @@ export const DashboardPage: React.FC = () => {
               ? 'Connect Google Account'
               : 'Disconnect Google Account'}
           </Button>
-          <Button clickContent={handleSignOut}>Log Out</Button>
+          {/* <Button clickContent={handleSignOut}>Log Out</Button> */}
         </BlockColumn>
       </div>
+      <footer>Footer</footer>
     </div>
   );
 };
