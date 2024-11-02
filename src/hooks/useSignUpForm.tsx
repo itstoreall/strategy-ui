@@ -29,7 +29,7 @@ const useSignUpForm = () => {
   const onSubmit = handleSubmit(async (data) => {
     const existingUser = await userService.getCredentials(data.email);
 
-    if (existingUser === 'Not Found') {
+    if (!existingUser) {
       const user = await credentialsSignUp(data.email, data.password);
 
       if (user && user.id && user.email === data.email) {
