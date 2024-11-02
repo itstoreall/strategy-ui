@@ -4,9 +4,10 @@ import Credentials from 'next-auth/providers/credentials';
 import Nodemailer from 'next-auth/providers/nodemailer';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from '@/src/lib/prisma/client';
-import { clearExpiredTokens } from '@/src/lib/auth/clearExpiredTokens';
-import { setUserName } from './setNameServerAction';
+import SMTPCredentials from '@/src/lib/auth/SMTPCredentials';
 import { userService } from '@/src/app/api/services/user.service';
+import { clearExpiredTokens } from '@/src/lib/auth/clearExpiredTokens';
+import { setUserName } from '@/src/lib/auth/setNameServerAction';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   trustHost: true,
@@ -35,30 +36,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: 'password', type: 'password', required: true },
       },
       async authorize(credentials) {
-        const user: User | null = await userService.credsSignIn(
-          credentials.email as string,
-          credentials.password as string
-        );
+        const user: User | null =
+          (await userService.credentialsSignIn(
+            credentials.email as string,
+            credentials.password as string
+          )) ?? null;
         if (!user) return null;
         console.log('user:', user);
         return user ?? null;
       },
     }),
     Nodemailer({
-      server: {
-        host: process.env.EMAIL_SERVER_HOST,
-        port: parseInt(process.env.EMAIL_SERVER_PORT!, 10),
-        auth: {
-          user: process.env.EMAIL_SERVER_USER,
-          pass: process.env.EMAIL_SERVER_PASSWORD,
-        },
-      },
+      server: SMTPCredentials,
       from: process.env.EMAIL_FROM,
-      /*
-      sendVerificationRequest({ identifier, url, provider }) {
-        sendVerificationRequest({ identifier, url, provider });
-      },
-      */
     }),
   ],
 
@@ -101,64 +91,3 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
 });
-
-/*
-import axios from 'axios';
-import { createTransport } from 'nodemailer';
-import { error } from 'console';
-*/
-
-/*
-const strategyApiUrl = process.env.NEXT_PUBLIC_STRATEGY_API_URL;
-
-type VerifyReqParams = {
-  identifier: string;
-  url: string;
-  provider: NodemailerConfig;
-};
-
-const generateRandomNumbers = () => {
-  let verificationCode = '';
-  for (let i = 0; i < 4; i++) {
-    verificationCode += Math.floor(Math.random() * 10);
-  }
-  return verificationCode;
-};
-
-export async function sendVerificationRequest(params: VerifyReqParams) {
-  const { identifier, url, provider } = params;
-  const { host } = new URL(url);
-  const transport = createTransport(provider.server);
-
-  const code = generateRandomNumbers();
-  const payload = { identifier, code, url };
-  await axios.post(`${strategyApiUrl}/api/user/verify/code`, payload);
-
-  try {
-    await transport.sendMail({
-      to: identifier,
-      from: provider.from,
-      subject: `Sign in to ${host}`,
-      text: text({ url, host }),
-      html: html({ url, host, code }),
-    });
-  } catch (err) {
-    throw error(err);
-  }
-}
-
-const text = ({ url, host }: { url: string; host: string }) => {
-  return `Sign in to ${host}\n${url}\n\n`;
-};
-
-const html = (params: { url: string; host: string; code: string }) => {
-  const { url, host, code } = params;
-  console.log('host:::::', host);
-  return `
-    <body>
-      <a href="${url}" target="_blank">Sign in</a>
-      <p>${code}</p>
-    </body>
-  `;
-};
-*/

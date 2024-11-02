@@ -5,20 +5,23 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   error?: FieldError;
 };
 
-const TextInput = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  const { type = 'text', className, placeholder } = props;
+const CodeInput = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
+  const { className, placeholder, maxLength } = props;
   const { error, disabled = false, ...register } = props;
 
   return (
     <div style={{ position: 'relative' }}>
       <input
-        type={type}
+        type={'tel'}
         placeholder={placeholder}
         className={`default-input ${className} ${error ? 'error' : ''}`}
         disabled={disabled}
-        // size={10}
+        maxLength={maxLength}
         ref={ref}
         {...register}
+        onInput={(e) => {
+          e.currentTarget.value = e.currentTarget.value.replace(/[^0-9]/g, '');
+        }}
       />
 
       {error && (
@@ -39,6 +42,6 @@ const TextInput = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   );
 });
 
-TextInput.displayName = 'TextInput';
+CodeInput.displayName = 'CodeInput';
 
-export default TextInput;
+export default CodeInput;

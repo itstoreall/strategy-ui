@@ -1,79 +1,101 @@
-import useSignInForm from '../hooks/useSignInForm';
-import { handleEmailSignIn } from '../lib/auth/emailSignInServerAction';
-import Form from './Form';
-import TextInput from './TextInput';
-import PasswordInput from './PasswordInput';
-import Button from './Button';
-import Divider from './Divider';
-import SignInGoogleButton from './SignInGoogleButton';
+import { FieldError } from 'react-hook-form';
+import useSignUpForm from '@/src/hooks/useSignUpForm';
+import SignInGoogleButton from '@/src/components/SignInGoogleButton';
+import CodeVerificationForm from '@/src/components/CodeVerificationForm';
+import PasswordInput from '@/src/components/PasswordInput';
+import TextInput from '@/src/components/TextInput';
+import Divider from '@/src/components/Divider';
+import Button from '@/src/components/Button';
+import Form from '@/src/components/Form';
 
-type OnSubmitCallbackArgs = {
-  email: string;
-  password: string;
-  confirmPassword: string;
+const config = {
+  emailRequired: 'Email is required',
+  passwordRequired: 'Password is required',
+  confirmPassword: 'Please confirm your password',
+  passwordNotMatch: 'Passwords do not match',
+  signUpEmail: 'Sign up with email',
+  signingUp: 'Signing up...',
+  signUpGoogle: 'Sign up with Google',
+  invalidEmailErr: 'Invalid email address',
+  shortPassErr: 'Password must be at least 6 characters long',
 };
 
 const SignUpForm = () => {
-  const onSubmitCallback = async (data: OnSubmitCallbackArgs) => {
-    try {
-      await handleEmailSignIn(data.email);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  const {
+    register,
+    onSubmit,
+    watch,
+    errors,
+    isSubmitting,
+    isCodeVerification,
+    signUpError,
+  } = useSignUpForm();
 
-  const { register, onSubmit, errors, isSubmitting, watch } =
-    useSignInForm(onSubmitCallback);
+  const emailError = signUpError
+    ? ({ message: signUpError } as FieldError)
+    : errors.email;
 
   return (
     <div className="form-container">
-      <Form className="email-form" handleSubmit={onSubmit}>
-        <TextInput
-          type="email"
-          placeholder="Email Address"
-          disabled={isSubmitting}
-          error={errors.email}
-          {...register('email', {
-            required: 'Email is required',
-            pattern: {
-              value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-              message: 'Invalid email address',
-            },
-          })}
+      {isCodeVerification ? (
+        <CodeVerificationForm
+          email={watch('email')}
+          password={watch('password')}
         />
+      ) : (
+        <>
+          <Form handleSubmit={onSubmit}>
+            <TextInput
+              type="email"
+              placeholder="Email Address"
+              disabled={isSubmitting}
+              error={emailError}
+              {...register('email', {
+                required: config.emailRequired,
+                pattern: {
+                  value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                  message: config.invalidEmailErr,
+                },
+              })}
+            />
 
-        <PasswordInput
-          placeholder="Password"
-          disabled={isSubmitting}
-          error={errors.password}
-          {...register('password', {
-            required: 'Password is required',
-            minLength: {
-              value: 6,
-              message: 'Password must be at least 6 characters long',
-            },
-          })}
-        />
+            <PasswordInput
+              placeholder="Password"
+              disabled={isSubmitting}
+              error={errors.password}
+              {...register('password', {
+                required: config.passwordRequired,
+                minLength: {
+                  value: 6,
+                  message: config.shortPassErr,
+                },
+              })}
+            />
 
-        <PasswordInput
-          placeholder="Confirm Password"
-          disabled={isSubmitting}
-          error={errors.confirmPassword}
-          {...register('confirmPassword', {
-            required: 'Please confirm your password',
-            validate: (value) =>
-              value === watch('password') || 'Passwords do not match',
-          })}
-        />
+            <PasswordInput
+              placeholder="Confirm Password"
+              disabled={isSubmitting}
+              error={errors.confirmPassword}
+              {...register('confirmPassword', {
+                required: config.confirmPassword,
+                validate: (value) =>
+                  value === watch('password') || config.passwordNotMatch,
+              })}
+            />
 
-        <Button disabled={isSubmitting} type="submit">
-          {isSubmitting ? 'Signing up...' : 'Sign up with email'}
-        </Button>
-      </Form>
+            <Button disabled={isSubmitting || !!signUpError} type="submit">
+              {isSubmitting ? config.signingUp : config.signUpEmail}
+            </Button>
+          </Form>
 
-      <Divider />
+          <Divider />
 
-      <SignInGoogleButton title={'Sign up with Google'} />
+          <SignInGoogleButton
+            title={config.signUpGoogle}
+            disabled={!!signUpError}
+          />
+        </>
+      )}
     </div>
   );
 };

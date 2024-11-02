@@ -15,15 +15,14 @@ const config = {
   signInGoogle: 'Sign in with Google',
   invalidEmailErr: 'Invalid email address',
   shortPassErr: 'Password must be at least 6 characters long',
-  credsSignInErr: 'Sign-in unsuccessful. Please try signing in with Google.',
 };
 
 const SignInForm = () => {
-  const { register, onSubmit, errors, isSubmitting, isSignInError } =
+  const { register, onSubmit, errors, isSubmitting, signInError } =
     useSignInForm();
 
-  const emailError = isSignInError
-    ? ({ message: config.credsSignInErr } as FieldError)
+  const emailError = signInError
+    ? ({ message: signInError } as FieldError)
     : errors.email;
 
   return (
@@ -53,14 +52,17 @@ const SignInForm = () => {
           })}
         />
 
-        <Button disabled={isSubmitting || isSignInError} type="submit">
+        <Button disabled={isSubmitting || !!signInError} type="submit">
           {isSubmitting ? config.signingIn : config.signInEmail}
         </Button>
       </Form>
 
       <Divider />
 
-      <SignInGoogleButton title={config.signInGoogle} />
+      <SignInGoogleButton
+        title={config.signInGoogle}
+        // disabled={!!signInError}
+      />
     </div>
   );
 };

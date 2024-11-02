@@ -1,15 +1,15 @@
-import { auth } from '@/src/lib/auth/authConfig';
+'use client';
+
 import Navigation from '@/src/components/Navigation';
+import { useSession } from 'next-auth/react';
 
-export const AccountPage: React.FC = async () => {
-  const session = await auth();
-
-  console.log('session:', session);
+export const AccountPage: React.FC = () => {
+  const session = useSession();
 
   return (
     <>
-      <Navigation />
-      <p>{`Account of ${session?.user?.name}`}</p>
+      <Navigation session={session} />
+      <p>{'Account'}</p>
     </>
   );
 };

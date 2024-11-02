@@ -1,10 +1,12 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 
 type RoleData = { role: 'USER' | 'ADMIN' };
+type CredsData = { email: string; verified: Date; password: string };
 type StatusData = { status: boolean };
 type SignUpData = { id: string; email: string; role: string };
-type SignInData = { id: string; email: string; role: RoleData } | null;
-type SetNameData = { updated: boolean };
+type SignInData = (SignUpData & { name: string }) | null;
+type CodeRes = { identifier: string; code: string; url: string; expires: Date };
+type UpdatedData = { updated: boolean };
 type TokensData = { deletedCount: number };
 type UnlinkData = { unlinked: boolean };
 type Provider = 'google';
@@ -16,8 +18,8 @@ axios.defaults.baseURL = userUrl;
 
 const errorHandler = (msg: string, err: unknown) => {
   const errMsg = err instanceof AxiosError ? err.response?.statusText : err;
-  console.error(msg, errMsg);
-  return errMsg;
+  console.error(msg, errMsg ?? 'Unknown error');
+  return String(errMsg) ?? 'An unexpected error occurred';
 };
 
 class UserService {
@@ -32,6 +34,16 @@ class UserService {
     }
   }
 
+  async getCredentials(email: string) {
+    try {
+      const url = `/email/${email}`;
+      const res: AxiosResponse<CredsData> = await axios.get(url);
+      return res.data;
+    } catch (err: unknown) {
+      return errorHandler('Failed to retrieve user email:', err);
+    }
+  }
+
   async getStatus(id: string) {
     try {
       const url = `/account/google/${id}`;
@@ -43,30 +55,37 @@ class UserService {
     }
   }
 
-  async credsSignUp(email: string, password: string, name: string) {
+  async credentialsSignUp(email: string, password: string) {
     try {
       const url = '/auth/signup';
-      const payload = { email, password, name };
+      const payload = { email, password };
       const res: AxiosResponse<SignUpData> = await axios.post(url, payload);
       return res.data;
     } catch (err: unknown) {
       errorHandler('Failed to sign up:', err);
-      throw err;
+      // throw err;
     }
   }
 
-  async credsSignIn(email: string, password: string) {
+  async credentialsSignIn(email: string, password: string) {
     try {
       const url = '/auth/signin';
       const payload = { email, password };
       const res: AxiosResponse<SignInData> = await axios.post(url, payload);
-      // console.log(0, '--- res ---', res);
       return res.data;
     } catch (err: unknown) {
-      console.log(1, 'Errr');
       errorHandler('Failed to sign in:', err);
-      console.log(2, 'Errr');
-      throw err;
+    }
+  }
+
+  async createVerifyCode(email: string, code: string) {
+    try {
+      const url = 'verify/code';
+      const payload = { identifier: email, code };
+      const res: AxiosResponse<CodeRes> = await axios.post(url, payload);
+      return res.data;
+    } catch (err: unknown) {
+      errorHandler('Failed to sign in:', err);
     }
   }
 
@@ -74,10 +93,22 @@ class UserService {
     try {
       const url = '/update-name';
       const payload = { userId: id, name };
-      const res: AxiosResponse<SetNameData> = await axios.put(url, payload);
+      const res: AxiosResponse<UpdatedData> = await axios.put(url, payload);
       return res.data;
     } catch (err: unknown) {
       errorHandler('Failed to set name:', err);
+      throw err;
+    }
+  }
+
+  async updateCredentials(email: string, password: string, code: string) {
+    try {
+      const url = '/verify/credentials';
+      const payload = { email, password, code };
+      const res: AxiosResponse<UpdatedData> = await axios.put(url, payload);
+      return res.data;
+    } catch (err: unknown) {
+      errorHandler('Failed to update credentials:', err);
       throw err;
     }
   }

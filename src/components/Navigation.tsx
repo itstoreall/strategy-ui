@@ -1,10 +1,13 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
-import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
 import Link from 'next/link';
-import { handleSignOut } from '../lib/auth/signOutServerAction';
+import { usePathname } from 'next/navigation';
+import { SessionContextValue } from 'next-auth/react';
+import { handleSignOut } from '@/src/lib/auth/signOutServerAction';
 import Button from './Button';
+
+type Props = { session: SessionContextValue };
 
 /*
 type NavLink = {
@@ -22,11 +25,14 @@ const navLinks = [
   { label: 'account', href: '/account' },
 ];
 
-const Navigation = () => {
+const Navigation: React.FC<Props> = ({ session }) => {
   const pathname = usePathname();
-  const session = useSession();
 
-  console.log(111);
+  const isAuth = session.status === 'authenticated';
+
+  useEffect(() => {
+    console.log('user:', session.status);
+  }, [session]);
 
   return (
     <>
@@ -43,7 +49,7 @@ const Navigation = () => {
           </Link>
         );
       })}
-      {session && <Button clickContent={handleSignOut}>Log Out</Button>}
+      {isAuth && <Button clickContent={handleSignOut}>Log Out</Button>}
     </>
   );
 };

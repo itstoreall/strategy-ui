@@ -1,28 +1,21 @@
 'use server';
 
 import { signIn } from '@/src/lib/auth/authConfig';
+import { CredentialsSignin } from 'next-auth';
 
 export const credentialsSignIn = async (email: string, password: string) => {
   try {
-    await signIn('credentials', {
+    const res = await signIn('credentials', {
       redirect: false,
       email,
       password,
     });
-    return { success: true };
+    if (res) {
+      return { success: true };
+    } else {
+      return { success: false };
+    }
   } catch (err) {
-    return { success: false, error: 'Failed to sign in' };
+    return { error: (err as CredentialsSignin).type };
   }
 };
-
-/*
-export const credentialsSignIn = async (email: string, password: string) => {
-  console.log('credentials::::', email, password);
-
-  try {
-    await signIn('credentials', { redirect: true, email, password });
-  } catch (error) {
-    console.error(22222, error);
-  }
-};
-*/
