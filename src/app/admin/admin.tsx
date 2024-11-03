@@ -1,11 +1,19 @@
-const AdminPage: React.FC = () => {
+'use client';
+
+import { useSession } from 'next-auth/react';
+import PageWrapper from '@/src/components/Container/PageWrapper';
+import Header from '@/src/components/Layout/Header';
+import Admin from '@/src/components/Pages/Admin';
+import Footer from '@/src/components/Layout/Footer';
+
+export const AdminPage: React.FC = () => {
+  const session = useSession();
+
   return (
-    <div className="page-wrapper">
-      <h2>Admin Page</h2>
-      <p>This Page is only accessible to users with the ADMIN role</p>
-      <a href="/dashboard">Go to Dashboard</a>
-    </div>
+    <PageWrapper>
+      <Header session={session} />
+      <Admin />
+      <Footer />
+    </PageWrapper>
   );
 };
-
-export default AdminPage;

@@ -6,13 +6,9 @@ const Dashboard = () => {
   return (
     <main>
       <Container label={Label.Main}>
-        <h2>Dashboard</h2>
-
-        <ul>
-          {[...Array(120)].map((_, index) => (
-            <li key={index}>{index + 1}</li>
-          ))}
-        </ul>
+        <h2>Admin Page</h2>
+        <p>This Page is only accessible to users with the ADMIN role</p>
+        <a href="/dashboard">Go to Dashboard</a>
       </Container>
     </main>
   );
