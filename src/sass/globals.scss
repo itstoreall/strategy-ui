@@ -1,10 +1,14 @@
+@use '@/src/sass/_mixins.scss';
+
 @use '@/src/sass/base/base.scss';
 @use '@/src/sass/base/reset.scss';
 @use '@/src/sass/base/typography.scss';
 
 // Layout:
+@use '@/src/sass/components/layout/logo.scss';
 @use '@/src/sass/components/layout/header.scss';
 @use '@/src/sass/components/layout/footer.scss';
+@use '@/src/sass/components/layout/navigation.scss';
 
 // Container:
 @use '@/src/sass/components/container/page-wrapper-container.scss';

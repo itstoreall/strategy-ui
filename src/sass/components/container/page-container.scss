@@ -2,10 +2,12 @@
 
 div.page-container {
   margin: 0 auto;
+  width: 100%;
+  min-width: $min;
   max-width: $tablet;
 
   &.MAIN {
-    margin: 3rem auto;
+    margin: calc($headerHeight + 1.5rem) auto calc($footerHeight + 1.5em);
     background-color: darkgray;
   }
 }

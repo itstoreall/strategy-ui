@@ -1,0 +1,13 @@
+div.logo-block {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0 1rem;
+
+  h1.logo {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.2rem;
+  }
+}

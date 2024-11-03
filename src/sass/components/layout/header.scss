@@ -1,8 +1,18 @@
+@use '@/src/sass/base/vars' as *;
+
 header.header {
   position: fixed;
   top: 0;
   left: 0;
+  display: flex;
   width: 100%;
-  height: 2.5rem;
+  height: $headerHeight;
   background-color: rgba(0, 128, 128, 0.304);
+
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    // background-color: yellow;
+  }
 }

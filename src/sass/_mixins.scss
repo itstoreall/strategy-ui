@@ -1,0 +1,7 @@
+@mixin box-shadow-offset($offset, $color) {
+  box-shadow: $offset $offset 0 0 $color;
+}
+
+@mixin box-shadow-outline($outline, $color) {
+  box-shadow: 0 0 0 $outline $color;
+}

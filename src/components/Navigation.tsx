@@ -22,8 +22,8 @@ type Props = {
 */
 
 const navLinks = [
-  { label: 'dashboard', href: '/dashboard' },
   { label: 'admin', href: '/admin' },
+  { label: 'dashboard', href: '/dashboard' },
   { label: 'settings', href: '/settings' },
 ];
 
@@ -35,17 +35,17 @@ const Navigation: React.FC<Props> = ({ session }) => {
   }, [session]);
 
   return (
-    <>
+    <nav className="nav">
       {navLinks.map((link) => {
         const isActive = pathname === link.href;
 
         const linkItem =
-          link.label === 'dashboard' ? (
-            <GoProject size={30} />
-          ) : link.label === 'admin' ? (
-            <GoUnlock size={30} />
+          link.label === 'admin' ? (
+            <GoUnlock size={20} />
+          ) : link.label === 'dashboard' ? (
+            <GoProject size={20} />
           ) : link.label === 'settings' ? (
-            <GoGear size={30} />
+            <GoGear size={20} />
           ) : (
             link.label
           );
@@ -60,7 +60,7 @@ const Navigation: React.FC<Props> = ({ session }) => {
           </Link>
         );
       })}
-    </>
+    </nav>
   );
 };
 
