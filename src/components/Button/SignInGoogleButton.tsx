@@ -1,5 +1,5 @@
 import { FcGoogle } from 'react-icons/fc';
-import { handleGoogleSignIn } from '../lib/auth/googleSignInServerAction';
+import { handleGoogleSignIn } from '@/src/lib/auth/googleSignInServerAction';
 
 type Props = {
   title: string;

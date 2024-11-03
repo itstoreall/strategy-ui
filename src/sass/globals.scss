@@ -1,5 +1,14 @@
 @use '@/src/sass/base/base.scss';
+@use '@/src/sass/base/reset.scss';
 @use '@/src/sass/base/typography.scss';
+
+// Layout:
+@use '@/src/sass/components/layout/header.scss';
+@use '@/src/sass/components/layout/footer.scss';
+
+// Container:
+@use '@/src/sass/components/container/page-wrapper-container.scss';
+@use '@/src/sass/components/container/page-container.scss';
 
 // Button:
 @use '@/src/sass/components/button/default-button.scss';

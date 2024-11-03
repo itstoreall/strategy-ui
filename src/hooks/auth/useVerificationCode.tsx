@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { updateUserCredentials } from '../lib/auth/updateUserCredentials';
+import { updateUserCredentials } from '@/src/lib/auth/updateUserCredentials';
 
 type Credentials = { code: string };
 

@@ -35,15 +35,12 @@ class UserService {
   }
 
   async getCredentials(email: string) {
-    console.log('getCredentials');
     try {
       const url = `/email/${email}`;
       const res: AxiosResponse<CredsData | null> = await axios.get(url);
-      console.log('getCredentials res:', res);
       return res.data;
     } catch (err: unknown) {
       throw err;
-      // return errorHandler('Failed to retrieve user email:', err);
     }
   }
 

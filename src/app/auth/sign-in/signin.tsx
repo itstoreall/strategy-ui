@@ -1,7 +1,7 @@
 'use client';
 
 import InfoTextLinkBlock from '@/src/components/InfoTextLinkBlock';
-import SignIpForm from '@/src/components/SignInForm';
+import SignIpForm from '@/src/components/Form/SignInForm';
 
 const config = {
   goToSignUpText: 'Did not have an account? ',

@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { credentialsSignUp } from '@/src/lib/auth/credentialsSignUpServerAction';
 import { handleEmailSignIn } from '@/src/lib/auth/emailSignInServerAction';
-import { userService } from '@/src/app/api/services/user.service';
 import sendVerificationCode from '@/src/lib/auth/sendVerificationCodeServerAction';
+import { userService } from '@/src/app/api/services/user.service';
 import { generateVerificationCode } from '@/src/utils';
 
 type Credentials = {

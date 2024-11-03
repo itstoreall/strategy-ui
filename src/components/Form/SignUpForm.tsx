@@ -1,12 +1,12 @@
 import { FieldError } from 'react-hook-form';
-import useSignUpForm from '@/src/hooks/useSignUpForm';
-import SignInGoogleButton from '@/src/components/SignInGoogleButton';
-import CodeVerificationForm from '@/src/components/CodeVerificationForm';
-import PasswordInput from '@/src/components/PasswordInput';
-import TextInput from '@/src/components/TextInput';
-import Divider from '@/src/components/Divider';
-import Button from '@/src/components/Button';
-import Form from '@/src/components/Form';
+import useSignUpForm from '@/src/hooks/auth/useSignUpForm';
+import SignInGoogleButton from '@/src/components/Button/SignInGoogleButton';
+import CodeVerificationForm from '@/src/components/Form/CodeVerificationForm';
+import PasswordInput from '@/src/components/Form/PasswordInput';
+import TextInput from '@/src/components/Form/TextInput';
+import Divider from '@/src/components/Form/Divider';
+import Button from '@/src/components/Button/Button';
+import Form from '@/src/components/Form/Form';
 
 const config = {
   emailRequired: 'Email is required',

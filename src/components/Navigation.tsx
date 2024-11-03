@@ -2,10 +2,11 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
+import { GoGear } from 'react-icons/go';
+import { GoUnlock } from 'react-icons/go';
+import { GoProject } from 'react-icons/go';
 import { usePathname } from 'next/navigation';
 import { SessionContextValue } from 'next-auth/react';
-import { handleSignOut } from '@/src/lib/auth/signOutServerAction';
-import Button from './Button';
 
 type Props = { session: SessionContextValue };
 
@@ -22,13 +23,12 @@ type Props = {
 
 const navLinks = [
   { label: 'dashboard', href: '/dashboard' },
-  { label: 'account', href: '/account' },
+  { label: 'admin', href: '/admin' },
+  { label: 'settings', href: '/settings' },
 ];
 
 const Navigation: React.FC<Props> = ({ session }) => {
   const pathname = usePathname();
-
-  const isAuth = session.status === 'authenticated';
 
   useEffect(() => {
     console.log('user:', session.status);
@@ -39,17 +39,27 @@ const Navigation: React.FC<Props> = ({ session }) => {
       {navLinks.map((link) => {
         const isActive = pathname === link.href;
 
+        const linkItem =
+          link.label === 'dashboard' ? (
+            <GoProject size={30} />
+          ) : link.label === 'admin' ? (
+            <GoUnlock size={30} />
+          ) : link.label === 'settings' ? (
+            <GoGear size={30} />
+          ) : (
+            link.label
+          );
+
         return (
           <Link
             key={link.label}
             href={link.href}
             className={isActive ? 'active' : ''}
           >
-            {link.label}
+            {linkItem}
           </Link>
         );
       })}
-      {isAuth && <Button clickContent={handleSignOut}>Log Out</Button>}
     </>
   );
 };

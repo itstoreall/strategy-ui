@@ -1,7 +1,7 @@
 'use client';
 
 import InfoTextLinkBlock from '@/src/components/InfoTextLinkBlock';
-import SignUpForm from '@/src/components/SignUpForm';
+import SignUpForm from '@/src/components/Form/SignUpForm';
 
 const config = {
   goToSignInText: 'Already have an account? ',

@@ -51,8 +51,6 @@ const useSignInForm = () => {
   const onSubmit = handleSubmit(async (data) => {
     const existingUser = await userService.getCredentials(data.email);
 
-    console.log('existingUser:', existingUser);
-
     if (existingUser) {
       if (existingUser.verified) {
         const res = await credentialsSignIn(data.email, data.password);

@@ -1,10 +1,10 @@
 import { FieldError } from 'react-hook-form';
-import useSignInForm from '../hooks/useSignInForm';
-import SignInGoogleButton from './SignInGoogleButton';
+import useSignInForm from '../../hooks/auth/useSignInForm';
+import SignInGoogleButton from '@/src/components/Button/SignInGoogleButton';
 import PasswordInput from './PasswordInput';
 import TextInput from './TextInput';
 import Divider from './Divider';
-import Button from './Button';
+import Button from '../Button/Button';
 import Form from './Form';
 
 const config = {

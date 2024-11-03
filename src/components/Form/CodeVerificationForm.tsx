@@ -1,8 +1,8 @@
 import { FieldError } from 'react-hook-form';
-import useVerificationCode from '@/src/hooks/useVerificationCode';
-import CodeInput from '@/src/components/CodeInput';
-import Button from '@/src/components/Button';
-import Form from '@/src/components/Form';
+import useVerificationCode from '@/src/hooks/auth/useVerificationCode';
+import CodeInput from '@/src/components/Form/CodeInput';
+import Button from '@/src/components/Button/Button';
+import Form from '@/src/components/Form/Form';
 
 type Props = { email: string; password: string };
 

@@ -1,7 +1,7 @@
 import React, { useState, forwardRef } from 'react';
 import { AiOutlineEyeInvisible, AiOutlineEye } from 'react-icons/ai';
 import { FieldError } from 'react-hook-form';
-import Button from './Button';
+import Button from '../Button/Button';
 
 type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   error?: FieldError;
