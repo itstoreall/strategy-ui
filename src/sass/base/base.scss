@@ -9,8 +9,20 @@
 body {
   box-sizing: border-box;
   margin: 0;
-  background-color: $black;
+  background-color: $red;
   overflow-y: scroll;
+
+  // scrollbar-width: none;
+  // -ms-overflow-style: none;
+  // &::-webkit-scrollbar {
+  //   display: none;
+  //   width: 0;
+  // }
+}
+
+ul {
+  max-height: 100svh;
+  overflow-y: auto;
 
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -18,11 +30,6 @@ body {
     display: none;
     width: 0;
   }
-}
-
-ul {
-  max-height: 100svh;
-  overflow-y: auto;
 }
 
 // --- Hide scrollbar for all elements:
