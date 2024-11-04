@@ -4,7 +4,7 @@ import Container, { Label } from '@/src/components/Container/Page';
 
 const Dashboard = () => {
   return (
-    <main>
+    <main className="main">
       <Container label={Label.Main}>
         <h2>Dashboard</h2>
 

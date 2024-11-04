@@ -20,17 +20,17 @@ body {
   // }
 }
 
-ul {
-  max-height: 100svh;
-  overflow-y: auto;
+// ul {
+//   max-height: 100svh;
+//   overflow-y: auto;
 
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  &::-webkit-scrollbar {
-    display: none;
-    width: 0;
-  }
-}
+//   scrollbar-width: none;
+//   -ms-overflow-style: none;
+//   &::-webkit-scrollbar {
+//     display: none;
+//     width: 0;
+//   }
+// }
 
 // --- Hide scrollbar for all elements:
 // body,

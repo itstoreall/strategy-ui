@@ -1,8 +1,20 @@
 @use '@/src/sass/base/vars' as *;
 
 div.page-wrapper-container {
-  margin: calc($headerHeight) auto 0;
-  background-color: tomato;
+  // margin: calc($headerHeight) auto 0;
+  // background-color: tomato;
+
+  max-height: calc(100svh);
+  overflow-y: auto;
+
+  background-color: teal;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+    width: 0;
+  }
 
   // scrollbar-width: none;
   // -ms-overflow-style: none;

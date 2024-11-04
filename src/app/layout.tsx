@@ -1,10 +1,7 @@
 import type { Metadata } from 'next';
-import Providers from '../providers';
+import Providers from '@/src/providers';
+import { ChildrenProps } from '@/src/types';
 import '@/src/sass/globals.scss';
-
-// type ChildrenProps = {
-//   children: React.ReactNode;
-// };
 
 export const metadata: Metadata = {
   manifest: '/manifest.json',
@@ -12,19 +9,19 @@ export const metadata: Metadata = {
   description: 'Crypto market strategies',
 };
 
-// export default function RootLayout({ children }: ChildrenProps) {
-export default function RootLayout() {
+// export default function RootLayout() {
+export default function RootLayout({ children }: ChildrenProps) {
   return (
     <html lang="en">
       <Providers>
-        <body>
+        {/* <body>
           <ul>
             {[...Array(120)].map((_, index) => (
               <li key={index}>{index + 1}</li>
             ))}
           </ul>
-        </body>
-        {/* <body>{children}</body> */}
+        </body> */}
+        <body>{children}</body>
       </Providers>
     </html>
   );
