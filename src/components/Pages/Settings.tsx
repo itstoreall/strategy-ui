@@ -59,8 +59,8 @@ const Settings = () => {
   };
 
   return (
-    <main>
-      <Container label={Label.Main}>
+    <Container label={Label.Main}>
+      <main className="main">
         <h2>Settings</h2>
 
         <p>{'Settings'}</p>
@@ -102,8 +102,8 @@ const Settings = () => {
             </Button>
           </BlockColumn>
         </div>
-      </Container>
-    </main>
+      </main>
+    </Container>
   );
 };
 

@@ -4,8 +4,8 @@ import Container, { Label } from '@/src/components/Container/Page';
 
 const Dashboard = () => {
   return (
-    <main className="main">
-      <Container label={Label.Main}>
+    <Container label={Label.Main}>
+      <main className="main">
         <h2>Dashboard</h2>
 
         <ul>
@@ -13,8 +13,8 @@ const Dashboard = () => {
             <li key={index}>{index + 1}</li>
           ))}
         </ul>
-      </Container>
-    </main>
+      </main>
+    </Container>
   );
 };
 
