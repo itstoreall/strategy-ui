@@ -1,4 +1,11 @@
+@use '@/src/sass/mixins' as *;
+@use '@/src/sass/base/vars' as *;
+
 main.main {
-  padding-top: 4rem;
-  background-color: red;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-top: 5rem;
+  margin: 0 auto;
+  width: calc(100% - 2rem);
 }

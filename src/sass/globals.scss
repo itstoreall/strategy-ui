@@ -1,6 +1,7 @@
-@use '@/src/sass/_mixins.scss';
-@use '@/src/sass/_extends.scss';
+@use '@/src/sass/mixins.scss';
+@use '@/src/sass/extends.scss';
 
+// Base:
 @use '@/src/sass/base/base.scss';
 @use '@/src/sass/base/reset.scss';
 @use '@/src/sass/base/typography.scss';
@@ -17,6 +18,9 @@
 @use '@/src/sass/components/container/page-wrapper-container.scss';
 @use '@/src/sass/components/container/page-container.scss';
 
+// Sections:
+@use '@/src/sass/components/sections/account-snapshot.scss';
+
 // Button:
 @use '@/src/sass/components/button/default-button.scss';
 @use '@/src/sass/components/button/custom-button.scss';
@@ -32,8 +36,6 @@
 @use '@/src/sass/components/form/info-status-block.scss';
 
 // Pages:
-@use '@/src/sass/pages/admin.scss';
 @use '@/src/sass/pages/home.scss';
 @use '@/src/sass/pages/signin.scss';
 @use '@/src/sass/pages/auth.scss';
-@use '@/src/sass/pages/dashboard.scss';

@@ -1,3 +1,35 @@
+@mixin media-screen-orientation($var, $width, $orient: null) {
+  @if $var == 'min' {
+    @media screen and (min-width: $width) {
+      @if $orient == 'land' {
+        @media (orientation: landscape) {
+          @content;
+        }
+      } @else if $orient == 'port' {
+        @media (orientation: portrait) {
+          @content;
+        }
+      } @else {
+        @content;
+      }
+    }
+  } @else if $var == 'max' {
+    @media screen and (max-width: $width) {
+      @if $orient == 'land' {
+        @media (orientation: landscape) {
+          @content;
+        }
+      } @else if $orient == 'port' {
+        @media (orientation: portrait) {
+          @content;
+        }
+      } @else {
+        @content;
+      }
+    }
+  }
+} // @include media-screen('min', '600px', 'land'){}
+
 @mixin box-shadow-offset($offset, $color) {
   box-shadow: $offset $offset 0 0 $color;
 }

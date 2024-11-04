@@ -1,18 +1,22 @@
 'use client';
 
 import Container, { Label } from '@/src/components/Container/Page';
+import Title from '@/src/components/Layout/Title';
+import AccountSnapshot from '../Section/AccountSnapshot';
 
 const Dashboard = () => {
   return (
     <Container label={Label.Main}>
       <main className="main">
-        <h2>Dashboard</h2>
+        <Title tag={'h2'} text={'Dashboard'} />
 
-        <ul>
+        <AccountSnapshot />
+
+        {/* <ul>
           {[...Array(120)].map((_, index) => (
             <li key={index}>{index + 1}</li>
           ))}
-        </ul>
+        </ul> */}
       </main>
     </Container>
   );

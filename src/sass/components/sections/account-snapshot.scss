@@ -1,0 +1,71 @@
+@use '@/src/sass/mixins' as *;
+@use '@/src/sass/base/vars' as *;
+
+section.account-snapshot {
+  background-color: $greyDeepDark;
+
+  > ul.snapshot-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.7rem;
+    padding: 0.7rem;
+
+    > li.snapshot-item {
+      &:not(:last-child) {
+        border-right: 0.05rem solid $greyDark;
+      }
+
+      .item-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        > span {
+          &.content-name {
+            color: $violet;
+            font-size: 0.7rem;
+          }
+
+          &.content-value {
+            font-size: 0.9rem;
+          }
+        }
+      }
+    }
+
+    @include media-screen-orientation('min', $tablet) {
+      padding: 1rem;
+
+      > li.snapshot-item {
+        .item-content {
+          > span {
+            &.content-value {
+              font-size: 1rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+/* --- Three equal columns (1:1)
+
+ul.snapshot-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+
+  > li.snapshot-item {
+    position: relative;
+    padding-top: 50%; // Item aspect ratio
+
+    .item-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+*/

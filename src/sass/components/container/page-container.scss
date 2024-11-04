@@ -6,8 +6,11 @@ div.page-container {
   min-width: $min;
   max-width: $tablet;
 
+  &.HEADER {
+    max-width: $max;
+  }
+
   &.MAIN {
     min-height: calc(100svh - $footerHeight);
-    background-color: teal;
   }
 }

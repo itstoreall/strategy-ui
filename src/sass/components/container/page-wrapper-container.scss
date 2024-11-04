@@ -5,11 +5,4 @@ div.page-wrapper-container {
   @extend %extends-hide-scrollbar;
   max-height: 100svh;
   overflow-y: auto;
-
-  // scrollbar-width: none;
-  // -ms-overflow-style: none;
-  // &::-webkit-scrollbar {
-  //   display: none;
-  //   width: 0;
-  // }
 }

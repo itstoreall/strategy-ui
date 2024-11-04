@@ -11,6 +11,7 @@ import { handleGoogleSignIn } from '@/src/lib/auth/googleSignInServerAction';
 import Container, { Label } from '@/src/components/Container/Page';
 import BlockColumn from '@/src/components/BlockColumn';
 import Button from '@/src/components/Button/Button';
+import Title from '@/src/components/Layout/Title';
 
 const Settings = () => {
   const [isAccountLinked, setIsAccountLinked] = useState(false);
@@ -61,7 +62,7 @@ const Settings = () => {
   return (
     <Container label={Label.Main}>
       <main className="main">
-        <h2>Settings</h2>
+        <Title tag={'h2'} text={'Settings'} />
 
         <p>{'Settings'}</p>
 
