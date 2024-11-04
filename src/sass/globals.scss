@@ -6,9 +6,10 @@
 
 // Layout:
 @use '@/src/sass/components/layout/logo.scss';
-@use '@/src/sass/components/layout/header.scss';
-@use '@/src/sass/components/layout/footer.scss';
 @use '@/src/sass/components/layout/navigation.scss';
+@use '@/src/sass/components/layout/header.scss';
+@use '@/src/sass/components/layout/copyright.scss';
+@use '@/src/sass/components/layout/footer.scss';
 
 // Container:
 @use '@/src/sass/components/container/page-wrapper-container.scss';

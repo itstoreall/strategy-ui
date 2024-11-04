@@ -1,13 +1,21 @@
+@use '@/src/sass/base/vars' as *;
+
 div.logo-block {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0 1rem;
+  gap: 0.3rem;
+  padding: 0 0.8rem;
+
+  > svg {
+    fill: $darkPanelContrast;
+    transform: rotate(-25deg);
+  }
 
   h1.logo {
-    font-weight: 600;
+    font-weight: 500;
     text-transform: uppercase;
     font-size: 0.7rem;
-    letter-spacing: 0.2rem;
+    letter-spacing: 0.15rem;
+    color: $darkPanelContrast;
   }
 }

@@ -1,7 +1,7 @@
 import { SessionContextValue } from 'next-auth/react';
 import Container, { Label } from '@/src/components/Container/Page';
-import Navigation from '@/src/components/Navigation';
-import Logo from '@/src/components/Logo';
+import Navigation from '@/src/components/Layout/Navigation';
+import Logo from '@/src/components/Layout/Logo';
 
 type Props = { session: SessionContextValue };
 

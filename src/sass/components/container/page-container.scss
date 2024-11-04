@@ -7,7 +7,6 @@ div.page-container {
   max-width: $tablet;
 
   &.MAIN {
-    margin: calc($headerHeight + 1.5rem) auto calc($footerHeight + 1.5em);
-    background-color: darkgray;
+    min-height: calc(100svh - $headerHeight - $footerHeight);
   }
 }

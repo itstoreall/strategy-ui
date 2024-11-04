@@ -1,5 +1,7 @@
+@use '@/src/sass/base/vars' as *;
+
 * {
-  color: black;
+  color: $greyLight;
 }
 
 /*

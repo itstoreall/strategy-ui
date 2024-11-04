@@ -1,25 +1,14 @@
 'use client';
 
 import { useEffect } from 'react';
-import Link from 'next/link';
-import { GoGear } from 'react-icons/go';
-import { GoUnlock } from 'react-icons/go';
-import { GoProject } from 'react-icons/go';
-import { usePathname } from 'next/navigation';
 import { SessionContextValue } from 'next-auth/react';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import { GoProject } from 'react-icons/go';
+import { GoUnlock } from 'react-icons/go';
+import { GoGear } from 'react-icons/go';
 
 type Props = { session: SessionContextValue };
-
-/*
-type NavLink = {
-  label: string;
-  href: string;
-};
-
-type Props = {
-  navLinks: NavLink[];
-};
-*/
 
 const navLinks = [
   { label: 'admin', href: '/admin' },
@@ -41,11 +30,11 @@ const Navigation: React.FC<Props> = ({ session }) => {
 
         const linkItem =
           link.label === 'admin' ? (
-            <GoUnlock size={20} />
+            <GoUnlock size={'1.3rem'} />
           ) : link.label === 'dashboard' ? (
-            <GoProject size={20} />
+            <GoProject size={'1.3rem'} />
           ) : link.label === 'settings' ? (
-            <GoGear size={20} />
+            <GoGear size={'1.3rem'} />
           ) : (
             link.label
           );

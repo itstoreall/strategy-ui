@@ -1,10 +1,14 @@
 @use '@/src/sass/base/vars' as *;
 
 footer.footer {
+  /*
   position: fixed;
   bottom: 0;
   left: 0;
+  */
+
+  display: flex;
+  align-items: center;
   width: 100%;
   height: $footerHeight;
-  background-color: palevioletred;
 }

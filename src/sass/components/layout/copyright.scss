@@ -1,0 +1,12 @@
+div.copyright {
+  .copyright-content {
+    display: flex;
+    justify-content: center;
+    gap: 0.2rem;
+
+    > span,
+    time {
+      font-size: 0.7rem;
+    }
+  }
+}

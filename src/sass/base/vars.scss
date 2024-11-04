@@ -7,19 +7,40 @@ $max: 1440px;
 // --- Sizes:
 
 $headerHeight: 3rem;
-$footerHeight: 3rem;
+$footerHeight: 6rem;
 
-// --- Colors:
+// ================== Colors:
 
 $white: white;
 $black: black;
+$greyLight: #c2c4c5;
+$greyDeepDark: #1d2228;
+$greyDeepDarkHover: #151a1e;
+$violet: #a676a6;
 
-$ultraLightGray: hsl(0, 0%, 97.5%);
+// --- Panel:
+
+$darkPanel: $greyDeepDark;
+$darkPanelHover: $greyDeepDarkHover;
+$darkPanelContrast: $greyLight;
+$darkPanelContrastHover: $violet;
+
+// --- Button:
+
+// $ultraLightGray: #ebeaed;
 $middleLightGray: hsl(0, 0%, 70%);
 
 $middleDarkGray: #333333;
 
+// $blueDeepDark: #1d2228;
+// $blueDeepDarkHover: #151a1e;
 $blue: hsl(208, 86%, 48%);
 $blueHover: hsl(208, 86%, 58%);
 
-$red: red;
+$red: #f02f34;
+$q: #f4db7d;
+$qq: #fb8122;
+$qqq: #f25c5e;
+// $qqqq: #a676a6;
+// $qqqq: #aa6aaa;
+$qqqqqq: #b9d9eb;
