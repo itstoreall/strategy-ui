@@ -1,4 +1,5 @@
 @use '@/src/sass/base/vars' as *;
+@use '@/src/sass/_extends' as *;
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -9,14 +10,27 @@ body {
   box-sizing: border-box;
   margin: 0;
   background-color: $black;
+  overflow-y: scroll;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+    width: 0;
+  }
+}
+
+ul {
+  max-height: 100svh;
+  overflow-y: auto;
 }
 
 // --- Hide scrollbar for all elements:
-body,
-* {
-  scrollbar-width: none; // Firefox
-  -ms-overflow-style: none; // Internet Explorer 10+
-}
-*::-webkit-scrollbar {
-  display: none; // Safari and Chrome
-}
+// body,
+// * {
+//   scrollbar-width: none; // Firefox
+//   -ms-overflow-style: none; // Internet Explorer 10+
+// }
+// *::-webkit-scrollbar {
+//   display: none; // Safari and Chrome
+// }
