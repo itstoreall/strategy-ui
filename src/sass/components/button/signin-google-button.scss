@@ -1,4 +1,4 @@
-@use '@/src/sass/base/vars.scss';
+@use '@/src/sass/base/vars.scss' as *;
 
 .signin-google-button {
   display: flex;
@@ -8,8 +8,8 @@
   width: 100%;
   font-size: medium;
   font-weight: bold;
-  color: vars.$middleDarkGray;
-  border: 1px solid vars.$middleDarkGray;
+  color: $middleDarkGray;
+  border: 1px solid $middleDarkGray;
   border-radius: 0.5rem;
   background-color: transparent;
 
@@ -21,6 +21,6 @@
 
   &:hover {
     cursor: pointer;
-    background-color: vars.$darkPanelContrast;
+    background-color: $colorLight;
   }
 }

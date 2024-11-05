@@ -19,7 +19,8 @@
 @use '@/src/sass/components/container/page-container.scss';
 
 // Sections:
-@use '@/src/sass/components/sections/account-snapshot.scss';
+@use '@/src/sass/components/sections/account-snapshot.section.scss';
+@use '@/src/sass/components/sections/option.section.scss';
 
 // Button:
 @use '@/src/sass/components/button/default-button.scss';

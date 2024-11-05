@@ -3,6 +3,7 @@
 
 section {
   &.dashboard {
+    min-height: 3.5rem;
     background-color: $greyDeepDark;
     border-radius: 0.2rem;
 
@@ -25,7 +26,7 @@ section {
 
             > span {
               &.content-name {
-                color: $violet;
+                color: $colorAccent;
                 font-size: 0.7rem;
               }
 

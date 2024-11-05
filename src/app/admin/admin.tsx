@@ -12,7 +12,7 @@ export const AdminPage: React.FC = () => {
   return (
     <PageWrapper>
       <Header session={session} />
-      <Admin />
+      <Admin session={session} />
       <Footer />
     </PageWrapper>
   );

@@ -7,7 +7,7 @@ div.logo-block {
   padding: 0 0.8rem;
 
   > svg {
-    fill: $darkPanelContrast;
+    fill: $colorLight;
     transform: rotate(-25deg);
   }
 
@@ -16,7 +16,7 @@ div.logo-block {
     gap: 1.5rem;
 
     > svg {
-      fill: $darkPanelContrast;
+      fill: $colorLight;
       transform: rotate(-25deg);
     }
   }

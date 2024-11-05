@@ -1,4 +1,4 @@
-const AccountSnapshot = () => {
+const AccountSnapshotSection = () => {
   return (
     <section className="dashboard account-snapshot">
       <ul className="snapshot-list">
@@ -31,4 +31,4 @@ const AccountSnapshot = () => {
   );
 };
 
-export default AccountSnapshot;
+export default AccountSnapshotSection;

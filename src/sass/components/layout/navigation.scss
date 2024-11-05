@@ -13,21 +13,21 @@ nav.nav {
     height: 100%;
 
     > svg {
-      fill: $darkPanelContrast;
+      fill: $colorLight;
     }
 
     &:hover {
       > svg {
-        fill: $darkPanelContrastHover;
+        fill: $colorAccent;
         transition: fill 0.3s ease;
       }
     }
 
     &.active {
-      background-color: $darkPanelHover;
+      background-color: $bgDarkPanelHover;
 
       > svg {
-        fill: $darkPanelContrastHover;
+        fill: $colorAccent;
       }
     }
   }

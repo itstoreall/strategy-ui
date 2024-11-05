@@ -12,7 +12,7 @@ export const SettingsPage: React.FC = () => {
   return (
     <PageWrapper>
       <Header session={session} />
-      <Settings />
+      <Settings session={session} />
       <Footer />
     </PageWrapper>
   );

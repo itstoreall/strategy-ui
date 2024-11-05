@@ -4,8 +4,23 @@
 main.main {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
   padding-top: 5rem;
   margin: 0 auto;
   width: calc(100% - 2rem);
+
+  .main-heading {
+    display: flex;
+    justify-content: space-between;
+
+    > span.user-role {
+      display: flex;
+      align-items: center;
+      padding: 0 0.2rem;
+      font-size: 0.6rem;
+      color: $colorAccent;
+      border: 0.08rem solid $colorAccent;
+      border-radius: 0.15rem;
+    }
+  }
 }

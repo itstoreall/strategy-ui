@@ -1,25 +1,30 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useSession } from 'next-auth/react';
-import { handleSignOut } from '@/src/lib/auth/signOutServerAction';
+import { SessionContextValue } from 'next-auth/react';
+// import { handleSignOut } from '@/src/lib/auth/signOutServerAction';
 import { getUserName } from '@/src/lib/auth/getUserNameServerAction';
 import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
-import { getAccountLinkStatus } from '@/src/lib/auth/getAccountLinkStatusServerAction';
-import { unlinkGoogleAccount } from '@/src/lib/auth/unlinkGoogleAccountServerAction';
-import { handleGoogleSignIn } from '@/src/lib/auth/googleSignInServerAction';
+// import { getAccountLinkStatus } from '@/src/lib/auth/getAccountLinkStatusServerAction';
+// import { unlinkGoogleAccount } from '@/src/lib/auth/unlinkGoogleAccountServerAction';
+// import { handleGoogleSignIn } from '@/src/lib/auth/googleSignInServerAction';
 import Container, { Label } from '@/src/components/Container/Page';
-import BlockColumn from '@/src/components/BlockColumn';
-import Button from '@/src/components/Button/Button';
-import Title from '@/src/components/Layout/Title';
+import PageHeading from '@/src/components/Layout/PageHeading';
+import OptionSection from '../Section/OptionSection';
+// import BlockColumn from '@/src/components/BlockColumn';
+// import Button from '@/src/components/Button/Button';
+// import Title from '@/src/components/Layout/Title';
 
-const Settings = () => {
-  const [isAccountLinked, setIsAccountLinked] = useState(false);
+type Props = { session: SessionContextValue };
+
+const Settings = ({ session }: Props) => {
+  // const [isAccountLinked, setIsAccountLinked] = useState(false);
   const [username, setUsername] = useState('');
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState<'USER' | 'ADMIN' | ''>('');
 
-  const session = useSession();
   const isAuth = session.status === 'authenticated';
+
+  console.log('isAuth:', isAuth);
 
   useEffect(() => {
     const userInfo = async () => {
@@ -34,37 +39,39 @@ const Settings = () => {
       }
     };
 
-    const accountLinkStatus = async () => {
-      try {
-        const { status } = await getAccountLinkStatus();
-        setIsAccountLinked(status);
-      } catch (error) {
-        console.error('Failed to get account link status:', error);
-      }
-    };
+    // const accountLinkStatus = async () => {
+    //   try {
+    //     const { status } = await getAccountLinkStatus();
+    //     setIsAccountLinked(status);
+    //   } catch (error) {
+    //     console.error('Failed to get account link status:', error);
+    //   }
+    // };
     userInfo();
-    accountLinkStatus();
+    // accountLinkStatus();
   }, []);
 
-  const handleGoogleAccount = async () => {
-    if (isAccountLinked) {
-      await unlinkGoogleAccount().then(({ unlinked }) => {
-        console.log('unlinked:::', unlinked);
-        setIsAccountLinked(false);
-      });
-    } else {
-      await handleGoogleSignIn().then(() => {
-        setIsAccountLinked(true);
-      });
-    }
-  };
+  // const handleGoogleAccount = async () => {
+  //   if (isAccountLinked) {
+  //     await unlinkGoogleAccount().then(({ unlinked }) => {
+  //       console.log('unlinked:::', unlinked);
+  //       setIsAccountLinked(false);
+  //     });
+  //   } else {
+  //     await handleGoogleSignIn().then(() => {
+  //       setIsAccountLinked(true);
+  //     });
+  //   }
+  // };
 
   return (
     <Container label={Label.Main}>
       <main className="main">
-        <Title tag={'h2'} text={'Settings'} />
+        <PageHeading title={'Settings'} role={role} />
 
-        <p>{'Settings'}</p>
+        {username && <OptionSection name={'Name'} value={username} />}
+
+        {/* <p>{'Settings'}</p>
 
         {isAuth && <Button clickContent={handleSignOut}>Log Out</Button>}
 
@@ -102,7 +109,7 @@ const Settings = () => {
                 : 'Disconnect Google Account'}
             </Button>
           </BlockColumn>
-        </div>
+        </div> */}
       </main>
     </Container>
   );

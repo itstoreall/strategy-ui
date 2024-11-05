@@ -1,13 +1,18 @@
 'use client';
 
+import { SessionContextValue } from 'next-auth/react';
 import Container, { Label } from '@/src/components/Container/Page';
-import Title from '@/src/components/Layout/Title';
+import PageHeading from '../Layout/PageHeading';
 
-const Dashboard = () => {
+type Props = { session: SessionContextValue };
+
+const Admin = ({ session }: Props) => {
+  console.log('session', session);
+
   return (
     <Container label={Label.Main}>
       <main className="main">
-        <Title tag={'h2'} text={'Admin'} />
+        <PageHeading title={'Admin'} />
 
         <p>This Page is only accessible to users with the ADMIN role</p>
         <a href="/dashboard">Go to Dashboard</a>
@@ -16,4 +21,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Admin;
