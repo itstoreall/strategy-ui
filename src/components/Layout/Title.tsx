@@ -7,7 +7,7 @@ type Props = {
 const Title = ({ tag, text, className }: Props) => {
   const Tag = tag || 'h1';
 
-  return <Tag className={`title ${className}`}>{text}</Tag>;
+  return <Tag className={className}>{text}</Tag>;
 };
 
 export default Title;

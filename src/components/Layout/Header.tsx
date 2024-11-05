@@ -10,7 +10,7 @@ const Header = ({ session }: Props) => {
     <header className="header">
       <Container label={Label.Header}>
         <div className="header-content">
-          <Logo />
+          <Logo className="header-logo" />
           <Navigation session={session} />
         </div>
       </Container>

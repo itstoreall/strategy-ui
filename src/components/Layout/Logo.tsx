@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { IoIosPaw } from 'react-icons/io';
+import Title from './Title';
 
 type Props = {
   className?: string;
@@ -11,7 +12,7 @@ const Logo = ({ className, iconSize = '1.3rem' }: Props) => {
     <div className={`logo-block ${className}`}>
       <IoIosPaw size={iconSize} />
       <Link href={'/'}>
-        <h1 className="logo">strategy</h1>
+        <Title text="strategy" className={className} />
       </Link>
     </div>
   );
