@@ -8,7 +8,7 @@ import { GoProject } from 'react-icons/go';
 import { GoUnlock } from 'react-icons/go';
 import { GoGear } from 'react-icons/go';
 
-type Props = { session: SessionContextValue };
+type Props = { session: SessionContextValue; className?: string };
 
 const navLinks = [
   { label: 'admin', href: '/admin' },
@@ -16,7 +16,7 @@ const navLinks = [
   { label: 'settings', href: '/settings' },
 ];
 
-const Navigation: React.FC<Props> = ({ session }) => {
+const Navigation: React.FC<Props> = ({ session, className }) => {
   const pathname = usePathname();
 
   useEffect(() => {
@@ -24,7 +24,7 @@ const Navigation: React.FC<Props> = ({ session }) => {
   }, [session]);
 
   return (
-    <nav className="nav">
+    <nav className={`nav ${className}`}>
       {navLinks.map((link) => {
         const isActive = pathname === link.href;
 

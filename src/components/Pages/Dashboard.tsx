@@ -3,6 +3,7 @@
 import Container, { Label } from '@/src/components/Container/Page';
 import Title from '@/src/components/Layout/Title';
 import AccountSnapshot from '../Section/AccountSnapshot';
+// import MockDataList from '@/src/components/MockDataList';
 
 const Dashboard = () => {
   return (
@@ -12,11 +13,7 @@ const Dashboard = () => {
 
         <AccountSnapshot />
 
-        {/* <ul>
-          {[...Array(120)].map((_, index) => (
-            <li key={index}>{index + 1}</li>
-          ))}
-        </ul> */}
+        {/* <MockDataList items={120} /> */}
       </main>
     </Container>
   );
