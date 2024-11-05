@@ -34,5 +34,9 @@ nav.nav {
 
   &.home-page-nav {
     height: 3rem;
+
+    > a {
+      width: 3.5rem;
+    }
   }
 }

@@ -12,7 +12,7 @@ const Home: React.FC = () => {
   return (
     <PageWrapper>
       <div className="home-page">
-        <Logo className="home-page-logo" iconSize={'3rem'} />
+        <Logo className="home-page-logo" iconSize={'4rem'} />
         <Navigation session={session} className={'home-page-nav'} />
       </div>
     </PageWrapper>
