@@ -11,7 +11,7 @@ export default function HomePage() {
   return (
     <PageWrapper>
       <div className="home-page">
-        <Logo className="home-page-logo" iconSize={'6rem'} />
+        <Logo className="home-page-logo" iconSize={'5.5rem'} />
         <Navigation session={session} className={'home-page-nav'} />
       </div>
     </PageWrapper>
