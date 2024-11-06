@@ -4,6 +4,12 @@ $tablet: 820px;
 $desktop: 1024px;
 $max: 1440px;
 
+// ---
+
+$ease03s: 0.3s ease;
+$ease03s03s: 0.3s ease 0.3s;
+$ease03s01s: 0.3s ease 0.1s;
+
 // --- Sizes:
 
 $headerHeight: 3rem;
@@ -18,7 +24,10 @@ $greyMiddle: #717a81;
 $greyDark: #3a3f46;
 $greyDeepDark: #1d2228;
 $greyDeepDarkHover: #151a1e;
+$blue: #225695;
+$smokeBlue: #283950;
 $violet: #a676a6;
+$violetHover: #80669d;
 
 // --- Panel:
 
@@ -29,6 +38,15 @@ $colorAccent: $violet;
 
 // --- Button:
 
+$bgButton: $blue;
+$bgButtonHover: $violetHover;
+$bgButtonDesabled: $smokeBlue;
+$colorButton: $greyLight;
+$colorButtonDisabled: $greyMiddle;
+// $colorButton: $greyDeepDark;
+
+// ---
+
 // $ultraLightGray: #ebeaed;
 $middleLightGray: hsl(0, 0%, 70%);
 
@@ -36,13 +54,17 @@ $middleDarkGray: #333333;
 
 // $blueDeepDark: #1d2228;
 // $blueDeepDarkHover: #151a1e;
-$blue: hsl(208, 86%, 48%);
-$blueHover: hsl(208, 86%, 58%);
+// $yellow: #76a7e8;
+// $blue: #5783db;
+// // $blue: hsl(208, 86%, 48%);
+// $blueHover: hsl(208, 86%, 58%);
 
 $red: #f02f34;
 $q: #f4db7d;
 $qq: #fb8122;
 $qqq: #f25c5e;
+$qqqq: #ffbd03;
+$qqqqq: #5dbea3;
 // $qqqq: #a676a6;
 // $qqqq: #aa6aaa;
 $qqqqqq: #b9d9eb;

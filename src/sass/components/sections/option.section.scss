@@ -31,7 +31,9 @@ section {
       }
 
       @include media-screen-orientation('min', $tablet) {
-        padding: 1rem;
+        .option-content {
+          padding: 1rem;
+        }
       }
 
       .option-editor {

@@ -1,26 +1,24 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import { SessionContextValue } from 'next-auth/react';
-// import { handleSignOut } from '@/src/lib/auth/signOutServerAction';
 import { getUserName } from '@/src/lib/auth/getUserNameServerAction';
 import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
-// import { getAccountLinkStatus } from '@/src/lib/auth/getAccountLinkStatusServerAction';
-// import { unlinkGoogleAccount } from '@/src/lib/auth/unlinkGoogleAccountServerAction';
-// import { handleGoogleSignIn } from '@/src/lib/auth/googleSignInServerAction';
+import { getAccountLinkStatus } from '@/src/lib/auth/getAccountLinkStatusServerAction';
+import { unlinkGoogleAccount } from '@/src/lib/auth/unlinkGoogleAccountServerAction';
+import { handleGoogleSignIn } from '@/src/lib/auth/googleSignInServerAction';
 import Container, { Label } from '@/src/components/Container/Page';
 import PageHeading from '@/src/components/Layout/PageHeading';
 import OptionSection from '../Section/OptionSection';
-// import BlockColumn from '@/src/components/BlockColumn';
-// import Button from '@/src/components/Button/Button';
-// import Title from '@/src/components/Layout/Title';
+import Button from '@/src/components/Button/Button';
 
 type Props = { session: SessionContextValue };
 
 const Settings = ({ session }: Props) => {
-  // const [isAccountLinked, setIsAccountLinked] = useState(false);
+  const [isAccountLinked, setIsAccountLinked] = useState(false);
   const [username, setUsername] = useState('');
   const [role, setRole] = useState<'USER' | 'ADMIN' | ''>('');
+  const [isPending, startTransition] = useTransition();
 
   const isAuth = session.status === 'authenticated';
 
@@ -39,30 +37,34 @@ const Settings = ({ session }: Props) => {
       }
     };
 
-    // const accountLinkStatus = async () => {
-    //   try {
-    //     const { status } = await getAccountLinkStatus();
-    //     setIsAccountLinked(status);
-    //   } catch (error) {
-    //     console.error('Failed to get account link status:', error);
-    //   }
-    // };
+    const accountLinkStatus = async () => {
+      try {
+        const { status } = await getAccountLinkStatus();
+        setIsAccountLinked(status);
+      } catch (error) {
+        console.error('Failed to get account link status:', error);
+      }
+    };
     userInfo();
-    // accountLinkStatus();
+    accountLinkStatus();
   }, []);
 
-  // const handleGoogleAccount = async () => {
-  //   if (isAccountLinked) {
-  //     await unlinkGoogleAccount().then(({ unlinked }) => {
-  //       console.log('unlinked:::', unlinked);
-  //       setIsAccountLinked(false);
-  //     });
-  //   } else {
-  //     await handleGoogleSignIn().then(() => {
-  //       setIsAccountLinked(true);
-  //     });
-  //   }
-  // };
+  const handleGoogleAccount = async () => {
+    console.log(111);
+
+    startTransition(async () => {
+      if (isAccountLinked) {
+        await unlinkGoogleAccount().then(({ unlinked }) => {
+          console.log('unlinked:::', unlinked);
+          setIsAccountLinked(false);
+        });
+      } else {
+        await handleGoogleSignIn().then(() => {
+          setIsAccountLinked(true);
+        });
+      }
+    });
+  };
 
   return (
     <Container label={Label.Main}>
@@ -71,9 +73,13 @@ const Settings = ({ session }: Props) => {
 
         {username && <OptionSection name={'Name'} value={username} />}
 
-        {/* <p>{'Settings'}</p>
+        <Button clickContent={handleGoogleAccount} disabled={isPending}>
+          {!isAccountLinked
+            ? 'Connect Google Account'
+            : 'Disconnect Google Account'}
+        </Button>
 
-        {isAuth && <Button clickContent={handleSignOut}>Log Out</Button>}
+        {/* 
 
         <div className="dashboard-card">
           <a href="/admin">Go to Admin Page</a>
@@ -100,16 +106,7 @@ const Settings = ({ session }: Props) => {
             >
               Update Name
             </Button>
-          </div>
-
-          <BlockColumn gap={'1rem'}>
-            <Button clickContent={handleGoogleAccount}>
-              {!isAccountLinked
-                ? 'Connect Google Account'
-                : 'Disconnect Google Account'}
-            </Button>
-          </BlockColumn>
-        </div> */}
+          </div> */}
       </main>
     </Container>
   );

@@ -1,36 +1,50 @@
-@use '@/src/sass/base/vars.scss';
+@use '@/src/sass/base/vars.scss' as *;
 
 button.default-button {
   padding: 1rem;
   width: 100%;
-  font-size: 1rem;
-  color: vars.$white;
-  background-color: vars.$blue;
-  border: solid;
-  border-radius: 0.5rem;
-  border-color: vars.$blue;
-  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: $colorButton;
+  // background-color: vars.$blue;
+  // border: solid;
+  border-radius: 0.2rem;
+  // border-color: $greyDeepDark;
+  background-color: $bgButton;
+  // background-color: $greyDeepDark;
+  // cursor: pointer;
+  transition: $ease03s;
 
-  &.disabled,
-  &:hover {
-    background-color: vars.$blueHover;
-    border-color: vars.$blueHover;
-  }
-
-  &.toggle-password-visibility {
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    padding: 0;
-    transform: translateY(-50%);
-    width: 1.2rem;
-    height: 1.2rem;
-    color: vars.$middleLightGray;
-    background-color: transparent;
-    border: none;
+  &.disabled {
+    background-color: $bgButtonDesabled;
+    color: $colorButtonDisabled;
 
     &:hover {
-      color: vars.$middleDarkGray;
+      background-color: $bgButtonDesabled;
+      color: $colorButtonDisabled;
     }
   }
+
+  &:hover {
+    background-color: $bgButtonHover;
+    color: $white;
+    // border-color: vars.$blueHover;
+  }
+
+  // &.toggle-password-visibility {
+  // position: absolute;
+  // right: 1rem;
+  // top: 50%;
+  // padding: 0;
+  // transform: translateY(-50%);
+  // width: 1.2rem;
+  // height: 1.2rem;
+  // color: vars.$middleLightGray;
+  // background-color: transparent;
+  // border: none;
+
+  // &:hover {
+  //   color: vars.$middleDarkGray;
+  // }
+  // }
 }
