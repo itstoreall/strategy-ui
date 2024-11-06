@@ -6,12 +6,16 @@ type Props = {
 };
 
 const OptionSection = ({ name, value }: Props) => {
+  console.log('value:', value);
+
   return (
     <section className="settings option">
       <div className="option-content">
         <span className="content-name">{name}</span>
+        {/* <span className="content-value">{''}</span> */}
         <span className="content-value">{value}</span>
       </div>
+
       <div className="option-editor">
         <button className="option-editor-button">
           <GoKebabHorizontal />

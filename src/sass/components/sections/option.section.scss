@@ -30,12 +30,6 @@ section {
         }
       }
 
-      @include media-screen-orientation('min', $tablet) {
-        .option-content {
-          padding: 1rem;
-        }
-      }
-
       .option-editor {
         > button.option-editor-button {
           display: flex;
@@ -55,6 +49,16 @@ section {
               transition: fill 0.3s ease;
             }
           }
+        }
+      }
+    }
+
+    @include media-screen-orientation('min', $tablet) {
+      &.option {
+        min-height: 4.2rem; // *
+
+        .option-content {
+          padding: 1rem;
         }
       }
     }

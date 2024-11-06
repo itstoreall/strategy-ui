@@ -12,6 +12,7 @@ import Container, { Label } from '@/src/components/Container/Page';
 import PageHeading from '@/src/components/Layout/PageHeading';
 import OptionSection from '../Section/OptionSection';
 import Button from '@/src/components/Button/Button';
+import Loader from '../Loader';
 
 type Props = { session: SessionContextValue };
 
@@ -70,19 +71,25 @@ const Settings = ({ session }: Props) => {
       <main className="main">
         <PageHeading title={'Settings'} role={role} />
 
-        <div className="main-content">
-          <OptionSection name={'Name'} value={username} />
+        {isAuth && username && role ? (
+          <div className="main-content">
+            <OptionSection name={'Name'} value={username} />
 
-          <Button clickContent={handleGoogleAccount} disabled={isPending}>
-            {!isAccountLinked
-              ? 'Connect Google Account'
-              : 'Disconnect Google Account'}
-          </Button>
+            <Button clickContent={handleGoogleAccount} disabled={isPending}>
+              {!isAccountLinked
+                ? 'Connect Google Account'
+                : 'Disconnect Google Account'}
+            </Button>
 
-          <Button clickContent={handleSignOut} disabled={isPending}>
-            {'Sign Out'}
-          </Button>
-        </div>
+            <Button clickContent={handleSignOut} disabled={isPending}>
+              {'Sign Out'}
+            </Button>
+          </div>
+        ) : (
+          <div className="settings-loader-block">
+            <Loader />
+          </div>
+        )}
 
         {/* 
 

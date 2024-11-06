@@ -36,8 +36,13 @@ section {
             }
           }
         }
+      }
+    }
 
-        @include media-screen-orientation('min', $tablet) {
+    @include media-screen-orientation('min', $tablet) {
+      min-height: 4.2rem;
+      &.account-snapshot {
+        > ul.snapshot-list {
           padding: 1rem;
 
           > li.snapshot-item {

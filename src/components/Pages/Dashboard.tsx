@@ -13,7 +13,6 @@ const Dashboard = () => {
 
         <div className="main-content">
           <AccountSnapshotSection />
-          <AccountSnapshotSection />
         </div>
 
         {/* <MockDataList items={120} /> */}
