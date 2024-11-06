@@ -1,19 +1,25 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
+import { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import PageWrapper from '../components/Container/PageWrapper';
-import Logo from '../components/Layout/Logo';
-import Navigation from '../components/Layout/Navigation';
+import { useRouter } from 'next/navigation';
+import PageWrapper from '@/src/components/Container/PageWrapper';
+import Home from '@/src/components/Pages/Home';
 
 export default function HomePage() {
   const session = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    setTimeout(() => {
+      router.push('/dashboard');
+    }, 5000);
+  }, []);
 
   return (
     <PageWrapper>
-      <div className="home-page">
-        <Logo className="home-page-logo" iconSize={'5.5rem'} />
-        <Navigation session={session} className={'home-page-nav'} />
-      </div>
+      <Home session={session} />
     </PageWrapper>
   );
 }

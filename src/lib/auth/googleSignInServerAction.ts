@@ -2,9 +2,11 @@
 
 import { signIn } from '@/src/lib/auth/authConfig';
 
-export const handleGoogleSignIn = async () => {
+type RedirectPath = 'dashboard' | 'settings';
+
+export const handleGoogleSignIn = async (page: RedirectPath) => {
   try {
-    await signIn('google', { redirectTo: '/dashboard' });
+    await signIn('google', { redirectTo: `/${page}` });
   } catch (error) {
     throw error;
   }

@@ -10,7 +10,7 @@ const SignInGoogleButton = ({ title, disabled = false }: Props) => {
   return (
     <button
       className="signin-google-button"
-      onClick={() => handleGoogleSignIn()}
+      onClick={() => handleGoogleSignIn('dashboard')}
       disabled={disabled}
     >
       <FcGoogle className="google-icon" />

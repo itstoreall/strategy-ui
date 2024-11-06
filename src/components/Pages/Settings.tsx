@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useTransition } from 'react';
 import { SessionContextValue } from 'next-auth/react';
+import { handleSignOut } from '@/src/lib/auth/signOutServerAction';
 import { getUserName } from '@/src/lib/auth/getUserNameServerAction';
 import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
 import { getAccountLinkStatus } from '@/src/lib/auth/getAccountLinkStatusServerAction';
@@ -50,8 +51,6 @@ const Settings = ({ session }: Props) => {
   }, []);
 
   const handleGoogleAccount = async () => {
-    console.log(111);
-
     startTransition(async () => {
       if (isAccountLinked) {
         await unlinkGoogleAccount().then(({ unlinked }) => {
@@ -59,7 +58,7 @@ const Settings = ({ session }: Props) => {
           setIsAccountLinked(false);
         });
       } else {
-        await handleGoogleSignIn().then(() => {
+        await handleGoogleSignIn('settings').then(() => {
           setIsAccountLinked(true);
         });
       }
@@ -71,13 +70,19 @@ const Settings = ({ session }: Props) => {
       <main className="main">
         <PageHeading title={'Settings'} role={role} />
 
-        {username && <OptionSection name={'Name'} value={username} />}
+        <div className="main-content">
+          <OptionSection name={'Name'} value={username} />
 
-        <Button clickContent={handleGoogleAccount} disabled={isPending}>
-          {!isAccountLinked
-            ? 'Connect Google Account'
-            : 'Disconnect Google Account'}
-        </Button>
+          <Button clickContent={handleGoogleAccount} disabled={isPending}>
+            {!isAccountLinked
+              ? 'Connect Google Account'
+              : 'Disconnect Google Account'}
+          </Button>
+
+          <Button clickContent={handleSignOut} disabled={isPending}>
+            {'Sign Out'}
+          </Button>
+        </div>
 
         {/* 
 

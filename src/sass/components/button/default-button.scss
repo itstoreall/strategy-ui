@@ -6,14 +6,32 @@ button.default-button {
   font-size: 0.9rem;
   font-weight: 500;
   color: $colorButton;
-  // background-color: vars.$blue;
-  // border: solid;
+  background-color: $bgButtonActive;
   border-radius: 0.2rem;
-  // border-color: $greyDeepDark;
-  background-color: $bgButton;
-  // background-color: $greyDeepDark;
-  // cursor: pointer;
   transition: $ease03s;
+
+  &:hover {
+    color: $white;
+    background-color: $bgButtonInactive;
+  }
+
+  // &.active {
+  //   background-color: $bgButtonActive;
+
+  //   &:hover {
+  //     color: $white;
+  //     background-color: $bgButtonInactive;
+  //   }
+  // }
+
+  // &.inactive {
+  //   background-color: $bgButtonInactive;
+  //   // color: $white;
+
+  //   &:hover {
+  //     background-color: $bgButtonActive;
+  //   }
+  // }
 
   &.disabled {
     background-color: $bgButtonDesabled;
@@ -25,11 +43,11 @@ button.default-button {
     }
   }
 
-  &:hover {
-    background-color: $bgButtonHover;
-    color: $white;
-    // border-color: vars.$blueHover;
-  }
+  // &:hover {
+  //   background-color: $bgButtonInactive;
+  //   color: $white;
+  //   // border-color: vars.$blueHover;
+  // }
 
   // &.toggle-password-visibility {
   // position: absolute;

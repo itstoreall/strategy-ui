@@ -26,24 +26,23 @@ $greyDeepDark: #1d2228;
 $greyDeepDarkHover: #151a1e;
 $blue: #225695;
 $smokeBlue: #283950;
-$violet: #a676a6;
-$violetHover: #80669d;
+$violetLight: #a676a6;
+$violetDark: #80669d;
 
 // --- Panel:
 
 $bgDarkPanel: $greyDeepDark;
 $bgDarkPanelHover: $greyDeepDarkHover;
 $colorLight: $greyLight;
-$colorAccent: $violet;
+$colorAccent: $violetLight;
 
 // --- Button:
 
-$bgButton: $blue;
-$bgButtonHover: $violetHover;
+$bgButtonActive: $blue;
+$bgButtonInactive: $violetDark;
 $bgButtonDesabled: $smokeBlue;
 $colorButton: $greyLight;
 $colorButtonDisabled: $greyMiddle;
-// $colorButton: $greyDeepDark;
 
 // ---
 

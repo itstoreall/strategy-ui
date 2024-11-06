@@ -14,8 +14,10 @@ const Admin = ({ session }: Props) => {
       <main className="main">
         <PageHeading title={'Admin'} />
 
-        <p>This Page is only accessible to users with the ADMIN role</p>
-        <a href="/dashboard">Go to Dashboard</a>
+        <div className="main-content">
+          <p>This Page is only accessible to users with the ADMIN role</p>
+          <a href="/dashboard">Go to Dashboard</a>
+        </div>
       </main>
     </Container>
   );
