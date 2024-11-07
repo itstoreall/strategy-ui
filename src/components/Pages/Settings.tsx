@@ -12,7 +12,7 @@ import Container, { Label } from '@/src/components/Container/Page';
 import PageHeading from '@/src/components/Layout/PageHeading';
 import OptionSection from '../Section/OptionSection';
 import Button from '@/src/components/Button/Button';
-import Loader from '../Loader';
+import MainLoader from '../MainLoader';
 
 type Props = { session: SessionContextValue };
 
@@ -86,9 +86,7 @@ const Settings = ({ session }: Props) => {
             </Button>
           </div>
         ) : (
-          <div className="settings-loader-block">
-            <Loader />
-          </div>
+          <MainLoader />
         )}
 
         {/* 
