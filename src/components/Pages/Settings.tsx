@@ -13,6 +13,8 @@ import PageHeading from '@/src/components/Layout/PageHeading';
 import OptionSection from '../Section/OptionSection';
 import Button from '@/src/components/Button/Button';
 import MainLoader from '../MainLoader';
+import useModal from '@/src/hooks/useModal';
+// import MockDataList from '../MockDataList';
 
 type Props = { session: SessionContextValue };
 
@@ -21,6 +23,8 @@ const Settings = ({ session }: Props) => {
   const [username, setUsername] = useState('');
   const [role, setRole] = useState<'USER' | 'ADMIN' | ''>('');
   const [isPending, startTransition] = useTransition();
+
+  const { RenderModal } = useModal();
 
   const isAuth = session.status === 'authenticated';
 
@@ -88,6 +92,31 @@ const Settings = ({ session }: Props) => {
         ) : (
           <MainLoader />
         )}
+
+        {/* <MockDataList items={120} /> */}
+
+        <RenderModal>
+          <div style={{ marginBottom: '20px' }} className="name">
+            {username}
+          </div>
+
+          <div className="field-input-container">
+            <input
+              className="field-input"
+              type="text"
+              placeholder={'Enter name'}
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+            />
+
+            <Button
+              className="update-field-button"
+              clickContent={() => session.update({ name: username })}
+            >
+              Update Name
+            </Button>
+          </div>
+        </RenderModal>
 
         {/* 
 

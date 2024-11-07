@@ -1,0 +1,90 @@
+@use '@/src/sass/base/vars' as *;
+@use '@/src/sass/mixins' as *;
+
+// ------ Custom Modals:
+
+.animatedBlurBg {
+  /*
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  */
+  animation: fadeIn 0.5s;
+}
+
+.customModals {
+  &.SETTINGS {
+    @extend .animatedBlurBg;
+    background-color: $bgDarkPanel;
+
+    > div.modal {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: $mobile;
+      height: 100%;
+      // background-color: teal;
+
+      > div.settings-modal-content {
+        position: relative;
+        width: 100%;
+        // background-color: tomato;
+
+        > button.settings-modal-close-button {
+          position: absolute;
+          top: -3rem;
+          right: 0;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          // @include media-screen-orientation('min', $tablet) {} // *
+        }
+      }
+    }
+  }
+
+  // --- Add new custom modal here:
+}
+
+// ------ Common Modal:
+
+div.modal-backdrop {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 51;
+
+  &.fadeOut {
+    animation: fadeOut 0.5s forwards;
+  }
+
+  > div.modal {
+    position: relative;
+  }
+
+  @extend .customModals;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

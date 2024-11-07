@@ -1,6 +1,7 @@
-@use '@/src/sass/base/vars.scss' as *;
+@use '@/src/sass/base/vars' as *;
+@use '@/src/sass/mixins' as *;
 
-button.default-button {
+button.uni-button {
   padding: 1rem;
   width: 100%;
   font-size: 0.9rem;
@@ -65,4 +66,19 @@ button.default-button {
   //   color: vars.$middleDarkGray;
   // }
   // }
+
+  &.settings-modal-close-button {
+    padding: 0;
+    width: 3rem;
+    height: 3rem;
+    background-color: transparent;
+
+    > svg {
+      fill: $greyLight;
+
+      &:hover {
+        fill: $red;
+      }
+    }
+  }
 }

@@ -23,7 +23,7 @@
 @use '@/src/sass/components/sections/option.section.scss';
 
 // Button:
-@use '@/src/sass/components/button/default-button.scss';
+@use '@/src/sass/components/button/uni-button.scss';
 @use '@/src/sass/components/button/custom-button.scss';
 @use '@/src/sass/components/button/signin-google-button.scss';
 
@@ -35,6 +35,9 @@
 // Info block:
 @use '@/src/sass/components/form/info-text-link-block.scss';
 @use '@/src/sass/components/form/info-status-block.scss';
+
+// Modal:
+@use '@/src/sass/components/modal/modal.scss';
 
 // Pages:
 @use '@/src/sass/pages/home.scss';

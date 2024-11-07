@@ -20,6 +20,7 @@ const Button = (props: ButtonProps) => {
     clickContent,
     disabled,
   } = props;
+
   const router = useRouter();
 
   const onClickHandler = () => {
@@ -31,7 +32,7 @@ const Button = (props: ButtonProps) => {
   };
 
   const disableStyle = disabled ? 'disabled' : '';
-  const btnStyle = `default-button ${className || ''} ${disableStyle}`;
+  const btnStyle = `uni-button ${className || ''} ${disableStyle}`;
 
   return (
     <button
