@@ -9,7 +9,7 @@ type Props = {
 const OptionSection = ({ name, value }: Props) => {
   const { openModal, ModalContentEnum } = useModal();
 
-  const seeCertificates = () => openModal(ModalContentEnum.Settings);
+  const seeCertificates = () => openModal(ModalContentEnum.Form);
 
   console.log('value:', value);
 

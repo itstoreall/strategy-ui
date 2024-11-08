@@ -18,12 +18,14 @@ $footerHeight: 6rem;
 // ================== Colors:
 
 $white: white;
-$black: black;
 $greyLight: #c2c4c5;
 $greyMiddle: #717a81;
 $greyDark: #3a3f46;
 $greyDeepDark: #1d2228;
-$greyDeepDarkHover: #151a1e;
+$greyDeepDarkPlus: #151a1e;
+$blackMiddle: #0f1114;
+$black: black;
+
 $blue: #225695;
 $smokeBlue: #283950;
 $violetLight: #a676a6;
@@ -32,7 +34,7 @@ $violetDark: #80669d;
 // --- Panel:
 
 $bgDarkPanel: $greyDeepDark;
-$bgDarkPanelHover: $greyDeepDarkHover;
+$bgDarkPanelHover: $greyDeepDarkPlus;
 $colorLight: $greyLight;
 $colorAccent: $violetLight;
 

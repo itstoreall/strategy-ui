@@ -20,16 +20,19 @@ h1 {
   }
 }
 
+h3 {
+  &.modal-title {
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+}
+
 /*
 h2 {
   font-size: 2.5rem;
   line-height: 1.1;
 }
   
-h3 {
-  font-size: 2rem;
-  line-height: 1.1;
-}
 
 p {
   font-size: 1rem;

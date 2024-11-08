@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import Container, { Label } from '@/src/components/Container/Page';
+import PageContainer, { Label } from '@/src/components/Container/Page';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
 import PageHeading from '@/src/components/Layout/PageHeading';
 import MainLoader from '../MainLoader';
@@ -15,7 +15,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Container label={Label.Main}>
+    <PageContainer label={Label.Main}>
       <main className="main">
         <PageHeading title={'Dashboard'} />
 
@@ -29,7 +29,7 @@ const Dashboard = () => {
 
         {/* <MockDataList items={120} /> */}
       </main>
-    </Container>
+    </PageContainer>
   );
 };
 

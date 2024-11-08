@@ -1,6 +1,6 @@
 import useModal from '@/src/hooks/useModal';
 import { ChildrenProps } from '@/src/types';
-import SettingsModal from '@/src/components/Modal/SettingsModal';
+import SettingsModal from '@/src/components/Modal/FormModal';
 
 const RenderModal = ({ children }: ChildrenProps) => {
   const { isSettingsModal } = useModal();

@@ -3,43 +3,25 @@
 
 // ------ Custom Modals:
 
-.animatedBlurBg {
-  /*
-  background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(12px);
-  */
-  animation: fadeIn 0.5s;
-}
-
 .customModals {
-  &.SETTINGS {
-    @extend .animatedBlurBg;
-    background-color: $bgDarkPanel;
+  background-color: $black;
+  animation: fadeIn 0.2s;
 
+  &.FORM {
     > div.modal {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
+      padding: 1rem;
       max-width: $mobile;
-      height: 100%;
-      // background-color: teal;
 
-      > div.settings-modal-content {
+      // Form-Modal:
+      > div.form-modal-content {
         position: relative;
+        padding: 2rem 1rem;
         width: 100%;
-        // background-color: tomato;
+        border: 0.1rem solid $greyDeepDarkPlus;
+        background-color: $blackMiddle;
+        border-radius: 0.4rem;
 
-        > button.settings-modal-close-button {
-          position: absolute;
-          top: -3rem;
-          right: 0;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-
-          // @include media-screen-orientation('min', $tablet) {} // *
-        }
+        // @include media-screen-orientation('min', $tablet) {} // *
       }
     }
   }
@@ -61,11 +43,15 @@ div.modal-backdrop {
   z-index: 51;
 
   &.fadeOut {
-    animation: fadeOut 0.5s forwards;
+    animation: fadeOut 0.3s forwards;
   }
 
   > div.modal {
     position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
   }
 
   @extend .customModals;

@@ -67,18 +67,18 @@ button.uni-button {
   // }
   // }
 
-  &.settings-modal-close-button {
-    padding: 0;
-    width: 3rem;
-    height: 3rem;
-    background-color: transparent;
+  // &.settings-modal-close-button {
+  //   padding: 0;
+  //   width: 3rem;
+  //   height: 3rem;
+  //   background-color: transparent;
 
-    > svg {
-      fill: $greyLight;
+  //   > svg {
+  //     fill: $greyLight;
 
-      &:hover {
-        fill: $red;
-      }
-    }
-  }
+  //     &:hover {
+  //       fill: $red;
+  //     }
+  //   }
+  // }
 }

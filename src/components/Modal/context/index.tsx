@@ -21,7 +21,7 @@ export const ModalProvider = ({ children }: ChildrenProps) => {
   const [modal, setModal] = useState<ModalContentEnum | null>(null);
   const [isClosing, setIsClosing] = useState(false);
 
-  const isSettingsModal = modal === ModalContentEnum.Settings;
+  const isSettingsModal = modal === ModalContentEnum.Form;
 
   // ---
 

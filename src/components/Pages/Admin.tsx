@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from 'react';
 import { SessionContextValue } from 'next-auth/react';
-import Container, { Label } from '@/src/components/Container/Page';
+import PageContainer, { Label } from '@/src/components/Container/Page';
 import PageHeading from '../Layout/PageHeading';
 import MainLoader from '../MainLoader';
 
@@ -17,7 +17,7 @@ const Admin = ({ session }: Props) => {
   }, []);
 
   return (
-    <Container label={Label.Main}>
+    <PageContainer label={Label.Main}>
       <main className="main">
         <PageHeading title={'Admin'} />
 
@@ -30,7 +30,7 @@ const Admin = ({ session }: Props) => {
           <MainLoader />
         )}
       </main>
-    </Container>
+    </PageContainer>
   );
 };
 

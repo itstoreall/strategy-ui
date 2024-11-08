@@ -1,13 +1,21 @@
-@use '@/src/sass/base/vars.scss';
+@use '@/src/sass/base/vars' as *;
 
 input.default-input {
   padding: 1rem;
   width: calc(100% - 2rem - 2px);
   font-size: 16px;
-  color: vars.$middleDarkGray;
-  border: 1px solid vars.$middleLightGray;
-  border-radius: 0.5rem;
+  color: $greyMiddle;
+  background-color: $greyDeepDark;
+  border-radius: 0.2rem;
+  border: 1px solid $greyDeepDark;
   outline: none;
+  transition: $ease03s;
+
+  &:focus {
+    color: $greyLight;
+  }
+
+  /*
 
   &:focus {
     color: vars.$middleDarkGray;
@@ -35,4 +43,5 @@ input.default-input {
       }
     }
   }
+  */
 }

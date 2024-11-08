@@ -8,7 +8,8 @@ import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
 import { getAccountLinkStatus } from '@/src/lib/auth/getAccountLinkStatusServerAction';
 import { unlinkGoogleAccount } from '@/src/lib/auth/unlinkGoogleAccountServerAction';
 import { handleGoogleSignIn } from '@/src/lib/auth/googleSignInServerAction';
-import Container, { Label } from '@/src/components/Container/Page';
+import EditUsernameameForm from '@/src/components/Form/EditUsernameameForm';
+import PageContainer, { Label } from '@/src/components/Container/Page';
 import PageHeading from '@/src/components/Layout/PageHeading';
 import OptionSection from '../Section/OptionSection';
 import Button from '@/src/components/Button/Button';
@@ -27,8 +28,6 @@ const Settings = ({ session }: Props) => {
   const { RenderModal } = useModal();
 
   const isAuth = session.status === 'authenticated';
-
-  console.log('isAuth:', isAuth);
 
   useEffect(() => {
     const userInfo = async () => {
@@ -71,7 +70,7 @@ const Settings = ({ session }: Props) => {
   };
 
   return (
-    <Container label={Label.Main}>
+    <PageContainer label={Label.Main}>
       <main className="main">
         <PageHeading title={'Settings'} role={role} />
 
@@ -96,58 +95,10 @@ const Settings = ({ session }: Props) => {
         {/* <MockDataList items={120} /> */}
 
         <RenderModal>
-          <div style={{ marginBottom: '20px' }} className="name">
-            {username}
-          </div>
-
-          <div className="field-input-container">
-            <input
-              className="field-input"
-              type="text"
-              placeholder={'Enter name'}
-              value={username}
-              onChange={(event) => setUsername(event.target.value)}
-            />
-
-            <Button
-              className="update-field-button"
-              clickContent={() => session.update({ name: username })}
-            >
-              Update Name
-            </Button>
-          </div>
+          <EditUsernameameForm username={username} setUsername={setUsername} />
         </RenderModal>
-
-        {/* 
-
-        <div className="dashboard-card">
-          <a href="/admin">Go to Admin Page</a>
-          <div>
-            <p>Role: {role}</p>
-          </div>
-
-          <div style={{ marginBottom: '20px' }} className="name">
-            {username}
-          </div>
-
-          <div className="field-input-container">
-            <input
-              className="field-input"
-              type="text"
-              placeholder={'Enter name'}
-              value={username}
-              onChange={(event) => setUsername(event.target.value)}
-            />
-
-            <Button
-              className="update-field-button"
-              clickContent={() => session.update({ name: username })}
-            >
-              Update Name
-            </Button>
-          </div> */}
       </main>
-    </Container>
+    </PageContainer>
   );
 };
 

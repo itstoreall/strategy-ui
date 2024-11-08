@@ -1,6 +1,15 @@
 form.default-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
   width: 100%;
+
+  &.edit-username-form {
+    // background-color: teal;
+
+    > div.edit-username-form-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+  }
 }
