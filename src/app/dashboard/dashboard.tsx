@@ -3,7 +3,7 @@
 import { useSession } from 'next-auth/react';
 import PageWrapperContainer from '@/src/components/Container/PageWrapper';
 import Header from '@/src/components/Layout/Header';
-import Dashboard from '@/src/components/Pages/Dashboard';
+// import Dashboard from '@/src/components/Pages/Dashboard';
 import Footer from '@/src/components/Layout/Footer';
 
 export const DashboardPage: React.FC = () => {
@@ -12,7 +12,7 @@ export const DashboardPage: React.FC = () => {
   return (
     <PageWrapperContainer>
       <Header session={session} />
-      <Dashboard />
+      {/* <Dashboard /> */}
       <Footer />
     </PageWrapperContainer>
   );

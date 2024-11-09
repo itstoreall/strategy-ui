@@ -3,7 +3,7 @@
 import { useSession } from 'next-auth/react';
 import PageWrapperContainer from '@/src/components/Container/PageWrapper';
 import Header from '@/src/components/Layout/Header';
-import Admin from '@/src/components/Pages/Admin';
+// import Admin from '@/src/components/Pages/Admin';
 import Footer from '@/src/components/Layout/Footer';
 
 export const AdminPage: React.FC = () => {
@@ -12,7 +12,7 @@ export const AdminPage: React.FC = () => {
   return (
     <PageWrapperContainer>
       <Header session={session} />
-      <Admin session={session} />
+      {/* <Admin session={session} /> */}
       <Footer />
     </PageWrapperContainer>
   );
