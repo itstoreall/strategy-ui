@@ -14,7 +14,7 @@ import PageHeading from '@/src/components/Layout/PageHeading';
 import OptionSection from '../Section/OptionSection';
 import Button from '@/src/components/Button/Button';
 import MainLoader from '../MainLoader';
-import useModal from '@/src/hooks/useModal';
+// import useModal from '@/src/hooks/useModal';
 // import MockDataList from '../MockDataList';
 
 type Props = { session: SessionContextValue };
