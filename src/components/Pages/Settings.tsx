@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useTransition } from 'react';
-import { SessionContextValue, useSession } from 'next-auth/react';
+import { SessionContextValue } from 'next-auth/react';
 import { handleSignOut } from '@/src/lib/auth/signOutServerAction';
 import { getUserName } from '@/src/lib/auth/getUserNameServerAction';
 import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
@@ -27,7 +27,7 @@ const Settings = ({ session }: Props) => {
 
   const { RenderModal } = useModal();
 
-  const { update } = useSession();
+  // const { update } = useSession();
 
   const isAuth = session.status === 'authenticated';
 
