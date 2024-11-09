@@ -80,11 +80,12 @@ class UserService {
 
   async createVerifyCode(email: string, code: string) {
     try {
-      const url = 'verify/code';
-      const payload = { identifier: email, code };
+      const url = 'verify/token';
+      const payload = { identifier: email, token: code };
       const res: AxiosResponse<CodeRes> = await axios.post(url, payload);
       return res.data;
     } catch (err: unknown) {
+      console.log(3, err);
       errorHandler('Failed to sign in:', err);
     }
   }

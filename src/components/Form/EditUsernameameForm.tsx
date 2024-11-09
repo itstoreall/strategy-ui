@@ -20,6 +20,7 @@ const EditUsernameameForm = ({ username, setUsername }: Props) => {
   const handleSubmit = () => {
     const username = watch('username');
     setUsername(username);
+    // setUsername(username);
     onSubmit();
   };
 

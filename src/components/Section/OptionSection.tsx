@@ -11,8 +11,6 @@ const OptionSection = ({ name, value }: Props) => {
 
   const seeCertificates = () => openModal(ModalContentEnum.Form);
 
-  console.log('value:', value);
-
   return (
     <section className="settings option">
       <div className="option-content">

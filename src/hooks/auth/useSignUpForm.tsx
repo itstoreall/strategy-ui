@@ -38,6 +38,8 @@ const useSignUpForm = () => {
     } else {
       const user = existingUser as ExistingUserData;
 
+      console.log(1, user);
+
       if (user.password && user.verified) {
         return setSignUpError(config.signUpError);
       } else if (user.password && !user.verified) {
@@ -45,12 +47,16 @@ const useSignUpForm = () => {
       } else {
         setIsCodeVerification(true);
         const code = generateVerificationCode(4);
+        console.log(2, code);
+
         const res = await userService.createVerifyCode(user.email, code);
 
         if (res && res.code === code) {
           await sendVerificationCode(user.email, code);
           setIsCodeVerification(true);
         }
+
+        console.log(4, res);
       }
     }
   });
