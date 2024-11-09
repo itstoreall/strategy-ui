@@ -25,6 +25,7 @@ const errorHandler = (msg: string, err: unknown) => {
 class UserService {
   async getRole(id: string) {
     try {
+      console.log(0, 'getRole');
       const url = `/role/${id}`;
       const res: AxiosResponse<RoleData> = await axios.get(url);
       return res.data;
@@ -36,6 +37,7 @@ class UserService {
 
   async getCredentials(email: string) {
     try {
+      console.log(0, 'getCredentials');
       const url = `/email/${email}`;
       const res: AxiosResponse<CredsData | null> = await axios.get(url);
       return res.data;
@@ -46,6 +48,7 @@ class UserService {
 
   async getStatus(id: string) {
     try {
+      console.log(0, 'getStatus');
       const url = `/account/google/${id}`;
       const res: AxiosResponse<StatusData> = await axios.get(url);
       return res.data;
@@ -57,6 +60,7 @@ class UserService {
 
   async credentialsSignUp(email: string, password: string) {
     try {
+      console.log(0, 'credentialsSignUp');
       const url = '/auth/signup';
       const payload = { email, password };
       const res: AxiosResponse<SignUpData> = await axios.post(url, payload);
@@ -69,6 +73,7 @@ class UserService {
 
   async credentialsSignIn(email: string, password: string) {
     try {
+      console.log(0, 'credentialsSignIn');
       const url = '/auth/signin';
       const payload = { email, password };
       const res: AxiosResponse<SignInData> = await axios.post(url, payload);
@@ -80,7 +85,8 @@ class UserService {
 
   async createVerifyCode(email: string, code: string) {
     try {
-      const url = 'verify/token';
+      console.log(0, 'createVerifyCode - signup-verify');
+      const url = '/auth/signup-verify';
       const payload = { identifier: email, token: code };
       const res: AxiosResponse<CodeRes> = await axios.post(url, payload);
       return res.data;
@@ -92,6 +98,7 @@ class UserService {
 
   async updateName(id: string, name: string) {
     try {
+      console.log(0, 'updateName');
       const url = '/update-name';
       const payload = { userId: id, name };
       const res: AxiosResponse<UpdatedData> = await axios.put(url, payload);
@@ -104,6 +111,7 @@ class UserService {
 
   async updateCredentials(email: string, password: string, code: string) {
     try {
+      console.log(0, 'updateCredentials');
       const url = '/verify/credentials';
       const payload = { email, password, code };
       const res: AxiosResponse<UpdatedData> = await axios.put(url, payload);
@@ -116,7 +124,8 @@ class UserService {
 
   async removeTokens() {
     try {
-      const url = 'token/remove-expired';
+      console.log(0, 'removeTokens');
+      const url = '/token/remove-expired';
       const res: AxiosResponse<TokensData> = await axios.delete(url);
       return res.data;
     } catch (err: unknown) {
@@ -127,6 +136,7 @@ class UserService {
 
   async unlinkAccount(id: string, provider: Provider) {
     try {
+      console.log(0, 'unlinkAccount');
       const url = `/account/${provider}/${id}`;
       const res: AxiosResponse<UnlinkData> = await axios.delete(url);
       return res.data;
