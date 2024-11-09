@@ -1,18 +1,18 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import { SessionContextValue } from 'next-auth/react';
-// import { handleSignOut } from '@/src/lib/auth/signOutServerAction';
+import { handleSignOut } from '@/src/lib/auth/signOutServerAction';
 // import { getUserName } from '@/src/lib/auth/getUserNameServerAction';
 import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
 // import { getAccountLinkStatus } from '@/src/lib/auth/getAccountLinkStatusServerAction';
-// import { unlinkGoogleAccount } from '@/src/lib/auth/unlinkGoogleAccountServerAction';
-// import { handleGoogleSignIn } from '@/src/lib/auth/googleSignInServerAction';
+import { unlinkGoogleAccount } from '@/src/lib/auth/unlinkGoogleAccountServerAction';
+import { handleGoogleSignIn } from '@/src/lib/auth/googleSignInServerAction';
 // import EditUsernameameForm from '@/src/components/Form/EditUsernameameForm';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import PageHeading from '@/src/components/Layout/PageHeading';
 // import OptionSection from '../Section/OptionSection';
-// import Button from '@/src/components/Button/Button';
+import Button from '@/src/components/Button/Button';
 // import MainLoader from '../MainLoader';
 // import useModal from '@/src/hooks/useModal';
 // import MockDataList from '../MockDataList';
@@ -20,10 +20,10 @@ import PageHeading from '@/src/components/Layout/PageHeading';
 type Props = { session: SessionContextValue };
 
 const Settings = ({ session }: Props) => {
-  // const [isAccountLinked, setIsAccountLinked] = useState(false);
+  const [isAccountLinked, setIsAccountLinked] = useState(false);
   // const [username, setUsername] = useState('');
   const [role, setRole] = useState<'USER' | 'ADMIN' | ''>('');
-  // const [isPending, startTransition] = useTransition();
+  const [isPending, startTransition] = useTransition();
 
   // const { RenderModal } = useModal();
 
@@ -58,25 +58,35 @@ const Settings = ({ session }: Props) => {
     // accountLinkStatus();
   }, []);
 
-  // const handleGoogleAccount = async () => {
-  //   startTransition(async () => {
-  //     if (isAccountLinked) {
-  //       await unlinkGoogleAccount().then(({ unlinked }) => {
-  //         console.log('unlinked:::', unlinked);
-  //         setIsAccountLinked(false);
-  //       });
-  //     } else {
-  //       await handleGoogleSignIn('settings').then(() => {
-  //         setIsAccountLinked(true);
-  //       });
-  //     }
-  //   });
-  // };
+  const handleGoogleAccount = async () => {
+    startTransition(async () => {
+      if (isAccountLinked) {
+        await unlinkGoogleAccount().then(({ unlinked }) => {
+          console.log('unlinked:::', unlinked);
+          setIsAccountLinked(false);
+        });
+      } else {
+        await handleGoogleSignIn('settings').then(() => {
+          setIsAccountLinked(true);
+        });
+      }
+    });
+  };
 
   return (
     <PageContainer label={Label.Main}>
       <main className="main">
         <PageHeading title={'Settings'} role={role} />
+
+        <Button clickContent={handleGoogleAccount} disabled={isPending}>
+          {!isAccountLinked
+            ? 'Connect Google Account'
+            : 'Disconnect Google Account'}
+        </Button>
+
+        <Button clickContent={handleSignOut} disabled={isPending}>
+          {'Sign Out'}
+        </Button>
 
         {/* <div className="name">{username}</div>
 
