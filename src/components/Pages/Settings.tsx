@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useTransition } from 'react';
-import { SessionContextValue } from 'next-auth/react';
+import { SessionContextValue, useSession } from 'next-auth/react';
 import { handleSignOut } from '@/src/lib/auth/signOutServerAction';
 import { getUserName } from '@/src/lib/auth/getUserNameServerAction';
 import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
@@ -26,6 +26,8 @@ const Settings = ({ session }: Props) => {
   const [isPending, startTransition] = useTransition();
 
   const { RenderModal } = useModal();
+
+  const { update } = useSession();
 
   const isAuth = session.status === 'authenticated';
 
@@ -73,6 +75,25 @@ const Settings = ({ session }: Props) => {
     <PageContainer label={Label.Main}>
       <main className="main">
         <PageHeading title={'Settings'} role={role} />
+
+        <div className="name">{username}</div>
+
+        <div className="field-input-container">
+          <input
+            className="field-input"
+            type="text"
+            placeholder={'Enter name'}
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+          />
+
+          <button
+            className="update-field-button"
+            onClick={() => update({ name: username })}
+          >
+            Update Name
+          </button>
+        </div>
 
         {isAuth && username && role ? (
           <div className="main-content">
