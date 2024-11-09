@@ -8,7 +8,7 @@ import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
 import { getAccountLinkStatus } from '@/src/lib/auth/getAccountLinkStatusServerAction';
 import { unlinkGoogleAccount } from '@/src/lib/auth/unlinkGoogleAccountServerAction';
 import { handleGoogleSignIn } from '@/src/lib/auth/googleSignInServerAction';
-import EditUsernameameForm from '@/src/components/Form/EditUsernameameForm';
+// import EditUsernameameForm from '@/src/components/Form/EditUsernameameForm';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import PageHeading from '@/src/components/Layout/PageHeading';
 import OptionSection from '../Section/OptionSection';
@@ -25,7 +25,7 @@ const Settings = ({ session }: Props) => {
   const [role, setRole] = useState<'USER' | 'ADMIN' | ''>('');
   const [isPending, startTransition] = useTransition();
 
-  const { RenderModal } = useModal();
+  // const { RenderModal } = useModal();
 
   const { update } = useSession();
 
@@ -115,9 +115,9 @@ const Settings = ({ session }: Props) => {
 
         {/* <MockDataList items={120} /> */}
 
-        <RenderModal>
+        {/* <RenderModal>
           <EditUsernameameForm username={username} setUsername={setUsername} />
-        </RenderModal>
+        </RenderModal> */}
       </main>
     </PageContainer>
   );
