@@ -15,7 +15,6 @@ export const updateUserCredentials = async (
       hashedPassword,
       code
     );
-
     if (res) return res;
   } catch (err) {
     console.error('ERROR in updateUserCredentials:', err);
