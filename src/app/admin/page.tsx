@@ -3,9 +3,9 @@ import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
 import { AdminPage } from '@/src/app/admin/admin';
 
 const Admin: React.FC = async () => {
-  const { role } = await getUserRole();
+  const roleRes = await getUserRole();
 
-  if (role === 'ADMIN') {
+  if (roleRes?.role === 'ADMIN') {
     return <AdminPage />;
   } else {
     redirect('/dashboard');

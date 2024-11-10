@@ -30,7 +30,8 @@ class UserService {
       return res.data;
     } catch (err: unknown) {
       errorHandler('Failed to retrieve user role:', err);
-      throw err;
+      // throw err;
+      // return null;
     }
   }
 

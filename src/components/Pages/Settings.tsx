@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 'use client';
 
 import { useEffect, useState, useTransition } from 'react';
@@ -40,8 +42,8 @@ const Settings = ({ session }: Props) => {
         setUsername(name);
       }
 
-      const { role } = await getUserRole();
-      if (role) {
+      const roleRes = await getUserRole();
+      if (roleRes?.role) {
         setRole(role);
       }
     };
@@ -56,6 +58,13 @@ const Settings = ({ session }: Props) => {
     };
     userInfo();
     accountLinkStatus();
+
+    setTimeout(() => {
+      if (!isAuth || !username || !role) {
+        console.log('====== !!!!!!! ======', isAuth && username && role);
+        handleSignOut();
+      }
+    }, 15000);
   }, []);
 
   const handleGoogleAccount = async () => {
@@ -77,6 +86,10 @@ const Settings = ({ session }: Props) => {
     <PageContainer label={Label.Main}>
       <main className="main">
         <PageHeading title={'Settings'} role={role} />
+
+        <p>{`isAuth: ${isAuth}`}</p>
+        <p>{`username: ${username}`}</p>
+        <p>{`role: ${role}`}</p>
 
         {/* <div className="name">{username}</div>
 
