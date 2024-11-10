@@ -3,9 +3,9 @@ import { useForm } from 'react-hook-form';
 import { createVerifyCodeServerAction } from '@/src/lib/auth/createVerifyCodeServerAction';
 import { credentialsSignUp } from '@/src/lib/auth/credentialsSignUpServerAction';
 import { handleEmailSignIn } from '@/src/lib/auth/emailSignInServerAction';
-import sendVerificationCode from '@/src/lib/auth/sendVerificationCodeServerAction';
+// import sendVerificationCode from '@/src/lib/auth/sendVerificationCodeServerAction';
 import { userService } from '@/src/app/api/services/user.service';
-import { generateVerificationCode } from '@/src/utils';
+// import { generateVerificationCode } from '@/src/utils';
 
 type Credentials = {
   email: string;
@@ -44,23 +44,16 @@ const useSignUpForm = () => {
       } else if (user.password && !user.verified) {
         await handleEmailSignIn(data.email);
       } else {
-        setIsCodeVerification(true);
-        const code = generateVerificationCode(4);
-        console.log(2, code);
+        // setIsCodeVerification(true);
+        // const code = generateVerificationCode(4);
+        // console.log(2, code);
 
-        const res = await createVerifyCodeServerAction({
-          email: user.email,
-          code,
-        });
+        const isCodeSent = await createVerifyCodeServerAction(user.email);
 
-        console.log('res!!!', res);
-
-        if (res && res.code === code) {
-          await sendVerificationCode(user.email, code);
+        if (isCodeSent) {
           setIsCodeVerification(true);
+          console.log(4, isCodeSent);
         }
-
-        console.log(4, res);
       }
     }
   });

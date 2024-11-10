@@ -1,12 +1,12 @@
 type TrimAddress = (address: string, start: number, end: number) => string;
 
-export const generateVerificationCode = (limit: number) => {
-  let code = '';
-  for (let i = 0; i < limit; i++) {
-    code += Math.floor(Math.random() * 10);
-  }
-  return code;
-};
+// export const generateVerificationCode = (limit: number) => {
+//   let code = '';
+//   for (let i = 0; i < limit; i++) {
+//     code += Math.floor(Math.random() * 10);
+//   }
+//   return code;
+// };
 
 export const copyToClipboard = async (value: string = '') => {
   await navigator.clipboard.writeText(value);

@@ -5,7 +5,7 @@ type CredsData = { email: string; verified: Date; password: string };
 type StatusData = { status: boolean };
 type SignUpData = { id: string; email: string; role: string };
 type SignInData = (SignUpData & { name: string }) | null;
-type CodeRes = { identifier: string; code: string; url: string; expires: Date };
+type CodeRes = boolean;
 type UpdatedData = { updated: boolean };
 type TokensData = { deletedCount: number };
 type UnlinkData = { unlinked: boolean };
@@ -83,10 +83,10 @@ class UserService {
     }
   }
 
-  async createVerifyCode(email: string, code: string) {
+  async createVerifyCode(email: string) {
     try {
       const url = '/verify/code';
-      const payload = { identifier: email, code };
+      const payload = { identifier: email };
       const res: AxiosResponse<CodeRes> = await axios.post(url, payload);
       return res.data;
     } catch (err: unknown) {

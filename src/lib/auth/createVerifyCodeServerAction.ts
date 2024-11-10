@@ -2,21 +2,9 @@
 
 import { userService } from '@/src/app/api/services/user.service';
 
-type CreateVerifyCodeRes = {
-  identifier: string;
-  code: string;
-  url: string;
-  expires: Date;
-};
-
-type CreateVerifyCode = (args: {
-  email: string;
-  code: string;
-}) => Promise<CreateVerifyCodeRes | undefined>;
-
-export const createVerifyCodeServerAction: CreateVerifyCode = async (args) => {
+export const createVerifyCodeServerAction = async (email: string) => {
   try {
-    const res = await userService.createVerifyCode(args.email, args.code);
+    const res = await userService.createVerifyCode(email);
     if (res) return res;
   } catch (err) {
     console.log('ERROR in createVerifyCodeServerAction:', err);
