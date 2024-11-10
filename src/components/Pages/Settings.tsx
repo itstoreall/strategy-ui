@@ -44,7 +44,7 @@ const Settings = ({ session }: Props) => {
 
       const roleRes = await getUserRole();
       if (roleRes?.role) {
-        setRole(role);
+        setRole(roleRes?.role);
       }
     };
 
@@ -56,16 +56,18 @@ const Settings = ({ session }: Props) => {
         console.error('Failed to get account link status:', error);
       }
     };
+
     userInfo();
     accountLinkStatus();
 
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       if (!isAuth || !username || !role) {
-        console.log('====== !!!!!!! ======', isAuth && username && role);
+        console.log('..reject');
         handleSignOut();
       }
     }, 15000);
-  }, []);
+    return () => clearTimeout(timeoutId);
+  }, [isAuth, username, role]);
 
   const handleGoogleAccount = async () => {
     startTransition(async () => {
@@ -86,10 +88,6 @@ const Settings = ({ session }: Props) => {
     <PageContainer label={Label.Main}>
       <main className="main">
         <PageHeading title={'Settings'} role={role} />
-
-        <p>{`isAuth: ${isAuth}`}</p>
-        <p>{`username: ${username}`}</p>
-        <p>{`role: ${role}`}</p>
 
         {/* <div className="name">{username}</div>
 
