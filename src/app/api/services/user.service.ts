@@ -85,9 +85,8 @@ class UserService {
 
   async createVerifyCode(email: string, code: string) {
     try {
-      console.log(0, 'createVerifyCode - signup-verify');
-      const url = '/auth/signup-verify';
-      const payload = { identifier: email, token: code };
+      const url = '/verify/code';
+      const payload = { identifier: email, code };
       const res: AxiosResponse<CodeRes> = await axios.post(url, payload);
       return res.data;
     } catch (err: unknown) {

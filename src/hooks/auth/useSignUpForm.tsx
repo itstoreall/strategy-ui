@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { credentialsSignUpVerifyServerAction } from '@/src/lib/auth/credentialsSignUpVerifyServerAction';
+import { createVerifyCodeServerAction } from '@/src/lib/auth/createVerifyCodeServerAction';
 import { credentialsSignUp } from '@/src/lib/auth/credentialsSignUpServerAction';
 import { handleEmailSignIn } from '@/src/lib/auth/emailSignInServerAction';
 import sendVerificationCode from '@/src/lib/auth/sendVerificationCodeServerAction';
@@ -39,8 +39,6 @@ const useSignUpForm = () => {
     } else {
       const user = existingUser as ExistingUserData;
 
-      console.log(1, user);
-
       if (user.password && user.verified) {
         return setSignUpError(config.signUpError);
       } else if (user.password && !user.verified) {
@@ -50,7 +48,10 @@ const useSignUpForm = () => {
         const code = generateVerificationCode(4);
         console.log(2, code);
 
-        const res = await credentialsSignUpVerifyServerAction(user.email, code);
+        const res = await createVerifyCodeServerAction({
+          email: user.email,
+          code,
+        });
 
         console.log('res!!!', res);
 
