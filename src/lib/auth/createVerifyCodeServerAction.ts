@@ -7,7 +7,7 @@ export const createVerifyCodeServerAction = async (email: string) => {
     const res = await userService.createVerifyCode(email);
     if (res) return res;
   } catch (err) {
-    console.log('ERROR in createVerifyCodeServerAction:', err);
+    console.error('ERROR in createVerifyCodeServerAction:', err);
     // return { error: (err as CredentialsSignin).type };
   }
 };

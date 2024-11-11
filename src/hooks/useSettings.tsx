@@ -76,14 +76,14 @@ const useSettings = (sessionStatus: string) => {
   };
 
   return {
+    role,
     isAuth,
     username,
-    role,
-    isAccountLinked,
     isPending,
+    isAccountLinked,
     setUsername,
-    handleUpdateUsername,
     handleGoogleAccount,
+    handleUpdateUsername,
   };
 };
 

@@ -1,16 +1,24 @@
 'use client';
 
 import { SessionContextValue } from 'next-auth/react';
+import useSettings from '@/src/hooks/useSettings';
 import useModal from '@/src/hooks/useModal';
 import { handleSignOut } from '@/src/lib/auth/signOutServerAction';
-import EditUsernameForm from '@/src/components/Form/EditUsernameForm';
+import ButtonFullScreenContainer from '@/src/components/Container/ButtonFullScreen';
 import PageContainer, { Label } from '@/src/components/Container/Page';
+import EditUsernameForm from '@/src/components/Form/EditUsernameForm';
+import OptionSection from '@/src/components/Section/OptionSection';
 import PageHeading from '@/src/components/Layout/PageHeading';
-import OptionSection from '../Section/OptionSection';
+import MainLoader from '@/src/components/MainLoader';
 import Button from '@/src/components/Button/Button';
-import MainLoader from '../MainLoader';
-import useSettings from '@/src/hooks/useSettings';
 // import MockDataList from '../MockDataList';
+
+const config = {
+  pageTitle: 'Settings',
+  connectAccount: 'Connect Google Account',
+  disconnectAccount: 'Disconnect Google Account',
+  signOut: 'Sign Out',
+};
 
 type Props = { session: SessionContextValue };
 
@@ -31,21 +39,23 @@ const Settings = ({ session }: Props) => {
   return (
     <PageContainer label={Label.Main}>
       <main className="main">
-        <PageHeading title={'Settings'} role={role} />
+        <PageHeading title={config.pageTitle} role={role} />
 
         {isAuth && username && role ? (
           <div className="main-content">
             <OptionSection name={'Name'} value={username} />
 
-            <Button clickContent={handleGoogleAccount} disabled={isPending}>
-              {!isAccountLinked
-                ? 'Connect Google Account'
-                : 'Disconnect Google Account'}
-            </Button>
+            <ButtonFullScreenContainer>
+              <Button clickContent={handleGoogleAccount} disabled={isPending}>
+                {!isAccountLinked
+                  ? config.connectAccount
+                  : config.disconnectAccount}
+              </Button>
 
-            <Button clickContent={handleSignOut} disabled={isPending}>
-              {'Sign Out'}
-            </Button>
+              <Button clickContent={handleSignOut} disabled={isPending}>
+                {config.signOut}
+              </Button>
+            </ButtonFullScreenContainer>
           </div>
         ) : (
           <MainLoader />

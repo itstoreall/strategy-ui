@@ -10,14 +10,19 @@ type Props = {
   update: () => void;
 };
 
+const config = {
+  formTitle: 'Edit Name',
+  buttonText: 'Update',
+};
+
 const EditUsernameForm = ({ username, setUsername, update }: Props) => {
   return (
     <FormWrapper className="edit-username-form-wrapper">
-      <h3 className="modal-title">Edit Name</h3>
+      <h3 className="modal-title">{config.formTitle}</h3>
 
       <FormContentContainer>
         <DefaultInput username={username} handleChange={setUsername} />
-        <Button clickContent={update}>Update</Button>
+        <Button clickContent={update}>{config.buttonText}</Button>
       </FormContentContainer>
     </FormWrapper>
   );

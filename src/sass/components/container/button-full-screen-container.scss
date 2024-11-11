@@ -1,0 +1,11 @@
+@use '@/src/sass/base/vars' as *;
+@use '@/src/sass/mixins' as *;
+
+div.button-full-screen-container {
+  display: flex;
+  gap: 1rem;
+
+  @include media-screen-orientation('max', $mobile + 200) {
+    flex-direction: column;
+  }
+}

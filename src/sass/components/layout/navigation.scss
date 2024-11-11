@@ -5,12 +5,14 @@ nav.nav {
   display: flex;
   align-items: center;
 
-  > a {
+  > a.link,
+  span.link {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 3rem;
     height: 100%;
+    user-select: none;
 
     > svg {
       fill: $colorLight;
@@ -28,6 +30,12 @@ nav.nav {
 
       > svg {
         fill: $colorAccent;
+      }
+    }
+
+    &.disable {
+      > svg {
+        fill: $greyDark;
       }
     }
   }
