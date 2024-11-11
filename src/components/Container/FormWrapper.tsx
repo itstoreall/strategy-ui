@@ -3,7 +3,7 @@
 import { ChildrenProps } from '@/src/types';
 
 type Props = ChildrenProps & {
-  className: string;
+  className?: string;
 };
 
 const FormWrapperContainer = ({ children, className }: Props) => {

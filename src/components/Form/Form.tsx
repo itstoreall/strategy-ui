@@ -1,6 +1,8 @@
+import { FormEvent } from '@/src/types';
+
 type FormProps = {
   className?: string;
-  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  handleSubmit: (event: FormEvent) => void;
   children: React.ReactNode;
   isPending?: boolean;
 };

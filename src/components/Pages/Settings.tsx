@@ -3,14 +3,14 @@
 'use client';
 
 import { useEffect, useState, useTransition } from 'react';
-import { SessionContextValue } from 'next-auth/react';
+import { SessionContextValue, useSession } from 'next-auth/react';
 import { handleSignOut } from '@/src/lib/auth/signOutServerAction';
 import { getUserName } from '@/src/lib/auth/getUserNameServerAction';
 import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
 import { getAccountLinkStatus } from '@/src/lib/auth/getAccountLinkStatusServerAction';
 import { unlinkGoogleAccount } from '@/src/lib/auth/unlinkGoogleAccountServerAction';
 import { handleGoogleSignIn } from '@/src/lib/auth/googleSignInServerAction';
-import EditUsernameameForm from '@/src/components/Form/EditUsernameameForm';
+import EditUsernameForm from '@/src/components/Form/EditUsernameForm';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import PageHeading from '@/src/components/Layout/PageHeading';
 import OptionSection from '../Section/OptionSection';
@@ -29,11 +29,9 @@ const Settings = ({ session }: Props) => {
 
   const { RenderModal } = useModal();
 
-  // const { update } = useSession();
+  const { update } = useSession();
 
   const isAuth = session.status === 'authenticated';
-
-  // console.log('isAuth:', isAuth);
 
   useEffect(() => {
     const userInfo = async () => {
@@ -59,7 +57,9 @@ const Settings = ({ session }: Props) => {
 
     userInfo();
     accountLinkStatus();
+  }, []);
 
+  useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (!isAuth || !username || !role) {
         console.log('..reject');
@@ -89,25 +89,6 @@ const Settings = ({ session }: Props) => {
       <main className="main">
         <PageHeading title={'Settings'} role={role} />
 
-        {/* <div className="name">{username}</div>
-
-        <div className="field-input-container">
-          <input
-            className="field-input"
-            type="text"
-            placeholder={'Enter name'}
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
-          />
-
-          <button
-            className="update-field-button"
-            onClick={() => update({ name: username })}
-          >
-            Update Name
-          </button>
-        </div> */}
-
         {isAuth && username && role ? (
           <div className="main-content">
             <OptionSection name={'Name'} value={username} />
@@ -129,7 +110,11 @@ const Settings = ({ session }: Props) => {
         {/* <MockDataList items={120} /> */}
 
         <RenderModal>
-          <EditUsernameameForm username={username} setUsername={setUsername} />
+          <EditUsernameForm
+            username={username}
+            setUsername={setUsername}
+            update={update}
+          />
         </RenderModal>
       </main>
     </PageContainer>
