@@ -55,8 +55,9 @@ const Navigation: React.FC<Props> = ({ session, className }) => {
 
         const isDisabled = label === 'admin' && !isAdmin;
         const activeStyle = isActive ? 'active' : '';
+        const rotateStyle = label === 'dashboard' ? 'rotate' : '';
         const disabledStyle = isDisabled ? 'disable' : '';
-        const linkStyle = `${activeStyle} ${disabledStyle}`;
+        const linkStyle = `${activeStyle} ${rotateStyle} ${disabledStyle}`;
 
         return isDisabled ? (
           <span key={label} className={`link ${linkStyle}`}>

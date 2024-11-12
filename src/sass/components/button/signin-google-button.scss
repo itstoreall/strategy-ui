@@ -1,26 +1,32 @@
 @use '@/src/sass/base/vars.scss' as *;
 
-.signin-google-button {
+button.signin-google-button {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
   width: 100%;
-  font-size: medium;
-  font-weight: bold;
-  color: $middleDarkGray;
-  border: 1px solid $middleDarkGray;
-  border-radius: 0.5rem;
-  background-color: transparent;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.015rem;
+  color: $black;
+  border: none;
+  border-radius: 0.2rem;
+  background: $googleGradient;
+  background-size: 300%; // Smoothens transition between colors
+  transition: background-position 0.5s ease, color 0.5s ease;
 
+  /*
   .google-icon {
     margin-right: 1rem;
     width: 1.15rem;
     height: 1.15rem;
   }
+  */
 
   &:hover {
+    color: $white;
+    background-position: right center;
     cursor: pointer;
-    background-color: $colorLight;
   }
 }

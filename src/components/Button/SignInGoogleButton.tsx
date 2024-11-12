@@ -1,4 +1,3 @@
-import { FcGoogle } from 'react-icons/fc';
 import { handleGoogleSignIn } from '@/src/lib/auth/googleSignInServerAction';
 
 type Props = {
@@ -13,10 +12,14 @@ const SignInGoogleButton = ({ title, disabled = false }: Props) => {
       onClick={() => handleGoogleSignIn('dashboard')}
       disabled={disabled}
     >
-      <FcGoogle className="google-icon" />
       {title}
     </button>
   );
 };
 
 export default SignInGoogleButton;
+
+/* 
+import { FcGoogle } from 'react-icons/fc';
+<FcGoogle className="google-icon" />
+*/

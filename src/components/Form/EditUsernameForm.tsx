@@ -21,7 +21,6 @@ const EditUsernameForm = ({ username, setUsername, update }: Props) => {
   return (
     <FormWrapper className="edit-username-form-wrapper">
       <FormBackdropContainer>
-        {/* <h3 className="form-title">{config.formTitle}</h3> */}
         <Title tag={'h3'} className="form-title" text={config.formTitle} />
 
         <FormContentContainer>
