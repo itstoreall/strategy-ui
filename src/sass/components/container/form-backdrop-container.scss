@@ -1,0 +1,12 @@
+@use '@/src/sass/base/vars' as *;
+
+div.form-backdrop-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem 1rem;
+  border: 0.1rem solid $greyDeepDarkPlus;
+  background-color: $blackMiddle;
+  border-radius: 0.4rem;
+}

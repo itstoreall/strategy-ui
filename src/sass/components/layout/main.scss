@@ -9,6 +9,11 @@ main.main {
   margin: 0 auto;
   width: calc(100% - 2rem);
 
+  &.auth {
+    align-items: center;
+    padding: 1rem 0;
+  }
+
   .main-heading {
     display: flex;
     justify-content: space-between;

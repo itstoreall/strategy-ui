@@ -4,10 +4,16 @@
 div.form-wrapper-container {
   display: flex;
   flex-direction: column;
-  text-align: center;
   gap: 2rem;
+  max-width: $mobile;
+  text-align: center;
+
+  &.auth-form-wrapper {
+    width: 100%;
+  }
 
   &.edit-username-form-wrapper {
+    width: 100%;
     gap: 3rem;
   }
 }

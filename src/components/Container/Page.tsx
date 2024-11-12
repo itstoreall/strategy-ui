@@ -1,6 +1,7 @@
 import { ChildrenProps } from '@/src/types';
 
 export enum Label {
+  Auth = 'AUTH',
   Header = 'HEADER',
   Main = 'MAIN',
   Footer = 'FOOTER',

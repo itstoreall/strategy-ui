@@ -6,6 +6,12 @@ div.page-container {
   min-width: $min;
   max-width: $tablet;
 
+  &.AUTH {
+    display: flex;
+    align-items: center;
+    min-height: 100svh;
+  }
+
   &.HEADER {
     max-width: $max;
   }

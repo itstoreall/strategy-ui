@@ -1,5 +1,18 @@
 @use '@/src/sass/base/vars' as *;
 
+input {
+  background-color: unset;
+  background: unset;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: all 5000s ease-in-out 0s;
+  font-size: 16px !important;
+}
+
 input.default-input {
   padding: 1rem;
   width: calc(100% - 2rem - 2px);
@@ -10,38 +23,56 @@ input.default-input {
   border: 1px solid $greyDeepDark;
   outline: none;
   transition: $ease03s;
+  --webkit-autofill-font-size: 16px;
 
   &:focus {
     color: $greyLight;
   }
 
   /*
-
-  &:focus {
-    color: vars.$middleDarkGray;
-    border-color: vars.$middleDarkGray;
-
-    &::placeholder {
-      color: vars.$middleDarkGray;
-    }
-  }
-
-  &.error {
-    color: vars.$red;
-    border-color: vars.$red;
-
-    &::placeholder {
-      color: vars.$red;
-    }
-
+  
     &:focus {
       color: vars.$middleDarkGray;
       border-color: vars.$middleDarkGray;
-
+  
       &::placeholder {
-        color: vars.$middleLightGray;
+        color: vars.$middleDarkGray;
       }
     }
-  }
-  */
+  
+    &.error {
+      color: vars.$red;
+      border-color: vars.$red;
+  
+      &::placeholder {
+        color: vars.$red;
+      }
+  
+      &:focus {
+        color: vars.$middleDarkGray;
+        border-color: vars.$middleDarkGray;
+  
+        &::placeholder {
+          color: vars.$middleLightGray;
+        }
+      }
+    }
+    */
 }
+
+// input.default-input:-webkit-autofill {
+//   color: green !important;
+//   background-color: red !important;
+//   box-shadow: 0 0 0px 1000px red inset !important; /* Ensure background color */
+//   -webkit-text-fill-color: green !important; /* Override default text color */
+// }
+
+// input:is(:-webkit-autofill, :autofill) {
+//   // border: 3px solid darkorange;
+//   background-color: red !important;
+//   background: green !important;
+//   background-color: rgb(232 240 254) !important;
+//   background-image: none !important;
+//   color: -internal-light-dark(black, white) !important;
+//   border: 3px dotted orange;
+// }

@@ -1,8 +1,10 @@
 import { Dispatch, SetStateAction } from 'react';
+import FormWrapper from '@/src/components/Container/FormWrapper';
+import FormBackdropContainer from '@/src/components/Container/FormBackdrop';
+import FormContentContainer from '@/src/components/Container/FormContent';
+import DefaultInput from '@/src/components/Form/DefaultInput';
 import Button from '@/src/components/Button/Button';
-import FormWrapper from '../Container/FormWrapper';
-import DefaultInput from './DefaultInput';
-import FormContentContainer from '../Container/FormContent';
+import Title from '@/src/components/Layout/Title';
 
 type Props = {
   username: string;
@@ -18,12 +20,15 @@ const config = {
 const EditUsernameForm = ({ username, setUsername, update }: Props) => {
   return (
     <FormWrapper className="edit-username-form-wrapper">
-      <h3 className="modal-title">{config.formTitle}</h3>
+      <FormBackdropContainer>
+        {/* <h3 className="form-title">{config.formTitle}</h3> */}
+        <Title tag={'h3'} className="form-title" text={config.formTitle} />
 
-      <FormContentContainer>
-        <DefaultInput username={username} handleChange={setUsername} />
-        <Button clickContent={update}>{config.buttonText}</Button>
-      </FormContentContainer>
+        <FormContentContainer>
+          <DefaultInput username={username} handleChange={setUsername} />
+          <Button clickContent={update}>{config.buttonText}</Button>
+        </FormContentContainer>
+      </FormBackdropContainer>
     </FormWrapper>
   );
 };

@@ -1,13 +1,18 @@
 import { FieldError } from 'react-hook-form';
-import useSignInForm from '../../hooks/auth/useSignInForm';
+import useSignInForm from '@/src/hooks/auth/useSignInForm';
+import FormWrapper from '@/src/components/Container/FormWrapper';
+import FormBackdropContainer from '@/src/components/Container/FormBackdrop';
+import FormContentContainer from '@/src/components/Container/FormContent';
 import SignInGoogleButton from '@/src/components/Button/SignInGoogleButton';
-import PasswordInput from './PasswordInput';
-import TextInput from './TextInput';
-import Divider from './Divider';
-import Button from '../Button/Button';
-import Form from './Form';
+import PasswordInput from '@/src/components/Form/PasswordInput';
+import TextInput from '@/src/components/Form/TextInput';
+import Divider from '@/src/components/Form/Divider';
+import Button from '@/src/components/Button/Button';
+import Title from '@/src/components/Layout/Title';
+import Form from '@/src/components/Form/Form';
 
 const config = {
+  formTitle: 'Sign In',
   emailRequired: 'Email is required',
   passwordRequired: 'Password is required',
   signInEmail: 'Sign in with email',
@@ -26,44 +31,50 @@ const SignInForm = () => {
     : errors.email;
 
   return (
-    <div className="form-container">
-      <Form handleSubmit={onSubmit}>
-        <TextInput
-          type="email"
-          placeholder="Email Address"
-          disabled={isSubmitting}
-          error={emailError}
-          {...register('email', {
-            required: config.emailRequired,
-            pattern: {
-              value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-              message: config.invalidEmailErr,
-            },
-          })}
+    <FormWrapper className="auth-form-wrapper">
+      <FormBackdropContainer>
+        <Title tag={'h3'} className="form-title" text={config.formTitle} />
+
+        <Form handleSubmit={onSubmit}>
+          <FormContentContainer>
+            <TextInput
+              type="email"
+              placeholder="Email Address"
+              disabled={isSubmitting}
+              error={emailError}
+              {...register('email', {
+                required: config.emailRequired,
+                pattern: {
+                  value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
+                  message: config.invalidEmailErr,
+                },
+              })}
+            />
+
+            <PasswordInput
+              placeholder="Password"
+              disabled={isSubmitting}
+              error={errors.password}
+              {...register('password', {
+                required: config.passwordRequired,
+                minLength: { value: 6, message: config.shortPassErr },
+              })}
+            />
+
+            <Button disabled={isSubmitting || !!signInError} type="submit">
+              {isSubmitting ? config.signingIn : config.signInEmail}
+            </Button>
+          </FormContentContainer>
+        </Form>
+
+        <Divider />
+
+        <SignInGoogleButton
+          title={config.signInGoogle}
+          // disabled={!!signInError}
         />
-
-        <PasswordInput
-          placeholder="Password"
-          disabled={isSubmitting}
-          error={errors.password}
-          {...register('password', {
-            required: config.passwordRequired,
-            minLength: { value: 6, message: config.shortPassErr },
-          })}
-        />
-
-        <Button disabled={isSubmitting || !!signInError} type="submit">
-          {isSubmitting ? config.signingIn : config.signInEmail}
-        </Button>
-      </Form>
-
-      <Divider />
-
-      <SignInGoogleButton
-        title={config.signInGoogle}
-        // disabled={!!signInError}
-      />
-    </div>
+      </FormBackdropContainer>
+    </FormWrapper>
   );
 };
 
