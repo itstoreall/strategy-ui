@@ -37,3 +37,8 @@
 @mixin box-shadow-outline($outline, $color) {
   box-shadow: 0 0 0 $outline $color;
 }
+
+@mixin google-gradient-background($deg: 90deg) {
+  background: linear-gradient($deg, #34a853, #fbbc05, #ea4335, #4285f4);
+  background-size: 300%;
+}

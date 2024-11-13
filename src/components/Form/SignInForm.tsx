@@ -70,6 +70,7 @@ const SignInForm = () => {
         <Divider />
 
         <SignInGoogleButton
+          className={'sign-in'}
           title={config.signInGoogle}
           // disabled={!!signInError}
         />

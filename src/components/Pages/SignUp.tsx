@@ -1,25 +1,25 @@
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import InfoTextLinkBlock from '@/src/components/InfoTextLinkBlock';
-import SignInForm from '@/src/components/Form/SignInForm';
+import SignUpForm from '@/src/components/Form/SignUpForm';
 
 const config = {
-  goToSignUpText: 'Did not have an account? ',
+  goToSignInText: 'Already have an account? ',
 };
 
-const SignIn = () => {
+const SignUp = () => {
   return (
     <PageContainer label={Label.Auth}>
       <main className="main auth">
-        <SignInForm />
+        <SignUpForm />
 
         <InfoTextLinkBlock
-          text={config.goToSignUpText}
-          url={'/auth/sign-up'}
-          linkTitle={'Sign Up'}
+          text={config.goToSignInText}
+          url={'/auth/sign-in'}
+          linkTitle={'Sign In'}
         />
       </main>
     </PageContainer>
   );
 };
 
-export default SignIn;
+export default SignUp;
