@@ -1,4 +1,6 @@
 import { handleGoogleSignIn } from '@/src/lib/auth/googleSignInServerAction';
+import Button from '@/src/components/Button/Button';
+import { useState } from 'react';
 
 type Props = {
   className: 'sign-in' | 'sign-up';
@@ -7,14 +9,20 @@ type Props = {
 };
 
 const SignInGoogleButton = ({ className, title, disabled = false }: Props) => {
+  const [isDisabled, setIsDisabled] = useState(false);
+  const handleClick = () => {
+    setIsDisabled(true);
+    handleGoogleSignIn('dashboard');
+  };
+
   return (
-    <button
+    <Button
       className={`signin-google-button ${className}`}
-      onClick={() => handleGoogleSignIn('dashboard')}
-      disabled={disabled}
+      clickContent={handleClick}
+      disabled={disabled || isDisabled}
     >
       {title}
-    </button>
+    </Button>
   );
 };
 

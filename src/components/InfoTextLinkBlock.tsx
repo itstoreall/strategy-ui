@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 type Props = {
   text?: string;
   url: string;
@@ -12,7 +14,7 @@ const InfoTextLinkBlock = (props: Props) => {
     <div className={`info-text-link-block ${className}`}>
       <p>
         {text ?? ''}
-        <a href={url}>{linkTitle}</a>
+        <Link href={url}>{linkTitle}</Link>
       </p>
     </div>
   );
