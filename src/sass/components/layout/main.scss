@@ -9,9 +9,14 @@ main.main {
   margin: 0 auto;
   width: calc(100% - 2rem);
 
-  &.auth {
+  &.auth,
+  &.auth-success {
     align-items: center;
     padding: 1rem 0;
+  }
+
+  &.auth-success {
+    gap: 5rem;
   }
 
   .main-heading {

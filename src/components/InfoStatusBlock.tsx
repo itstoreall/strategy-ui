@@ -1,4 +1,5 @@
-import { RxCheckCircled, RxExclamationTriangle } from 'react-icons/rx';
+import { RxExclamationTriangle } from 'react-icons/rx';
+import ConfirmCircleFilledIcon from '@/src/assets/animation/ConfirmCircleFilledIcon';
 
 type Props = {
   text?: string;
@@ -11,17 +12,24 @@ const InfoStatusBlock = (props: Props) => {
 
   const icon =
     status === 'success' ? (
-      <RxCheckCircled className="icon" />
+      <ConfirmCircleFilledIcon />
     ) : (
-      <RxExclamationTriangle className="icon" />
+      <RxExclamationTriangle className="info-status-block-icon" />
     );
 
   return (
     <div className={`info-status-block ${status} ${className}`}>
       {icon}
-      {text && <p>{text}</p>}
+      {status && (
+        <span className="info-status-block-title">{`${status}!`}</span>
+      )}
+      {text && <p className="info-status-block-text">{text}</p>}
     </div>
   );
 };
 
 export default InfoStatusBlock;
+
+/*
+<RxCheckCircled className="info-status-block-icon" size={'4rem'} />
+*/

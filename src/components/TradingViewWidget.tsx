@@ -14,7 +14,7 @@ function TradingViewWidget() {
         {
           "width": "100%",
           "height": "400",
-          "symbol": "COINBASE:BTCUSD",
+          "symbol": "CRYPTOCAP:USDT.D",
           "interval": "60",
           "timezone": "Etc/UTC",
           "theme": "dark",
@@ -39,3 +39,9 @@ function TradingViewWidget() {
 }
 
 export default memo(TradingViewWidget);
+
+/*
+"symbol": "COINBASE:BTCUSD",
+
+https://www.tradingview.com/widget/advanced-chart/
+*/

@@ -3,7 +3,7 @@ import InfoTextLinkBlock from '@/src/components/InfoTextLinkBlock';
 import SignInForm from '@/src/components/Form/SignInForm';
 
 const config = {
-  goToSignUpText: 'Did not have an account? ',
+  goToSignUpText: 'Do not have an account? ',
 };
 
 const SignIn = () => {

@@ -1,29 +1,35 @@
+@use '@/src/sass/base/vars' as *;
+
 div.info-status-block {
-  display: grid;
-  grid-template-columns: auto 1fr;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  border-radius: 0.5rem;
-  padding: 1rem 1rem;
+  gap: 1.5rem;
+  color: red;
 
-  .icon {
-    margin-right: 0.8rem;
-    font-size: 1rem;
+  // > svg.info-status-block-icon {} // *
+
+  > span.info-status-block-title,
+  p.info-status-block-text {
+    color: $white;
   }
 
-  p {
-    margin: 0;
-    font-size: 0.8rem;
-    text-align: start;
+  > span.info-status-block-title {
+    font-size: 2rem;
+    text-transform: capitalize;
   }
 
-  &.success {
-    color: hsl(124, 100%, 22%);
-    background-color: hsl(125, 100%, 87%);
+  > p.info-status-block-text {
+    font-size: 1.2rem;
   }
 
-  &.error {
-    color: hsl(0, 100%, 50%);
-    background-color: hsl(0, 100%, 90%);
-  }
+  // &.success {
+  //   color: hsl(124, 100%, 22%);
+  //   background-color: hsl(125, 100%, 87%);
+  // }
+
+  // &.error {
+  //   color: hsl(0, 100%, 50%);
+  //   background-color: hsl(0, 100%, 90%);
+  // }
 }
