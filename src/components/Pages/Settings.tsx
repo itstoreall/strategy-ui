@@ -11,6 +11,7 @@ import OptionSection from '@/src/components/Section/OptionSection';
 import PageHeading from '@/src/components/Layout/PageHeading';
 import MainLoader from '@/src/components/MainLoader';
 import Button from '@/src/components/Button/Button';
+import { deleteUserServerAction } from '@/src/lib/auth/deleteUserServerAction';
 // import MockDataList from '../MockDataList';
 
 const config = {
@@ -18,6 +19,7 @@ const config = {
   connectAccount: 'Connect Google Account',
   disconnectAccount: 'Disconnect Google Account',
   signOut: 'Sign Out',
+  deleteUser: 'Delete Account',
 };
 
 type Props = { session: SessionContextValue };
@@ -35,6 +37,15 @@ const Settings = ({ session }: Props) => {
   } = useSettings(session.status);
 
   const { RenderModal } = useModal();
+
+  const handleDeleteUser = async () => {
+    if (session.data?.user?.id) {
+      const res = await deleteUserServerAction(session.data?.user?.id);
+      if (res && res.deleted) {
+        handleSignOut();
+      }
+    }
+  };
 
   return (
     <PageContainer label={Label.Main}>
@@ -54,6 +65,10 @@ const Settings = ({ session }: Props) => {
 
               <Button clickContent={handleSignOut} disabled={isPending}>
                 {config.signOut}
+              </Button>
+
+              <Button clickContent={handleDeleteUser} disabled={isPending}>
+                {config.deleteUser}
               </Button>
             </ButtonFullScreenContainer>
           </div>

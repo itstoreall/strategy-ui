@@ -1,11 +1,55 @@
 @use '@/src/sass/base/vars' as *;
 @use '@/src/sass/mixins' as *;
 
+.button-full-screen-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+
+  button {
+    width: 100%;
+  }
+
+  button:nth-last-child(1):nth-child(odd) {
+    grid-column: span 1;
+  }
+
+  @include media-screen-orientation('max', $mobile + 200) {
+    grid-template-columns: 1fr;
+
+    button {
+      grid-column: span 1;
+    }
+  }
+}
+
+/*
+@use '@/src/sass/base/vars' as *;
+@use '@/src/sass/mixins' as *;
+
 div.button-full-screen-container {
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
+
+  button {
+    flex: calc(50% - 0.5rem);
+  }
+
+  button:nth-last-child(1):nth-child(odd) {
+    max-width: calc(50% - 0.5rem);
+  }
 
   @include media-screen-orientation('max', $mobile + 200) {
     flex-direction: column;
+
+    button {
+      flex: 1 1 100%;
+    }
+
+    button:nth-last-child(1):nth-child(odd) {
+      max-width: 100%;
+    }
   }
 }
+// */

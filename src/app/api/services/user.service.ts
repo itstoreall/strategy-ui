@@ -8,6 +8,7 @@ type SignInData = (SignUpData & { name: string }) | null;
 type UpdatedData = { updated: boolean };
 type TokensData = { deletedCount: number };
 type UnlinkData = { unlinked: boolean };
+type DeleteUser = { deleted: boolean };
 type Provider = 'google';
 
 const BASE_URL = process.env.NEXT_PUBLIC_STRATEGY_API_URL;
@@ -85,7 +86,6 @@ class UserService {
       const res: AxiosResponse<boolean> = await axios.post(url, payload);
       return res.data;
     } catch (err: unknown) {
-      console.log(3, err);
       errorHandler('Failed to sign in:', err);
     }
   }
@@ -134,6 +134,17 @@ class UserService {
     } catch (err: unknown) {
       errorHandler('An unknown error occurred:', err);
       throw err;
+    }
+  }
+
+  async deleteUser(id: string) {
+    try {
+      const url = `/delete/${id}`;
+      const res: AxiosResponse<DeleteUser> = await axios.delete(url);
+      return res.data;
+    } catch (err: unknown) {
+      errorHandler('Failed to delete user:', err);
+      // throw err;
     }
   }
 }

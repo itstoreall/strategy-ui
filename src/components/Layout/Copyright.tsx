@@ -5,7 +5,7 @@ const Copyirght = () => {
         <span className="copyright-title">
           Powered by{' '}
           <a href={'https://itstoreall.github.io/middle'} target="_blank">
-            Serhii Statislav
+            Serhii Stanislav
           </a>
         </span>
         <span className="copyright-symbol">&copy;</span>
