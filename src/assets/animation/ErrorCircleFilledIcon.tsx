@@ -1,9 +1,9 @@
-const ConfirmCircleFilledIcon = () => {
+const ErrorCircleFilledIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="96"
-      height="96"
+      width="72"
+      height="72"
       viewBox="0 0 24 24"
     >
       <mask id="lineMdCloseCircleFilled0">
@@ -61,4 +61,4 @@ const ConfirmCircleFilledIcon = () => {
   );
 };
 
-export default ConfirmCircleFilledIcon;
+export default ErrorCircleFilledIcon;

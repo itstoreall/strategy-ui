@@ -5,7 +5,6 @@ div.info-status-block {
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
-  color: red;
 
   // > svg.info-status-block-icon {} // *
 
@@ -16,20 +15,12 @@ div.info-status-block {
 
   > span.info-status-block-title {
     font-size: 2rem;
+    font-weight: 600;
     text-transform: capitalize;
   }
 
   > p.info-status-block-text {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
+    color: $greyLight;
   }
-
-  // &.success {
-  //   color: hsl(124, 100%, 22%);
-  //   background-color: hsl(125, 100%, 87%);
-  // }
-
-  // &.error {
-  //   color: hsl(0, 100%, 50%);
-  //   background-color: hsl(0, 100%, 90%);
-  // }
 }

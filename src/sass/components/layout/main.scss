@@ -10,12 +10,14 @@ main.main {
   width: calc(100% - 2rem);
 
   &.auth,
-  &.auth-success {
+  &.auth-success,
+  &.auth-error {
     align-items: center;
     padding: 1rem 0;
   }
 
-  &.auth-success {
+  &.auth-success,
+  &.auth-error {
     gap: 5rem;
   }
 
