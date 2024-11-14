@@ -6,18 +6,18 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
 
-  button {
+  > button {
     width: 100%;
   }
 
-  button:nth-last-child(1):nth-child(odd) {
+  > button:nth-last-child(1):nth-child(odd) {
     grid-column: span 1;
   }
 
   @include media-screen-orientation('max', $mobile + 200) {
     grid-template-columns: 1fr;
 
-    button {
+    > button {
       grid-column: span 1;
     }
   }

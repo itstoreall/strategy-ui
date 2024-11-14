@@ -4,9 +4,10 @@ import { GoKebabHorizontal } from 'react-icons/go';
 type Props = {
   name: string;
   value: string;
+  mutable?: boolean;
 };
 
-const OptionSection = ({ name, value }: Props) => {
+const OptionSection = ({ name, value, mutable = false }: Props) => {
   const { openModal, ModalContentEnum } = useModal();
 
   const seeCertificates = () => openModal(ModalContentEnum.Form);
@@ -18,11 +19,13 @@ const OptionSection = ({ name, value }: Props) => {
         <span className="content-value">{value}</span>
       </div>
 
-      <div className="option-editor">
-        <button className="option-editor-button" onClick={seeCertificates}>
-          <GoKebabHorizontal />
-        </button>
-      </div>
+      {mutable && (
+        <div className="option-editor">
+          <button className="option-editor-button" onClick={seeCertificates}>
+            <GoKebabHorizontal />
+          </button>
+        </div>
+      )}
     </section>
   );
 };

@@ -4,6 +4,7 @@ import { SessionContextValue } from 'next-auth/react';
 import useSettings from '@/src/hooks/useSettings';
 import useModal from '@/src/hooks/useModal';
 import { handleSignOut } from '@/src/lib/auth/signOutServerAction';
+import SectionsContainer from '@/src/components/Container/Sections';
 import ButtonFullScreenContainer from '@/src/components/Container/ButtonFullScreen';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import EditUsernameForm from '@/src/components/Form/EditUsernameForm';
@@ -11,7 +12,6 @@ import OptionSection from '@/src/components/Section/OptionSection';
 import PageHeading from '@/src/components/Layout/PageHeading';
 import MainLoader from '@/src/components/MainLoader';
 import Button from '@/src/components/Button/Button';
-import { deleteUserServerAction } from '@/src/lib/auth/deleteUserServerAction';
 // import MockDataList from '../MockDataList';
 
 const config = {
@@ -27,6 +27,7 @@ type Props = { session: SessionContextValue };
 const Settings = ({ session }: Props) => {
   const {
     role,
+    email,
     isAuth,
     username,
     isPending,
@@ -34,18 +35,10 @@ const Settings = ({ session }: Props) => {
     setUsername,
     handleUpdateUsername,
     handleGoogleAccount,
-  } = useSettings(session.status);
+    handleDeleteUser,
+  } = useSettings(session);
 
   const { RenderModal } = useModal();
-
-  const handleDeleteUser = async () => {
-    if (session.data?.user?.id) {
-      const res = await deleteUserServerAction(session.data?.user?.id);
-      if (res && res.deleted) {
-        handleSignOut();
-      }
-    }
-  };
 
   return (
     <PageContainer label={Label.Main}>
@@ -54,7 +47,10 @@ const Settings = ({ session }: Props) => {
 
         {isAuth && username && role ? (
           <div className="main-content">
-            <OptionSection name={'Name'} value={username} />
+            <SectionsContainer>
+              <OptionSection name={'Name'} value={username} mutable />
+              <OptionSection name={'Email'} value={email ?? '...'} />
+            </SectionsContainer>
 
             <ButtonFullScreenContainer>
               <Button clickContent={handleGoogleAccount} disabled={isPending}>
@@ -67,7 +63,11 @@ const Settings = ({ session }: Props) => {
                 {config.signOut}
               </Button>
 
-              <Button clickContent={handleDeleteUser} disabled={isPending}>
+              <Button
+                className="delete-user-button"
+                clickContent={handleDeleteUser}
+                disabled={isPending}
+              >
                 {config.deleteUser}
               </Button>
             </ButtonFullScreenContainer>

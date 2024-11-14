@@ -1,23 +1,25 @@
 import { useEffect, useState, useTransition } from 'react';
-import { useSession } from 'next-auth/react';
+import { SessionContextValue, useSession } from 'next-auth/react';
 import useModal from '@/src/hooks/useModal';
 import { handleSignOut } from '@/src/lib/auth/signOutServerAction';
 import { getUserName } from '@/src/lib/auth/getUserNameServerAction';
 import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
 import { getAccountLinkStatus } from '@/src/lib/auth/getAccountLinkStatusServerAction';
 import { unlinkGoogleAccount } from '@/src/lib/auth/unlinkGoogleAccountServerAction';
+import { deleteUserServerAction } from '@/src/lib/auth/deleteUserServerAction';
 import { handleGoogleSignIn } from '@/src/lib/auth/googleSignInServerAction';
 
-const useSettings = (sessionStatus: string) => {
+const useSettings = (session: SessionContextValue) => {
   const [isAccountLinked, setIsAccountLinked] = useState(false);
   const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [role, setRole] = useState<'USER' | 'ADMIN' | ''>('');
   const [isPending, startTransition] = useTransition();
 
   const { closeModal } = useModal();
   const { update } = useSession();
 
-  const isAuth = sessionStatus === 'authenticated';
+  const isAuth = session.status === 'authenticated';
 
   useEffect(() => {
     const userInfo = async () => {
@@ -44,6 +46,12 @@ const useSettings = (sessionStatus: string) => {
     userInfo();
     accountLinkStatus();
   }, []);
+
+  useEffect(() => {
+    if (session?.data?.user?.email) {
+      setEmail(session.data.user.email);
+    }
+  }, [session]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
@@ -75,8 +83,18 @@ const useSettings = (sessionStatus: string) => {
     });
   };
 
+  const handleDeleteUser = async () => {
+    if (session.data?.user?.id) {
+      const res = await deleteUserServerAction(session.data?.user?.id);
+      if (res && res.deleted) {
+        handleSignOut();
+      }
+    }
+  };
+
   return {
     role,
+    email,
     isAuth,
     username,
     isPending,
@@ -84,6 +102,7 @@ const useSettings = (sessionStatus: string) => {
     setUsername,
     handleGoogleAccount,
     handleUpdateUsername,
+    handleDeleteUser,
   };
 };
 
