@@ -44,12 +44,57 @@ button.uni-button {
     }
   }
 
+  // &.switch-button {
+  //   padding: 0;
+  //   margin: auto 0;
+  //   width: 42px;
+  // }
+
   &.delete-user-button {
     color: $white;
     background-color: $lightRed;
 
     &:hover {
       background-color: $googleRed;
+    }
+  }
+
+  &.disabled {
+    background-color: $bgButtonDesabled;
+    color: $colorButtonDisabled;
+
+    &:hover {
+      background-color: $bgButtonDesabled;
+      color: $colorButtonDisabled;
+    }
+  }
+}
+
+div.switch-button-block {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  > span.switch-button-block-title {
+    color: $greyDark;
+  }
+
+  > span.switch-button-block-divider {
+    width: 100%;
+    height: 0.05rem;
+    background-color: $greyDeepDark;
+  }
+
+  > button.uni-button {
+    background-color: transparent;
+
+    &.switch-button {
+      padding: 0;
+      margin: auto 0;
+      width: 42px;
+      height: 1.37rem;
+      border: none;
+      // background-color: transparent;
     }
   }
 }

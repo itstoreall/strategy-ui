@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { SessionContextValue } from 'next-auth/react';
 import useSettings from '@/src/hooks/useSettings';
 import useModal from '@/src/hooks/useModal';
@@ -7,11 +8,13 @@ import { handleSignOut } from '@/src/lib/auth/signOutServerAction';
 import SectionsContainer from '@/src/components/Container/Sections';
 import ButtonFullScreenContainer from '@/src/components/Container/ButtonFullScreen';
 import PageContainer, { Label } from '@/src/components/Container/Page';
-import EditUsernameForm from '@/src/components/Form/EditUsernameForm';
+import MainDividerSection from '@/src/components/Section/MainDividerSection';
 import OptionSection from '@/src/components/Section/OptionSection';
+import EditUsernameForm from '@/src/components/Form/EditUsernameForm';
 import PageHeading from '@/src/components/Layout/PageHeading';
 import MainLoader from '@/src/components/MainLoader';
 import Button from '@/src/components/Button/Button';
+// import SwitchIcon from '@/src/assets/icons/SwitchIcon';
 // import MockDataList from '../MockDataList';
 
 const config = {
@@ -40,6 +43,8 @@ const Settings = ({ session }: Props) => {
 
   const { RenderModal } = useModal();
 
+  const [isDisabled, setIsDisabled] = useState(true);
+
   return (
     <PageContainer label={Label.Main}>
       <main className="main">
@@ -52,21 +57,32 @@ const Settings = ({ session }: Props) => {
               <OptionSection name={'Email'} value={email ?? '...'} />
             </SectionsContainer>
 
+            <MainDividerSection
+              isDisabled={isDisabled}
+              setIsDisabled={setIsDisabled}
+            />
+
             <ButtonFullScreenContainer>
-              <Button clickContent={handleGoogleAccount} disabled={isPending}>
+              <Button
+                clickContent={handleGoogleAccount}
+                disabled={isPending || isDisabled}
+              >
                 {!isAccountLinked
                   ? config.connectAccount
                   : config.disconnectAccount}
               </Button>
 
-              <Button clickContent={handleSignOut} disabled={isPending}>
+              <Button
+                clickContent={handleSignOut}
+                disabled={isPending || isDisabled}
+              >
                 {config.signOut}
               </Button>
 
               <Button
                 className="delete-user-button"
                 clickContent={handleDeleteUser}
-                disabled={isPending}
+                disabled={isPending || isDisabled}
               >
                 {config.deleteUser}
               </Button>

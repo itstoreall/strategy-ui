@@ -1,0 +1,34 @@
+@use '@/src/sass/base/vars' as *;
+
+svg.context-switch-icon {
+  .switch-bg {
+    transition: fill 0.5s ease;
+
+    &.on {
+      fill: $violetDark;
+    }
+
+    &.off {
+      fill: $greyDeepDark;
+    }
+  }
+
+  /*
+  .switch-border {
+    stroke: #000;
+  }
+  */
+
+  .switch-circle {
+    fill: $greyMiddle;
+    // stroke: #000;
+    transition: cx 0.5s ease, fill 0.5s ease, stroke 0.5s ease;
+
+    &.on {
+      fill: $white;
+      // stroke: #b499f9;
+    }
+
+    // &.off {} // *
+  }
+}

@@ -48,9 +48,11 @@ const useSettings = (session: SessionContextValue) => {
   }, []);
 
   useEffect(() => {
-    if (session?.data?.user?.email) {
-      setEmail(session.data.user.email);
-    }
+    // if (session?.data?.user?.email) {
+    //   setEmail(session.data.user.email);
+    // }
+
+    setEmail(session?.data?.user?.email || '');
   }, [session]);
 
   useEffect(() => {
