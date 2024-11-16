@@ -58,6 +58,8 @@ const Settings = ({ session }: Props) => {
             </SectionsContainer>
 
             <MainDividerSection
+              title={'Account management'}
+              isSwitchButton
               isDisabled={isDisabled}
               setIsDisabled={setIsDisabled}
             />

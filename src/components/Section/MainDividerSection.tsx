@@ -3,22 +3,33 @@ import SwitchIcon from '@/src/assets/icons/SwitchIcon';
 import Button from '@/src/components/Button/Button';
 
 type Props = {
+  title?: string;
+  isSwitchButton?: boolean;
   isDisabled: boolean;
   setIsDisabled: Dispatch<SetStateAction<boolean>>;
 };
 
-const MainDividerSection = ({ isDisabled, setIsDisabled }: Props) => {
+const MainDividerSection = ({
+  title = '',
+  isSwitchButton = false,
+  isDisabled,
+  setIsDisabled,
+}: Props) => {
   const toggleSwitch = () => {
     setIsDisabled((prev) => (prev === true ? false : true));
   };
 
   return (
-    <div className="switch-button-block">
-      <span className="switch-button-block-title">Account management</span>
-      <span className="switch-button-block-divider" />
-      <Button className="switch-button" clickContent={toggleSwitch}>
-        <SwitchIcon isDisabled={isDisabled} />
-      </Button>
+    <div className="main-divider-section">
+      {title && <span className="main-divider-section-title">{title}</span>}
+
+      <span className="main-divider-section-divider" />
+
+      {isSwitchButton && (
+        <Button className="switch-button" clickContent={toggleSwitch}>
+          <SwitchIcon isDisabled={isDisabled} />
+        </Button>
+      )}
     </div>
   );
 };
