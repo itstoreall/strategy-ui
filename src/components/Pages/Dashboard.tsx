@@ -5,7 +5,6 @@ import PageContainer, { Label } from '@/src/components/Container/Page';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
 import PageHeading from '@/src/components/Layout/PageHeading';
 import MainLoader from '../MainLoader';
-import TradingViewWidget from '../TradingViewWidget';
 // import MockDataList from '@/src/components/MockDataList';
 
 const Dashboard = () => {
@@ -23,8 +22,6 @@ const Dashboard = () => {
         {!isLoader ? (
           <div className="main-content">
             <AccountSnapshotSection />
-
-            <TradingViewWidget />
           </div>
         ) : (
           <MainLoader />

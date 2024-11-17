@@ -14,7 +14,7 @@ export default function HomePage() {
   useEffect(() => {
     setTimeout(() => {
       router.push('/dashboard');
-    }, 5000);
+    }, 3000);
   }, []);
 
   return (

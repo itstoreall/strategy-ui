@@ -19,4 +19,8 @@ div.page-container {
   &.MAIN {
     min-height: calc(100svh - $footerHeight);
   }
+
+  &.CHART {
+    max-width: $max;
+  }
 }

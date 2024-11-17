@@ -14,7 +14,6 @@ import EditUsernameForm from '@/src/components/Form/EditUsernameForm';
 import PageHeading from '@/src/components/Layout/PageHeading';
 import MainLoader from '@/src/components/MainLoader';
 import Button from '@/src/components/Button/Button';
-// import SwitchIcon from '@/src/assets/icons/SwitchIcon';
 // import MockDataList from '../MockDataList';
 
 const config = {

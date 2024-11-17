@@ -35,7 +35,8 @@ nav.nav {
 
     &.rotate {
       > svg {
-        rotate: 180deg;
+        rotate: -90deg;
+        // rotate: 180deg;
       }
     }
 

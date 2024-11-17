@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { GoProject } from 'react-icons/go';
 import { GoUnlock } from 'react-icons/go';
+import { GoGraph } from 'react-icons/go';
 import { GoGear } from 'react-icons/go';
 import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
 
@@ -13,6 +14,7 @@ type Props = { session: SessionContextValue; className?: string };
 
 const navLinks = [
   { label: 'admin', href: '/admin' },
+  { label: 'chart', href: '/chart' },
   { label: 'dashboard', href: '/dashboard' },
   { label: 'settings', href: '/settings' },
 ];
@@ -45,6 +47,8 @@ const Navigation: React.FC<Props> = ({ session, className }) => {
         const linkItem =
           label === 'admin' ? (
             <GoUnlock size={'1.3rem'} />
+          ) : label === 'chart' ? (
+            <GoGraph size={'1.3rem'} />
           ) : label === 'dashboard' ? (
             <GoProject size={'1.3rem'} />
           ) : label === 'settings' ? (

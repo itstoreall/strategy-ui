@@ -4,6 +4,7 @@ export enum Label {
   Auth = 'AUTH',
   Header = 'HEADER',
   Main = 'MAIN',
+  Chart = 'CHART',
   Footer = 'FOOTER',
 }
 
