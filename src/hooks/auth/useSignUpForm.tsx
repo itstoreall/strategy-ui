@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { createVerifyCodeServerAction } from '@/src/lib/auth/createVerifyCodeServerAction';
 import { credentialsSignUp } from '@/src/lib/auth/credentialsSignUpServerAction';
 import { handleEmailSignIn } from '@/src/lib/auth/emailSignInServerAction';
-import { userService } from '@/src/app/api/services/user.service';
+import { userService } from '@/src/services/user.service';
 
 type Credentials = {
   email: string;

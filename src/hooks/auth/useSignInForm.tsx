@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { credentialsSignIn } from '@/src/lib/auth/credentialsSignInServerAction';
-import { userService } from '@/src/app/api/services/user.service';
+import { userService } from '@/src/services/user.service';
 import { handleEmailSignIn } from '@/src/lib/auth/emailSignInServerAction';
 
 type Credentials = {

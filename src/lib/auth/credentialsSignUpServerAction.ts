@@ -1,6 +1,6 @@
 'use server';
 
-import { userService } from '@/src/app/api/services/user.service';
+import { userService } from '@/src/services/user.service';
 import bcrypt from 'bcrypt';
 
 export const credentialsSignUp = async (email: string, password: string) => {

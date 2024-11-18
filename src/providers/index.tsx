@@ -1,12 +1,18 @@
 'use client';
 
+import { useState } from 'react';
 import { SessionProvider } from 'next-auth/react';
-import { ModalProvider } from '../components/Modal/context';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ModalProvider } from '@/src/components/Modal/context';
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
+  const [queryClient] = useState(() => new QueryClient());
+
   return (
     <SessionProvider>
-      <ModalProvider>{children}</ModalProvider>
+      <QueryClientProvider client={queryClient}>
+        <ModalProvider>{children}</ModalProvider>
+      </QueryClientProvider>
     </SessionProvider>
   );
 };

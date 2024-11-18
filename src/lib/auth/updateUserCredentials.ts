@@ -1,7 +1,7 @@
 'use server';
 
 import bcrypt from 'bcrypt';
-import { userService } from '@/src/app/api/services/user.service';
+import { userService } from '@/src/services/user.service';
 
 export const updateUserCredentials = async (
   email: string,

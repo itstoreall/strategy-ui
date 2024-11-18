@@ -5,7 +5,7 @@ import Nodemailer from 'next-auth/providers/nodemailer';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { prisma } from '@/src/lib/prisma/client';
 import SMTPCredentials from '@/src/lib/auth/SMTPCredentials';
-import { userService } from '@/src/app/api/services/user.service';
+import { userService } from '@/src/services/user.service';
 import { clearExpiredTokens } from '@/src/lib/auth/clearExpiredTokens';
 import { setUserName } from '@/src/lib/auth/setNameServerAction';
 
