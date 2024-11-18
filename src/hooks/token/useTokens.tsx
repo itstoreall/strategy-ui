@@ -3,6 +3,7 @@ import {
   tokenService,
   FindAllTokensParams,
 } from '@/src/services/token.service';
+import { TokensRes } from '@/src/types';
 
 /*
 const initialData: { data: Post[] } = {
@@ -16,24 +17,6 @@ const initialData: { data: Post[] } = {
   ],
 };
 */
-
-type TokenData = {
-  id: number;
-  name: string;
-  pair: string;
-  price: number;
-  status: string;
-  symbol: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
-
-type TokensRes = {
-  data: {
-    status: string;
-    tokens: TokenData[];
-  };
-};
 
 const useTokens = (params: FindAllTokensParams) => {
   const modifyData = (data: TokensRes) => {

@@ -6,15 +6,23 @@ import { SessionContextValue } from 'next-auth/react';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import PageHeading from '../Layout/PageHeading';
 import MainLoader from '../MainLoader';
+import useCreateToken from '@/src/hooks/token/useCreateToken';
 
 type Props = { session: SessionContextValue };
 
 const Admin = ({ session }: Props) => {
   const [isLoader, setIsLoader] = useState(true);
 
+  const { mutate: createToken } = useCreateToken();
+
   useEffect(() => {
     setTimeout(() => session && setIsLoader(false), 2000);
   }, []);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    createToken({ symbol: 'BTC', name: 'bitcoin' });
+  };
 
   return (
     <PageContainer label={Label.Main}>
@@ -23,8 +31,7 @@ const Admin = ({ session }: Props) => {
 
         {!isLoader ? (
           <div className="main-content">
-            <p>This Page is only accessible to users with the ADMIN role</p>
-            <a href="/dashboard">Go to Dashboard</a>
+            <button onClick={handleSubmit}>Add</button>
           </div>
         ) : (
           <MainLoader />

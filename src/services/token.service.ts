@@ -17,6 +17,8 @@ export type CreateTokenDto = {
   name: string;
 };
 
+export type UpdatePricesParams = object;
+
 class TokenService {
   async fetchAllTokens(params: FindAllTokensParams = {}) {
     try {
@@ -36,6 +38,17 @@ class TokenService {
       return res.data;
     } catch (err: unknown) {
       errorHandler('ERROR in createToken:', err);
+      throw err;
+    }
+  }
+
+  async updatePrices(params: UpdatePricesParams = {}) {
+    try {
+      const url = '/tokens/update-prices';
+      const res = await apiClient.put(url, params);
+      return res.data;
+    } catch (err: unknown) {
+      errorHandler('ERROR in updatePrices:', err);
       throw err;
     }
   }
