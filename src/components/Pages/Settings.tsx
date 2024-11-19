@@ -65,19 +65,19 @@ const Settings = ({ session }: Props) => {
 
             <ButtonFullScreenContainer>
               <Button
+                clickContent={handleSignOut}
+                disabled={isPending || isDisabled}
+              >
+                {config.signOut}
+              </Button>
+
+              <Button
                 clickContent={handleGoogleAccount}
                 disabled={isPending || isDisabled}
               >
                 {!isAccountLinked
                   ? config.connectAccount
                   : config.disconnectAccount}
-              </Button>
-
-              <Button
-                clickContent={handleSignOut}
-                disabled={isPending || isDisabled}
-              >
-                {config.signOut}
               </Button>
 
               <Button

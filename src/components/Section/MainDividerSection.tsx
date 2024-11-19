@@ -20,7 +20,7 @@ const MainDividerSection = ({
   };
 
   return (
-    <div className="main-divider-section">
+    <section className="main-divider">
       {title && <span className="main-divider-section-title">{title}</span>}
 
       <span className="main-divider-section-divider" />
@@ -30,7 +30,7 @@ const MainDividerSection = ({
           <SwitchIcon isDisabled={isDisabled} />
         </Button>
       )}
-    </div>
+    </section>
   );
 };
 

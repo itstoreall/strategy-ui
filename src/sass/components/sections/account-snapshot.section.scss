@@ -1,57 +1,52 @@
 @use '@/src/sass/mixins' as *;
 @use '@/src/sass/base/vars' as *;
 
-section {
-  &.dashboard {
-    min-height: 3.5rem;
-    background-color: $greyDeepDark;
-    border-radius: 0.2rem;
+section.account-snapshot {
+  min-height: 3.5rem;
+  background-color: $greyDeepDark;
+  border-radius: 0.2rem;
 
-    &.account-snapshot {
-      > ul.snapshot-list {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 0.7rem;
-        padding: 0.7rem;
+  > ul.snapshot-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.7rem;
+    padding: 0.7rem;
 
-        > li.snapshot-item {
-          &:not(:last-child) {
-            border-right: 0.05rem solid $greyDark;
+    > li.snapshot-item {
+      &:not(:last-child) {
+        border-right: 0.05rem solid $greyDark;
+      }
+
+      .item-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        > span {
+          &.content-name {
+            color: $colorAccent;
+            font-size: 0.7rem;
           }
 
-          .item-content {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-
-            > span {
-              &.content-name {
-                color: $colorAccent;
-                font-size: 0.7rem;
-              }
-
-              &.content-value {
-                font-size: 0.9rem;
-              }
-            }
+          &.content-value {
+            font-size: 0.9rem;
           }
         }
       }
     }
+  }
 
-    @include media-screen-orientation('min', $tablet) {
-      min-height: 4.2rem;
-      &.account-snapshot {
-        > ul.snapshot-list {
-          padding: 1rem;
+  @include media-screen-orientation('min', $tablet) {
+    min-height: 4.2rem;
 
-          > li.snapshot-item {
-            .item-content {
-              > span {
-                &.content-value {
-                  font-size: 1rem;
-                }
-              }
+    > ul.snapshot-list {
+      padding: 1rem;
+
+      > li.snapshot-item {
+        .item-content {
+          > span {
+            &.content-value {
+              font-size: 1rem;
             }
           }
         }

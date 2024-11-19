@@ -13,7 +13,7 @@ const OptionSection = ({ name, value, mutable = false }: Props) => {
   const seeCertificates = () => openModal(ModalContentEnum.Form);
 
   return (
-    <section className="settings option">
+    <section className="single-option">
       <div className="option-content">
         <span className="content-name">{name}</span>
         <span className="content-value">{value}</span>
