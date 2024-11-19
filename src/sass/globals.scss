@@ -41,6 +41,9 @@
 @use '@/src/sass/components/form/info-text-link-block.scss';
 @use '@/src/sass/components/form/info-status-block.scss';
 
+// Loader:
+@use '@/src/sass/components/loader/progress-loader.scss';
+
 // Modal:
 @use '@/src/sass/components/modal/modal.scss';
 

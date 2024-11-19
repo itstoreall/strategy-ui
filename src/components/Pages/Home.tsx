@@ -1,15 +1,28 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect } from 'react';
 import { SessionContextValue } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import ProgressLoader from '@/src/assets/animation/ProgressLoader';
 import Logo from '@/src/components/Layout/Logo';
 // import Navigation from '../Layout/Navigation';
 
 type Props = { session: SessionContextValue };
 
 const Home = ({ session }: Props) => {
-  console.log(session && 'strategy');
+  const router = useRouter();
+
+  useEffect(() => {
+    console.log(session && 'strategy');
+
+    setTimeout(() => {
+      router.push('/dashboard');
+    }, 3000);
+  }, [router]);
 
   return (
     <div className="home-page">
       <Logo className="home-page-logo" iconSize={'8rem'} />
+      <ProgressLoader duration={3000} />
       {/* <Navigation session={session} className={'home-page-nav'} /> */}
     </div>
   );

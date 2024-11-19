@@ -1,0 +1,53 @@
+@use '@/src/sass/base/vars' as *;
+
+/*
+.progress-success {
+  .ending-msg {
+    color: green;
+  }
+}
+
+.progress-failure {
+  .ending-msg {
+    color: red;
+  }
+}
+*/
+
+.progress-loader-block {
+  height: 0.3rem;
+  width: 12rem;
+
+  > svg {
+    width: 12rem;
+  }
+
+  .border {
+    width: 12rem;
+    height: 0.3rem;
+    // stroke: $violetDark;
+    fill: $greyDeepDarkPlus; // transparent
+  }
+
+  .filling {
+    width: 12rem;
+    height: 0.3rem;
+    fill: $violetDark;
+    animation: fillBar 3s ease-in-out 0s normal 1 forwards;
+  }
+
+  @keyframes fillBar {
+    0% {
+      width: 0.1rem;
+    }
+    30% {
+      width: 5rem;
+    }
+    70% {
+      width: 9rem;
+    }
+    100% {
+      width: 12rem;
+    }
+  }
+}
