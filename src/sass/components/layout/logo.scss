@@ -11,6 +11,10 @@ div.logo-block {
     transform: rotate(-25deg);
   }
 
+  /*
+  > a > h1 {} // *
+  */
+
   &.home-page-logo {
     flex-direction: column;
     gap: 1.5rem;
