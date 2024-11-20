@@ -1,26 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import useCreateToken from '@/src/hooks/token/useCreateToken';
-import Button from '@/src/components/Button/Button';
+import useModal from '@/src/hooks/useModal';
 import { Token } from '@/src/types';
-import { useEffect } from 'react';
+import Button from '@/src/components/Button/Button';
 
 type Props = {
   tokens: Token[];
-  fetchTokens: () => void;
 };
 
-const AddTokenSection = ({ tokens, fetchTokens }: Props) => {
-  // const { openModal, ModalContentEnum } = useModal();
+const AddTokenSection = ({ tokens }: Props) => {
+  const { openModal, ModalContentEnum } = useModal();
 
-  const { mutate: createToken, isSuccess } = useCreateToken();
-
-  useEffect(() => {
-    if (isSuccess) fetchTokens();
-  }, [isSuccess]);
-
-  const handleSubmit = () => {
-    createToken({ symbol: 'BTC', name: 'bitcoin' });
-  };
+  const handleModal = () => openModal(ModalContentEnum.Form);
 
   return (
     <section className="add-token">
@@ -42,7 +32,7 @@ const AddTokenSection = ({ tokens, fetchTokens }: Props) => {
         </ul>
 
         <div className="add-token-section-button-block">
-          <Button clickContent={handleSubmit}>{'Add Token'}</Button>
+          <Button clickContent={handleModal}>{'Add Token'}</Button>
         </div>
       </div>
     </section>

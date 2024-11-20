@@ -3,11 +3,12 @@
 
 import { useEffect, useState } from 'react';
 import { SessionContextValue } from 'next-auth/react';
+import useModal from '@/src/hooks/useModal';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import AddTokenSection from '@/src/components/Section/Admin/AddToken';
+import AddTokenForm from '@/src/components/Form/Token/AddTokenForm';
 import PageHeading from '@/src/components/Layout/PageHeading';
 import MainLoader from '@/src/components/MainLoader';
-
 import useUpdatePrices from '@/src/hooks/token/useUpdatePrices';
 import { TokenData } from '@/src/types';
 
@@ -16,6 +17,8 @@ type Props = { session: SessionContextValue };
 const Admin = ({ session }: Props) => {
   const { mutate: updatePrices } = useUpdatePrices();
   const [updateResponse, setUpdateResponse] = useState<TokenData | null>(null);
+
+  const { RenderModal } = useModal();
 
   const fetchTokens = async () => {
     const params = {};
@@ -42,12 +45,16 @@ const Admin = ({ session }: Props) => {
           <div className="main-content">
             <AddTokenSection
               tokens={updateResponse.tokens}
-              fetchTokens={fetchTokens}
+              // fetchTokens={fetchTokens}
             />
           </div>
         ) : (
           <MainLoader />
         )}
+
+        <RenderModal>
+          <AddTokenForm fetchTokens={fetchTokens} />
+        </RenderModal>
       </main>
     </PageContainer>
   );

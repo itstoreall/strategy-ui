@@ -10,7 +10,7 @@ type Props = {
 const OptionSection = ({ name, value, mutable = false }: Props) => {
   const { openModal, ModalContentEnum } = useModal();
 
-  const seeCertificates = () => openModal(ModalContentEnum.Form);
+  const handleModal = () => openModal(ModalContentEnum.Form);
 
   return (
     <section className="single-option">
@@ -21,7 +21,7 @@ const OptionSection = ({ name, value, mutable = false }: Props) => {
 
       {mutable && (
         <div className="option-editor">
-          <button className="option-editor-button" onClick={seeCertificates}>
+          <button className="option-editor-button" onClick={handleModal}>
             <GoKebabHorizontal />
           </button>
         </div>
