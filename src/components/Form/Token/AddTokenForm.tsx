@@ -8,6 +8,7 @@ import TextInput from '@/src/components/Form/TextInput';
 import Button from '@/src/components/Button/Button';
 import Title from '@/src/components/Layout/Title';
 import Form from '@/src/components/Form/Form';
+import { FieldError } from 'react-hook-form';
 
 type Props = {
   fetchTokens: () => void;
@@ -19,18 +20,15 @@ const config = {
   symbolRequired: 'Symbol is required',
   add: 'Add',
   creating: 'Creating...',
-  // signInGoogle: 'Sign in with Google',
-  // invalidEmailErr: 'Invalid email address',
-  // shortPassErr: 'Password must be at least 6 characters long',
 };
 
 const AddTokenForm = ({ fetchTokens }: Props) => {
-  const { register, onSubmit, errors, isSubmitting, creatingError } =
+  const { register, onSubmit, errors, isSubmitting, creationError } =
     useCreateTokenForm(fetchTokens);
 
-  // const emailError = signInError
-  //   ? ({ message: signInError } as FieldError)
-  //   : errors.email;
+  const addTokenError = creationError
+    ? ({ message: creationError } as FieldError)
+    : errors.symbol;
 
   return (
     <FormWrapper className="auth-form-wrapper">
@@ -43,7 +41,7 @@ const AddTokenForm = ({ fetchTokens }: Props) => {
               type="text"
               placeholder="Token symbol (BTC)"
               disabled={isSubmitting}
-              error={errors.symbol}
+              error={addTokenError}
               {...register('symbol', { required: config.symbolRequired })}
             />
 
@@ -55,7 +53,7 @@ const AddTokenForm = ({ fetchTokens }: Props) => {
               {...register('name', { required: config.nameRequired })}
             />
 
-            <Button disabled={isSubmitting || !!creatingError} type="submit">
+            <Button disabled={isSubmitting || !!creationError} type="submit">
               {isSubmitting ? config.creating : config.add}
             </Button>
           </FormContentContainer>

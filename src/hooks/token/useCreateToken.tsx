@@ -11,15 +11,13 @@ const useCreateToken = () => {
     mutationKey: ['addToken'],
     mutationFn: (dto: CreateTokenDto) => createToken(dto),
     onSuccess: (res) => {
+      console.log('Token created successfully:', res.data);
       queryClient.invalidateQueries({ queryKey: ['token'] });
-      if (res.data) {
-        console.log('Token created successfully:', res.data);
-        closeModal();
-      }
+      closeModal();
     },
-    onError: (error) => {
-      console.error('Error creating token:', error);
-    },
+    /*
+    onError: (err) => {},
+    */
   });
 };
 
