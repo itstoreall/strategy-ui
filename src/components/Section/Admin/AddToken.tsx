@@ -13,8 +13,8 @@ const AddTokenSection = ({ tokens }: Props) => {
   const handleModal = () => openModal(ModalContentEnum.Form);
 
   return (
-    <section className="add-token">
-      <div className="add-token-section-content">
+    <section className="section add-token">
+      <div className="section-content add-token-section-content">
         <ul className="add-token-section-list">
           {tokens.length ? (
             tokens.map((token, idx) => (

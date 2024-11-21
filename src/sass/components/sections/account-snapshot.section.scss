@@ -2,15 +2,15 @@
 @use '@/src/sass/base/vars' as *;
 
 section.account-snapshot {
-  min-height: 3.5rem;
-  background-color: $greyDeepDark;
-  border-radius: 0.2rem;
+  // min-height: 3.5rem;
+  // background-color: $greyDeepDark;
+  // border-radius: 0.2rem;
 
   > ul.snapshot-list {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 0.7rem;
-    padding: 0.7rem;
+    // padding: 0.7rem;
 
     > li.snapshot-item {
       &:not(:last-child) {
@@ -37,10 +37,10 @@ section.account-snapshot {
   }
 
   @include media-screen-orientation('min', $tablet) {
-    min-height: 4.2rem;
+    // min-height: 4.2rem;
 
     > ul.snapshot-list {
-      padding: 1rem;
+      // padding: 1rem;
 
       > li.snapshot-item {
         .item-content {

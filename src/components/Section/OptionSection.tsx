@@ -1,5 +1,6 @@
 import useModal from '@/src/hooks/useModal';
 import { GoKebabHorizontal } from 'react-icons/go';
+import Button from '../Button/Button';
 
 type Props = {
   name: string;
@@ -13,17 +14,20 @@ const OptionSection = ({ name, value, mutable = false }: Props) => {
   const handleModal = () => openModal(ModalContentEnum.Form);
 
   return (
-    <section className="single-option">
-      <div className="option-content">
+    <section className="section single-option">
+      <div className="section-content option-content">
         <span className="content-name">{name}</span>
         <span className="content-value">{value}</span>
       </div>
 
       {mutable && (
         <div className="option-editor">
-          <button className="option-editor-button" onClick={handleModal}>
+          <Button className="option-editor-button" clickContent={handleModal}>
             <GoKebabHorizontal />
-          </button>
+          </Button>
+          {/* <button className="option-editor-button" onClick={handleModal}>
+            <GoKebabHorizontal />
+          </button> */}
         </div>
       )}
     </section>

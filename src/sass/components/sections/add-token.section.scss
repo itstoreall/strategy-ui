@@ -2,14 +2,9 @@
 @use '@/src/sass/base/vars' as *;
 
 section.add-token {
-  min-height: 3.5rem;
-  background-color: $greyDeepDark;
-  border-radius: 0.2rem;
-
   > div.add-token-section-content {
     display: grid;
     gap: 1rem;
-    padding: 0.7rem;
 
     > ul.add-token-section-list {
       display: flex;
@@ -44,11 +39,8 @@ section.add-token {
   }
 
   @include media-screen-orientation('min', $tablet) {
-    min-height: 4.2rem;
-
     > div.add-token-section-content {
       gap: 1rem;
-      padding: 1rem;
 
       > div.add-token-section-button-block {
         padding-left: 1rem;

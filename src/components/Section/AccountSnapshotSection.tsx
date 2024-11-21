@@ -1,7 +1,7 @@
 const AccountSnapshotSection = () => {
   return (
-    <section className="account-snapshot">
-      <ul className="snapshot-list">
+    <section className="section account-snapshot">
+      <ul className="section-content snapshot-list">
         <li className="snapshot-item">
           <div className="item-content">
             <span className="content-name">Strategy</span>

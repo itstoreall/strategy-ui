@@ -10,22 +10,12 @@ button.uni-button {
   color: $colorButton;
   background-color: $bgButtonActive;
   border-radius: 0.2rem;
-  transition: $ease03s;
+  transition: background-color $ease03s, color $ease03s;
   user-select: none;
 
   &:hover {
     color: $white;
     background-color: $bgButtonInactive;
-  }
-
-  &.disabled {
-    background-color: $bgButtonDesabled;
-    color: $colorButtonDisabled;
-
-    &:hover {
-      background-color: $bgButtonDesabled;
-      color: $colorButtonDisabled;
-    }
   }
 
   &.toggle-password-visibility {
@@ -45,22 +35,32 @@ button.uni-button {
     }
   }
 
+  &.option-editor-button {
+    height: 100%;
+    background-color: transparent;
+
+    > svg {
+      fill: $colorLight;
+    }
+
+    &:hover {
+      > svg {
+        fill: $colorAccent;
+        transition: fill 0.3s ease;
+      }
+    }
+
+    @include media-screen-orientation('min', $tablet) {
+      width: 4rem;
+    }
+  }
+
   &.delete-user-button {
     color: $white;
     background-color: $lightRed;
 
     &:hover {
       background-color: $googleRed;
-    }
-  }
-
-  &.disabled {
-    background-color: $bgButtonDesabled;
-    color: $colorButtonDisabled;
-
-    &:hover {
-      background-color: $bgButtonDesabled;
-      color: $colorButtonDisabled;
     }
   }
 
@@ -71,5 +71,16 @@ button.uni-button {
     height: 1.37rem;
     border: none;
     background-color: transparent;
+  }
+
+  &.disabled {
+    background-color: $bgButtonDesabled;
+    color: $colorButtonDisabled;
+    cursor: auto !important;
+
+    &:hover {
+      background-color: $bgButtonDesabled;
+      color: $colorButtonDisabled;
+    }
   }
 }
