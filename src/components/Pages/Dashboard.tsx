@@ -1,43 +1,25 @@
 'use client';
 
+import useFetchAllTokens from '@/src/hooks/token/useFetchAllTokens';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
 import PageHeading from '@/src/components/Layout/PageHeading';
-import MainLoader from '../MainLoader';
-import { useEffect, useState } from 'react';
-import useUpdatePrices from '@/src/hooks/token/useUpdatePrices';
-import { TokenData } from '@/src/types';
-// import MockDataList from '@/src/components/MockDataList';
+import MainLoader from '@/src/components/MainLoader';
 
 const Dashboard = () => {
-  const { mutate: updatePrices } = useUpdatePrices();
-  const [updateResponse, setUpdateResponse] = useState<TokenData | null>(null);
-
-  useEffect(() => {
-    const params = {};
-    updatePrices(params, {
-      onSuccess: (data) => {
-        setUpdateResponse(data);
-      },
-      onError: (error) => {
-        console.error('ERROR in updating prices (Dashboard):', error);
-      },
-    });
-  }, [updatePrices]);
-
-  console.log('updateResponse:', updateResponse);
+  const { updatedTokens } = useFetchAllTokens();
 
   return (
     <PageContainer label={Label.Main}>
       <main className="main">
         <PageHeading title={'Dashboard'} />
 
-        {updateResponse ? (
+        {updatedTokens ? (
           <div className="main-content">
             <AccountSnapshotSection />
 
             <ul>
-              {updateResponse?.tokens.map((token) => (
+              {updatedTokens?.map((token) => (
                 <li key={token.id}>{`${token.symbol}: ${token.price}`}</li>
               ))}
             </ul>

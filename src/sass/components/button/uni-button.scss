@@ -11,6 +11,7 @@ button.uni-button {
   background-color: $bgButtonActive;
   border-radius: 0.2rem;
   transition: $ease03s;
+  user-select: none;
 
   &:hover {
     color: $white;
