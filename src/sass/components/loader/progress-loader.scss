@@ -16,22 +16,22 @@
 
 .progress-loader-block {
   height: 0.3rem;
-  width: 12rem;
+  width: 9rem;
 
   > svg {
-    width: 12rem;
+    width: 9rem;
   }
 
   .border {
-    width: 12rem;
-    height: 0.3rem;
+    width: 9rem;
+    height: 0.2rem;
     // stroke: $violetDark;
     fill: $greyDeepDarkPlus; // transparent
   }
 
   .filling {
-    width: 12rem;
-    height: 0.3rem;
+    width: 9rem;
+    height: 0.2rem;
     fill: $violetDark;
     animation: fillBar 3s ease-in-out 0s normal 1 forwards;
   }
@@ -41,22 +41,22 @@
       width: 0.1rem;
     }
     30% {
-      width: 5rem;
+      width: 3rem;
     }
     70% {
-      width: 9rem;
+      width: 6rem;
     }
     85% {
-      width: 10rem;
+      width: 7rem;
     }
     90% {
-      width: 11rem;
+      width: 8rem;
     }
     95% {
-      width: 11.5rem;
+      width: 8.5rem;
     }
     100% {
-      width: 12rem;
+      width: 9rem;
     }
   }
 }

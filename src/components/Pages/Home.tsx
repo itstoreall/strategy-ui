@@ -14,9 +14,11 @@ const Home = ({ session }: Props) => {
   useEffect(() => {
     console.log(session && 'strategy');
 
+    // /*
     setTimeout(() => {
       router.push('/dashboard');
     }, 3000);
+    // */
   }, [router]);
 
   return (

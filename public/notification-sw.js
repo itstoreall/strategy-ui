@@ -3,8 +3,8 @@ self.addEventListener('push', function (event) {
   const title = data.title || 'Default Title';
   const options = {
     body: data.body || 'Default body',
-    icon: '/icons/next-logo-512.png',
-    badge: '/icons/next-logo-512.png'
+    icon: '/icons/logo-512.png',
+    badge: '/icons/logo-512.png',
   };
 
   event.waitUntil(self.registration.showNotification(title, options));

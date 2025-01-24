@@ -25,9 +25,6 @@ const OptionSection = ({ name, value, mutable = false }: Props) => {
           <Button className="option-editor-button" clickContent={handleModal}>
             <GoKebabHorizontal />
           </Button>
-          {/* <button className="option-editor-button" onClick={handleModal}>
-            <GoKebabHorizontal />
-          </button> */}
         </div>
       )}
     </section>
