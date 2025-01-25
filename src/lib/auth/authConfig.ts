@@ -9,10 +9,6 @@ import { userService } from '@/src/services/user.service';
 import { clearExpiredTokens } from '@/src/lib/auth/clearExpiredTokens';
 import { setUserName } from '@/src/lib/auth/setNameServerAction';
 
-console.log('process.env.AUTH_SECRET:', process.env.AUTH_SECRET);
-console.log('process.env.AUTH_GOOGLE_ID:', process.env.AUTH_GOOGLE_ID);
-console.log('process.env.AUTH_GOOGLE_SECRET:', process.env.AUTH_GOOGLE_SECRET);
-
 export const { handlers, signIn, signOut, auth } = NextAuth({
   trustHost: true,
   adapter: PrismaAdapter(prisma),

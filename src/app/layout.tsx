@@ -12,6 +12,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: ChildrenProps) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.png" type="image/png" />
+        <title>Strategy PWA</title>
+      </head>
+
       <Providers>
         <body>{children}</body>
       </Providers>
