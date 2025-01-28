@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { OrderStatusEnum } from '../enums';
 
 export type ChildrenProps = { children: ReactNode };
 
@@ -25,3 +26,26 @@ export type TokenData = {
 export type TokensRes = {
   data: TokenData;
 };
+
+// --- Orders:
+
+export type Order = {
+  id: number;
+  type: string;
+  symbol: string;
+  amount: number;
+  price: number;
+  fiat: number;
+  status: OrderStatusEnum;
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type OrderData = {
+  data: Order[];
+};
+
+// export type OrdersRes = {
+//   data: OrderData;
+// };

@@ -15,9 +15,9 @@ const useCreateToken = () => {
       queryClient.invalidateQueries({ queryKey: ['token'] });
       closeModal();
     },
-    /*
-    onError: (err) => {},
-    */
+    onError: (error) => {
+      console.error('Error creating token:', error);
+    },
   });
 };
 

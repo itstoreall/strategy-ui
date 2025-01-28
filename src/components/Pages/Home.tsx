@@ -4,7 +4,6 @@ import { SessionContextValue } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import ProgressLoader from '@/src/assets/animation/ProgressLoader';
 import Logo from '@/src/components/Layout/Logo';
-// import Navigation from '../Layout/Navigation';
 
 type Props = { session: SessionContextValue };
 
@@ -25,7 +24,6 @@ const Home = ({ session }: Props) => {
     <div className="home-page">
       <Logo className="home-page-logo" iconSize={'7.5rem'} />
       <ProgressLoader duration={3000} />
-      {/* <Navigation session={session} className={'home-page-nav'} /> */}
     </div>
   );
 };

@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-// import { FieldError } from 'react-hook-form';
+import { FieldError } from 'react-hook-form';
 import useCreateTokenForm from '@/src/hooks/token/useCreateTokenForm';
 import FormWrapper from '@/src/components/Container/FormWrapper';
 import FormBackdropContainer from '@/src/components/Container/FormBackdrop';
@@ -8,7 +8,6 @@ import TextInput from '@/src/components/Form/TextInput';
 import Button from '@/src/components/Button/Button';
 import Title from '@/src/components/Layout/Title';
 import Form from '@/src/components/Form/Form';
-import { FieldError } from 'react-hook-form';
 
 type Props = {
   fetchTokens: () => void;
