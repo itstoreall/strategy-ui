@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 // import { OrderTypeEnum } from '@/src/enums';
 import useModal from '@/src/hooks/useModal';
@@ -25,7 +25,7 @@ const Dashboard = () => {
 
   const handleModal = () => openModal(ModalContentEnum.Form);
 
-  // /*
+  /*
   useEffect(() => {
     console.log('userOrders data:', userOrders);
   }, [userOrders]);
@@ -62,16 +62,27 @@ const Dashboard = () => {
                 <li key={token.id}>{`${token.symbol}: ${token.price}`}</li>
               ))}
             </ul>
+
+            <ul>
+              {userOrders?.map((order) => (
+                <li
+                  key={order.symbol}
+                >{`${order.symbol}: ${order.amount} - ${order.price}`}</li>
+              ))}
+            </ul>
           </div>
         ) : (
           <MainLoader />
         )}
 
-        <RenderModal>
-          <AddOrderForm />
-        </RenderModal>
+        {updatedTokens && (
+          <RenderModal>
+            <AddOrderForm tokens={updatedTokens} />
+          </RenderModal>
+        )}
 
         <button onClick={handleModal}>Add Order</button>
+
         {/* <button onClick={addOrder}>Add Order</button> */}
 
         {/* <MockDataList items={120} /> */}

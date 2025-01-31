@@ -4,6 +4,7 @@ import { OrderStatusEnum } from '../enums';
 export type ChildrenProps = { children: ReactNode };
 
 export type FormEvent = React.FormEvent<HTMLFormElement>;
+export type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
 // --- Tokens:
 

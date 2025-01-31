@@ -13,57 +13,29 @@ type Credentials = {
   userId: string;
 };
 
-type ErrorValues = Credentials | null;
-
 const config = {
   error: 'Order creation unsuccessful.',
 };
 
-// fetchTokens: () => void
-
-const useCreateOrderForm = () => {
+const useCreateOrderForm = (formDefaults: Omit<Credentials, 'userId'>) => {
   const { data: session } = useSession();
   const userId = session?.user?.id;
 
   const [creationError, setCreationError] = useState('');
-  const [errorValues, setErrorValues] = useState<ErrorValues>(null);
 
   const { register, handleSubmit, formState, watch, setValue } =
     useForm<Credentials>({
       defaultValues: {
-        type: OrderTypeEnum.Buy,
+        type: formDefaults.type,
+        symbol: formDefaults.symbol,
+        userId: '',
       },
     });
-  const { mutate: createOrder, isSuccess, isError } = useCreateOrder();
 
+  const { mutate: createOrder, isSuccess, isError } = useCreateOrder();
   const { errors, isSubmitting } = formState;
 
-  // const type = watch('type');
-  const symbol = watch('symbol');
-  const amount = watch('amount');
-  const price = watch('price');
-
-  useEffect(() => {
-    if (isSuccess) console.log('fetch new user"s orders here!');
-  }, [isSuccess]);
-
-  useEffect(() => {
-    if (isError) setCreationError(config.error);
-  }, [isError]);
-
-  useEffect(() => {
-    // const isChangedType = type !== errorValues?.type;
-    const isChangedSymbol = symbol !== errorValues?.symbol;
-    const isChangedAmount = amount !== errorValues?.amount;
-    const isChangedPrice = price !== errorValues?.price;
-    if (
-      creationError &&
-      (isChangedSymbol || isChangedAmount || isChangedPrice)
-    ) {
-      setCreationError('');
-      setErrorValues(null);
-    }
-  }, [symbol, amount, price]);
+  const watchedValues = watch();
 
   useEffect(() => {
     if (userId) {
@@ -71,21 +43,55 @@ const useCreateOrderForm = () => {
     }
   }, [userId, setValue]);
 
-  const onSubmit = handleSubmit(async (data) => {
+  useEffect(() => {
+    // if (isSuccess) {
+    //   console.log("Fetch new user's orders here!");
+    // }
+
+    if (isError) {
+      setCreationError(config.error);
+    }
+  }, [isSuccess, isError]);
+
+  useEffect(() => {
+    if (creationError) {
+      const hasChangedValues =
+        watchedValues.symbol !== formDefaults.symbol ||
+        watchedValues.amount !== formDefaults.amount ||
+        watchedValues.price !== formDefaults.price;
+
+      if (hasChangedValues) {
+        setCreationError('');
+      }
+    }
+  }, [watchedValues]);
+
+  const onSubmit = handleSubmit((data) => {
+    if (!userId) {
+      setCreationError('User ID is required to create an order!');
+      return;
+    }
+
     const payload = {
-      type: data.type,
-      symbol: data.symbol,
+      ...data,
       amount: +data.amount,
       price: +data.price,
-      userId: data.userId,
+      userId,
     };
 
-    console.log('payload:', payload);
-
+    // console.log('payload:', payload);
     createOrder(payload);
   });
 
-  return { register, onSubmit, watch, errors, isSubmitting, creationError };
+  return {
+    register,
+    setValue,
+    onSubmit,
+    watch,
+    errors,
+    isSubmitting,
+    creationError,
+  };
 };
 
 export default useCreateOrderForm;

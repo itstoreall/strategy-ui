@@ -9,12 +9,19 @@ const TextInput = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
   const { type = 'text', className, placeholder } = props;
   const { error, disabled = false, ...register } = props;
 
+  // ---
+
+  const errorStyle = error ? 'error' : '';
+  const disableStyle = disabled ? 'disable' : '';
+  const customStyle = className ? className : '';
+  const inputStyle = `default-input ${customStyle} ${disableStyle} ${errorStyle}`;
+
   return (
     <div style={{ position: 'relative' }}>
       <input
         type={type}
         placeholder={placeholder}
-        className={`default-input ${className} ${error ? 'error' : ''}`}
+        className={inputStyle}
         disabled={disabled}
         // size={10}
         ref={ref}

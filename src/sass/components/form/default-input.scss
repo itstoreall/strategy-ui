@@ -19,15 +19,23 @@ input.default-input {
   font-size: 16px;
   color: $greyMiddle;
   background-color: $greyDeepDark;
-  border-radius: 0.2rem;
+  border-radius: $middleBorderRadius;
   border: 1px solid $greyDeepDark;
   outline: none;
   transition: $ease03s;
   --webkit-autofill-font-size: 16px;
 
+  &::placeholder {
+    color: $greyDark;
+  }
+
   &:focus {
     color: $greyLight;
   }
+
+  /*
+  &.disable {}
+  */
 
   /*
   
@@ -59,20 +67,3 @@ input.default-input {
     }
     */
 }
-
-// input.default-input:-webkit-autofill {
-//   color: green !important;
-//   background-color: red !important;
-//   box-shadow: 0 0 0px 1000px red inset !important; /* Ensure background color */
-//   -webkit-text-fill-color: green !important; /* Override default text color */
-// }
-
-// input:is(:-webkit-autofill, :autofill) {
-//   // border: 3px solid darkorange;
-//   background-color: red !important;
-//   background: green !important;
-//   background-color: rgb(232 240 254) !important;
-//   background-image: none !important;
-//   color: -internal-light-dark(black, white) !important;
-//   border: 3px dotted orange;
-// }

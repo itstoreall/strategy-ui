@@ -1,0 +1,179 @@
+@use '@/src/sass/base/vars' as *;
+@use '@/src/sass/mixins' as *;
+
+div.default-select {
+  // background-color: red;
+  // margin: 10px 0;
+  position: relative;
+  // padding: 1rem;
+  width: 100%;
+  // color: $greyMiddle;
+  height: 53px;
+  background-color: $greyDeepDark;
+  border-radius: $middleBorderRadius;
+  user-select: none;
+
+  /*
+  &.light-select-theme {
+    > div.default-select-selected,
+    > span.default-select-selected-disable {
+      // background-color: $light;
+      background-color: teal;
+    }
+
+    > ul.default-select-option-list {
+      padding: 0;
+      padding-top: 5px;
+      // background-color: $light;
+      background-color: tomato;
+    }
+  }
+  */
+
+  > div.default-select-selected,
+  > span.default-select-selected-disable {
+    // border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    height: 100%;
+    // padding: 10px;
+    cursor: pointer;
+    text-align: left;
+    border-radius: $middleBorderRadius;
+    // border: 1px solid $dark;
+
+    &.option-selected {
+      > span {
+        color: $greyMiddle;
+        // font-weight: 500;
+      }
+    }
+
+    > svg {
+      stroke: $greyMiddle;
+    }
+  }
+
+  > div.default-select-selected {
+    > span {
+      color: $greyMiddle;
+    }
+  }
+
+  > span.default-select-selected-disable {
+    cursor: auto;
+    color: $greyMiddle;
+  }
+
+  > ul.default-select-option-list {
+    position: absolute;
+    top: calc(100% - $middleBorderRadius);
+    left: 0;
+    padding-top: $middleBorderRadius;
+    // margin: 0;
+    width: 100%;
+    // width: calc(100% - 2px);
+    // background-color: #fff;
+    background-color: $greyDeepDark;
+    // border: 1px solid #ccc;
+    // border-radius: 5px;
+    z-index: 10;
+    // margin-top: 5px;
+    // max-height: 150px;
+    overflow-y: auto;
+    // background-color: blue;
+    // border: 1px solid green;
+    // border: 1px solid $dark;
+    border-top: 0;
+    border-radius: 0 0 $middleBorderRadius $middleBorderRadius;
+
+    > li.default-select-option-list-item {
+      display: flex;
+      align-items: center;
+      padding: 0 1rem;
+      // height: 40px;
+      height: 53px;
+      color: $greyMiddle;
+      cursor: pointer;
+      // background-color: green;
+      border-top: 1px solid $greyDark;
+      // border-top: 1px solid $dark;
+
+      &:hover {
+        background-color: $greyDark;
+        color: $greyLight;
+      }
+    }
+  }
+
+  // --- Admin:
+
+  // &.admin-all-users-info-list-item-content-value-select {
+  //   height: 3rem;
+  //   width: 155px;
+
+  //   @include media-screen-orientation('max', $mobilePlus - 0.1) {
+  //     width: 100%;
+  //   }
+
+  //   @include media-screen-orientation('min', $mobilePlus) {
+  //     margin-left: -1rem;
+  //     width: calc(100% + 1rem);
+  //   }
+
+  //   > div.default-select-selected {
+  //     background-color: $violetDarkSmoke;
+  //     border: none;
+
+  //     @include media-screen-orientation('min', $mobilePlus) {
+  //       border-radius: 0;
+  //     }
+
+  //     &.option-selected {
+  //       color: $greyLight;
+
+  //       > span {
+  //         color: $greyLight;
+  //         font-weight: 400;
+  //       }
+  //     }
+  //   }
+
+  //   > ul.default-select-option-list {
+  //     width: 100%;
+  //     background-color: $violetDarkSmoke;
+  //     border: none;
+
+  //     > li.default-select-option-list-item {
+  //       height: 3rem;
+  //       color: $greyLight;
+
+  //       &:hover {
+  //         background-color: $violetDark;
+  //         color: $white;
+  //       }
+  //     }
+  //   }
+  // }
+
+  // --- Article:
+
+  // &.article-create-form-select,
+  // &.article-edit-form-select {
+  //   // display: flex;
+  //   @include media-screen-orientation('min', $mobilePlus) {
+  //     max-width: 240px;
+  //   }
+  // }
+
+  // // --- Error icon (svg):
+
+  // > svg.default-select-error-icon {
+  //   position: absolute;
+  //   top: 8px;
+  //   right: -2.2rem;
+  //   fill: $lightRed;
+  // }
+}
