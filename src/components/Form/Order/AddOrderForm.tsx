@@ -75,7 +75,7 @@ const AddOrderForm = ({ tokens }: { tokens: Token[] }) => {
   };
 
   return (
-    <FormWrapper className="auth-form-wrapper">
+    <FormWrapper className="create-order-form-wrapper">
       <FormBackdropContainer>
         <Title tag={'h3'} className="form-title" text={config.formTitle} />
 
