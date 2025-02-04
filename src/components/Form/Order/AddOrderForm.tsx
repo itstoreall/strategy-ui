@@ -13,6 +13,11 @@ import Button from '@/src/components/Button/Button';
 import Title from '@/src/components/Layout/Title';
 import Form from '@/src/components/Form/Form';
 
+type Props = {
+  tokens: Token[];
+  symbol?: string;
+};
+
 const config = {
   formTitle: 'New Order',
   typeRequired: 'Type is required',
@@ -31,12 +36,12 @@ const initTypeOptions = [OrderTypeEnum.Buy, OrderTypeEnum.Sell];
 
 const initForm = {
   type: OrderTypeEnum.Buy,
-  symbol: 'BTC',
+  symbol: '',
   amount: 0.0,
   price: 0.0,
 };
 
-const AddOrderForm = ({ tokens }: { tokens: Token[] }) => {
+const AddOrderForm = ({ tokens, symbol = 'BTC' }: Props) => {
   const [symbolOptions, setSymbolOptions] = useState<string[]>([]);
   const [typeOptions] = useState<string[]>(initTypeOptions);
 
@@ -57,6 +62,7 @@ const AddOrderForm = ({ tokens }: { tokens: Token[] }) => {
     if (tokens) {
       const options = tokens.map((token) => token.symbol);
       setSymbolOptions(options);
+      setValue('symbol', symbol, { shouldValidate: true });
     }
   }, [tokens]);
 
