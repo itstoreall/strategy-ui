@@ -12,7 +12,7 @@ const initContext: ModalContextProps = {
   closeModal: () => {},
   ModalContentEnum: ModalContentEnum,
   RenderModal: () => <></>,
-  isSettingsModal: false,
+  isFormModal: false,
 };
 
 const ModalContext = createContext<ModalContextProps>(initContext);
@@ -21,7 +21,7 @@ export const ModalProvider = ({ children }: ChildrenProps) => {
   const [modal, setModal] = useState<ModalContentEnum | null>(null);
   const [isClosing, setIsClosing] = useState(false);
 
-  const isSettingsModal = modal === ModalContentEnum.Form;
+  const isFormModal = modal === ModalContentEnum.Form;
 
   // ---
 
@@ -43,7 +43,7 @@ export const ModalProvider = ({ children }: ChildrenProps) => {
       closeModal,
       ModalContentEnum,
       RenderModal,
-      isSettingsModal,
+      isFormModal,
     };
   }, [modal, isClosing]);
 

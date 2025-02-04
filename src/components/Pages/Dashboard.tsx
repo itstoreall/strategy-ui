@@ -1,10 +1,7 @@
 'use client';
 
-// import { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-// import { OrderTypeEnum } from '@/src/enums';
 import useModal from '@/src/hooks/useModal';
-// import useCreateOrder from '@/src/hooks/order/useCreateOrder';
 import useFetchAllTokens from '@/src/hooks/token/useFetchAllTokens';
 import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
@@ -19,34 +16,9 @@ const Dashboard = () => {
   const userId = session?.user?.id || null;
 
   const { userOrders } = useFetchAllUserOrders(userId, { enabled: !!userId });
-  // const { mutate: createOrder, isSuccess, isError } = useCreateOrder();
-
   const { RenderModal, openModal, ModalContentEnum } = useModal();
 
   const handleModal = () => openModal(ModalContentEnum.Form);
-
-  /*
-  useEffect(() => {
-    console.log('userOrders data:', userOrders);
-  }, [userOrders]);
-  // */
-
-  // useEffect(() => {
-  //   console.log('useCreateOrder isSuccess:', isSuccess);
-  //   console.log('useCreateOrder isError:', isError);
-  // }, [isSuccess, isError]);
-
-  // const addOrder = () => {
-  //   if (!session?.user || !userId) return;
-  //   const payload = {
-  //     type: OrderTypeEnum.Buy,
-  //     symbol: 'BTC',
-  //     amount: 1,
-  //     price: 100222,
-  //     userId: userId,
-  //   };
-  //   createOrder(payload);
-  // };
 
   return (
     <PageContainer label={Label.Main}>
@@ -64,11 +36,10 @@ const Dashboard = () => {
             </ul>
 
             <ul>
-              {userOrders?.map((order) => (
-                <li
-                  key={order.symbol}
-                >{`${order.symbol}: ${order.amount} - ${order.price}`}</li>
-              ))}
+              {userOrders?.map((order, idx) => {
+                const values = `${order.symbol}: ${order.amount} - ${order.price}`;
+                return <li key={idx}>{values}</li>;
+              })}
             </ul>
           </div>
         ) : (

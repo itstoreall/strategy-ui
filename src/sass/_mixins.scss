@@ -30,6 +30,18 @@
   }
 } // @include media-screen('min', '600px', 'land'){}
 
+@mixin media-screen-height($var, $height) {
+  @if $var == 'min' {
+    @media screen and (min-height: $height) {
+      @content;
+    }
+  } @else if $var == 'max' {
+    @media screen and (max-height: $height) {
+      @content;
+    }
+  }
+}
+
 @mixin box-shadow-offset($offset, $color) {
   box-shadow: $offset $offset 0 0 $color;
 }

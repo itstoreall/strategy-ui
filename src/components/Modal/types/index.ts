@@ -9,7 +9,7 @@ export type ModalContextProps = {
   closeModal(): void;
   ModalContentEnum: typeof ModalContentEnum;
   RenderModal: ({ children }: ChildrenProps) => JSX.Element;
-  isSettingsModal: boolean;
+  isFormModal: boolean;
 };
 
 export type CloseButtonProps = { closeModal: () => void };

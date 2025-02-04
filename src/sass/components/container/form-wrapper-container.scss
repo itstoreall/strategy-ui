@@ -14,9 +14,14 @@ div.form-wrapper-container {
   }
 
   &.create-order-form-wrapper {
-    @extend %extends-hide-scrollbar;
-    max-height: 100svh;
-    overflow-y: scroll;
+    // @extend %extends-hide-scrollbar;
+    // max-height: 100svh;
+    // overflow-y: scroll;
+
+    padding: 0.25rem 0 2rem;
+
+    // background-color: pink;
+    // height: 480px;
   }
 
   &.edit-username-form-wrapper {

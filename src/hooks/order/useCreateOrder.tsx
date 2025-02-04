@@ -13,6 +13,7 @@ const useCreateOrder = () => {
     onSuccess: (res) => {
       console.log('Order created successfully:', res.data);
       queryClient.invalidateQueries({ queryKey: ['userOrders'] });
+      alert('Success!');
       closeModal();
     },
     onError: (error) => {

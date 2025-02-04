@@ -71,15 +71,12 @@ const useCreateOrderForm = (formDefaults: Omit<Credentials, 'userId'>) => {
       setCreationError('User ID is required to create an order!');
       return;
     }
-
     const payload = {
       ...data,
       amount: +data.amount,
       price: +data.price,
       userId,
     };
-
-    // console.log('payload:', payload);
     createOrder(payload);
   });
 
