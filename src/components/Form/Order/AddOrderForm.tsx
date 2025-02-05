@@ -97,6 +97,7 @@ const AddOrderForm = ({ tokens, initSymbol = 'BTC' }: Props) => {
     e.preventDefault();
     const confirmMessage = `
       ${config.confirmSubmit}
+      
       ${type || '-'}
       ${symbol || '-'}
       ${exchange || '-'}

@@ -73,6 +73,17 @@ class OrderService {
       throw err;
     }
   }
+
+  async deleteOrder(orderId: number): Promise<{ id: number }> {
+    try {
+      const url = `/orders/id/${orderId}`;
+      const res = await apiClient.delete(url);
+      return res.data.data;
+    } catch (err: unknown) {
+      const errorMessage = errorHandler('ERROR in deleteOrder:', err);
+      throw new Error(errorMessage);
+    }
+  }
 }
 
 export const orderService = new OrderService();
