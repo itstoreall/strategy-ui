@@ -10,6 +10,7 @@ type Credentials = {
   symbol: string;
   amount: number;
   price: number;
+  exchange: string;
   userId: string;
 };
 
@@ -56,7 +57,6 @@ const useCreateOrderForm = (formDefaults: Omit<Credentials, 'userId'>) => {
   useEffect(() => {
     if (creationError) {
       const hasChangedValues =
-        watchedValues.symbol !== formDefaults.symbol ||
         watchedValues.amount !== formDefaults.amount ||
         watchedValues.price !== formDefaults.price;
 
@@ -67,16 +67,28 @@ const useCreateOrderForm = (formDefaults: Omit<Credentials, 'userId'>) => {
   }, [watchedValues]);
 
   const onSubmit = handleSubmit((data) => {
-    if (!userId) {
-      setCreationError('User ID is required to create an order!');
-      return;
+    if (!data.type) {
+      return setCreationError('Type is required!');
+    } else if (!data.symbol) {
+      return setCreationError('Symbol is required!');
+    } else if (!data.exchange) {
+      return setCreationError('Exchange is required!');
+    } else if (isNaN(data.amount) || data.amount <= 0) {
+      return setCreationError('Amount must be a positive number!');
+    } else if (isNaN(data.price) || data.price <= 0) {
+      return setCreationError('Price must be a positive number!');
+    } else if (!userId) {
+      return setCreationError('User ID is required to create an order!');
     }
+
     const payload = {
       ...data,
+      exchange: data.exchange,
       amount: +data.amount,
       price: +data.price,
       userId,
     };
+
     createOrder(payload);
   });
 

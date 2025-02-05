@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import useCreateOrderForm from '@/src/hooks/order/useCreateOrderForm';
 import useSelectMulti from '@/src/hooks/useSelectMulti';
-import { OrderTypeEnum } from '@/src/enums';
+import { ExchangeEnum, OrderTypeEnum } from '@/src/enums';
 import { FormEvent, Token } from '@/src/types';
 import FormWrapper from '@/src/components/Container/FormWrapper';
 import FormBackdropContainer from '@/src/components/Container/FormBackdrop';
@@ -15,7 +15,7 @@ import Form from '@/src/components/Form/Form';
 
 type Props = {
   tokens: Token[];
-  symbol?: string;
+  initSymbol?: string;
 };
 
 const config = {
@@ -32,39 +32,50 @@ const config = {
   creating: 'Creating...',
 };
 
-const initTypeOptions = [OrderTypeEnum.Buy, OrderTypeEnum.Sell];
+const typeOptions = [OrderTypeEnum.Buy, OrderTypeEnum.Sell];
+
+const exchangeOptions = [
+  ExchangeEnum.Binance,
+  ExchangeEnum.Mexc,
+  ExchangeEnum.Bybit,
+  ExchangeEnum.Bingx,
+  ExchangeEnum.Bitget,
+  ExchangeEnum.Okx,
+];
 
 const initForm = {
   type: OrderTypeEnum.Buy,
   symbol: '',
   amount: 0.0,
   price: 0.0,
+  exchange: '',
 };
 
-const AddOrderForm = ({ tokens, symbol = 'BTC' }: Props) => {
+const AddOrderForm = ({ tokens, initSymbol = 'BTC' }: Props) => {
   const [symbolOptions, setSymbolOptions] = useState<string[]>([]);
-  const [typeOptions] = useState<string[]>(initTypeOptions);
-
-  const {
-    register,
-    onSubmit,
-    errors,
-    isSubmitting,
-    creationError,
-    setValue,
-    watch,
-  } = useCreateOrderForm(initForm);
 
   const { openDropdownId, toggleDropdown } = useSelectMulti();
+  const orderForm = useCreateOrderForm(initForm);
+
+  const { errors, isSubmitting, creationError } = orderForm;
+  const { register, onSubmit, setValue, watch } = orderForm;
+
   const formValues = watch();
+  const { symbol, type, exchange, amount, price } = formValues;
 
   useEffect(() => {
     if (tokens) {
       const options = tokens.map((token) => token.symbol);
       setSymbolOptions(options);
-      setValue('symbol', symbol, { shouldValidate: true });
+      setValue('symbol', initSymbol, { shouldValidate: true });
     }
   }, [tokens]);
+
+  useEffect(() => {
+    if (creationError) alert(creationError);
+  }, [creationError]);
+
+  // ---
 
   const handleSelectChange = (
     field: keyof typeof formValues,
@@ -86,10 +97,11 @@ const AddOrderForm = ({ tokens, symbol = 'BTC' }: Props) => {
     e.preventDefault();
     const confirmMessage = `
       ${config.confirmSubmit}
-      - Type:   ${formValues.type}
-      - Symbol: ${formValues.symbol}
-      - Amount: ${formValues.amount}
-      - Price:  ${formValues.price}
+      ${type || '-'}
+      ${symbol || '-'}
+      ${exchange || '-'}
+      ${amount || '-'}
+      ${price || '-'}
     `;
     if (confirm(confirmMessage)) onSubmit();
   };
@@ -102,19 +114,29 @@ const AddOrderForm = ({ tokens, symbol = 'BTC' }: Props) => {
         <Form handleSubmit={(e) => handleSubmit(e)}>
           <FormContentContainer>
             <SelectMulti
-              options={typeOptions.filter((opt) => opt !== formValues.type)}
-              initialOption={formValues.type}
+              options={typeOptions.filter((opt) => opt !== type)}
+              initialOption={type}
+              placeholder="Type"
               onSelect={(value) => handleSelectChange('type', value)}
-              isOpen={openDropdownId === formValues.type}
-              onToggle={() => toggleDropdown(formValues.type)}
+              isOpen={openDropdownId === type}
+              onToggle={() => toggleDropdown(type)}
             />
 
             <SelectMulti
-              options={symbolOptions.filter((opt) => opt !== formValues.symbol)}
-              initialOption={formValues.symbol}
+              options={symbolOptions.filter((opt) => opt !== symbol)}
+              initialOption={symbol}
+              placeholder="Symbol"
               onSelect={(value) => handleSelectChange('symbol', value)}
-              isOpen={openDropdownId === formValues.symbol}
-              onToggle={() => toggleDropdown(formValues.symbol)}
+              isOpen={openDropdownId === symbol}
+              onToggle={() => toggleDropdown(symbol)}
+            />
+
+            <SelectMulti
+              options={exchangeOptions.filter((opt) => opt !== exchange)}
+              placeholder="Exchange"
+              onSelect={(value) => handleSelectChange('exchange', value)}
+              isOpen={openDropdownId === exchange}
+              onToggle={() => toggleDropdown(exchange)}
             />
 
             <TextInput

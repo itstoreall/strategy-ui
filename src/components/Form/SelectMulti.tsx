@@ -57,8 +57,6 @@ const SelectMulti = (props: Props) => {
 
   // ---
 
-  console.log('isOpen:', isOpen);
-
   const optionSelectedStyle = selectedOption ? 'option-selected' : '';
   const openStyle = isOpen ? 'open' : '';
 
@@ -100,7 +98,7 @@ const SelectMulti = (props: Props) => {
               }}
               className={'error-message'}
             >
-              {'Input error!'}
+              {`${placeholder} is required`}
             </span>
           )}
         </>

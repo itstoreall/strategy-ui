@@ -51,7 +51,7 @@ div.default-select {
 
   > div.default-select-selected {
     > span {
-      color: $greyMiddle;
+      color: $greyDark;
     }
   }
 
@@ -65,12 +65,13 @@ div.default-select {
     position: absolute;
     left: 0;
     width: 100%;
-    height: 41svh;
+    max-height: 41svh;
     max-height: 215px;
     background-color: $greyDeepDark;
     border-radius: 0 0 $middleBorderRadius $middleBorderRadius;
     overflow-y: auto;
     z-index: 10;
+    box-shadow: $shadow;
 
     > li.default-select-option-list-item {
       display: flex;
