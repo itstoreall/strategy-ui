@@ -3,11 +3,12 @@ import Google from 'next-auth/providers/google';
 import Credentials from 'next-auth/providers/credentials';
 import Nodemailer from 'next-auth/providers/nodemailer';
 import { PrismaAdapter } from '@auth/prisma-adapter';
-import { prisma } from '@/src/lib/prisma/client';
-import SMTPCredentials from '@/src/lib/auth/SMTPCredentials';
-import { userService } from '@/src/services/user.service';
+import accessVerification from '@/src/lib/auth/accessVerificationServerAction';
 import { clearExpiredTokens } from '@/src/lib/auth/clearExpiredTokens';
 import { setUserName } from '@/src/lib/auth/setNameServerAction';
+import SMTPCredentials from '@/src/lib/auth/SMTPCredentials';
+import { userService } from '@/src/services/user.service';
+import { prisma } from '@/src/lib/prisma/client';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   trustHost: true,
@@ -42,7 +43,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             credentials.password as string
           )) ?? null;
         if (!user) return null;
-        console.log('user:', user);
+        // console.log('user:', user);
         return user ?? null;
       },
     }),
@@ -53,6 +54,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   ],
 
   callbacks: {
+    async signIn({ user, account }) {
+      if (account?.provider === 'google' && user.email) {
+        const isAccess = await accessVerification(user.email);
+        if (!isAccess) return false;
+      }
+      return true;
+    },
+
     async jwt({ token, user, session, trigger }) {
       /*
       console.log('------ jwt token ------', token);

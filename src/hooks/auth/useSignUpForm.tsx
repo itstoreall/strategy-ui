@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { createVerifyCodeServerAction } from '@/src/lib/auth/createVerifyCodeServerAction';
 import { credentialsSignUp } from '@/src/lib/auth/credentialsSignUpServerAction';
+import accessVerification from '@/src/lib/auth/accessVerificationServerAction';
 import { handleEmailSignIn } from '@/src/lib/auth/emailSignInServerAction';
 import { userService } from '@/src/services/user.service';
 
@@ -15,6 +16,7 @@ type ExistingUserData = { email: string; verified: Date; password: string };
 
 const config = {
   signUpError: 'The user already exists. Try signing in.',
+  accessError: 'Access dinied!',
 };
 
 const useSignUpForm = () => {
@@ -26,6 +28,9 @@ const useSignUpForm = () => {
   const { errors, isSubmitting } = formState;
 
   const onSubmit = handleSubmit(async (data) => {
+    const isAccess = await accessVerification(data.email);
+    if (!isAccess) return setSignUpError(config.accessError);
+
     const existingUser = await userService.getCredentials(data.email);
 
     if (!existingUser) {

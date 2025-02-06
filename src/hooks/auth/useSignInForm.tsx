@@ -5,8 +5,9 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { credentialsSignIn } from '@/src/lib/auth/credentialsSignInServerAction';
-import { userService } from '@/src/services/user.service';
 import { handleEmailSignIn } from '@/src/lib/auth/emailSignInServerAction';
+import { userService } from '@/src/services/user.service';
+import accessVerification from '@/src/lib/auth/accessVerificationServerAction';
 
 type Credentials = {
   email: string;
@@ -23,8 +24,8 @@ const config = {
 const useSignInForm = () => {
   const [signInError, setSignInError] = useState('');
   const [errorValues, setErrorValues] = useState<ErrorValues>(null);
-  const session = useSession();
 
+  const session = useSession();
   const router = useRouter();
 
   const { register, handleSubmit, formState, watch } = useForm<Credentials>();
@@ -49,6 +50,9 @@ const useSignInForm = () => {
   };
 
   const onSubmit = handleSubmit(async (data) => {
+    const isAccess = await accessVerification(data.email);
+    if (!isAccess) return handleError();
+
     const existingUser = await userService.getCredentials(data.email);
 
     if (existingUser) {
