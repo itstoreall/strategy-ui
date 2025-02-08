@@ -27,3 +27,15 @@ export enum ExchangeEnum {
   Bingx = 'BINGX',
   Okx = 'OKX',
 }
+
+// ------ Chart:
+
+export enum ChartSymbolEnum {
+  BitcoinDominance = 'BTC.D',
+  TetherDominance = 'USDT.D',
+}
+
+export enum ChartIntervalEnum {
+  Hour = '60',
+  Day = '1440',
+}

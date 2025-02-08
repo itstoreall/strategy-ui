@@ -5,7 +5,7 @@ import { SessionContextValue } from 'next-auth/react';
 import useFetchAllTokens from '@/src/hooks/token/useFetchAllTokens';
 import useModal from '@/src/hooks/useModal';
 import PageContainer, { Label } from '@/src/components/Container/Page';
-import AddTokenSection from '@/src/components/Section/Admin/AddToken';
+import AddTokenSection from '@/src/components/Section/Admin/AddTokenSection';
 import AddTokenForm from '@/src/components/Form/Token/AddTokenForm';
 import PageHeading from '@/src/components/Layout/PageHeading';
 import MainLoader from '@/src/components/MainLoader';

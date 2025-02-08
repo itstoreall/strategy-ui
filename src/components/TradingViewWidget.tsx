@@ -1,13 +1,23 @@
 import React, { useEffect, useRef, memo } from 'react';
+import { ChartSymbolEnum, ChartIntervalEnum } from '@/src/enums';
+
+type Props = {
+  chartSymbol:
+    | ChartSymbolEnum.TetherDominance
+    | ChartSymbolEnum.BitcoinDominance;
+  chartInterval: ChartIntervalEnum.Hour | ChartIntervalEnum.Day;
+};
 
 const chartUrl =
   'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
 
-function TradingViewWidget() {
+function TradingViewWidget({ chartSymbol, chartInterval }: Props) {
   const container = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (container.current && !container.current.querySelector('script')) {
+      container.current.innerHTML = '';
+
       const script = document.createElement('script');
 
       script.src = chartUrl;
@@ -20,21 +30,21 @@ function TradingViewWidget() {
       script.innerHTML = `
         {
           "width": "100%",
-          "height": "${viewportHeight - 48}",
-          "symbol": "CRYPTOCAP:USDT.D",
-          "interval": "60",
+          "height": "${viewportHeight - 117}",
+          "symbol": "CRYPTOCAP:${chartSymbol}",
+          "interval": "${chartInterval}",
           "timezone": "Etc/UTC",
           "theme": "dark",
           "style": "1",
           "locale": "en",
-          "allow_symbol_change": true,
           "calendar": false,
+          "hide_top_toolbar": true,
           "support_host": "https://www.tradingview.com"
         }`;
 
       container.current.appendChild(script);
     }
-  }, []);
+  }, [chartSymbol, chartInterval]);
 
   return (
     <div
@@ -51,4 +61,22 @@ export default memo(TradingViewWidget);
 "symbol": "COINBASE:BTCUSD",
 
 https://www.tradingview.com/widget/advanced-chart/
+
+========
+
+script.innerHTML = `
+  {
+    "width": "100%",
+    "height": "${viewportHeight - 48}",
+    "symbol": "CRYPTOCAP:${chartSymbol}",
+    "interval": "${chartInterval}",
+    "timezone": "Etc/UTC",
+    "theme": "dark",
+    "style": "1",
+    "locale": "en",
+    "allow_symbol_change": true,
+    "hide_top_toolbar": true,
+    "calendar": false,
+    "support_host": "https://www.tradingview.com"
+  }`;
 */

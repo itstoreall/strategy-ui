@@ -1,0 +1,16 @@
+@use '@/src/sass/base/vars' as *;
+@use '@/src/sass/mixins' as *;
+
+section.chart {
+  > div.chart-section-content {
+    background-color: $black;
+
+    > div.chart-section-select-wrapper {
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.5rem;
+    }
+  }
+
+  // @include media-screen-orientation('min', $tablet) {}
+}

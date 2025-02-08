@@ -24,11 +24,12 @@
 @use '@/src/sass/components/container/button-full-screen-container.scss';
 
 // Sections:
-@use '@/src/sass/components/sections/default-section.scss';
-@use '@/src/sass/components/sections/add-token.section.scss';
 @use '@/src/sass/components/sections/account-snapshot.section.scss';
-@use '@/src/sass/components/sections/single-option.section.scss';
+@use '@/src/sass/components/sections/add-token.section.scss';
+@use '@/src/sass/components/sections/chart.section.scss';
+@use '@/src/sass/components/sections/default-section.scss';
 @use '@/src/sass/components/sections/main-divider.section.scss';
+@use '@/src/sass/components/sections/single-option.section.scss';
 
 // Button:
 @use '@/src/sass/components/button/uni-button.scss';
