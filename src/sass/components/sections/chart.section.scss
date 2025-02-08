@@ -2,15 +2,25 @@
 @use '@/src/sass/mixins' as *;
 
 section.chart {
+  display: flex;
+  flex-direction: column;
+  height: calc(100svh - 60px);
+
   > div.chart-section-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 0.5rem;
     background-color: $black;
+    padding: 0.5rem;
 
     > div.chart-section-select-wrapper {
       display: flex;
       gap: 0.5rem;
-      padding: 0.5rem;
+
+      @include media-screen-orientation('max', $tablet - 0.1) {
+        flex-direction: column;
+      }
     }
   }
-
-  // @include media-screen-orientation('min', $tablet) {}
 }

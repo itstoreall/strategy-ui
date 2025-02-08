@@ -23,14 +23,9 @@ function TradingViewWidget({ chartSymbol, chartInterval }: Props) {
       script.src = chartUrl;
       script.type = 'text/javascript';
       script.async = true;
-
-      const minHeight = 390; // px
-      const viewportHeight = Math.max(window.innerHeight, minHeight);
-
       script.innerHTML = `
         {
           "width": "100%",
-          "height": "${viewportHeight - 117}",
           "symbol": "CRYPTOCAP:${chartSymbol}",
           "interval": "${chartInterval}",
           "timezone": "Etc/UTC",
@@ -64,10 +59,13 @@ https://www.tradingview.com/widget/advanced-chart/
 
 ========
 
+const minHeight = 390; // px
+const viewportHeight = Math.max(window.innerHeight, minHeight);
+
 script.innerHTML = `
   {
     "width": "100%",
-    "height": "${viewportHeight - 48}",
+    "height": "${viewportHeight - 117}",
     "symbol": "CRYPTOCAP:${chartSymbol}",
     "interval": "${chartInterval}",
     "timezone": "Etc/UTC",
