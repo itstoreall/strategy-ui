@@ -4,23 +4,29 @@
 section.chart {
   display: flex;
   flex-direction: column;
-  height: calc(100svh - 60px);
+  height: 480px;
+
+  @include media-screen-height('min', 500px) {
+    height: calc(100svh - 224px);
+  }
 
   > div.chart-section-content {
     display: flex;
     flex-direction: column;
     flex: 1;
-    gap: 0.5rem;
+    gap: 1rem;
     background-color: $black;
-    padding: 0.5rem;
 
     > div.chart-section-select-wrapper {
       display: flex;
-      gap: 0.5rem;
+      gap: 1rem;
 
+      /*
+      @include media-screen-height('min', 500px) {}
       @include media-screen-orientation('max', $tablet - 0.1) {
         flex-direction: column;
       }
+      */
     }
   }
 }

@@ -8,6 +8,7 @@ header.header {
   width: 100%;
   height: $headerHeight;
   background-color: $bgDarkPanel;
+  z-index: $headerZIndex;
   box-shadow: $shadow;
 
   .header-content {
