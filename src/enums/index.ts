@@ -33,6 +33,9 @@ export enum ExchangeEnum {
 export enum ChartSymbolEnum {
   BitcoinDominance = 'BTC.D',
   TetherDominance = 'USDT.D',
+  Total1 = 'TOTAL1',
+  Total2 = 'TOTAL2',
+  Total3 = 'TOTAL3',
 }
 
 export enum ChartIntervalEnum {

@@ -7,6 +7,9 @@ import SelectMulti from '@/src/components/Form/SelectMulti';
 const symbolOptions: ChartSymbolEnum[] = [
   ChartSymbolEnum.BitcoinDominance,
   ChartSymbolEnum.TetherDominance,
+  ChartSymbolEnum.Total1,
+  ChartSymbolEnum.Total2,
+  ChartSymbolEnum.Total3,
 ];
 
 const intervalOptions = [

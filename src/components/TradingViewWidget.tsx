@@ -4,7 +4,10 @@ import { ChartSymbolEnum, ChartIntervalEnum } from '@/src/enums';
 type Props = {
   chartSymbol:
     | ChartSymbolEnum.TetherDominance
-    | ChartSymbolEnum.BitcoinDominance;
+    | ChartSymbolEnum.BitcoinDominance
+    | ChartSymbolEnum.Total1
+    | ChartSymbolEnum.Total2
+    | ChartSymbolEnum.Total3;
   chartInterval: ChartIntervalEnum.Hour | ChartIntervalEnum.Day;
 };
 
