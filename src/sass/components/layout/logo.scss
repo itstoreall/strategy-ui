@@ -11,9 +11,20 @@ div.logo-block {
     transform: rotate(-25deg);
   }
 
-  /*
-  > a > h1 {} // *
-  */
+  > a {
+    display: flex;
+    gap: 0.5rem;
+
+    /*
+    > h1 {}
+    // */
+
+    > span.logo-pwa {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: $violetDark;
+    }
+  }
 
   &.home-page-logo {
     flex-direction: column;

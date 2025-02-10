@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { IoIosPaw } from 'react-icons/io';
 import Title from './Title';
 
@@ -8,11 +9,16 @@ type Props = {
 };
 
 const Logo = ({ className, iconSize = '1.3rem' }: Props) => {
+  const path = usePathname();
+
+  const isHomePage = path === '/';
+
   return (
     <div className={`logo-block ${className}`}>
       <IoIosPaw size={iconSize} />
       <Link href={'/'}>
         <Title text="strategy" className={className} />
+        {isHomePage && <span className="logo-pwa">PWA</span>}
       </Link>
     </div>
   );

@@ -22,7 +22,7 @@ const Home = ({ session }: Props) => {
 
   return (
     <div className="home-page">
-      <Logo className="home-page-logo" iconSize={'7.5rem'} />
+      <Logo className="home-page-logo" iconSize={'6.5rem'} />
       <ProgressLoader duration={3000} />
     </div>
   );

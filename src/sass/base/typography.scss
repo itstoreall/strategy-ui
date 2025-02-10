@@ -9,14 +9,15 @@ h1 {
   text-transform: uppercase;
 
   &.home-page-logo {
-    padding-left: 0.5rem;
+    // padding-left: 0.5rem;
     font-size: 1.3rem;
-    letter-spacing: 0.5rem;
+    // letter-spacing: 0.5rem;
   }
 
   &.header-logo {
-    font-size: 0.7rem;
-    letter-spacing: 0.15rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    // letter-spacing: 0.15rem;
   }
 }
 

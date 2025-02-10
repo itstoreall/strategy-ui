@@ -16,7 +16,7 @@ const intervalOptions = [
 
 const ChartSection = () => {
   const [chartSymbol, setChartSymbol] = useState(symbolOptions[0]);
-  const [chartInterval, setChartInterval] = useState(intervalOptions[0].value);
+  const [chartInterval, setChartInterval] = useState(intervalOptions[1].value);
 
   const { openDropdownId, toggleDropdown } = useSelectMulti();
 
