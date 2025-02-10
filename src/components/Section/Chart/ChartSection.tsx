@@ -1,24 +1,29 @@
 import { useState } from 'react';
 import useSelectMulti from '@/src/hooks/useSelectMulti';
-import { ChartSymbolEnum, ChartIntervalEnum } from '@/src/enums';
+import { ChartSymbolEnum as Symbol, ChartIntervalEnum } from '@/src/enums';
 import TradingViewWidget from '@/src/components/TradingViewWidget';
 import SelectMulti from '@/src/components/Form/SelectMulti';
 
-const symbolOptions: ChartSymbolEnum[] = [
-  ChartSymbolEnum.BitcoinDominance,
-  ChartSymbolEnum.TetherDominance,
-  ChartSymbolEnum.Total1,
-  ChartSymbolEnum.Total2,
-  ChartSymbolEnum.Total3,
+const symbolOptions = [
+  { label: Symbol.BitcoinDominance, value: Symbol.BitcoinDominance },
+  { label: Symbol.TetherDominance, value: Symbol.TetherDominance },
+  { label: Symbol.BitcoinEther, value: Symbol.BitcoinEther },
+  { label: Symbol.EtherBitcoin, value: Symbol.EtherBitcoin },
+  { label: Symbol.OthersBitcoin, value: Symbol.OthersBitcoin },
+  { label: Symbol.Total1, value: Symbol.Total1 },
+  { label: Symbol.Total2, value: Symbol.Total2 },
+  { label: Symbol.Total3, value: Symbol.Total3 },
 ];
 
 const intervalOptions = [
   { label: 'Hour', value: ChartIntervalEnum.Hour },
   { label: 'Day', value: ChartIntervalEnum.Day },
+  { label: 'Week', value: ChartIntervalEnum.Week },
+  { label: 'Month', value: ChartIntervalEnum.Month },
 ];
 
 const ChartSection = () => {
-  const [chartSymbol, setChartSymbol] = useState(symbolOptions[0]);
+  const [chartSymbol, setChartSymbol] = useState(symbolOptions[0].value);
   const [chartInterval, setChartInterval] = useState(intervalOptions[1].value);
 
   const { openDropdownId, toggleDropdown } = useSelectMulti();
@@ -28,11 +33,18 @@ const ChartSection = () => {
       <div className="chart-section-content">
         <div className="chart-section-select-wrapper">
           <SelectMulti
-            options={symbolOptions.filter((opt) => opt !== chartSymbol)}
-            initialOption={chartSymbol}
+            options={symbolOptions
+              .filter((opt) => opt.value !== chartSymbol)
+              .map((opt) => opt.label)}
+            initialOption={
+              symbolOptions.find((opt) => opt.value === chartSymbol)?.label
+            }
             placeholder="Symbol"
-            onSelect={(value: string) => {
-              setChartSymbol(value as ChartSymbolEnum);
+            onSelect={(label) => {
+              const selectedOption = symbolOptions.find(
+                (opt) => opt.label === label
+              );
+              if (selectedOption) setChartSymbol(selectedOption.value);
             }}
             isOpen={openDropdownId === chartSymbol}
             onToggle={() => toggleDropdown(chartSymbol)}

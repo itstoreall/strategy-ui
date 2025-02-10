@@ -21,6 +21,14 @@ section.chart {
       display: flex;
       gap: 1rem;
 
+      > :first-child {
+        flex: 3 1 65%; // First Select: 65%
+      }
+
+      > :last-child {
+        flex: 2 1 35%; // Second Select: 35%
+      }
+
       /*
       @include media-screen-height('min', 500px) {}
       @include media-screen-orientation('max', $tablet - 0.1) {

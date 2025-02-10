@@ -33,12 +33,17 @@ export enum ExchangeEnum {
 export enum ChartSymbolEnum {
   BitcoinDominance = 'BTC.D',
   TetherDominance = 'USDT.D',
+  EtherBitcoin = 'ETH/BTC',
+  BitcoinEther = 'BTC/ETH',
   Total1 = 'TOTAL1',
   Total2 = 'TOTAL2',
   Total3 = 'TOTAL3',
+  OthersBitcoin = 'OTHERS/BTC',
 }
 
 export enum ChartIntervalEnum {
   Hour = '60',
-  Day = '1440',
+  Day = 'D',
+  Week = 'W',
+  Month = 'M',
 }

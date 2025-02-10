@@ -5,10 +5,17 @@ type Props = {
   chartSymbol:
     | ChartSymbolEnum.TetherDominance
     | ChartSymbolEnum.BitcoinDominance
+    | ChartSymbolEnum.BitcoinEther
+    | ChartSymbolEnum.EtherBitcoin
+    | ChartSymbolEnum.OthersBitcoin
     | ChartSymbolEnum.Total1
     | ChartSymbolEnum.Total2
     | ChartSymbolEnum.Total3;
-  chartInterval: ChartIntervalEnum.Hour | ChartIntervalEnum.Day;
+  chartInterval:
+    | ChartIntervalEnum.Hour
+    | ChartIntervalEnum.Day
+    | ChartIntervalEnum.Week
+    | ChartIntervalEnum.Month;
 };
 
 const chartUrl =
