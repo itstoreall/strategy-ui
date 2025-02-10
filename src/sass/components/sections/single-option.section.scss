@@ -12,6 +12,10 @@ section.single-option {
     gap: 0.5rem;
 
     > span {
+      text-decoration: none;
+      pointer-events: none;
+      user-select: text;
+
       &.content-name {
         color: $colorAccent;
         font-size: 0.7rem;
