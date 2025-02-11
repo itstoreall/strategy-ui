@@ -35,7 +35,7 @@ export enum ChartSymbolEnum {
   TetherDominance = 'USDT.D',
   EtherBitcoin = 'ETH/BTC',
   BitcoinEther = 'BTC/ETH',
-  Total1 = 'TOTAL1',
+  Total = 'TOTAL',
   Total2 = 'TOTAL2',
   Total3 = 'TOTAL3',
   OthersBitcoin = 'OTHERS/BTC',

@@ -14,7 +14,6 @@ import EditUsernameForm from '@/src/components/Form/EditUsernameForm';
 import PageHeading from '@/src/components/Layout/PageHeading';
 import MainLoader from '@/src/components/MainLoader';
 import Button from '@/src/components/Button/Button';
-// import MockDataList from '../MockDataList';
 
 const config = {
   pageTitle: 'Settings',
@@ -92,8 +91,6 @@ const Settings = ({ session }: Props) => {
         ) : (
           <MainLoader />
         )}
-
-        {/* <MockDataList items={120} /> */}
 
         <RenderModal>
           <EditUsernameForm

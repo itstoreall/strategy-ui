@@ -10,7 +10,7 @@ const symbolOptions = [
   { label: Symbol.BitcoinEther, value: Symbol.BitcoinEther },
   { label: Symbol.EtherBitcoin, value: Symbol.EtherBitcoin },
   { label: Symbol.OthersBitcoin, value: Symbol.OthersBitcoin },
-  { label: Symbol.Total1, value: Symbol.Total1 },
+  { label: Symbol.Total, value: Symbol.Total },
   { label: Symbol.Total2, value: Symbol.Total2 },
   { label: Symbol.Total3, value: Symbol.Total3 },
 ];

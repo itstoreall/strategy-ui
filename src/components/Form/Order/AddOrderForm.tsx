@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import useCreateOrderForm from '@/src/hooks/order/useCreateOrderForm';
 import useSelectMulti from '@/src/hooks/useSelectMulti';
 import { ExchangeEnum, OrderTypeEnum } from '@/src/enums';
@@ -55,9 +55,10 @@ const AddOrderForm = ({ tokens, initSymbol = 'BTC' }: Props) => {
   const [symbolOptions, setSymbolOptions] = useState<string[]>([]);
 
   const { openDropdownId, toggleDropdown } = useSelectMulti();
+  const [isPending, startTransition] = useTransition();
   const orderForm = useCreateOrderForm(initForm);
 
-  const { errors, isSubmitting, creationError } = orderForm;
+  const { errors, creationError } = orderForm;
   const { register, onSubmit, setValue, watch } = orderForm;
 
   const formValues = watch();
@@ -85,8 +86,11 @@ const AddOrderForm = ({ tokens, initSymbol = 'BTC' }: Props) => {
   };
 
   const handleNumericInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/,/g, '.');
+    let value = e.target.value.replace(/,/g, '.');
     if (/^\d*\.?\d*$/.test(value)) {
+      if (value.startsWith('.')) {
+        value = `0${value}`;
+      }
       e.target.value = value;
     } else {
       e.target.value = value.slice(0, -1);
@@ -104,8 +108,13 @@ const AddOrderForm = ({ tokens, initSymbol = 'BTC' }: Props) => {
       ${amount || '-'}
       ${price || '-'}
     `;
-    if (confirm(confirmMessage)) onSubmit();
+    if (confirm(confirmMessage))
+      startTransition(async () => {
+        onSubmit();
+      });
   };
+
+  console.log('isPending:', isPending);
 
   return (
     <FormWrapper className="create-order-form-wrapper">
@@ -143,7 +152,7 @@ const AddOrderForm = ({ tokens, initSymbol = 'BTC' }: Props) => {
             <TextInput
               type="text"
               placeholder="Amount"
-              disabled={isSubmitting}
+              disabled={isPending}
               error={errors.amount}
               {...register('amount', {
                 required: config.amountRequired,
@@ -157,7 +166,7 @@ const AddOrderForm = ({ tokens, initSymbol = 'BTC' }: Props) => {
             <TextInput
               type="text"
               placeholder="Price"
-              disabled={isSubmitting}
+              disabled={isPending}
               error={errors.price}
               {...register('price', {
                 required: config.priceRequired,
@@ -168,8 +177,8 @@ const AddOrderForm = ({ tokens, initSymbol = 'BTC' }: Props) => {
               onInput={handleNumericInput}
             />
 
-            <Button disabled={isSubmitting || !!creationError} type="submit">
-              {isSubmitting ? config.creating : config.add}
+            <Button disabled={isPending || !!creationError} type="submit">
+              {isPending ? config.creating : config.add}
             </Button>
           </FormContentContainer>
         </Form>

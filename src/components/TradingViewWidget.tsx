@@ -8,7 +8,7 @@ type Props = {
     | ChartSymbolEnum.BitcoinEther
     | ChartSymbolEnum.EtherBitcoin
     | ChartSymbolEnum.OthersBitcoin
-    | ChartSymbolEnum.Total1
+    | ChartSymbolEnum.Total
     | ChartSymbolEnum.Total2
     | ChartSymbolEnum.Total3;
   chartInterval:
