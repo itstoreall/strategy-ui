@@ -51,7 +51,7 @@ const initForm = {
   exchange: '',
 };
 
-const AddOrderForm = ({ tokens, initSymbol = 'BTC' }: Props) => {
+const AddOrderForm = ({ tokens, initSymbol }: Props) => {
   const [symbolOptions, setSymbolOptions] = useState<string[]>([]);
 
   const { openDropdownId, toggleDropdown } = useSelectMulti();
@@ -68,7 +68,7 @@ const AddOrderForm = ({ tokens, initSymbol = 'BTC' }: Props) => {
     if (tokens) {
       const options = tokens.map((token) => token.symbol);
       setSymbolOptions(options);
-      setValue('symbol', initSymbol, { shouldValidate: true });
+      if (initSymbol) setValue('symbol', initSymbol, { shouldValidate: true });
     }
   }, [tokens]);
 
@@ -114,8 +114,6 @@ const AddOrderForm = ({ tokens, initSymbol = 'BTC' }: Props) => {
       });
   };
 
-  console.log('isPending:', isPending);
-
   return (
     <FormWrapper className="create-order-form-wrapper">
       <FormBackdropContainer>
@@ -135,10 +133,11 @@ const AddOrderForm = ({ tokens, initSymbol = 'BTC' }: Props) => {
             <SelectMulti
               options={symbolOptions.filter((opt) => opt !== symbol)}
               initialOption={symbol}
-              placeholder="Symbol"
+              placeholder={symbolOptions.length ? 'Symbol' : 'No tokens'}
               onSelect={(value) => handleSelectChange('symbol', value)}
               isOpen={openDropdownId === symbol}
               onToggle={() => toggleDropdown(symbol)}
+              isDisable={!symbolOptions.length}
             />
 
             <SelectMulti
