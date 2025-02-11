@@ -2,8 +2,9 @@
 import { useEffect, useState, useTransition } from 'react';
 import useCreateOrderForm from '@/src/hooks/order/useCreateOrderForm';
 import useSelectMulti from '@/src/hooks/useSelectMulti';
-import { ExchangeEnum, OrderTypeEnum } from '@/src/enums';
+import useModal from '@/src/hooks/useModal';
 import { FormEvent, Token } from '@/src/types';
+import { ExchangeEnum, OrderTypeEnum } from '@/src/enums';
 import FormWrapper from '@/src/components/Container/FormWrapper';
 import FormBackdropContainer from '@/src/components/Container/FormBackdrop';
 import FormContentContainer from '@/src/components/Container/FormContent';
@@ -28,7 +29,7 @@ const config = {
   amountValidation: 'Amount must be a valid number',
   priceValidation: 'Price must be a valid number',
   confirmSubmit: 'Please confirm your order details:',
-  add: 'Add',
+  addOrder: 'Add order',
   creating: 'Creating...',
 };
 
@@ -57,6 +58,7 @@ const AddOrderForm = ({ tokens, initSymbol }: Props) => {
   const { openDropdownId, toggleDropdown } = useSelectMulti();
   const [isPending, startTransition] = useTransition();
   const orderForm = useCreateOrderForm(initForm);
+  const { closeModal } = useModal();
 
   const { errors, creationError } = orderForm;
   const { register, onSubmit, setValue, watch } = orderForm;
@@ -176,9 +178,19 @@ const AddOrderForm = ({ tokens, initSymbol }: Props) => {
               onInput={handleNumericInput}
             />
 
-            <Button disabled={isPending || !!creationError} type="submit">
-              {isPending ? config.creating : config.add}
-            </Button>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <Button disabled={isPending || !!creationError} type="submit">
+                {isPending ? config.creating : config.addOrder}
+              </Button>
+
+              <Button
+                style={{ flex: '0 0 47px', backgroundColor: '#f25c5e' }}
+                clickContent={closeModal}
+                type="button"
+              >
+                {null}
+              </Button>
+            </div>
           </FormContentContainer>
         </Form>
       </FormBackdropContainer>
