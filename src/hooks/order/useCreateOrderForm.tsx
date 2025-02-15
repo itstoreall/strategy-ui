@@ -89,6 +89,8 @@ const useCreateOrderForm = (formDefaults: Omit<Credentials, 'userId'>) => {
       userId,
     };
 
+    console.log('payload:', payload);
+
     createOrder(payload);
   });
 

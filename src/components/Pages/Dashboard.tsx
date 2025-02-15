@@ -7,9 +7,9 @@ import { deleteOrder } from '@/src/lib/api/deleteOrderServerAction';
 import useFetchAllTokens from '@/src/hooks/token/useFetchAllTokens';
 import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
+import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
-import PageHeading from '@/src/components/Layout/PageHeading';
 import MainLoader from '@/src/components/MainLoader';
 
 const Dashboard = () => {
@@ -32,7 +32,11 @@ const Dashboard = () => {
   return (
     <PageContainer label={Label.Main}>
       <main className="main">
-        <PageHeading title={'Dashboard'} handleModal={handleModal} />
+        <PageHeading
+          title={'Dashboard'}
+          buttonText={updatedTokens ? heading.headingConfig.addOrder : ''}
+          handleModal={handleModal}
+        />
 
         {updatedTokens ? (
           <div className="main-content">
@@ -45,7 +49,18 @@ const Dashboard = () => {
             </ul> */}
 
             <ul>
-              {userOrders?.map((order, idx) => {
+              {userOrders?.buy.map((order, idx) => {
+                const values = `${order.symbol}: ${order.amount} - ${order.price}`;
+                return (
+                  <li key={idx} onClick={() => removeOrder(order.id)}>
+                    {values}
+                  </li>
+                );
+              })}
+            </ul>
+
+            <ul>
+              {userOrders?.sell.map((order, idx) => {
                 const values = `${order.symbol}: ${order.amount} - ${order.price}`;
                 return (
                   <li key={idx} onClick={() => removeOrder(order.id)}>

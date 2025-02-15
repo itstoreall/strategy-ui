@@ -5,15 +5,18 @@ import Title from '@/src/components/Layout/Title';
 type Props = {
   title: string;
   role?: 'USER' | 'ADMIN' | '';
+  buttonText?: string;
   handleModal?: () => void;
 };
 
-const config = {
+export const headingConfig = {
   addOrder: 'Add Order',
 };
 
-const PageHeading = ({ title, role = '', handleModal }: Props) => {
+const PageHeading = ({ title, role = '', buttonText, handleModal }: Props) => {
   const path = usePathname();
+
+  const isButton = buttonText && path === '/dashboard';
 
   return (
     <div className="main-heading">
@@ -21,9 +24,9 @@ const PageHeading = ({ title, role = '', handleModal }: Props) => {
 
       {role && <span className="user-role">{role}</span>}
 
-      {path === '/dashboard' && (
+      {isButton && (
         <Button className="main-heading-button" clickContent={handleModal}>
-          {config.addOrder}
+          {buttonText}
         </Button>
       )}
     </div>

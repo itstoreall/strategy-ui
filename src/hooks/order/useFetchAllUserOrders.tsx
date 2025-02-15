@@ -1,12 +1,30 @@
 import { useQuery } from '@tanstack/react-query';
 import { orderService } from '@/src/services/order.service';
-import { OrderData } from '@/src/types';
+import { Order, OrderData } from '@/src/types';
+import { OrderTypeEnum } from '@/src/enums';
+
+export type Orders = {
+  buy: Order[];
+  sell: Order[];
+};
 
 const useFetchAllUserOrders = (
   userId: string | null,
   options: { enabled: boolean }
 ) => {
-  const modifyData = (data: OrderData) => data.data;
+  const modifyData = (data: OrderData) => {
+    const categorized = data.data.reduce<Orders>(
+      (acc, item) => {
+        if (item.type === OrderTypeEnum.Buy) acc.buy.push(item);
+        else if (item.type === OrderTypeEnum.Sell) acc.sell.push(item);
+        return acc;
+      },
+      { buy: [], sell: [] }
+    );
+
+    return categorized;
+  };
+
   const {
     data: userOrders,
     error,
