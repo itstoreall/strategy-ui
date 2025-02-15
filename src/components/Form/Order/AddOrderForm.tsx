@@ -16,6 +16,7 @@ import Form from '@/src/components/Form/Form';
 
 type Props = {
   tokens: Token[];
+  initType?: OrderTypeEnum | string;
   initSymbol?: string;
 };
 
@@ -45,14 +46,14 @@ const exchangeOptions = [
 ];
 
 const initForm = {
-  type: OrderTypeEnum.Buy,
+  type: '',
   symbol: '',
   amount: 0.0,
   price: 0.0,
   exchange: '',
 };
 
-const AddOrderForm = ({ tokens, initSymbol }: Props) => {
+const AddOrderForm = ({ tokens, initType, initSymbol }: Props) => {
   const [symbolOptions, setSymbolOptions] = useState<string[]>([]);
 
   const { openDropdownId, toggleDropdown } = useSelectMulti();
@@ -70,6 +71,7 @@ const AddOrderForm = ({ tokens, initSymbol }: Props) => {
     if (tokens) {
       const options = tokens.map((token) => token.symbol);
       setSymbolOptions(options);
+      if (initType) setValue('type', initType, { shouldValidate: true });
       if (initSymbol) setValue('symbol', initSymbol, { shouldValidate: true });
     }
   }, [tokens]);
@@ -82,7 +84,7 @@ const AddOrderForm = ({ tokens, initSymbol }: Props) => {
 
   const handleSelectChange = (
     field: keyof typeof formValues,
-    value: string
+    value: string | OrderTypeEnum
   ) => {
     setValue(field, value, { shouldValidate: true });
   };
@@ -128,8 +130,10 @@ const AddOrderForm = ({ tokens, initSymbol }: Props) => {
               initialOption={type}
               placeholder="Type"
               onSelect={(value) => handleSelectChange('type', value)}
-              isOpen={openDropdownId === type}
-              onToggle={() => toggleDropdown(type)}
+              isOpen={openDropdownId === 'type'}
+              onToggle={() =>
+                toggleDropdown(openDropdownId === 'type' ? '' : 'type')
+              }
             />
 
             <SelectMulti
@@ -137,8 +141,10 @@ const AddOrderForm = ({ tokens, initSymbol }: Props) => {
               initialOption={symbol}
               placeholder={symbolOptions.length ? 'Symbol' : 'No tokens'}
               onSelect={(value) => handleSelectChange('symbol', value)}
-              isOpen={openDropdownId === symbol}
-              onToggle={() => toggleDropdown(symbol)}
+              isOpen={openDropdownId === 'symbol'}
+              onToggle={() =>
+                toggleDropdown(openDropdownId === 'symbol' ? '' : 'symbol')
+              }
               isDisable={!symbolOptions.length}
             />
 

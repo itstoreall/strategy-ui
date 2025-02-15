@@ -32,17 +32,17 @@ const Dashboard = () => {
   return (
     <PageContainer label={Label.Main}>
       <main className="main">
-        <PageHeading title={'Dashboard'} />
+        <PageHeading title={'Dashboard'} handleModal={handleModal} />
 
         {updatedTokens ? (
           <div className="main-content">
             <AccountSnapshotSection />
 
-            <ul>
+            {/* <ul>
               {updatedTokens?.map((token) => (
                 <li key={token.id}>{`${token.symbol}: ${token.price}`}</li>
               ))}
-            </ul>
+            </ul> */}
 
             <ul>
               {userOrders?.map((order, idx) => {
@@ -65,7 +65,7 @@ const Dashboard = () => {
           </RenderModal>
         )}
 
-        <button onClick={handleModal}>Add Order</button>
+        {/* <button onClick={handleModal}>Add Order</button> */}
 
         {/* <button onClick={addOrder}>Add Order</button> */}
 

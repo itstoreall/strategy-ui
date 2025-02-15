@@ -83,4 +83,12 @@ button.uni-button {
       color: $colorButtonDisabled;
     }
   }
+
+  &.main-heading-button {
+    position: absolute;
+    top: -12px;
+    right: 0;
+    padding: 12px;
+    width: 120px;
+  }
 }

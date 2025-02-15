@@ -10,7 +10,7 @@ const errorHandler = (msg: string, err: unknown) => {
 };
 
 export type CreateOrderDto = {
-  type: OrderTypeEnum;
+  type: OrderTypeEnum | string;
   symbol: string;
   amount: number;
   price: number;

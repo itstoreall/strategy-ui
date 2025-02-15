@@ -4,14 +4,14 @@ const AccountSnapshotSection = () => {
       <ul className="section-content snapshot-list">
         <li className="snapshot-item">
           <div className="item-content">
-            <span className="content-name">Strategy</span>
-            <span className="content-value">2</span>
+            <span className="content-name">Tokens</span>
+            <span className="content-value">49</span>
           </div>
         </li>
         <li className="snapshot-item">
           <div className="item-content">
-            <span className="content-name">Token</span>
-            <span className="content-value">29</span>
+            <span className="content-name">Orders</span>
+            <span className="content-value">283</span>
           </div>
         </li>
         <li className="snapshot-item">

@@ -6,7 +6,7 @@ import { OrderTypeEnum } from '@/src/enums';
 import { useSession } from 'next-auth/react';
 
 type Credentials = {
-  type: OrderTypeEnum;
+  type: OrderTypeEnum | string;
   symbol: string;
   amount: number;
   price: number;
