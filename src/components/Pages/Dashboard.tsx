@@ -8,7 +8,9 @@ import useFetchAllTokens from '@/src/hooks/token/useFetchAllTokens';
 import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
+import OrderListSection from '@/src/components/Section/OrderListSection';
 import PageContainer, { Label } from '@/src/components/Container/Page';
+import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import MainLoader from '@/src/components/MainLoader';
 
@@ -40,35 +42,23 @@ const Dashboard = () => {
 
         {updatedTokens ? (
           <div className="main-content">
-            <AccountSnapshotSection />
+            <SectionsContainer>
+              <AccountSnapshotSection />
 
-            {/* <ul>
-              {updatedTokens?.map((token) => (
-                <li key={token.id}>{`${token.symbol}: ${token.price}`}</li>
-              ))}
-            </ul> */}
+              {userOrders && (
+                <>
+                  <OrderListSection
+                    data={userOrders.buy}
+                    removeOrder={removeOrder}
+                  />
 
-            <ul>
-              {userOrders?.buy.map((order, idx) => {
-                const values = `${order.symbol}: ${order.amount} - ${order.price}`;
-                return (
-                  <li key={idx} onClick={() => removeOrder(order.id)}>
-                    {values}
-                  </li>
-                );
-              })}
-            </ul>
-
-            <ul>
-              {userOrders?.sell.map((order, idx) => {
-                const values = `${order.symbol}: ${order.amount} - ${order.price}`;
-                return (
-                  <li key={idx} onClick={() => removeOrder(order.id)}>
-                    {values}
-                  </li>
-                );
-              })}
-            </ul>
+                  <OrderListSection
+                    data={userOrders.sell}
+                    removeOrder={removeOrder}
+                  />
+                </>
+              )}
+            </SectionsContainer>
           </div>
         ) : (
           <MainLoader />

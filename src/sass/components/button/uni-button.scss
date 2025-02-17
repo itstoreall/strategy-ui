@@ -86,9 +86,10 @@ button.uni-button {
 
   &.main-heading-button {
     position: absolute;
-    top: -12px;
+    top: -10px;
     right: 0;
-    padding: 12px;
-    width: 120px;
+    padding: 11px;
+    width: 100px;
+    font-size: 0.8rem;
   }
 }

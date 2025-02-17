@@ -1,0 +1,66 @@
+@use '@/src/sass/base/vars' as *;
+@use '@/src/sass/mixins' as *;
+
+section.section.order-list {
+  // position: relative;
+
+  > div.section-content {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+}
+
+section.order-list {
+  > div.section-content.order-list {
+    > span.order-list-header {
+      // position: absolute;
+      // top: 10px;
+      // padding: 0;
+      display: flex;
+      // justify-content: center;
+      // margin-bottom: 0.5rem;
+      // width: auto;
+      height: 0.1rem;
+      background-color: $greyDark;
+      // border-radius: $smallBorderRadius;
+
+      &.BUY {
+        background-color: $googleGreen;
+      }
+
+      &.SELL {
+        background-color: $googleRed;
+      }
+    }
+
+    > ul.section-order-list {
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+
+      > li {
+        display: flex;
+        align-items: center;
+        height: 40px;
+        // background-color: teal;
+
+        &:not(:last-child) {
+          border-bottom: 0.05rem solid $greyDark;
+        }
+      }
+    }
+
+    > div.toggle-block {
+      display: flex;
+      justify-content: center;
+      // align-items: flex-start;
+      // margin-top: 0.5rem;
+      height: 40px;
+      // background-color: teal;
+
+      > button.toggle-button {
+        background-color: transparent;
+      }
+    }
+  }
+}
