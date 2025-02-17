@@ -52,7 +52,7 @@ const OrderListSection = ({ data }: Props) => {
       <MainDividerSection
         title={isBuy ? config.buyDevider : config.sellDevider}
         isSwitchButton={data.length > 5}
-        isDisabled={isExpanded}
+        isDisabled={!isExpanded}
         setIsDisabled={toggleList}
       />
       <section className="section order-list">
