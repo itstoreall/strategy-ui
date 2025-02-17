@@ -4,6 +4,7 @@ section.main-divider {
   display: flex;
   align-items: center;
   gap: 1rem;
+  min-height: 22px;
 
   > span {
     &.main-divider-section-title {

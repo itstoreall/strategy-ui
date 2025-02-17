@@ -2,8 +2,8 @@
 
 import { useSession } from 'next-auth/react';
 import useModal from '@/src/hooks/useModal';
-import { useQueryClient } from '@tanstack/react-query';
-import { deleteOrder } from '@/src/lib/api/deleteOrderServerAction';
+// import { useQueryClient } from '@tanstack/react-query';
+// import { deleteOrder } from '@/src/lib/api/deleteOrderServerAction';
 import useFetchAllTokens from '@/src/hooks/token/useFetchAllTokens';
 import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
@@ -17,7 +17,7 @@ import MainLoader from '@/src/components/MainLoader';
 const Dashboard = () => {
   const { data: session } = useSession();
   const { updatedTokens } = useFetchAllTokens();
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
 
   const userId = session?.user?.id || null;
 
@@ -26,10 +26,10 @@ const Dashboard = () => {
 
   const handleModal = () => openModal(ModalContentEnum.Form);
 
-  const removeOrder = async (id: number) => {
-    const isDeleted = await deleteOrder(id);
-    if (isDeleted) queryClient.invalidateQueries({ queryKey: ['userOrders'] });
-  };
+  // const removeOrder = async (id: number) => {
+  //   const isDeleted = await deleteOrder(id);
+  //   if (isDeleted) queryClient.invalidateQueries({ queryKey: ['userOrders'] });
+  // };
 
   return (
     <PageContainer label={Label.Main}>
@@ -45,19 +45,19 @@ const Dashboard = () => {
             <SectionsContainer>
               <AccountSnapshotSection />
 
-              {userOrders && (
-                <>
-                  <OrderListSection
-                    data={userOrders.buy}
-                    removeOrder={removeOrder}
-                  />
+              {userOrders?.buy.length ? (
+                <OrderListSection
+                  data={userOrders.buy}
+                  // removeOrder={removeOrder}
+                />
+              ) : null}
 
-                  <OrderListSection
-                    data={userOrders.sell}
-                    removeOrder={removeOrder}
-                  />
-                </>
-              )}
+              {userOrders?.sell.length ? (
+                <OrderListSection
+                  data={userOrders.sell}
+                  // removeOrder={removeOrder}
+                />
+              ) : null}
             </SectionsContainer>
           </div>
         ) : (

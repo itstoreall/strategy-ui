@@ -2,24 +2,20 @@
 @use '@/src/sass/mixins' as *;
 
 section.section.order-list {
-  // position: relative;
-
   > div.section-content {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+  }
+
+  @include media-screen-orientation('min', $tablet) {
+    min-height: 3.5rem;
   }
 }
 
 section.order-list {
   > div.section-content.order-list {
     > span.order-list-header {
-      // position: absolute;
-      // top: 10px;
-      // padding: 0;
       display: flex;
-      // justify-content: center;
-      // margin-bottom: 0.5rem;
-      // width: auto;
       height: 0.1rem;
       background-color: $greyDark;
       // border-radius: $smallBorderRadius;
@@ -38,7 +34,7 @@ section.order-list {
       display: flex;
       flex-direction: column;
 
-      > li {
+      > li.section-order-list-item {
         display: flex;
         align-items: center;
         height: 40px;
@@ -47,19 +43,77 @@ section.order-list {
         &:not(:last-child) {
           border-bottom: 0.05rem solid $greyDark;
         }
+
+        > ul.section-order-list-item-row-list {
+          display: flex;
+          gap: 1rem;
+          min-width: 100%;
+
+          > li.row-list-item {
+            width: 100%;
+
+            // &:not(:first-child) {
+            //   text-align: end;
+            //   background-color: red;
+            // }
+
+            &.order-symbol {
+              min-width: 5rem;
+              max-width: 5rem;
+              // background-color: tomato;
+            }
+
+            &.order-count {
+              text-align: end;
+              // min-width: 1rem;
+              max-width: 12rem;
+              // background-color: teal;
+            }
+
+            &.order-amount {
+              // max-width: 12rem;
+              text-align: end;
+              min-width: 6rem;
+              // background-color: palevioletred;
+            }
+
+            &.order-percent {
+              text-align: end;
+              max-width: 12rem;
+              // min-width: 100%;
+              // background-color: palevioletred;
+
+              &.color-green {
+                color: $googleGreen;
+              }
+
+              &.color-red {
+                color: $googleRed;
+              }
+            }
+          }
+        }
       }
     }
 
     > div.toggle-block {
       display: flex;
       justify-content: center;
-      // align-items: flex-start;
-      // margin-top: 0.5rem;
       height: 40px;
       // background-color: teal;
 
       > button.toggle-button {
         background-color: transparent;
+
+        > svg {
+          transition: stroke $ease03s;
+        }
+
+        &:hover {
+          > svg {
+            stroke: $violetLight;
+          }
+        }
       }
     }
   }

@@ -5,8 +5,8 @@ import Button from '@/src/components/Button/Button';
 type Props = {
   title?: string;
   isSwitchButton?: boolean;
-  isDisabled: boolean;
-  setIsDisabled: Dispatch<SetStateAction<boolean>>;
+  isDisabled?: boolean;
+  setIsDisabled?: Dispatch<SetStateAction<boolean>>;
 };
 
 const MainDividerSection = ({
@@ -16,6 +16,7 @@ const MainDividerSection = ({
   setIsDisabled,
 }: Props) => {
   const toggleSwitch = () => {
+    if (!setIsDisabled) return;
     setIsDisabled((prev) => (prev === true ? false : true));
   };
 
@@ -27,7 +28,7 @@ const MainDividerSection = ({
 
       {isSwitchButton && (
         <Button className="switch-button" clickContent={toggleSwitch}>
-          <SwitchIcon isDisabled={isDisabled} />
+          <SwitchIcon isDisabled={isDisabled ?? false} />
         </Button>
       )}
     </section>
