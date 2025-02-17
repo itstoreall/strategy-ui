@@ -1,10 +1,7 @@
 import { useState } from 'react';
-import { FiChevronUp } from 'react-icons/fi';
-import { FiChevronDown } from 'react-icons/fi';
 import { Order } from '@/src/types';
 import { OrderTypeEnum } from '@/src/enums';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
-import Button from '@/src/components/Button/Button';
 
 type Props = {
   data: Order[];
@@ -48,15 +45,15 @@ const OrderListSection = ({ data }: Props) => {
   // const headingColor = isBuy ? OrderTypeEnum.Buy : OrderTypeEnum.Sell;
   const displayedData = isExpanded
     ? aggregatedData
-    : aggregatedData.slice(0, 10);
+    : aggregatedData.slice(0, 5);
 
   return (
     <>
       <MainDividerSection
         title={isBuy ? config.buyDevider : config.sellDevider}
-        // isSwitchButton
-        // isDisabled={true}
-        // setIsDisabled={() => console.log()}
+        isSwitchButton={data.length > 5}
+        isDisabled={isExpanded}
+        setIsDisabled={toggleList}
       />
       <section className="section order-list">
         <div className="section-content order-list">
@@ -75,23 +72,29 @@ const OrderListSection = ({ data }: Props) => {
                 >
                   <ul className="section-order-list-item-row-list">
                     <li className="row-list-item order-symbol">
-                      {order.symbol}
-                      {/* {'WERTFGR'} */}
+                      <span>
+                        {order.symbol}
+                        {/* {'WERTFGR'} */}
+                      </span>
                     </li>
                     <li className="row-list-item order-count">
-                      {order.orders}
-                      {/* {358} */}
+                      <span>
+                        {order.orders}
+                        {/* {358} */}
+                      </span>
                     </li>
                     <li className="row-list-item order-amount">
-                      {parseFloat(order.totalAmount.toFixed(6))}
-                      {/* {38564326} */}
+                      <span>
+                        {parseFloat(order.totalAmount.toFixed(6))}
+                        {/* {38564326} */}
+                      </span>
                     </li>
                     <li
                       className={`row-list-item order-percent ${
                         isBuy ? 'color-green' : 'color-red'
                       }`}
                     >
-                      {`${'+'}${2356}%`}
+                      <span>{`${'+'}${2356}%`}</span>
                     </li>
                   </ul>
                 </li>
@@ -99,7 +102,7 @@ const OrderListSection = ({ data }: Props) => {
             })}
           </ul>
 
-          {aggregatedData.length > 10 && (
+          {/* {aggregatedData.length > 5 && (
             <div className="toggle-block">
               <Button className="toggle-button" clickContent={toggleList}>
                 {isExpanded ? (
@@ -109,7 +112,7 @@ const OrderListSection = ({ data }: Props) => {
                 )}
               </Button>
             </div>
-          )}
+          )} */}
         </div>
       </section>
     </>

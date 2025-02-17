@@ -1,10 +1,11 @@
 @use '@/src/sass/base/vars' as *;
 @use '@/src/sass/mixins' as *;
 
+// General
 section.section.order-list {
   > div.section-content {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
   @include media-screen-orientation('min', $tablet) {
@@ -12,6 +13,7 @@ section.section.order-list {
   }
 }
 
+// Custom
 section.order-list {
   > div.section-content.order-list {
     > span.order-list-header {
@@ -37,7 +39,7 @@ section.order-list {
       > li.section-order-list-item {
         display: flex;
         align-items: center;
-        height: 40px;
+        height: 48px;
         // background-color: teal;
 
         &:not(:last-child) {
@@ -57,8 +59,10 @@ section.order-list {
             //   background-color: red;
             // }
 
+            font-size: 0.9rem;
+
             &.order-symbol {
-              min-width: 5rem;
+              min-width: 4.6rem;
               max-width: 5rem;
               // background-color: tomato;
             }
@@ -68,12 +72,21 @@ section.order-list {
               // min-width: 1rem;
               max-width: 12rem;
               // background-color: teal;
+
+              > span {
+                padding: 0.2rem 0.5rem;
+                // font-weight: 600;
+                color: $violetLight;
+                // background-color: $violetDark;
+                // border-radius: $smallBorderRadius;
+              }
             }
 
             &.order-amount {
               // max-width: 12rem;
               text-align: end;
-              min-width: 6rem;
+              min-width: 4.2rem;
+              // min-width: 6rem;
               // background-color: palevioletred;
             }
 
@@ -84,11 +97,15 @@ section.order-list {
               // background-color: palevioletred;
 
               &.color-green {
-                color: $googleGreen;
+                > span {
+                  color: $googleGreen;
+                }
               }
 
               &.color-red {
-                color: $googleRed;
+                > span {
+                  color: $googleRed;
+                }
               }
             }
           }
