@@ -50,6 +50,7 @@ const OrderListSection = ({ data }: Props) => {
   return (
     <>
       <MainDividerSection
+        className="order-list-devider"
         title={isBuy ? config.buyDevider : config.sellDevider}
         isSwitchButton={data.length > 5}
         isDisabled={!isExpanded}

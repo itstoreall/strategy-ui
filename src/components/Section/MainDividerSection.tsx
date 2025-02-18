@@ -3,6 +3,7 @@ import SwitchIcon from '@/src/assets/icons/SwitchIcon';
 import Button from '@/src/components/Button/Button';
 
 type Props = {
+  className?: 'order-list-devider';
   title?: string;
   isSwitchButton?: boolean;
   isDisabled?: boolean;
@@ -10,6 +11,7 @@ type Props = {
 };
 
 const MainDividerSection = ({
+  className,
   title = '',
   isSwitchButton = false,
   isDisabled,
@@ -21,7 +23,7 @@ const MainDividerSection = ({
   };
 
   return (
-    <section className="main-divider">
+    <section className={`main-divider ${className}`}>
       {title && <span className="main-divider-section-title">{title}</span>}
 
       <span className="main-divider-section-divider" />
