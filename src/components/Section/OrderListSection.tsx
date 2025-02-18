@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Link from 'next/link';
 import { Order } from '@/src/types';
 import { OrderTypeEnum } from '@/src/enums';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
@@ -20,7 +21,6 @@ const OrderListSection = ({ data }: Props) => {
     data.reduce((acc, order) => {
       if (!acc[order.symbol]) {
         acc[order.symbol] = {
-          // ...order,
           symbol: order.symbol,
           totalAmount: order.amount,
           totalFiat: order.fiat,
@@ -55,64 +55,48 @@ const OrderListSection = ({ data }: Props) => {
         isDisabled={!isExpanded}
         setIsDisabled={toggleList}
       />
+
       <section className="section order-list">
         <div className="section-content order-list">
-          {/* <span className={`order-list-header ${headingColor}`} /> */}
-
           <ul className="section-order-list">
             {displayedData.map((order, idx) => {
               // console.log(parseFloat(order.totalAmount.toFixed(6)));
               // const values = `${order.symbol}: ${order.amount} - ${order.price}`;
               return (
-                // <li key={idx} onClick={() => removeOrder(order.id)}>
-                <li
-                  key={idx}
-                  className="section-order-list-item"
-                  onClick={() => console.log(111)}
-                >
-                  <ul className="section-order-list-item-row-list">
-                    <li className="row-list-item order-symbol">
-                      <span>
-                        {order.symbol}
-                        {/* {'WERTFGR'} */}
-                      </span>
-                    </li>
-                    <li className="row-list-item order-count">
-                      <span>
-                        {order.orders}
-                        {/* {358} */}
-                      </span>
-                    </li>
-                    <li className="row-list-item order-amount">
-                      <span>
-                        {parseFloat(order.totalAmount.toFixed(6))}
-                        {/* {38564326} */}
-                      </span>
-                    </li>
-                    <li
-                      className={`row-list-item order-percent ${
-                        isBuy ? 'color-green' : 'color-red'
-                      }`}
-                    >
-                      <span>{`${'+'}${2356}%`}</span>
-                    </li>
-                  </ul>
+                <li key={idx} className="section-order-list-item">
+                  <Link href="/dashboard">
+                    <ul className="section-order-list-item-row-list">
+                      <li className="row-list-item order-symbol">
+                        <span>
+                          {order.symbol}
+                          {/* {'WERTFGR'} */}
+                        </span>
+                      </li>
+                      <li className="row-list-item order-count">
+                        <span>
+                          {order.orders}
+                          {/* {358} */}
+                        </span>
+                      </li>
+                      <li className="row-list-item order-amount">
+                        <span>
+                          {parseFloat(order.totalAmount.toFixed(6))}
+                          {/* {38564326} */}
+                        </span>
+                      </li>
+                      <li
+                        className={`row-list-item order-percent ${
+                          isBuy ? 'color-green' : 'color-red'
+                        }`}
+                      >
+                        <span>{`${'+'}${2356}%`}</span>
+                      </li>
+                    </ul>
+                  </Link>
                 </li>
               );
             })}
           </ul>
-
-          {/* {aggregatedData.length > 5 && (
-            <div className="toggle-block">
-              <Button className="toggle-button" clickContent={toggleList}>
-                {isExpanded ? (
-                  <FiChevronUp size={20} />
-                ) : (
-                  <FiChevronDown size={20} />
-                )}
-              </Button>
-            </div>
-          )} */}
         </div>
       </section>
     </>

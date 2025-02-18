@@ -1,3 +1,6 @@
+@use '@/src/sass/base/vars' as *;
+@use '@/src/sass/mixins' as *;
+
 .home-page {
   display: flex;
   flex-direction: column;
@@ -5,5 +8,9 @@
   justify-content: center;
   gap: 2rem;
   min-height: 100svh;
-  transform: translate(0, -20px);
+  transform: translate(0, -40px);
+
+  @include media-screen-orientation('min', $tablet) {
+    transform: translate(0, -20px);
+  }
 }
