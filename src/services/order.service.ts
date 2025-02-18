@@ -35,7 +35,7 @@ class OrderService {
     }
   }
 
-  async fetchAllByUserId(userId?: string): Promise<OrderData> {
+  async fetchAllByUserId(userId: string): Promise<OrderData> {
     if (!userId) {
       throw new Error('User ID is required to fetch orders.');
     }
@@ -46,6 +46,37 @@ class OrderService {
       return res.data;
     } catch (err: unknown) {
       const errorMessage = errorHandler('ERROR in fetchAllByUserId:', err);
+      throw new Error(errorMessage);
+    }
+  }
+
+  async fetchAllByUserIdAndStrategy(
+    userId: string,
+    type: string,
+    symbol: string,
+    status: string,
+    exchange: string
+  ): Promise<OrderData> {
+    if (!userId) {
+      throw new Error('User ID is required to fetch orders.');
+    }
+
+    const queryType = type ? `&type=${type}` : '';
+    const queryStatus = exchange ? `&status=${status}` : '';
+    const queryExchange = exchange ? `&exchange=${exchange}` : '';
+
+    console.log('queryExchange:', queryExchange);
+
+    try {
+      // const url = `/orders/user/${userId}/${symbol}`;
+      const url = `/orders/user/${userId}/strategy?symbol=${symbol}${queryType}${queryStatus}${queryExchange}`;
+      const res = await apiClient.get(url);
+      return res.data;
+    } catch (err: unknown) {
+      const errorMessage = errorHandler(
+        'ERROR in fetchAllByUserIdAndStrategy:',
+        err
+      );
       throw new Error(errorMessage);
     }
   }

@@ -4,9 +4,12 @@ import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import useModal from '@/src/hooks/useModal';
 import useFetchAllTokens from '@/src/hooks/token/useFetchAllTokens';
+import useFetchAllUserStrategyOrders from '@/src/hooks/order/useFetchAllUserStrategyOrders';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import SectionsContainer from '@/src/components/Container/Sections';
+import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
+import RenderModal from '@/src/components/Modal/RenderModal';
 import MainLoader from '@/src/components/MainLoader';
 
 const Strategy = () => {
@@ -17,14 +20,26 @@ const Strategy = () => {
 
   const userId = session?.user?.id || null;
   const path = pathname.split('/')[2];
-  const strategy = path.split('-')[0];
+  const type = path.split('-')[0];
   const symbol = path.split('-')[1];
 
   // console.log('userId:', userId);
-  // console.log('strategy:', strategy);
+  // console.log('type:', type);
   // console.log('symbol:', symbol);
 
+  const { userOrders } = useFetchAllUserStrategyOrders(
+    userId,
+    type,
+    symbol,
+    'ACTIVE',
+    '',
+    {
+      enabled: !!userId,
+    }
+  );
   const { openModal, ModalContentEnum } = useModal(); // RenderModal,
+
+  // if (userOrders) console.log('userOrders:', userOrders);
 
   const handleModal = () => openModal(ModalContentEnum.Form);
 
@@ -33,23 +48,29 @@ const Strategy = () => {
       <main className="main">
         <PageHeading
           title={'Strategy'}
-          buttonText={updatedTokens ? heading.headingConfig.addOrder : ''}
+          buttonText={heading.headingConfig.addOrder}
           handleModal={handleModal}
+          isButtonDisabled={!updatedTokens}
         />
 
-        {updatedTokens ? (
+        {userOrders ? (
           <div className="main-content">
-            <SectionsContainer>{`${userId} - ${strategy} - ${symbol}`}</SectionsContainer>
+            <SectionsContainer>{`${userId} - ${type} - ${symbol}`}</SectionsContainer>
           </div>
         ) : (
           <MainLoader />
         )}
 
-        {/* {updatedTokens && (
+        {updatedTokens && (
           <RenderModal>
-            <AddOrderForm tokens={updatedTokens} />
+            <AddOrderForm
+              tokens={updatedTokens}
+              initType={type}
+              initSymbol={symbol}
+              invalidateQuery={'userStrategyOrders'}
+            />
           </RenderModal>
-        )} */}
+        )}
       </main>
     </PageContainer>
   );

@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import useCreateOrder from '@/src/hooks/order/useCreateOrder';
+import useCreateOrder, { InvalidateQuery } from '@/src/hooks/order/useCreateOrder';
 import { OrderTypeEnum } from '@/src/enums';
 import { useSession } from 'next-auth/react';
 
@@ -18,7 +18,10 @@ const config = {
   error: 'Order creation unsuccessful.',
 };
 
-const useCreateOrderForm = (formDefaults: Omit<Credentials, 'userId'>) => {
+const useCreateOrderForm = (
+  formDefaults: Omit<Credentials, 'userId'>,
+  invalidateQuery: InvalidateQuery
+) => {
   const { data: session } = useSession();
   const userId = session?.user?.id;
 
@@ -33,7 +36,11 @@ const useCreateOrderForm = (formDefaults: Omit<Credentials, 'userId'>) => {
       },
     });
 
-  const { mutate: createOrder, isSuccess, isError } = useCreateOrder();
+  const {
+    mutate: createOrder,
+    isSuccess,
+    isError,
+  } = useCreateOrder(invalidateQuery);
   const { errors, isSubmitting } = formState;
 
   const watchedValues = watch();

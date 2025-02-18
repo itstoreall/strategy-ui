@@ -3,7 +3,9 @@ import useModal from '@/src/hooks/useModal';
 import { CreateOrderDto } from '@/src/services/order.service';
 import { createOrder } from '@/src/lib/api/createOrderServerAction';
 
-const useCreateOrder = () => {
+export type InvalidateQuery = 'userOrders' | 'userStrategyOrders';
+
+const useCreateOrder = (invalidateQuer: InvalidateQuery) => {
   const queryClient = useQueryClient();
   const { closeModal } = useModal();
 
@@ -12,7 +14,9 @@ const useCreateOrder = () => {
     mutationFn: (dto: CreateOrderDto) => createOrder(dto),
     onSuccess: (res) => {
       console.log('Order created successfully:', res.data);
-      queryClient.invalidateQueries({ queryKey: ['userOrders'] });
+      queryClient.invalidateQueries({
+        queryKey: [invalidateQuer],
+      });
       // alert('Success!');
       closeModal();
     },

@@ -66,7 +66,10 @@ const Dashboard = () => {
 
         {updatedTokens && (
           <RenderModal>
-            <AddOrderForm tokens={updatedTokens} />
+            <AddOrderForm
+              tokens={updatedTokens}
+              invalidateQuery={'userOrders'}
+            />
           </RenderModal>
         )}
 

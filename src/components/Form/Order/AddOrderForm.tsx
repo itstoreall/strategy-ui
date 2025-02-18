@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useTransition } from 'react';
 import useCreateOrderForm from '@/src/hooks/order/useCreateOrderForm';
+import { InvalidateQuery } from '@/src/hooks/order/useCreateOrder';
 import useSelectMulti from '@/src/hooks/useSelectMulti';
 import useModal from '@/src/hooks/useModal';
 import { FormEvent, Token } from '@/src/types';
@@ -18,6 +19,7 @@ type Props = {
   tokens: Token[];
   initType?: OrderTypeEnum | string;
   initSymbol?: string;
+  invalidateQuery: InvalidateQuery;
 };
 
 const config = {
@@ -53,12 +55,17 @@ const initForm = {
   exchange: '',
 };
 
-const AddOrderForm = ({ tokens, initType, initSymbol }: Props) => {
+const AddOrderForm = ({
+  tokens,
+  initType,
+  initSymbol,
+  invalidateQuery,
+}: Props) => {
   const [symbolOptions, setSymbolOptions] = useState<string[]>([]);
 
   const { openDropdownId, toggleDropdown } = useSelectMulti();
   const [isPending, startTransition] = useTransition();
-  const orderForm = useCreateOrderForm(initForm);
+  const orderForm = useCreateOrderForm(initForm, invalidateQuery);
   const { closeModal } = useModal();
 
   const { errors, creationError } = orderForm;
