@@ -39,6 +39,7 @@ const OrderListSection = ({ data }: Props) => {
   // console.log('aggregatedData:', data, aggregatedData);
 
   const isBuy = data[0].type === OrderTypeEnum.Buy;
+  const strategy = isBuy ? OrderTypeEnum.Buy : OrderTypeEnum.Sell;
 
   const toggleList = () => setIsExpanded((prev) => !prev);
 
@@ -65,7 +66,7 @@ const OrderListSection = ({ data }: Props) => {
               // const values = `${order.symbol}: ${order.amount} - ${order.price}`;
               return (
                 <li key={idx} className="section-order-list-item">
-                  <Link href="/dashboard">
+                  <Link href={`/strategy/${strategy}-${order.symbol}`}>
                     <ul className="section-order-list-item-row-list">
                       <li className="row-list-item order-symbol">
                         <span>
