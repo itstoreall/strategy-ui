@@ -9,8 +9,9 @@ import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
-import RenderModal from '@/src/components/Modal/RenderModal';
+// import RenderModal from '@/src/components/Modal/RenderModal';
 import MainLoader from '@/src/components/MainLoader';
+import { OrderStatusEnum } from '@/src/enums';
 
 const Strategy = () => {
   const { updatedTokens } = useFetchAllTokens();
@@ -31,13 +32,11 @@ const Strategy = () => {
     userId,
     type,
     symbol,
-    'ACTIVE',
-    '',
-    {
-      enabled: !!userId,
-    }
+    OrderStatusEnum.Active,
+    '', // ExchangeEnum
+    { enabled: !!userId }
   );
-  const { openModal, ModalContentEnum } = useModal(); // RenderModal,
+  const { RenderModal, openModal, ModalContentEnum } = useModal(); // RenderModal,
 
   // if (userOrders) console.log('userOrders:', userOrders);
 
@@ -55,7 +54,7 @@ const Strategy = () => {
 
         {userOrders ? (
           <div className="main-content">
-            <SectionsContainer>{`${userId} - ${type} - ${symbol}`}</SectionsContainer>
+            <SectionsContainer>{`${type} - ${symbol} - ${userOrders.length} orders`}</SectionsContainer>
           </div>
         ) : (
           <MainLoader />
