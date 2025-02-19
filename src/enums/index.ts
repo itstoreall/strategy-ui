@@ -1,3 +1,8 @@
+export enum QueryKey {
+  UserOrders = 'userOrders',
+  UserStrategyOrders = 'userStrategyOrders',
+}
+
 // ------ Token:
 
 export enum TokenStatusEnum {

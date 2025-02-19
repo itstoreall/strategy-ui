@@ -11,7 +11,8 @@ import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 // import RenderModal from '@/src/components/Modal/RenderModal';
 import MainLoader from '@/src/components/MainLoader';
-import { OrderStatusEnum } from '@/src/enums';
+import { OrderStatusEnum, QueryKey } from '@/src/enums';
+import { QueryKeys } from '@/src/hooks/order/useCreateOrder';
 
 const Strategy = () => {
   const { updatedTokens } = useFetchAllTokens();
@@ -42,6 +43,11 @@ const Strategy = () => {
 
   const handleModal = () => openModal(ModalContentEnum.Form);
 
+  const invalidateQuery = [
+    QueryKey.UserOrders,
+    QueryKey.UserStrategyOrders,
+  ] as QueryKeys[];
+
   return (
     <PageContainer label={Label.Main}>
       <main className="main">
@@ -66,7 +72,10 @@ const Strategy = () => {
               tokens={updatedTokens}
               initType={type}
               initSymbol={symbol}
-              invalidateQuery={'userStrategyOrders'}
+              invalidateQuery={
+                // ['userTokens', 'userStrategyOrders'] as QueryKeys[]
+                invalidateQuery
+              }
             />
           </RenderModal>
         )}

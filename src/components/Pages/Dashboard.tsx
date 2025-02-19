@@ -5,6 +5,10 @@ import useModal from '@/src/hooks/useModal';
 // import { deleteOrder } from '@/src/lib/api/deleteOrderServerAction';
 // import useFetchAllTokens from '@/src/hooks/token/useFetchAllTokens';
 // import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
+// import useInvalidateQueries from '@/src/hooks/useInvalidateQueries';
+import useDashboard from '@/src/hooks/useDashboard';
+import { QueryKeys } from '@/src/hooks/order/useCreateOrder';
+import { QueryKey } from '@/src/enums';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import OrderListSection from '@/src/components/Section/OrderListSection';
@@ -12,7 +16,8 @@ import PageContainer, { Label } from '@/src/components/Container/Page';
 import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import MainLoader from '@/src/components/MainLoader';
-import useDashboard from '@/src/hooks/useDashboard';
+// import { QueryKeys } from '@/src/hooks/order/useCreateOrder';
+// import { useEffect } from 'react';
 
 const Dashboard = () => {
   // const { data: session } = useSession();
@@ -25,12 +30,24 @@ const Dashboard = () => {
   const { RenderModal, openModal, ModalContentEnum } = useModal();
   const { updatedTokens, userOrders } = useDashboard();
 
+  // const { updateData } = useInvalidateQueries();
+
   // const handleModal = () => openModal(ModalContentEnum.Form);
 
   // const removeOrder = async (id: number) => {
   //   const isDeleted = await deleteOrder(id);
   //   if (isDeleted) queryClient.invalidateQueries({ queryKey: ['userOrders'] });
   // };
+
+  // useEffect(() => {
+  //   updateData(['tokens', 'userOrders']);
+  //   console.log(1111);
+  // }, [updateData]);
+
+  const invalidateQuery = [
+    QueryKey.UserOrders,
+    QueryKey.UserStrategyOrders,
+  ] as QueryKeys[];
 
   return (
     <PageContainer label={Label.Main}>
@@ -70,7 +87,7 @@ const Dashboard = () => {
           <RenderModal>
             <AddOrderForm
               tokens={updatedTokens}
-              invalidateQuery={'userOrders'}
+              invalidateQuery={invalidateQuery}
             />
           </RenderModal>
         )}
