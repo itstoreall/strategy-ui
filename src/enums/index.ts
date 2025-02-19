@@ -47,3 +47,9 @@ export enum ChartIntervalEnum {
   Week = 'W',
   Month = 'M',
 }
+
+// ------ Modal:
+
+export enum ModalContentEnum {
+  Form = 'FORM',
+}

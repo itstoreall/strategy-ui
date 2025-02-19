@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { ChildrenProps } from '@/src/types';
-import { ModalContentEnum } from '@/src/components/Modal/enum';
+import { ModalContentEnum } from '@/src/enums';
 
 export type ModalContextProps = {
   modal: ModalContentEnum | null;

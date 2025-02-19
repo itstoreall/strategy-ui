@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { createContext, useMemo, useState } from 'react';
 import { ChildrenProps } from '@/src/types';
+import { ModalContentEnum } from '@/src/enums';
 import { ModalContextProps } from '@/src/components/Modal/types';
-import { ModalContentEnum } from '@/src/components/Modal/enum';
 import RenderModal from '@/src/components/Modal/RenderModal';
 
 const initContext: ModalContextProps = {

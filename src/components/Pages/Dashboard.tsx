@@ -1,11 +1,10 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
 import useModal from '@/src/hooks/useModal';
 // import { useQueryClient } from '@tanstack/react-query';
 // import { deleteOrder } from '@/src/lib/api/deleteOrderServerAction';
-import useFetchAllTokens from '@/src/hooks/token/useFetchAllTokens';
-import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
+// import useFetchAllTokens from '@/src/hooks/token/useFetchAllTokens';
+// import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import OrderListSection from '@/src/components/Section/OrderListSection';
@@ -13,18 +12,23 @@ import PageContainer, { Label } from '@/src/components/Container/Page';
 import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import MainLoader from '@/src/components/MainLoader';
+import useDashboard from '@/src/hooks/useDashboard';
 
 const Dashboard = () => {
-  const { data: session } = useSession();
-  const { updatedTokens } = useFetchAllTokens();
+  // const { data: session } = useSession();
+  // const { updatedTokens } = useFetchAllTokens();
   // const queryClient = useQueryClient();
 
-  const userId = session?.user?.id || null;
+  // const userId = session?.user?.id || null;
 
-  const { userOrders } = useFetchAllUserOrders(userId, { enabled: !!userId });
+  // const { userOrders } = useFetchAllUserOrders(userId, { enabled: !!userId });
   const { RenderModal, openModal, ModalContentEnum } = useModal();
+  const { updatedTokens, userOrders } = useDashboard();
 
-  const handleModal = () => openModal(ModalContentEnum.Form);
+  console.log('tok:', updatedTokens);
+  console.log('ord:', userOrders);
+
+  // const handleModal = () => openModal(ModalContentEnum.Form);
 
   // const removeOrder = async (id: number) => {
   //   const isDeleted = await deleteOrder(id);
@@ -36,11 +40,12 @@ const Dashboard = () => {
       <main className="main">
         <PageHeading
           title={'Dashboard'}
-          buttonText={updatedTokens ? heading.headingConfig.addOrder : ''}
-          handleModal={handleModal}
+          buttonText={heading.headingConfig.addOrder}
+          handleModal={() => openModal(ModalContentEnum.Form)}
+          isButtonDisabled={!updatedTokens}
         />
 
-        {updatedTokens ? (
+        {userOrders ? (
           <div className="main-content">
             <SectionsContainer>
               <AccountSnapshotSection />

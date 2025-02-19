@@ -47,6 +47,11 @@ export type OrderData = {
   data: Order[];
 };
 
+export type StrategyOrders = {
+  buy: Order[];
+  sell: Order[];
+};
+
 // export type OrdersRes = {
 //   data: OrderData;
 // };
