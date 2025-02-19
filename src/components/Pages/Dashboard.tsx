@@ -25,9 +25,6 @@ const Dashboard = () => {
   const { RenderModal, openModal, ModalContentEnum } = useModal();
   const { updatedTokens, userOrders } = useDashboard();
 
-  console.log('tok:', updatedTokens);
-  console.log('ord:', userOrders);
-
   // const handleModal = () => openModal(ModalContentEnum.Form);
 
   // const removeOrder = async (id: number) => {
