@@ -2,9 +2,9 @@
 
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
-import useFetchAllUserStrategyOrders from '@/src/hooks/order/useFetchAllUserStrategyOrders';
-import useDashboard from '@/src/hooks/useDashboard';
 import useModal from '@/src/hooks/useModal';
+import useDashboard from '@/src/hooks/useDashboard';
+import useFetchAllUserStrategyOrders from '@/src/hooks/order/useFetchAllUserStrategyOrders';
 import { OrderStatusEnum, QueryKeyEnum } from '@/src/enums';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import PageContainer, { Label } from '@/src/components/Container/Page';
