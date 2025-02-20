@@ -3,13 +3,15 @@
 
 // General
 section.section.order-list {
+  min-height: 2.5rem;
+
+  @include media-screen-orientation('min', $tablet) {
+    min-height: 3rem;
+  }
+
   > div.section-content {
     padding-top: 0;
     padding-bottom: 0;
-  }
-
-  @include media-screen-orientation('min', $tablet) {
-    min-height: 3.5rem;
   }
 }
 

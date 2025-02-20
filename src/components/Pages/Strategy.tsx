@@ -2,20 +2,18 @@
 
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
-import useModal from '@/src/hooks/useModal';
-import useFetchAllTokens from '@/src/hooks/token/useFetchAllTokens';
 import useFetchAllUserStrategyOrders from '@/src/hooks/order/useFetchAllUserStrategyOrders';
+import useDashboard from '@/src/hooks/useDashboard';
+import useModal from '@/src/hooks/useModal';
+import { OrderStatusEnum, QueryKeyEnum } from '@/src/enums';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
-// import RenderModal from '@/src/components/Modal/RenderModal';
 import MainLoader from '@/src/components/MainLoader';
-import { OrderStatusEnum, QueryKey } from '@/src/enums';
-import { QueryKeys } from '@/src/hooks/order/useCreateOrder';
 
 const Strategy = () => {
-  const { updatedTokens } = useFetchAllTokens();
+  const { updatedTokens } = useDashboard();
   const { data: session } = useSession();
   const pathname = usePathname();
   // const queryClient = useQueryClient();
@@ -29,6 +27,7 @@ const Strategy = () => {
   // console.log('type:', type);
   // console.log('symbol:', symbol);
 
+  const { RenderModal, openModal, ModalContentEnum } = useModal();
   const { userOrders } = useFetchAllUserStrategyOrders(
     userId,
     type,
@@ -37,16 +36,10 @@ const Strategy = () => {
     '', // ExchangeEnum
     { enabled: !!userId }
   );
-  const { RenderModal, openModal, ModalContentEnum } = useModal(); // RenderModal,
 
   // if (userOrders) console.log('userOrders:', userOrders);
 
   const handleModal = () => openModal(ModalContentEnum.Form);
-
-  const invalidateQuery = [
-    QueryKey.UserOrders,
-    QueryKey.UserStrategyOrders,
-  ] as QueryKeys[];
 
   return (
     <PageContainer label={Label.Main}>
@@ -72,10 +65,10 @@ const Strategy = () => {
               tokens={updatedTokens}
               initType={type}
               initSymbol={symbol}
-              invalidateQuery={
-                // ['userTokens', 'userStrategyOrders'] as QueryKeys[]
-                invalidateQuery
-              }
+              invalidateQuery={[
+                QueryKeyEnum.UserOrders,
+                QueryKeyEnum.UserStrategyOrders,
+              ]}
             />
           </RenderModal>
         )}

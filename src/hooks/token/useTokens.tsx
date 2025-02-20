@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
+import { TokensRes } from '@/src/types';
+import { QueryKeyEnum } from '@/src/enums';
 import {
   tokenService,
   FindAllTokensParams,
 } from '@/src/services/token.service';
-import { TokensRes } from '@/src/types';
 
 /*
 const initialData: { data: Post[] } = {
@@ -34,7 +35,7 @@ const useTokens = (params: FindAllTokensParams) => {
     isStale, refetch
     */
   } = useQuery({
-    queryKey: ['tokens', params],
+    queryKey: [QueryKeyEnum.Tokens, params],
     queryFn: () => tokenService.fetchAllTokens(),
     select: modifyData,
     // enabled: params.isEnable,

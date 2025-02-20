@@ -1,6 +1,14 @@
-export enum QueryKey {
+export enum QueryKeyEnum {
+  Tokens = 'tokens',
+  Orders = 'orders',
   UserOrders = 'userOrders',
   UserStrategyOrders = 'userStrategyOrders',
+}
+
+export enum MutationKeyEnum {
+  AddToken = 'addToken',
+  AddOrder = 'addOrder',
+  UpdatePrices = 'updatePrices',
 }
 
 // ------ Token:

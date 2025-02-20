@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { orderService } from '@/src/services/order.service';
+import { QueryKeyEnum } from '@/src/enums';
 import { OrderData } from '@/src/types';
-import { QueryKey } from '@/src/enums';
 // import { OrderTypeEnum } from '@/src/enums';
 
 // export type Orders = {
@@ -37,7 +37,7 @@ const useFetchAllUserStrategyOrders = (
     isSuccess,
   } = useQuery({
     queryKey: [
-      QueryKey.UserStrategyOrders,
+      QueryKeyEnum.UserStrategyOrders,
       userId,
       type,
       symbol,

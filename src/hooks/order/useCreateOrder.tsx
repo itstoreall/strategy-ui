@@ -1,27 +1,20 @@
 import { useMutation } from '@tanstack/react-query';
-import useModal from '@/src/hooks/useModal';
-import useInvalidateQueries from '@/src/hooks/useInvalidateQueries';
 import { createOrder } from '@/src/lib/api/createOrderServerAction';
+import useInvalidateQueries from '@/src/hooks/useInvalidateQueries';
+import useModal from '@/src/hooks/useModal';
+import { MutationKeyEnum, QueryKeyEnum } from '@/src/enums';
 import { CreateOrderDto } from '@/src/services/order.service';
 
-export type QueryKeys = 'userOrders' | 'userStrategyOrders';
-
-const useCreateOrder = (queryKeys: QueryKeys[]) => {
+const useCreateOrder = (queryKeys: QueryKeyEnum[]) => {
   const { updateData } = useInvalidateQueries();
-  // const queryClient = useQueryClient();
   const { closeModal } = useModal();
 
   return useMutation({
-    mutationKey: ['addOrder'],
+    mutationKey: [MutationKeyEnum.AddOrder],
     mutationFn: (dto: CreateOrderDto) => createOrder(dto),
     onSuccess: (res) => {
       console.log('Order created successfully:', res.data);
-      // queryClient.invalidateQueries({
-      //   queryKey: [invalidateQuer],
-      // });
-
       updateData(queryKeys);
-      // updateData(invalidateQuer ? [invalidateQuer] : ['tokens', 'userOrders']);
       // alert('Success!');
       closeModal();
     },

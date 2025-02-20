@@ -7,8 +7,7 @@ import useModal from '@/src/hooks/useModal';
 // import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 // import useInvalidateQueries from '@/src/hooks/useInvalidateQueries';
 import useDashboard from '@/src/hooks/useDashboard';
-import { QueryKeys } from '@/src/hooks/order/useCreateOrder';
-import { QueryKey } from '@/src/enums';
+import { QueryKeyEnum } from '@/src/enums';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import OrderListSection from '@/src/components/Section/OrderListSection';
@@ -20,34 +19,13 @@ import MainLoader from '@/src/components/MainLoader';
 // import { useEffect } from 'react';
 
 const Dashboard = () => {
-  // const { data: session } = useSession();
-  // const { updatedTokens } = useFetchAllTokens();
-  // const queryClient = useQueryClient();
-
-  // const userId = session?.user?.id || null;
-
-  // const { userOrders } = useFetchAllUserOrders(userId, { enabled: !!userId });
   const { RenderModal, openModal, ModalContentEnum } = useModal();
   const { updatedTokens, userOrders } = useDashboard();
-
-  // const { updateData } = useInvalidateQueries();
-
-  // const handleModal = () => openModal(ModalContentEnum.Form);
 
   // const removeOrder = async (id: number) => {
   //   const isDeleted = await deleteOrder(id);
   //   if (isDeleted) queryClient.invalidateQueries({ queryKey: ['userOrders'] });
   // };
-
-  // useEffect(() => {
-  //   updateData(['tokens', 'userOrders']);
-  //   console.log(1111);
-  // }, [updateData]);
-
-  const invalidateQuery = [
-    QueryKey.UserOrders,
-    QueryKey.UserStrategyOrders,
-  ] as QueryKeys[];
 
   return (
     <PageContainer label={Label.Main}>
@@ -87,7 +65,7 @@ const Dashboard = () => {
           <RenderModal>
             <AddOrderForm
               tokens={updatedTokens}
-              invalidateQuery={invalidateQuery}
+              invalidateQuery={[QueryKeyEnum.UserOrders]}
             />
           </RenderModal>
         )}

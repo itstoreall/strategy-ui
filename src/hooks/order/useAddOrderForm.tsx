@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import useCreateOrder, { QueryKeys } from '@/src/hooks/order/useCreateOrder';
-import { OrderTypeEnum } from '@/src/enums';
+import useCreateOrder from '@/src/hooks/order/useCreateOrder';
+import { OrderTypeEnum, QueryKeyEnum } from '@/src/enums';
 import { useSession } from 'next-auth/react';
 
 type Credentials = {
@@ -20,7 +20,7 @@ const config = {
 
 const useAddOrderForm = (
   formDefaults: Omit<Credentials, 'userId'>,
-  queryKeys: QueryKeys[]
+  queryKeys: QueryKeyEnum[]
 ) => {
   const { data: session } = useSession();
   const userId = session?.user?.id;

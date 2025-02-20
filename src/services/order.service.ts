@@ -65,7 +65,7 @@ class OrderService {
     const queryStatus = exchange ? `&status=${status}` : '';
     const queryExchange = exchange ? `&exchange=${exchange}` : '';
 
-    console.log('queryExchange:', queryExchange);
+    // console.log('queryExchange:', queryExchange);
 
     try {
       // const url = `/orders/user/${userId}/${symbol}`;

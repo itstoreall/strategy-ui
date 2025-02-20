@@ -1,11 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useTransition } from 'react';
 import useCreateOrderForm from '@/src/hooks/order/useAddOrderForm';
-import { QueryKeys } from '@/src/hooks/order/useCreateOrder';
 import useSelectMulti from '@/src/hooks/useSelectMulti';
 import useModal from '@/src/hooks/useModal';
 import { FormEvent, Token } from '@/src/types';
-import { ExchangeEnum, OrderTypeEnum } from '@/src/enums';
+import { ExchangeEnum, OrderTypeEnum, QueryKeyEnum } from '@/src/enums';
 import FormWrapper from '@/src/components/Container/FormWrapper';
 import FormBackdropContainer from '@/src/components/Container/FormBackdrop';
 import FormContentContainer from '@/src/components/Container/FormContent';
@@ -19,7 +18,7 @@ type Props = {
   tokens: Token[];
   initType?: OrderTypeEnum | string;
   initSymbol?: string;
-  invalidateQuery: QueryKeys[];
+  invalidateQuery: QueryKeyEnum[];
 };
 
 const config = {
