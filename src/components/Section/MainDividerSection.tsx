@@ -3,7 +3,7 @@ import SwitchIcon from '@/src/assets/icons/SwitchIcon';
 import Button from '@/src/components/Button/Button';
 
 type Props = {
-  className?: 'order-list-devider';
+  className?: 'order-list-devider' | 'settings-devider';
   title?: string;
   isSwitchButton?: boolean;
   isDisabled?: boolean;

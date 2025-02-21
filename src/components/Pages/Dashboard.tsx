@@ -15,23 +15,41 @@ import PageContainer, { Label } from '@/src/components/Container/Page';
 import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import MainLoader from '@/src/components/MainLoader';
-// import { QueryKeys } from '@/src/hooks/order/useCreateOrder';
-// import { useEffect } from 'react';
 
 const Dashboard = () => {
   const { RenderModal, openModal, ModalContentEnum } = useModal();
-  const { updatedTokens, userOrders } = useDashboard();
+  const { users, updatedTokens, userOrders, toggleUser, currentUser } =
+    useDashboard();
+
+  // console.log('Dashboard currentUser:', currentUser);
 
   // const removeOrder = async (id: number) => {
   //   const isDeleted = await deleteOrder(id);
   //   if (isDeleted) queryClient.invalidateQueries({ queryKey: ['userOrders'] });
   // };
 
+  /*
+  const toggleUser = () => {
+    if (!users || !userId) return;
+    const user = users.find((user) => user.id !== currentUser);
+    if (!currentUser) {
+      setCurrentUser(userId);
+    } else {
+      if (user) setCurrentUser(user?.id);
+    }
+  };
+  */
+
+  console.log('===>:', currentUser);
+
   return (
     <PageContainer label={Label.Main}>
       <main className="main">
         <PageHeading
           title={'Dashboard'}
+          isAdminButton={!!users}
+          adminButtonFn={() => toggleUser(currentUser)}
+          // isAdminButtonDisabled={true}
           buttonText={heading.headingConfig.addOrder}
           handleModal={() => openModal(ModalContentEnum.Form)}
           isButtonDisabled={!updatedTokens}

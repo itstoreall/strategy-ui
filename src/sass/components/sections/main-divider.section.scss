@@ -1,6 +1,8 @@
 @use '@/src/sass/base/vars' as *;
 @use '@/src/sass/mixins' as *;
 
+// ------ General:
+
 section.main-divider {
   display: flex;
   align-items: center;
@@ -21,7 +23,10 @@ section.main-divider {
     }
   }
 
-  &.order-list-devider {
+  // ------ Custom:
+
+  &.order-list-devider,
+  &.settings-devider {
     padding: 0.5rem 0;
 
     /*

@@ -1,10 +1,24 @@
 import { ReactNode } from 'react';
-import { OrderStatusEnum } from '../enums';
+import { AuthRoleEnum, OrderStatusEnum } from '@/src/enums';
 
 export type ChildrenProps = { children: ReactNode };
 
 export type FormEvent = React.FormEvent<HTMLFormElement>;
 export type InputEvent = React.ChangeEvent<HTMLInputElement>;
+
+// --- Tokens:
+
+export type User = {
+  createdAt: Date;
+  email: string;
+  emailVerified: Date;
+  id: string;
+  image: string | null;
+  name: string;
+  password: string;
+  role: AuthRoleEnum;
+  updatedAt: Date;
+};
 
 // --- Tokens:
 

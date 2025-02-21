@@ -1,38 +1,71 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { createContext, useMemo } from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { ChildrenProps, StrategyOrders, Token } from '@/src/types';
+import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
 import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import useFetchAllTokens from '@/src/hooks/token/useFetchAllTokens';
+import useFetchAllUsers from '@/src/hooks/user/useFetchAllUsers';
+import { AuthRoleEnum } from '@/src/enums';
+import * as t from '@/src/types';
 
 export type DashboardContextProps = {
+  users: t.User[] | null;
   userId: string | null;
-  updatedTokens: Token[] | null;
-  userOrders: StrategyOrders | null;
+  updatedTokens: t.Token[] | null;
+  userOrders: t.StrategyOrders | null;
+  currentUser: string;
+  toggleUser: (currentUser: string) => void;
 };
 
 const initContext: DashboardContextProps = {
+  users: [],
   userId: '',
   updatedTokens: null,
   userOrders: null,
+  currentUser: '',
+  toggleUser: () => {},
 };
 
 const DashboardContext = createContext<DashboardContextProps>(initContext);
 
-export const DashboardProvider = ({ children }: ChildrenProps) => {
+export const DashboardProvider = ({ children }: t.ChildrenProps) => {
+  const [currentUser, setCurrentUser] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
+
   const { data: session } = useSession();
   const userId = session?.user?.id || null;
 
-  const { userOrders } = useFetchAllUserOrders(userId, { enabled: !!userId });
+  useEffect(() => {
+    getUserRole().then((res) => {
+      if (res?.role === AuthRoleEnum.Admin) setIsAdmin(true);
+    });
+  }, []);
+
+  const { userOrders } = useFetchAllUserOrders(currentUser, {
+    enabled: !!userId,
+  });
+  const { users } = useFetchAllUsers({ enabled: isAdmin });
   const { updatedTokens } = useFetchAllTokens();
+
+  const toggleUser = (currentUser: string) => {
+    if (!currentUser && userId) {
+      setCurrentUser(userId);
+    } else if (users && userId) {
+      const user = users.find((user) => user.id !== currentUser);
+      if (user) setCurrentUser(user?.id);
+    }
+  };
 
   const values = useMemo(() => {
     return {
+      users: users ?? null,
       userId,
       updatedTokens,
       userOrders: userOrders || null,
+      currentUser,
+      toggleUser,
     };
-  }, [userId, updatedTokens, userOrders]);
+  }, [userId, updatedTokens, userOrders, currentUser]);
 
   return (
     <DashboardContext.Provider value={values}>

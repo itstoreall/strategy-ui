@@ -7,7 +7,6 @@ import { CreateTokenDto } from '@/src/services/token.service';
 
 const useCreateToken = () => {
   const { updateData } = useInvalidateQueries();
-  // const queryClient = useQueryClient();
   const { closeModal } = useModal();
 
   return useMutation({
@@ -15,7 +14,6 @@ const useCreateToken = () => {
     mutationFn: (dto: CreateTokenDto) => createToken(dto),
     onSuccess: (res) => {
       console.log('Token created successfully:', res.data);
-      // queryClient.invalidateQueries({ queryKey: ['token'] });
       updateData([QueryKeyEnum.Tokens]);
       closeModal();
     },

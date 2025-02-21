@@ -56,6 +56,7 @@ const Settings = ({ session }: Props) => {
             </SectionsContainer>
 
             <MainDividerSection
+              className="settings-devider"
               title={'Account management'}
               isSwitchButton
               isDisabled={isDisabled}

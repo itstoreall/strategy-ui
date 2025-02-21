@@ -1,6 +1,9 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
+import { AuthRoleEnum } from '@/src/enums';
+import { User } from '@/src/types';
 
-type RoleData = { role: 'USER' | 'ADMIN' };
+type Users = User[];
+type RoleData = { role: AuthRoleEnum };
 type CredsData = { email: string; verified: Date; password: string };
 type StatusData = { status: boolean };
 type SignUpData = { id: string; email: string; role: string };
@@ -23,6 +26,18 @@ const errorHandler = (msg: string, err: unknown) => {
 };
 
 class UserService {
+  async getAllUsers() {
+    try {
+      const url = '/all';
+      const res: AxiosResponse<Users> = await axios.get(url);
+      return res.data;
+    } catch (err: unknown) {
+      errorHandler('Failed to retrieve user role:', err);
+      // throw err;
+      // return null;
+    }
+  }
+
   async getRole(id: string) {
     try {
       const url = `/role/${id}`;

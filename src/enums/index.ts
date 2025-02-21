@@ -1,4 +1,14 @@
+// ------ User:
+
+export enum AuthRoleEnum {
+  User = 'USER',
+  Admin = 'ADMIN',
+}
+
+// ------ Token:
+
 export enum QueryKeyEnum {
+  Users = 'users',
   Tokens = 'tokens',
   Orders = 'orders',
   UserOrders = 'userOrders',
