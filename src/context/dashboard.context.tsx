@@ -41,6 +41,10 @@ export const DashboardProvider = ({ children }: t.ChildrenProps) => {
     });
   }, []);
 
+  useEffect(() => {
+    if (userId) setCurrentUser(userId);
+  }, [userId]);
+
   const { userOrders } = useFetchAllUserOrders(currentUser, {
     enabled: !!userId,
   });
