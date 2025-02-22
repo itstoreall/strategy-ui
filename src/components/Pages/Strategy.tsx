@@ -46,7 +46,7 @@ const Strategy = () => {
       <main className="main">
         <PageHeading
           title={'Strategy'}
-          buttonText={heading.headingConfig.addOrder}
+          buttonText={heading.headingConfig.addAsset}
           handleModal={handleModal}
           isButtonDisabled={!updatedTokens}
         />

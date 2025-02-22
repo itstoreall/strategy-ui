@@ -15,8 +15,12 @@ import PageContainer, { Label } from '@/src/components/Container/Page';
 import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import MainLoader from '@/src/components/MainLoader';
+import { useSession } from 'next-auth/react';
 
 const Dashboard = () => {
+  const { data: session } = useSession();
+  const userId = session?.user?.id || null;
+
   const { RenderModal, openModal, ModalContentEnum } = useModal();
   const { users, updatedTokens, userOrders, toggleUser, currentUser } =
     useDashboard();
@@ -40,17 +44,19 @@ const Dashboard = () => {
   };
   */
 
-  console.log('===>:', currentUser);
+  // console.log('===>:', currentUser);
 
   return (
     <PageContainer label={Label.Main}>
       <main className="main">
         <PageHeading
           title={'Dashboard'}
-          isAdminButton={!!users}
-          adminButtonFn={() => toggleUser(currentUser)}
+          isAdminButton={!!users && !!userId}
+          adminButtonFn={() =>
+            toggleUser(currentUser ? currentUser : (userId as string))
+          }
           // isAdminButtonDisabled={true}
-          buttonText={heading.headingConfig.addOrder}
+          buttonText={heading.headingConfig.addAsset}
           handleModal={() => openModal(ModalContentEnum.Form)}
           isButtonDisabled={!updatedTokens}
         />

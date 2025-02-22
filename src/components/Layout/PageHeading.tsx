@@ -15,7 +15,8 @@ type Props = {
 };
 
 export const headingConfig = {
-  addOrder: 'Add Order',
+  addAsset: 'Add Asset',
+  addTarget: 'Add Target',
 };
 
 const PageHeading = ({

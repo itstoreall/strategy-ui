@@ -10,8 +10,8 @@ type Props = {
 };
 
 const config = {
-  buyDevider: 'BUY orders',
-  sellDevider: 'SELL orders',
+  assets: 'Assets',
+  buyTargets: 'Buy targets',
 };
 
 const OrderListSection = ({ data }: Props) => {
@@ -52,7 +52,7 @@ const OrderListSection = ({ data }: Props) => {
     <>
       <MainDividerSection
         className="order-list-devider"
-        title={isBuy ? config.buyDevider : config.sellDevider}
+        title={isBuy ? config.assets : config.buyTargets}
         isSwitchButton={data.length > 5}
         isDisabled={!isExpanded}
         setIsDisabled={toggleList}

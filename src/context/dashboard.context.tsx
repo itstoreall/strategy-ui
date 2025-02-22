@@ -28,7 +28,7 @@ const initContext: DashboardContextProps = {
 
 const DashboardContext = createContext<DashboardContextProps>(initContext);
 
-export const DashboardProvider = ({ children }: t.ChildrenProps) => {
+export const DashboardProvider = ({ children }: t.ChildrenProps & {}) => {
   const [currentUser, setCurrentUser] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -39,7 +39,7 @@ export const DashboardProvider = ({ children }: t.ChildrenProps) => {
     getUserRole().then((res) => {
       if (res?.role === AuthRoleEnum.Admin) setIsAdmin(true);
     });
-  }, []); //
+  }, []);
 
   useEffect(() => {
     if (userId) setCurrentUser(userId);
@@ -52,11 +52,16 @@ export const DashboardProvider = ({ children }: t.ChildrenProps) => {
   const { updatedTokens } = useFetchAllTokens();
 
   const toggleUser = (currentUser: string) => {
-    if (!currentUser && userId) {
-      setCurrentUser(userId);
-    } else if (users && userId) {
-      const user = users.find((user) => user.id !== currentUser);
-      if (user) setCurrentUser(user?.id);
+    if (!users) return;
+    for (let i = 0; i < users.length; i++) {
+      const element = users[i];
+      if (element.id === currentUser) {
+        if (users.length - 1 === i) {
+          setCurrentUser(users[0].id);
+        } else {
+          setCurrentUser(users[i++].id);
+        }
+      }
     }
   };
 
