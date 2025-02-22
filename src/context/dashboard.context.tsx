@@ -39,7 +39,7 @@ export const DashboardProvider = ({ children }: t.ChildrenProps) => {
     getUserRole().then((res) => {
       if (res?.role === AuthRoleEnum.Admin) setIsAdmin(true);
     });
-  }, []);
+  }, []); //
 
   useEffect(() => {
     if (userId) setCurrentUser(userId);
