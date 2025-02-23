@@ -6,6 +6,10 @@ export type ChildrenProps = { children: ReactNode };
 export type FormEvent = React.FormEvent<HTMLFormElement>;
 export type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
+// ---
+
+export type Role = AuthRoleEnum.Admin | AuthRoleEnum.User | '';
+
 // --- Tokens:
 
 export type User = {

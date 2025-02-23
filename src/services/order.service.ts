@@ -27,7 +27,6 @@ class OrderService {
     try {
       const url = '/orders';
       const res = await apiClient.get(url);
-      console.log('orders res -------->', res);
       return res.data;
     } catch (err: unknown) {
       const errorMessage = errorHandler('ERROR in fetchAllOrders:', err);

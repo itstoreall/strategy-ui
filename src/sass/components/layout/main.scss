@@ -33,6 +33,28 @@ main.main {
     display: flex;
     justify-content: space-between;
 
+    > div.admin-heading-button-block {
+      position: absolute;
+      top: -11px;
+      left: 90px;
+      display: flex;
+      // gap: 0.1rem;
+      align-items: center;
+      // background-color: teal;
+
+      /*
+      > button.admin-heading-button > svg {}
+      */
+
+      > span.admin-heading-button-userId {
+        position: absolute;
+        top: 10px;
+        left: 35px;
+        font-size: 0.6rem;
+        color: $colorAccent;
+      }
+    }
+
     > span.user-role {
       display: flex;
       align-items: center;

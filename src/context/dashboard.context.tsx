@@ -11,18 +11,20 @@ import * as t from '@/src/types';
 export type DashboardContextProps = {
   users: t.User[] | null;
   userId: string | null;
+  currentUser: string;
+  isAdmin: boolean;
   updatedTokens: t.Token[] | null;
   userOrders: t.StrategyOrders | null;
-  currentUser: string;
   toggleUser: (currentUser: string) => void;
 };
 
 const initContext: DashboardContextProps = {
   users: [],
   userId: '',
+  currentUser: '',
+  isAdmin: false,
   updatedTokens: null,
   userOrders: null,
-  currentUser: '',
   toggleUser: () => {},
 };
 
@@ -36,14 +38,14 @@ export const DashboardProvider = ({ children }: t.ChildrenProps & {}) => {
   const userId = session?.user?.id || null;
 
   useEffect(() => {
-    getUserRole().then((res) => {
-      if (res?.role === AuthRoleEnum.Admin) setIsAdmin(true);
-    });
-  }, []);
-
-  useEffect(() => {
     if (userId) setCurrentUser(userId);
   }, [userId]);
+
+  useEffect(() => {
+    getUserRole(currentUser).then((res) => {
+      setIsAdmin(res?.role === AuthRoleEnum.Admin);
+    });
+  }, [currentUser]);
 
   const { userOrders } = useFetchAllUserOrders(currentUser, {
     enabled: !!userId,
@@ -57,9 +59,12 @@ export const DashboardProvider = ({ children }: t.ChildrenProps & {}) => {
       const element = users[i];
       if (element.id === currentUser) {
         if (users.length - 1 === i) {
-          setCurrentUser(users[0].id);
+          const id = users[0].id;
+          setCurrentUser(id);
         } else {
-          setCurrentUser(users[i++].id);
+          const idx = users.findIndex((item) => item.id === element.id);
+          const id = users[idx + 1].id;
+          setCurrentUser(id);
         }
       }
     }
@@ -67,14 +72,15 @@ export const DashboardProvider = ({ children }: t.ChildrenProps & {}) => {
 
   const values = useMemo(() => {
     return {
+      isAdmin,
       users: users ?? null,
       userId,
+      currentUser,
       updatedTokens,
       userOrders: userOrders || null,
-      currentUser,
       toggleUser,
     };
-  }, [userId, updatedTokens, userOrders, currentUser]);
+  }, [userId, updatedTokens, userOrders, currentUser, isAdmin]);
 
   return (
     <DashboardContext.Provider value={values}>

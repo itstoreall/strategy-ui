@@ -8,12 +8,13 @@ import { getAccountLinkStatus } from '@/src/lib/auth/getAccountLinkStatusServerA
 import { unlinkGoogleAccount } from '@/src/lib/auth/unlinkGoogleAccountServerAction';
 import { deleteUserServerAction } from '@/src/lib/auth/deleteUserServerAction';
 import { handleGoogleSignIn } from '@/src/lib/auth/googleSignInServerAction';
+import { Role } from '@/src/types';
 
 const useSettings = (session: SessionContextValue) => {
   const [isAccountLinked, setIsAccountLinked] = useState(false);
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [role, setRole] = useState<'USER' | 'ADMIN' | ''>('');
+  const [role, setRole] = useState<Role>('');
   const [isPending, startTransition] = useTransition();
 
   const { closeModal } = useModal();

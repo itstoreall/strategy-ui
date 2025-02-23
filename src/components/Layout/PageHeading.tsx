@@ -1,38 +1,59 @@
 import { usePathname } from 'next/navigation';
 import { GoPeople } from 'react-icons/go';
+import { Role } from '@/src/types';
 import Button from '@/src/components/Button/Button';
 import Title from '@/src/components/Layout/Title';
 
 type Props = {
+  /*
+  isAdmin?: boolean;
+  */
+
+  // Left side:
   title: string;
-  role?: 'USER' | 'ADMIN' | '';
   isAdminButton?: boolean;
+  adminButtonText?: string;
   isAdminButtonDisabled?: boolean;
   adminButtonFn?: () => void;
+
+  // Right side:
+  role?: Role;
   buttonText?: string;
   isButtonDisabled?: boolean;
   handleModal?: () => void;
 };
 
 export const headingConfig = {
+  create: 'Create',
   addAsset: 'Add Asset',
   addTarget: 'Add Target',
 };
 
 const PageHeading = ({
+  /*
+  isAdmin,
+  */
+
+  // Left side:
   title,
-  role = '',
   isAdminButton,
+  adminButtonText,
   isAdminButtonDisabled,
   adminButtonFn,
+
+  // Right side:
   buttonText,
+  role = '',
   isButtonDisabled,
   handleModal,
 }: Props) => {
   const path = usePathname();
 
-  const isButton =
-    buttonText && (path === '/dashboard' || path.includes('/strategy/'));
+  const isDashboard = path === '/dashboard';
+  const isStrategy = path.includes('/strategy/');
+  const isButton = buttonText && (isDashboard || isStrategy);
+
+  // console.log('CurrentUserRole:', currentUserRole);
 
   return (
     <div className="main-heading">
@@ -41,13 +62,19 @@ const PageHeading = ({
       {role && <span className="user-role">{role}</span>}
 
       {isAdminButton && (
-        <Button
-          className="admin-heading-button"
-          clickContent={adminButtonFn}
-          disabled={isAdminButtonDisabled}
-        >
-          <GoPeople size={22} />
-        </Button>
+        <div className="admin-heading-button-block">
+          <Button
+            className="admin-heading-button"
+            clickContent={adminButtonFn}
+            disabled={isAdminButtonDisabled}
+          >
+            <GoPeople size={22} />
+          </Button>
+
+          <span className={'admin-heading-button-userId'}>
+            {adminButtonText}
+          </span>
+        </div>
       )}
 
       {isButton && (

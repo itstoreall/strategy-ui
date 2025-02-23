@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import useModal from '@/src/hooks/useModal';
 import useDashboard from '@/src/hooks/useDashboard';
 import useFetchAllUserStrategyOrders from '@/src/hooks/order/useFetchAllUserStrategyOrders';
-import { OrderStatusEnum, QueryKeyEnum } from '@/src/enums';
+import { OrderStatusEnum, OrderTypeEnum, QueryKeyEnum } from '@/src/enums';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import SectionsContainer from '@/src/components/Container/Sections';
@@ -46,7 +46,11 @@ const Strategy = () => {
       <main className="main">
         <PageHeading
           title={'Strategy'}
-          buttonText={heading.headingConfig.addAsset}
+          buttonText={
+            type === OrderTypeEnum.Buy
+              ? heading.headingConfig.addAsset
+              : heading.headingConfig.addTarget
+          }
           handleModal={handleModal}
           isButtonDisabled={!updatedTokens}
         />

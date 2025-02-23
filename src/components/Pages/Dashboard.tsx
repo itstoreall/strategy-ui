@@ -22,29 +22,15 @@ const Dashboard = () => {
   const userId = session?.user?.id || null;
 
   const { RenderModal, openModal, ModalContentEnum } = useModal();
-  const { users, updatedTokens, userOrders, toggleUser, currentUser } =
+  const { users, currentUser, updatedTokens, userOrders, toggleUser } =
     useDashboard();
-
-  // console.log('Dashboard currentUser:', currentUser);
 
   // const removeOrder = async (id: number) => {
   //   const isDeleted = await deleteOrder(id);
   //   if (isDeleted) queryClient.invalidateQueries({ queryKey: ['userOrders'] });
   // };
 
-  /*
-  const toggleUser = () => {
-    if (!users || !userId) return;
-    const user = users.find((user) => user.id !== currentUser);
-    if (!currentUser) {
-      setCurrentUser(userId);
-    } else {
-      if (user) setCurrentUser(user?.id);
-    }
-  };
-  */
-
-  // console.log('===>:', currentUser);
+  const currentUserId = currentUser ? currentUser : (userId as string);
 
   return (
     <PageContainer label={Label.Main}>
@@ -52,11 +38,9 @@ const Dashboard = () => {
         <PageHeading
           title={'Dashboard'}
           isAdminButton={!!users && !!userId}
-          adminButtonFn={() =>
-            toggleUser(currentUser ? currentUser : (userId as string))
-          }
-          // isAdminButtonDisabled={true}
-          buttonText={heading.headingConfig.addAsset}
+          adminButtonText={currentUserId ? currentUserId.slice(-4) : ''}
+          adminButtonFn={() => toggleUser(currentUserId)}
+          buttonText={heading.headingConfig.create}
           handleModal={() => openModal(ModalContentEnum.Form)}
           isButtonDisabled={!updatedTokens}
         />

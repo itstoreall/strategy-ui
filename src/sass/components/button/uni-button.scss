@@ -89,14 +89,11 @@ button.uni-button {
     top: -10px;
     right: 0;
     padding: 11px;
-    width: 100px;
+    max-width: 100px;
     font-size: 0.8rem;
   }
 
   &.admin-heading-button {
-    position: absolute;
-    top: -11px;
-    left: 90px;
     display: flex;
     justify-content: center;
     align-items: center;
