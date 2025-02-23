@@ -47,10 +47,11 @@ export const DashboardProvider = ({ children }: t.ChildrenProps & {}) => {
     });
   }, [currentUser]);
 
-  const { userOrders } = useFetchAllUserOrders(currentUser, {
-    enabled: !!userId,
-  });
-  const { users } = useFetchAllUsers({ enabled: isAdmin });
+  const enabledOrders = { enabled: !!userId };
+  const enabledUsers = { enabled: isAdmin };
+
+  const { userOrders } = useFetchAllUserOrders(currentUser, enabledOrders);
+  const { users } = useFetchAllUsers(enabledUsers);
   const { updatedTokens } = useFetchAllTokens();
 
   const toggleUser = (currentUser: string) => {
