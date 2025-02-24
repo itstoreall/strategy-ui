@@ -11,7 +11,7 @@ type Props = {
 
 const config = {
   assets: 'Assets',
-  buyTargets: 'Buy targets',
+  buyTargets: 'Buy Targets',
 };
 
 const OrderListSection = ({ data }: Props) => {
@@ -33,17 +33,16 @@ const OrderListSection = ({ data }: Props) => {
       }
       return acc;
     }, {} as Record<string, { symbol: string; totalAmount: number; totalFiat: number; orders: number }>)
-    // }, {} as Record<string, Order & { totalAmount: number; orderCount: number }>)
   );
 
-  // console.log('aggregatedData:', data, aggregatedData);
-
   const isBuy = data[0].type === OrderTypeEnum.Buy;
+  const isToggle = new Set([...data.map((el) => el.symbol)]).size > 5;
   const strategy = isBuy ? OrderTypeEnum.Buy : OrderTypeEnum.Sell;
 
   const toggleList = () => setIsExpanded((prev) => !prev);
 
-  // const headingColor = isBuy ? OrderTypeEnum.Buy : OrderTypeEnum.Sell;
+  // ---
+
   const displayedData = isExpanded
     ? aggregatedData
     : aggregatedData.slice(0, 5);
@@ -53,7 +52,7 @@ const OrderListSection = ({ data }: Props) => {
       <MainDividerSection
         className="order-list-devider"
         title={isBuy ? config.assets : config.buyTargets}
-        isSwitchButton={data.length > 5}
+        isSwitchButton={isToggle}
         isDisabled={!isExpanded}
         setIsDisabled={toggleList}
       />

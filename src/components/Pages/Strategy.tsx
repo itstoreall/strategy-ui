@@ -5,7 +5,12 @@ import { usePathname } from 'next/navigation';
 import useModal from '@/src/hooks/useModal';
 import useDashboard from '@/src/hooks/useDashboard';
 import useFetchAllUserStrategyOrders from '@/src/hooks/order/useFetchAllUserStrategyOrders';
-import { OrderStatusEnum, OrderTypeEnum, QueryKeyEnum } from '@/src/enums';
+import {
+  OrderStatusEnum,
+  OrderTypeDisplayEnum,
+  OrderTypeEnum,
+  QueryKeyEnum,
+} from '@/src/enums';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import SectionsContainer from '@/src/components/Container/Sections';
@@ -67,7 +72,11 @@ const Strategy = () => {
           <RenderModal>
             <AddOrderForm
               tokens={updatedTokens}
-              initType={type}
+              initType={
+                type === OrderTypeEnum.Buy
+                  ? OrderTypeDisplayEnum.Asset
+                  : OrderTypeDisplayEnum.BuyTarget
+              }
               initSymbol={symbol}
               invalidateQuery={[
                 QueryKeyEnum.UserOrders,

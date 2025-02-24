@@ -57,6 +57,8 @@ const SelectMulti = (props: Props) => {
 
   // ---
 
+  console.log('initialOption:', initialOption);
+
   const optionSelectedStyle = selectedOption ? 'option-selected' : '';
   const openStyle = isOpen ? 'open' : '';
 
@@ -103,7 +105,9 @@ const SelectMulti = (props: Props) => {
           )}
         </>
       ) : (
-        <span className={'default-select-selected-disable'}>{placeholder}</span>
+        <span className={'default-select-selected-disable'}>
+          {initialOption ? initialOption : placeholder}
+        </span>
       )}
     </div>
   );

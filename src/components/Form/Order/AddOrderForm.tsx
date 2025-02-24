@@ -4,7 +4,12 @@ import useCreateOrderForm from '@/src/hooks/order/useAddOrderForm';
 import useSelectMulti from '@/src/hooks/useSelectMulti';
 import useModal from '@/src/hooks/useModal';
 import { FormEvent, Token } from '@/src/types';
-import { ExchangeEnum, OrderTypeEnum, QueryKeyEnum } from '@/src/enums';
+import {
+  ExchangeEnum,
+  OrderTypeDisplayEnum,
+  OrderTypeEnum,
+  QueryKeyEnum,
+} from '@/src/enums';
 import FormWrapper from '@/src/components/Container/FormWrapper';
 import FormBackdropContainer from '@/src/components/Container/FormBackdrop';
 import FormContentContainer from '@/src/components/Container/FormContent';
@@ -13,6 +18,7 @@ import TextInput from '@/src/components/Form/TextInput';
 import Button from '@/src/components/Button/Button';
 import Title from '@/src/components/Layout/Title';
 import Form from '@/src/components/Form/Form';
+import { usePathname } from 'next/navigation';
 
 type Props = {
   tokens: Token[];
@@ -24,7 +30,7 @@ type Props = {
 const config = {
   create: 'Create',
   newAsset: 'New Asset',
-  newBuyTarget: 'New Buy target',
+  newBuyTarget: 'New Buy Target',
   typeRequired: 'Type is required',
   symbolRequired: 'Symbol is required',
   amountRequired: 'Amount is required',
@@ -37,7 +43,10 @@ const config = {
   creating: 'Creating...',
 };
 
-const typeOptions = [OrderTypeEnum.Buy, OrderTypeEnum.Sell];
+const typeOptions = [
+  OrderTypeDisplayEnum.Asset,
+  OrderTypeDisplayEnum.BuyTarget,
+];
 
 const exchangeOptions = [
   ExchangeEnum.Binance,
@@ -68,12 +77,15 @@ const AddOrderForm = ({
   const [isPending, startTransition] = useTransition();
   const orderForm = useCreateOrderForm(initForm, invalidateQuery);
   const { closeModal } = useModal();
+  const path = usePathname();
 
   const { errors, creationError } = orderForm;
   const { register, onSubmit, setValue, watch } = orderForm;
 
   const formValues = watch();
   const { symbol, type, exchange, amount, price } = formValues;
+
+  const isStrategyPage = path.includes('/strategy/');
 
   useEffect(() => {
     if (tokens) {
@@ -120,10 +132,17 @@ const AddOrderForm = ({
       ${amount || '-'}
       ${price || '-'}
     `;
-    if (confirm(confirmMessage))
+
+    if (confirm(confirmMessage)) {
+      const currentType =
+        type === OrderTypeDisplayEnum.Asset
+          ? OrderTypeEnum.Buy
+          : OrderTypeEnum.Sell;
+      setValue('type', currentType, { shouldValidate: true });
       startTransition(async () => {
         onSubmit();
       });
+    }
   };
 
   return (
@@ -133,7 +152,9 @@ const AddOrderForm = ({
           tag={'h3'}
           className="form-title"
           text={
-            type === OrderTypeEnum.Buy ? config.newAsset : config.newBuyTarget
+            type === OrderTypeDisplayEnum.Asset
+              ? config.newAsset
+              : config.newBuyTarget
           }
         />
 
@@ -148,6 +169,7 @@ const AddOrderForm = ({
               onToggle={() =>
                 toggleDropdown(openDropdownId === 'type' ? '' : 'type')
               }
+              isDisable={isStrategyPage}
             />
 
             <SelectMulti

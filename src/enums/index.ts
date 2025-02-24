@@ -32,6 +32,11 @@ export enum TokenStatusEnum {
 
 // ------ Order:
 
+export enum OrderTypeDisplayEnum {
+  Asset = 'Asset',
+  BuyTarget = 'Buy Target',
+}
+
 export enum OrderTypeEnum {
   Buy = 'BUY',
   Sell = 'SELL',
