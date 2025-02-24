@@ -11,6 +11,7 @@ import {
   OrderTypeEnum,
   QueryKeyEnum,
 } from '@/src/enums';
+import StrategyOrderListSection from '@/src/components/Section/StrategyOrderListSection';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import SectionsContainer from '@/src/components/Container/Sections';
@@ -62,7 +63,9 @@ const Strategy = () => {
 
         {userOrders ? (
           <div className="main-content">
-            <SectionsContainer>{`${type} - ${symbol} - ${userOrders.length} orders`}</SectionsContainer>
+            <SectionsContainer>
+              <StrategyOrderListSection orders={userOrders} />
+            </SectionsContainer>
           </div>
         ) : (
           <MainLoader />

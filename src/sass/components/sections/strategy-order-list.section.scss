@@ -1,0 +1,145 @@
+@use '@/src/sass/base/vars' as *;
+@use '@/src/sass/mixins' as *;
+
+// General
+section.section.strategy-order-list {
+  min-height: 2.5rem;
+
+  @include media-screen-orientation('min', $tablet) {
+    min-height: 3rem;
+  }
+
+  > div.section-content {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
+
+// Custom
+section.strategy-order-list {
+  // background-color: teal;
+
+  > div.section-content.strategy-order-list {
+    // > span.order-list-header {
+    //   display: flex;
+    //   height: 0.1rem;
+    //   background-color: $greyDark;
+    //   // border-radius: $smallBorderRadius;
+
+    //   &.BUY {
+    //     background-color: $googleGreen;
+    //   }
+
+    //   &.SELL {
+    //     background-color: $googleRed;
+    //   }
+    // }
+
+    > ul.section-strategy-order-list {
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      > li.section-strategy-order-list-item {
+        display: flex;
+        align-items: center;
+        height: 40px;
+        // background-color: teal;
+
+        > ul.section-strategy-order-list-item-row-list {
+          display: flex;
+          gap: 1rem;
+          min-width: 100%;
+          // background-color: palevioletred;
+
+          > li.row-strategy-list-item {
+            width: 100%;
+            font-size: 0.9rem;
+
+            //           // &:not(:first-child) {
+            //           //   text-align: end;
+            //           //   background-color: red;
+            //           // }
+
+            //           @include media-screen-orientation('min', $tablet) {
+            //             font-size: 1rem;
+            //           }
+
+            &.order-symbol {
+              min-width: 4.6rem;
+              max-width: 5rem;
+              // background-color: tomato;
+            }
+
+            &.order-amount {
+              // max-width: 12rem;
+              text-align: end;
+              min-width: 4.2rem;
+              // min-width: 6rem;
+              // background-color: palevioletred;
+            }
+
+            &.order-price {
+              text-align: end;
+              // min-width: 1rem;
+              max-width: 12rem;
+              // background-color: teal;
+
+              > span {
+                padding: 0.2rem 0.5rem;
+                // font-weight: 600;
+                // color: $violetLight;
+                // background-color: $violetDark;
+                // border-radius: $smallBorderRadius;
+              }
+            }
+
+            &.order-percent {
+              text-align: end;
+              max-width: 12rem;
+              // background-color: red;
+              // min-width: 100%;
+              // background-color: palevioletred;
+
+              /*
+              &.color-green {
+                > span {
+                  color: $googleGreen;
+                }
+              }
+
+              &.color-red {
+                > span {
+                  color: $googleRed;
+                }
+              }
+              */
+            }
+          }
+        }
+      }
+    }
+
+    // > div.toggle-block {
+    //   display: flex;
+    //   justify-content: center;
+    //   height: 40px;
+    //   // background-color: teal;
+
+    //   > button.toggle-button {
+    //     background-color: transparent;
+
+    //     > svg {
+    //       transition: stroke $ease03s;
+    //     }
+
+    //     &:hover {
+    //       > svg {
+    //         stroke: $violetLight;
+    //       }
+    //     }
+    //   }
+    // }
+  }
+}
