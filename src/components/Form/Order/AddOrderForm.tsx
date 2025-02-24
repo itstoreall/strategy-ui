@@ -22,7 +22,9 @@ type Props = {
 };
 
 const config = {
-  formTitle: 'New Order',
+  create: 'Create',
+  newAsset: 'New Asset',
+  newBuyTarget: 'New Buy target',
   typeRequired: 'Type is required',
   symbolRequired: 'Symbol is required',
   amountRequired: 'Amount is required',
@@ -31,7 +33,7 @@ const config = {
   amountValidation: 'Amount must be a valid number',
   priceValidation: 'Price must be a valid number',
   confirmSubmit: 'Please confirm your order details:',
-  addOrder: 'Add order',
+  submit: 'Submit',
   creating: 'Creating...',
 };
 
@@ -127,7 +129,13 @@ const AddOrderForm = ({
   return (
     <FormWrapper className="create-order-form-wrapper">
       <FormBackdropContainer>
-        <Title tag={'h3'} className="form-title" text={config.formTitle} />
+        <Title
+          tag={'h3'}
+          className="form-title"
+          text={
+            type === OrderTypeEnum.Buy ? config.newAsset : config.newBuyTarget
+          }
+        />
 
         <Form handleSubmit={(e) => handleSubmit(e)}>
           <FormContentContainer>
@@ -192,7 +200,7 @@ const AddOrderForm = ({
 
             <div style={{ display: 'flex', gap: '1rem' }}>
               <Button disabled={isPending || !!creationError} type="submit">
-                {isPending ? config.creating : config.addOrder}
+                {isPending ? config.creating : config.submit}
               </Button>
 
               <Button

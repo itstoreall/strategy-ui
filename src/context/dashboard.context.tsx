@@ -15,6 +15,8 @@ export type DashboardContextProps = {
   isAdmin: boolean;
   updatedTokens: t.Token[] | null;
   userOrders: t.StrategyOrders | null;
+  usingTokens: number;
+  usingDeposit: number;
   toggleUser: (currentUser: string) => void;
 };
 
@@ -25,12 +27,16 @@ const initContext: DashboardContextProps = {
   isAdmin: false,
   updatedTokens: null,
   userOrders: null,
+  usingTokens: 0,
+  usingDeposit: 0,
   toggleUser: () => {},
 };
 
 const DashboardContext = createContext<DashboardContextProps>(initContext);
 
 export const DashboardProvider = ({ children }: t.ChildrenProps & {}) => {
+  const [usingTokens, setUsingTokens] = useState(0);
+  const [usingDeposit, setUsingDeposit] = useState(0);
   const [currentUser, setCurrentUser] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -47,12 +53,28 @@ export const DashboardProvider = ({ children }: t.ChildrenProps & {}) => {
     });
   }, [currentUser]);
 
-  const enabledOrders = { enabled: !!userId };
-  const enabledUsers = { enabled: isAdmin };
+  const ordersParam = { enabled: !!userId };
+  const usersParam = { enabled: isAdmin };
 
-  const { userOrders } = useFetchAllUserOrders(currentUser, enabledOrders);
-  const { users } = useFetchAllUsers(enabledUsers);
+  const { userOrders } = useFetchAllUserOrders(currentUser, ordersParam);
+  const { users } = useFetchAllUsers(usersParam);
   const { updatedTokens } = useFetchAllTokens();
+
+  useEffect(() => {
+    if (userOrders) {
+      let totalDeposit = 0;
+      const assets = userOrders.buy.map((order) => {
+        totalDeposit = totalDeposit + order.fiat;
+        return order.symbol;
+      });
+      const uniqueSymbols = new Set([...assets]);
+      setUsingDeposit(totalDeposit);
+      setUsingTokens(uniqueSymbols.size);
+    } else {
+      setUsingDeposit(0);
+      setUsingTokens(0);
+    }
+  }, [userOrders, currentUser]);
 
   const toggleUser = (currentUser: string) => {
     if (!users) return;
@@ -79,9 +101,19 @@ export const DashboardProvider = ({ children }: t.ChildrenProps & {}) => {
       currentUser,
       updatedTokens,
       userOrders: userOrders || null,
+      usingTokens,
+      usingDeposit,
       toggleUser,
     };
-  }, [userId, updatedTokens, userOrders, currentUser, isAdmin]);
+  }, [
+    userId,
+    updatedTokens,
+    userOrders,
+    currentUser,
+    isAdmin,
+    usingTokens,
+    usingDeposit,
+  ]);
 
   return (
     <DashboardContext.Provider value={values}>

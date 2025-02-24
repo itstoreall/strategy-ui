@@ -1,11 +1,6 @@
 'use client';
 
 import useModal from '@/src/hooks/useModal';
-// import { useQueryClient } from '@tanstack/react-query';
-// import { deleteOrder } from '@/src/lib/api/deleteOrderServerAction';
-// import useFetchAllTokens from '@/src/hooks/token/useFetchAllTokens';
-// import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
-// import useInvalidateQueries from '@/src/hooks/useInvalidateQueries';
 import useDashboard from '@/src/hooks/useDashboard';
 import { QueryKeyEnum } from '@/src/enums';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
@@ -22,8 +17,15 @@ const Dashboard = () => {
   const userId = session?.user?.id || null;
 
   const { RenderModal, openModal, ModalContentEnum } = useModal();
-  const { users, currentUser, updatedTokens, userOrders, toggleUser } =
-    useDashboard();
+  const {
+    users,
+    currentUser,
+    updatedTokens,
+    userOrders,
+    usingTokens,
+    usingDeposit,
+    toggleUser,
+  } = useDashboard();
 
   // const removeOrder = async (id: number) => {
   //   const isDeleted = await deleteOrder(id);
@@ -48,7 +50,11 @@ const Dashboard = () => {
         {userOrders ? (
           <div className="main-content">
             <SectionsContainer>
-              <AccountSnapshotSection />
+              <AccountSnapshotSection
+                tokenAmount={usingTokens}
+                assetAmount={userOrders?.buy.length}
+                depositAmount={usingDeposit}
+              />
 
               {userOrders?.buy.length ? (
                 <OrderListSection
@@ -77,12 +83,6 @@ const Dashboard = () => {
             />
           </RenderModal>
         )}
-
-        {/* <button onClick={handleModal}>Add Order</button> */}
-
-        {/* <button onClick={addOrder}>Add Order</button> */}
-
-        {/* <MockDataList items={120} /> */}
       </main>
     </PageContainer>
   );
