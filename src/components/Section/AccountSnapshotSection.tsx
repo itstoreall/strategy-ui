@@ -13,6 +13,11 @@ const AccountSnapshotSection = (props: Props) => {
   // console.log('assetAmount:', assetAmount);
   // console.log('depositAmount:', depositAmount);
 
+  const formatDepositAmount = (amount: string): string => {
+    if (Number(amount) < 1_000_000) return amount;
+    return `${(Number(amount) / 1_000_000).toFixed(3)}M`;
+  };
+
   return (
     <section className="section account-snapshot">
       <ul className="section-content snapshot-list">
@@ -31,7 +36,9 @@ const AccountSnapshotSection = (props: Props) => {
         <li className="snapshot-item">
           <div className="item-content">
             <span className="content-name">Deposit</span>
-            <span className="content-value">{depositAmount.toFixed()}</span>
+            <span className="content-value" title={depositAmount.toFixed(2)}>
+              {formatDepositAmount(depositAmount.toFixed())}
+            </span>
           </div>
         </li>
         <li className="snapshot-item">
