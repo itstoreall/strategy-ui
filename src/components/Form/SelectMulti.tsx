@@ -57,7 +57,7 @@ const SelectMulti = (props: Props) => {
 
   // ---
 
-  console.log('initialOption:', initialOption);
+  // console.log('initialOption:', initialOption);
 
   const optionSelectedStyle = selectedOption ? 'option-selected' : '';
   const openStyle = isOpen ? 'open' : '';

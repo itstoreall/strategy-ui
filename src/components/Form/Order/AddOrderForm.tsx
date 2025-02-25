@@ -154,7 +154,9 @@ const AddOrderForm = ({
           text={
             type === OrderTypeDisplayEnum.Asset
               ? config.newAsset
-              : config.newBuyTarget
+              : type === OrderTypeDisplayEnum.BuyTarget
+              ? config.newBuyTarget
+              : 'Process...'
           }
         />
 
