@@ -17,7 +17,7 @@ section.section.strategy-order-list {
 
 // Custom
 section.strategy-order-list {
-  border-radius: 0;
+  // border-radius: 0;
   background-color: transparent;
   // border: 1px solid green;
 
@@ -29,10 +29,71 @@ section.strategy-order-list {
     // background-color: $greyDark;
     //   // border-radius: $smallBorderRadius;
 
+    > ul.section-strategy-order-list {
+      > li.section-strategy-order-list-item {
+        background-color: $blackMiddle;
+
+        &.success {
+          background-color: $googleGreenMiddleDark;
+
+          > ul.section-strategy-order-list-item-row-list {
+            > li.row-strategy-list-item {
+              > span {
+                color: $googleGreen;
+              }
+            }
+          }
+        }
+
+        &.halfSuccess {
+          background-color: $googleGreenDeepDark;
+
+          > ul.section-strategy-order-list-item-row-list {
+            > li.row-strategy-list-item {
+              > span {
+                color: $googleGreen;
+              }
+            }
+          }
+        }
+
+        &.halfFailed {
+          background-color: $googleRedDeepDark;
+
+          > ul.section-strategy-order-list-item-row-list {
+            > li.row-strategy-list-item {
+              > span {
+                color: $googleRed;
+              }
+            }
+          }
+        }
+
+        &.failed {
+          background-color: $googleRedMiddleDark;
+
+          > ul.section-strategy-order-list-item-row-list {
+            > li.row-strategy-list-item {
+              > span {
+                color: $googleRed;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    /*
     &.BUY {
       > ul.section-strategy-order-list {
         > li.section-strategy-order-list-item {
-          background-color: $googleGreenDark;
+          &.success {
+            background-color: $googleGreenMiddleDark;
+          }
+
+          &.halfSuccess {
+            background-color: $googleGreenDeepDark;
+          }
 
           > ul.section-strategy-order-list-item-row-list {
             > li.row-strategy-list-item {
@@ -48,7 +109,7 @@ section.strategy-order-list {
     &.SELL {
       > ul.section-strategy-order-list {
         > li.section-strategy-order-list-item {
-          background-color: $googleRedDark;
+          background-color: $googleRedMiddleDark;
 
           > ul.section-strategy-order-list-item-row-list {
             > li.row-strategy-list-item {
@@ -60,6 +121,7 @@ section.strategy-order-list {
         }
       }
     }
+    */
     // }
 
     > ul.section-strategy-order-list {
@@ -76,7 +138,7 @@ section.strategy-order-list {
         // background-color: teal;
 
         &:not(:last-child) {
-          border-bottom: 0.05rem solid $greyDeepDark;
+          border-bottom: 0.1rem solid $black;
         }
 
         > ul.section-strategy-order-list-item-row-list {
@@ -148,6 +210,10 @@ section.strategy-order-list {
                 }
               }
               */
+            }
+
+            > span {
+              color: $greyMiddle;
             }
           }
         }

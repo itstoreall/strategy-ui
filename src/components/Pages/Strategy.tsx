@@ -61,10 +61,13 @@ const Strategy = () => {
           isButtonDisabled={!updatedTokens}
         />
 
-        {userOrders ? (
+        {userOrders && updatedTokens ? (
           <div className="main-content">
             <SectionsContainer>
-              <StrategyOrderListSection orders={userOrders} />
+              <StrategyOrderListSection
+                tokens={updatedTokens}
+                orders={userOrders}
+              />
             </SectionsContainer>
           </div>
         ) : (
