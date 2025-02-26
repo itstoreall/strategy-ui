@@ -31,7 +31,7 @@ section.strategy-order-list {
 
     > ul.section-strategy-order-list {
       > li.section-strategy-order-list-item {
-        background-color: $blackMiddle;
+        // background-color: $blackMiddle;
 
         &.success {
           background-color: $googleGreenMiddleDark;
@@ -139,6 +139,10 @@ section.strategy-order-list {
 
         &:not(:last-child) {
           border-bottom: 0.1rem solid $black;
+
+          @include media-screen-orientation('min', $tablet) {
+            border-bottom: 0.2rem solid $black;
+          }
         }
 
         > ul.section-strategy-order-list-item-row-list {
@@ -148,54 +152,64 @@ section.strategy-order-list {
           // background-color: palevioletred;
 
           > li.row-strategy-list-item {
-            padding: 0 1rem;
             width: 100%;
             font-size: 0.9rem;
 
-            //           // &:not(:first-child) {
-            //           //   text-align: end;
-            //           //   background-color: red;
-            //           // }
+            &:first-child {
+              padding-left: 0.7rem;
+            }
 
-            //           @include media-screen-orientation('min', $tablet) {
-            //             font-size: 1rem;
-            //           }
+            &:last-child {
+              padding-right: 0.7rem;
+            }
 
-            &.order-symbol {
-              min-width: 4.6rem;
-              max-width: 5rem;
-              // background-color: tomato;
+            @include media-screen-orientation('min', $tablet) {
+              font-size: 1rem;
             }
 
             &.order-amount {
-              // max-width: 12rem;
-              text-align: end;
-              min-width: 4.2rem;
+              max-width: 12rem;
+              // text-align: end;
+              // min-width: 4.5rem;
               // min-width: 6rem;
               // background-color: palevioletred;
+
+              @include media-screen-orientation('min', $mobile + 49) {
+                max-width: 6rem;
+                // background-color: skyblue;
+              }
             }
 
             &.order-price {
               text-align: end;
-              // min-width: 1rem;
-              max-width: 12rem;
+              min-width: 5rem;
+              // max-width: 15rem;
               // background-color: teal;
 
-              > span {
-                padding: 0.2rem 0.5rem;
-                // font-weight: 600;
-                // color: $violetLight;
-                // background-color: $violetDark;
-                // border-radius: $smallBorderRadius;
+              @include media-screen-orientation('max', $mobile + 50) {
+                // max-width: 4rem;
+                // background-color: skyblue;
               }
+
+              // > span {
+              // padding: 0.2rem 0.5rem;
+              // font-weight: 600;
+              // color: $violetLight;
+              // background-color: $violetDark;
+              // border-radius: $smallBorderRadius;
+              // }
             }
 
             &.order-percent {
               text-align: end;
-              max-width: 12rem;
               // background-color: red;
-              // min-width: 100%;
+              // min-width: 30px;
               // background-color: palevioletred;
+
+              @include media-screen-orientation('max', $mobile + 50) {
+                // max-width: 4rem;
+                // background-color: skyblue;
+              }
 
               /*
               &.color-green {

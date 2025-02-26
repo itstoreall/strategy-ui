@@ -1,4 +1,5 @@
 import { Order, Token } from '@/src/types';
+import { formatMillionAmount } from '@/src/utils';
 
 type Props = {
   tokens: Token[];
@@ -15,21 +16,18 @@ const StrategyOrderListSection = ({ tokens, orders }: Props) => {
   ).price;
 
   const classifyOrder = (percent: number) => {
-    if (percent >= target) return { style: 'success', priority: 0 };
-    if (percent >= target / 2 && percent < target)
-      return { style: 'halfSuccess', priority: 1 };
-    if (percent > -25 && percent < target / 2)
-      return { style: '', priority: 2 };
-    if (percent <= -25 && percent > -50)
-      return { style: 'halfFailed', priority: 3 };
-    if (percent <= -50) return { style: 'failed', priority: 4 };
-    return { style: '', priority: 5 };
+    if (percent >= target) return { priority: 0 };
+    if (percent >= target / 2 && percent < target) return { priority: 1 };
+    if (percent > -25 && percent < target / 2) return { priority: 2 };
+    if (percent <= -25 && percent > -50) return { priority: 3 };
+    if (percent <= -50) return { priority: 4 };
+    return { priority: 5 };
   };
 
   const classifiedOrders = orders.map((order) => {
     const percent = ((currentPrice - order.price) / order.price) * 100;
-    const { style, priority } = classifyOrder(percent);
-    return { ...order, percent, style, priority };
+    const { priority } = classifyOrder(percent);
+    return { ...order, percent, priority };
   });
 
   const sortedOrders = classifiedOrders.sort((a, b) => {
@@ -47,19 +45,17 @@ const StrategyOrderListSection = ({ tokens, orders }: Props) => {
         <ul className="section-strategy-order-list">
           {sortedOrders.map((order: Order) => {
             const percent = ((currentPrice - order.price) / order.price) * 100;
-            const isPlus = !percent.toString().includes('-');
-            const percentDisplay = `${isPlus ? '+' : ''}${percent.toFixed()}%`;
+            const fixedPercent = Number(percent.toFixed());
+            const isPlus =
+              !percent.toString().includes('-') && fixedPercent !== 0;
+            const percentDisplay = `${isPlus ? '+' : ''}${fixedPercent}%`;
 
-            const isSuccess = percent >= target;
-            const isPositiveValue = percent > 0 && percent < target;
-            // const isHalfSuccess = percent >= target / 2 && percent < target;
-            const isNegativeValue = percent <= 0 && percent > -50;
-            const isFailed = percent <= -50;
+            const isSuccess = fixedPercent >= target;
+            const isPositiveValue = fixedPercent >= 0 && fixedPercent < target;
+            const isNegativeValue = fixedPercent <= 0 && fixedPercent > -50;
+            const isFailed = fixedPercent <= -50;
 
-            // console.log('isSuccess:', isSuccess);
-            // console.log('isHalfSuccess:', isHalfSuccess);
-            // console.log('isHalfFailed:', isHalfFailed);
-            // console.log('isFailed:', isFailed);
+            // ---
 
             const orderStyle = isSuccess
               ? 'success'
@@ -77,16 +73,16 @@ const StrategyOrderListSection = ({ tokens, orders }: Props) => {
                 className={`section-strategy-order-list-item ${orderStyle}`}
               >
                 <ul className="section-strategy-order-list-item-row-list">
-                  <li className="row-strategy-list-item order-symbol">
-                    <span>{order.symbol}</span>
-                  </li>
                   <li className="row-strategy-list-item order-amount">
-                    <span>{order.amount}</span>
+                    {/* <span>{formatMillionAmount('234567035')}</span> */}
+                    <span>{formatMillionAmount(order.amount.toString())}</span>
                   </li>
                   <li className="row-strategy-list-item order-price">
-                    <span>{order.price}</span>
+                    {/* <span>{formatMillionAmount('234567035')}</span> */}
+                    <span>{formatMillionAmount(order.price.toString())}</span>
                   </li>
                   <li className="row-strategy-list-item order-percent">
+                    {/* <span>{'+2345%'}</span> */}
                     <span>{percentDisplay}</span>
                   </li>
                 </ul>

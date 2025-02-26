@@ -10,3 +10,8 @@ export const trimString: TrimAddress = (str, start, end) => {
     ? `${str.slice(0, start)}...${str.slice(-end)}`
     : str;
 };
+
+export const formatMillionAmount = (amount: string): string => {
+  if (Number(amount) < 1_000_000) return amount;
+  return `${(Number(amount) / 1_000_000).toFixed(3)}M`;
+};

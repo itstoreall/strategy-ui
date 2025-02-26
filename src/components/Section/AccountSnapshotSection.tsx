@@ -1,5 +1,7 @@
 // import { Token } from '@/src/types';
 
+import { formatMillionAmount } from '@/src/utils';
+
 type Props = {
   tokenAmount: number;
   assetAmount: number;
@@ -12,11 +14,6 @@ const AccountSnapshotSection = (props: Props) => {
   // console.log('tokenAmount:', tokenAmount);
   // console.log('assetAmount:', assetAmount);
   // console.log('depositAmount:', depositAmount);
-
-  const formatDepositAmount = (amount: string): string => {
-    if (Number(amount) < 1_000_000) return amount;
-    return `${(Number(amount) / 1_000_000).toFixed(3)}M`;
-  };
 
   return (
     <section className="section account-snapshot">
@@ -37,7 +34,7 @@ const AccountSnapshotSection = (props: Props) => {
           <div className="item-content">
             <span className="content-name">Deposit</span>
             <span className="content-value" title={depositAmount.toFixed(2)}>
-              {formatDepositAmount(depositAmount.toFixed())}
+              {formatMillionAmount(depositAmount.toFixed())}
             </span>
           </div>
         </li>
