@@ -2,15 +2,20 @@
 import { useState, useEffect } from 'react';
 import { Token } from '@/src/types';
 import useUpdatePrices from '@/src/hooks/token/useUpdatePrices';
+import { usePathname } from 'next/navigation';
 
 type SortTokens = (a: Token, b: Token) => number;
 
 const sortById: SortTokens = (a, b) => a.id - b.id;
 
-const useFetchAllTokens = (userId: string | null) => {
+const useFetchAllTokens = () => {
   const { mutate: updatePrices } = useUpdatePrices();
   const [updatedTokens, setUpdatedTokens] = useState<Token[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const path = usePathname();
+
+  console.log('path:', path);
 
   const fetchTokens = () => {
     const params = {};
@@ -31,7 +36,7 @@ const useFetchAllTokens = (userId: string | null) => {
 
   useEffect(() => {
     fetchTokens();
-  }, [userId]);
+  }, [path]);
 
   return { updatedTokens, isLoading, fetchTokens };
 };

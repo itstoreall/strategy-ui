@@ -21,11 +21,11 @@ import MainLoader from '@/src/components/MainLoader';
 
 const Strategy = () => {
   const { data: session } = useSession();
-  const userId = session?.user?.id || null;
-  const { updatedTokens } = useFetchAllTokens(userId);
+  const { updatedTokens } = useFetchAllTokens();
   const pathname = usePathname();
   // const queryClient = useQueryClient();
 
+  const userId = session?.user?.id || null;
   const path = pathname.split('/')[2];
   const type = path.split('-')[0];
   const symbol = path.split('-')[1];

@@ -57,7 +57,7 @@ export const DashboardProvider = ({ children }: t.ChildrenProps & {}) => {
   const usersParam = { enabled: isAdmin };
 
   const { userOrders } = useFetchAllUserOrders(currentUser, ordersParam);
-  const { updatedTokens } = useFetchAllTokens(userId);
+  const { updatedTokens } = useFetchAllTokens();
   const { users } = useFetchAllUsers(usersParam);
 
   useEffect(() => {
