@@ -13,7 +13,8 @@ import MainLoader from '@/src/components/MainLoader';
 type Props = { session: SessionContextValue };
 
 const Admin = ({ session }: Props) => {
-  const { updatedTokens, fetchTokens } = useFetchAllTokens();
+  const userId = session.data?.user?.id;
+  const { updatedTokens, fetchTokens } = useFetchAllTokens(userId ?? null);
 
   const { RenderModal } = useModal();
 

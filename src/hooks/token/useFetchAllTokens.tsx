@@ -7,7 +7,7 @@ type SortTokens = (a: Token, b: Token) => number;
 
 const sortById: SortTokens = (a, b) => a.id - b.id;
 
-const useFetchAllTokens = () => {
+const useFetchAllTokens = (userId: string | null) => {
   const { mutate: updatePrices } = useUpdatePrices();
   const [updatedTokens, setUpdatedTokens] = useState<Token[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -31,7 +31,7 @@ const useFetchAllTokens = () => {
 
   useEffect(() => {
     fetchTokens();
-  }, []);
+  }, [userId]);
 
   return { updatedTokens, isLoading, fetchTokens };
 };

@@ -51,8 +51,9 @@ const StrategyOrderListSection = ({ tokens, orders }: Props) => {
             const percentDisplay = `${isPlus ? '+' : ''}${percent.toFixed()}%`;
 
             const isSuccess = percent >= target;
-            const isHalfSuccess = percent >= target / 2 && percent < target;
-            const isHalfFailed = percent <= -25 && percent > -50;
+            const isPositiveValue = percent > 0 && percent < target;
+            // const isHalfSuccess = percent >= target / 2 && percent < target;
+            const isNegativeValue = percent <= 0 && percent > -50;
             const isFailed = percent <= -50;
 
             // console.log('isSuccess:', isSuccess);
@@ -62,10 +63,10 @@ const StrategyOrderListSection = ({ tokens, orders }: Props) => {
 
             const orderStyle = isSuccess
               ? 'success'
-              : isHalfSuccess
-              ? 'halfSuccess'
-              : isHalfFailed
-              ? 'halfFailed'
+              : isPositiveValue
+              ? 'positiveValue'
+              : isNegativeValue
+              ? 'negativeValue'
               : isFailed
               ? 'failed'
               : '';

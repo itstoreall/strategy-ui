@@ -2,9 +2,10 @@
 
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
-import useModal from '@/src/hooks/useModal';
-import useDashboard from '@/src/hooks/useDashboard';
+// import useDashboard from '@/src/hooks/useDashboard';
 import useFetchAllUserStrategyOrders from '@/src/hooks/order/useFetchAllUserStrategyOrders';
+import useFetchAllTokens from '@/src/hooks/token/useFetchAllTokens';
+import useModal from '@/src/hooks/useModal';
 import {
   OrderStatusEnum,
   OrderTypeDisplayEnum,
@@ -19,12 +20,12 @@ import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import MainLoader from '@/src/components/MainLoader';
 
 const Strategy = () => {
-  const { updatedTokens } = useDashboard();
   const { data: session } = useSession();
+  const userId = session?.user?.id || null;
+  const { updatedTokens } = useFetchAllTokens(userId);
   const pathname = usePathname();
   // const queryClient = useQueryClient();
 
-  const userId = session?.user?.id || null;
   const path = pathname.split('/')[2];
   const type = path.split('-')[0];
   const symbol = path.split('-')[1];
