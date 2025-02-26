@@ -16,12 +16,15 @@ const StrategyOrderListSection = ({ tokens, orders }: Props) => {
   ).price;
 
   const classifyOrder = (percent: number) => {
+    // if (percent >= target / 2 && percent < target) return { priority: 1 };
+    // if (percent > -25 && percent < target / 2) return { priority: 2 };
+    // if (percent <= -25 && percent > -50) return { priority: 3 };
+    // if (percent <= -50) return { priority: 4 };
     if (percent >= target) return { priority: 0 };
-    if (percent >= target / 2 && percent < target) return { priority: 1 };
-    if (percent > -25 && percent < target / 2) return { priority: 2 };
-    if (percent <= -25 && percent > -50) return { priority: 3 };
-    if (percent <= -50) return { priority: 4 };
-    return { priority: 5 };
+    if (percent >= 0 && percent < target) return { priority: 1 };
+    if (percent <= 0 && percent > -50) return { priority: 2 };
+    if (percent <= -50) return { priority: 3 };
+    return { priority: 4 };
   };
 
   const classifiedOrders = orders.map((order) => {
@@ -39,6 +42,15 @@ const StrategyOrderListSection = ({ tokens, orders }: Props) => {
 
   // console.log('-');
 
+  const showDetails = () => {
+    alert(`
+      Hi
+
+      ${'Go:'}
+      555
+      `);
+  };
+
   return (
     <section className="section strategy-order-list">
       <div className={'section-content strategy-order-list'}>
@@ -46,8 +58,8 @@ const StrategyOrderListSection = ({ tokens, orders }: Props) => {
           {sortedOrders.map((order: Order) => {
             const percent = ((currentPrice - order.price) / order.price) * 100;
             const fixedPercent = Number(percent.toFixed());
-            const isPlus =
-              !percent.toString().includes('-') && fixedPercent !== 0;
+            const isMinus = percent.toString().includes('-');
+            const isPlus = !isMinus && fixedPercent !== 0;
             const percentDisplay = `${isPlus ? '+' : ''}${fixedPercent}%`;
 
             const isSuccess = fixedPercent >= target;
@@ -71,6 +83,7 @@ const StrategyOrderListSection = ({ tokens, orders }: Props) => {
               <li
                 key={order.id}
                 className={`section-strategy-order-list-item ${orderStyle}`}
+                onClick={showDetails}
               >
                 <ul className="section-strategy-order-list-item-row-list">
                   <li className="row-strategy-list-item order-amount">

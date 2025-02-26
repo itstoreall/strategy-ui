@@ -15,8 +15,6 @@ const useFetchAllTokens = () => {
 
   const path = usePathname();
 
-  console.log('path:', path);
-
   const fetchTokens = () => {
     const params = {};
     setIsLoading(true);

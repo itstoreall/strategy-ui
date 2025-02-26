@@ -58,24 +58,29 @@ section.strategy-order-list {
         }
 
         &.negativeValue {
-          background-color: $googleRedDeepDark;
+          // background-color: $googleRedDeepDark;
+          background-color: $googleBlueDeepDark;
 
           > ul.section-strategy-order-list-item-row-list {
             > li.row-strategy-list-item {
               > span {
-                color: $googleRed;
+                // color: $googleRed;
+                color: $googleBlue;
               }
             }
           }
         }
 
         &.failed {
-          background-color: $googleRedMiddleDark;
+          background-color: $googleBlueMiddleDark;
+          // background-color: $googleBlueDeepDark;
+          // background-color: $googleRedMiddleDark;
 
           > ul.section-strategy-order-list-item-row-list {
             > li.row-strategy-list-item {
               > span {
-                color: $googleRed;
+                color: $googleBlue;
+                // color: $googleRed;
               }
             }
           }
