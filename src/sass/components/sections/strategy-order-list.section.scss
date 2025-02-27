@@ -33,6 +33,14 @@ section.strategy-order-list {
       > li.section-strategy-order-list-item {
         // background-color: $blackMiddle;
 
+        &:first-child {
+          border-radius: $middleBorderRadius $middleBorderRadius 0 0;
+        }
+
+        &:last-child {
+          border-radius: 0 0 $middleBorderRadius $middleBorderRadius;
+        }
+
         &.success {
           background-color: $googleGreenMiddleDark;
 
@@ -142,6 +150,10 @@ section.strategy-order-list {
         // border-bottom: 1px solid green;
         // background-color: teal;
 
+        @include media-screen-orientation('min', $tablet) {
+          height: 48px;
+        }
+
         &:not(:last-child) {
           border-bottom: 0.1rem solid $black;
 
@@ -170,6 +182,14 @@ section.strategy-order-list {
 
             @include media-screen-orientation('min', $tablet) {
               font-size: 1rem;
+
+              &:first-child {
+                padding-left: 1rem;
+              }
+
+              &:last-child {
+                padding-right: 1rem;
+              }
             }
 
             &.order-amount {

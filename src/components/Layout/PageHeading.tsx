@@ -11,6 +11,7 @@ type Props = {
 
   // Left side:
   title: string;
+  assetPrice?: number;
   isAdminButton?: boolean;
   adminButtonText?: string;
   isAdminButtonDisabled?: boolean;
@@ -36,6 +37,7 @@ const PageHeading = ({
 
   // Left side:
   title,
+  assetPrice,
   isAdminButton,
   adminButtonText,
   isAdminButtonDisabled,
@@ -57,7 +59,13 @@ const PageHeading = ({
 
   return (
     <div className="main-heading">
-      <Title tag={'h2'} text={title} />
+      <span className="main-heading-title-block">
+        <Title tag={'h2'} text={title} />
+
+        {assetPrice && (
+          <span className={'main-heading-price'}>{assetPrice}</span>
+        )}
+      </span>
 
       {role && <span className="user-role">{role}</span>}
 

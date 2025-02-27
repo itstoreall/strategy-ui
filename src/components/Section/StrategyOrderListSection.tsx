@@ -1,44 +1,50 @@
-import { Order, Token } from '@/src/types';
+import { Order } from '@/src/types';
 import { formatMillionAmount } from '@/src/utils';
 
 type Props = {
-  tokens: Token[];
-  orders: Order[];
+  sortedOrders: Order[];
+  target: number;
+  currentPrice: number;
 };
 
-const StrategyOrderListSection = ({ tokens, orders }: Props) => {
-  const target = 100;
+// const StrategyOrderListSection = ({ tokens, orders }: Props) => {
+const StrategyOrderListSection = ({
+  sortedOrders,
+  target,
+  currentPrice,
+}: Props) => {
+  // const target = 100;
 
-  const currentPrice = (
-    tokens.find((token) => {
-      return token.symbol === orders[0].symbol;
-    }) ?? { price: 0 }
-  ).price;
+  // const currentPrice = (
+  //   tokens.find((token) => {
+  //     return token.symbol === orders[0].symbol;
+  //   }) ?? { price: 0 }
+  // ).price;
 
-  const classifyOrder = (percent: number) => {
-    // if (percent >= target / 2 && percent < target) return { priority: 1 };
-    // if (percent > -25 && percent < target / 2) return { priority: 2 };
-    // if (percent <= -25 && percent > -50) return { priority: 3 };
-    // if (percent <= -50) return { priority: 4 };
-    if (percent >= target) return { priority: 0 };
-    if (percent >= 0 && percent < target) return { priority: 1 };
-    if (percent <= 0 && percent > -50) return { priority: 2 };
-    if (percent <= -50) return { priority: 3 };
-    return { priority: 4 };
-  };
+  // const classifyOrder = (percent: number) => {
+  //   // if (percent >= target / 2 && percent < target) return { priority: 1 };
+  //   // if (percent > -25 && percent < target / 2) return { priority: 2 };
+  //   // if (percent <= -25 && percent > -50) return { priority: 3 };
+  //   // if (percent <= -50) return { priority: 4 };
+  //   if (percent >= target) return { priority: 0 };
+  //   if (percent >= 0 && percent < target) return { priority: 1 };
+  //   if (percent <= 0 && percent > -50) return { priority: 2 };
+  //   if (percent <= -50) return { priority: 3 };
+  //   return { priority: 4 };
+  // };
 
-  const classifiedOrders = orders.map((order) => {
-    const percent = ((currentPrice - order.price) / order.price) * 100;
-    const { priority } = classifyOrder(percent);
-    return { ...order, percent, priority };
-  });
+  // const classifiedOrders = orders.map((order) => {
+  //   const percent = ((currentPrice - order.price) / order.price) * 100;
+  //   const { priority } = classifyOrder(percent);
+  //   return { ...order, percent, priority };
+  // });
 
-  const sortedOrders = classifiedOrders.sort((a, b) => {
-    if (a.priority === b.priority) {
-      return b.percent - a.percent;
-    }
-    return a.priority - b.priority;
-  });
+  // const sortedOrders = classifiedOrders.sort((a, b) => {
+  //   if (a.priority === b.priority) {
+  //     return b.percent - a.percent;
+  //   }
+  //   return a.priority - b.priority;
+  // });
 
   // console.log('-');
 

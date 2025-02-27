@@ -33,6 +33,30 @@ main.main {
     display: flex;
     justify-content: space-between;
 
+    > span.main-heading-title-block {
+      display: flex;
+      gap: 0.5rem;
+
+      // background-color: red;
+
+      // > div.main-heading-price-block {
+      // position: absolute;
+      // top: -11px;
+      // left: 85px;
+      // display: flex;
+      // gap: 0.1rem;
+      // align-items: center;
+
+      > span.main-heading-price {
+        // position: absolute;
+        // top: 10px;
+        // left: 35px;
+        font-size: 1rem;
+        color: $colorAccent;
+      }
+    }
+    // }
+
     > div.admin-heading-button-block {
       position: absolute;
       top: -11px;
