@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Order } from '@/src/types';
 import { OrderTypeEnum } from '@/src/enums';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
+import { formatMillionAmount } from '@/src/utils';
 
 type Props = {
   data: Order[];
@@ -81,10 +82,17 @@ const OrderListSection = ({ data }: Props) => {
                       </li>
                       <li className="row-list-item order-amount">
                         <span>
-                          {parseFloat(order.totalAmount.toFixed(6))}
+                          {formatMillionAmount(
+                            parseFloat(order.totalAmount.toFixed(6)).toString()
+                          )}
                           {/* {38564326} */}
                         </span>
                       </li>
+                      {/* <li className="row-list-item order-amount">
+                        <span>
+                          {parseFloat(order.totalAmount.toFixed(6))}
+                        </span>
+                      </li> */}
                       <li
                         className={`row-list-item order-percent ${
                           isBuy ? 'color-green' : 'color-red'

@@ -85,15 +85,22 @@ const Strategy = () => {
     return { priority: 4 };
   };
 
-  let successOrders = 0;
+  const snapshot = {
+    positiveOrders: 0,
+    successOrders: 0,
+    deposit: 0,
+  };
 
   const classifiedOrders = userOrders?.map((order) => {
     const percent = ((currentPrice - order.price) / order.price) * 100;
+    // console.log('===>', order.fiat);
+    snapshot.deposit += order.fiat;
     if (!percent.toString().includes('-')) {
-      successOrders += 1;
+      if (percent >= target) snapshot.successOrders += 1;
+      snapshot.positiveOrders += 1;
     }
 
-    // console.log('-->', successOrders);
+    // console.log('-->', positiveOrders);
 
     const { priority } = classifyOrder(percent);
     return { ...order, percent, priority };
@@ -102,10 +109,7 @@ const Strategy = () => {
   const sortedOrders = classifiedOrders?.sort((a, b) => {
     if (a.priority === b.priority) {
       return b.percent - a.percent;
-    }
-    // setSuccessAssets(successOrders);
-    // console.log('successOrders:', successOrders);
-    return a.priority - b.priority;
+    } else return a.priority - b.priority;
   });
 
   // ---
@@ -132,8 +136,9 @@ const Strategy = () => {
             <SectionsContainer>
               <StrategySnapshotSection
                 orderNumber={sortedOrders?.length ?? 0}
-                successOrders={successOrders}
-                depositAmount={3}
+                positiveOrders={snapshot.positiveOrders}
+                successOrders={snapshot.successOrders}
+                depositAmount={snapshot.deposit}
               />
 
               <MainDividerSection

@@ -183,7 +183,7 @@ const AddOrderForm = ({
               onToggle={() =>
                 toggleDropdown(openDropdownId === 'symbol' ? '' : 'symbol')
               }
-              isDisable={!symbolOptions.length}
+              isDisable={!symbolOptions.length || isStrategyPage}
             />
 
             <SelectMulti

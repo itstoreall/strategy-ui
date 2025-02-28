@@ -62,9 +62,9 @@ const PageHeading = ({
       <span className="main-heading-title-block">
         <Title tag={'h2'} text={title} />
 
-        {assetPrice && (
+        {assetPrice ? (
           <span className={'main-heading-price'}>{assetPrice}</span>
-        )}
+        ) : null}
       </span>
 
       {role && <span className="user-role">{role}</span>}

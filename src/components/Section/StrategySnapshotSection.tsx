@@ -5,12 +5,13 @@ import { formatMillionAmount } from '@/src/utils';
 
 type Props = {
   orderNumber: number;
+  positiveOrders: number;
   successOrders: number;
   depositAmount: number;
 };
 
 const StrategySnapshotSection = (props: Props) => {
-  const { orderNumber, successOrders, depositAmount } = props;
+  const { orderNumber, positiveOrders, successOrders, depositAmount } = props;
 
   // console.log('tokenAmount:', tokenAmount);
   // console.log('assetAmount:', assetAmount);
@@ -28,7 +29,7 @@ const StrategySnapshotSection = (props: Props) => {
         <li className="snapshot-item">
           <div className="item-content">
             <span className="content-name">Success</span>
-            <span className="content-value">{`${0}/${successOrders}`}</span>
+            <span className="content-value">{`${successOrders}/${positiveOrders}`}</span>
           </div>
         </li>
         <li className="snapshot-item">

@@ -1,5 +1,5 @@
 import { Order } from '@/src/types';
-import { formatMillionAmount } from '@/src/utils';
+import { formatMillionAmount, uniNumberFormatter } from '@/src/utils';
 
 type Props = {
   sortedOrders: Order[];
@@ -85,6 +85,31 @@ const StrategyOrderListSection = ({
               ? 'failed'
               : '';
 
+            /**
+             * Formats small decimal numbers with braces for leading zeros.
+             * E.g., 0.00000793 => 0.0{5}793
+             * @param value - The small decimal number
+             * @returns Formatted string
+             */
+            // const formatSmallNumber = (value: number): string => {
+            //   if (value >= 1 || value <= -1) {
+            //     // --- Handle non-small numbers normally:
+            //     const _value = value.toString().split('.')[0];
+            //     if (_value.length >= 7) {
+            //       return formatMillionAmount(value.toFixed(2));
+            //     } else return value.toFixed(2);
+            //   }
+            //   const strValue = value.toString();
+            //   const match = strValue.match(/^0\.(0+)(\d+)$/);
+            //   if (match) {
+            //     const leadingZeros = match[1].length; // Count leading zeros
+            //     const significantDigits = match[2]; // Extract significant digits
+            //     console.log('^^^', leadingZeros, significantDigits);
+            //     return `0.0{${leadingZeros}}${significantDigits}`;
+            //   }
+            //   return value.toString();
+            // };
+
             return (
               <li
                 key={order.id}
@@ -98,7 +123,8 @@ const StrategyOrderListSection = ({
                   </li>
                   <li className="row-strategy-list-item order-price">
                     {/* <span>{formatMillionAmount('234567035')}</span> */}
-                    <span>{formatMillionAmount(order.price.toString())}</span>
+                    {/* <span>{formatMillionAmount(order.price.toFixed(2))}</span> */}
+                    <span>{uniNumberFormatter(order.price)}</span>
                   </li>
                   <li className="row-strategy-list-item order-percent">
                     {/* <span>{'+2345%'}</span> */}
