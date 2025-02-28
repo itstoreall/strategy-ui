@@ -27,8 +27,8 @@ export const uniNumberFormatter = (value: number): string => {
   const strValue = value.toString();
   const match = strValue.match(/^0\.(0+)(\d+)$/);
   if (match) {
-    const leadingZeros = match[1].length; // Count leading zeros
-    const significantDigits = match[2]; // Extract significant digits
+    const leadingZeros = match[1].length;
+    const significantDigits = match[2];
     return `0.0{${leadingZeros}}${significantDigits}`;
   }
   return value.toString();
