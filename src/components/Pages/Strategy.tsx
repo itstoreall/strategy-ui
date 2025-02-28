@@ -89,6 +89,7 @@ const Strategy = () => {
     positiveOrders: 0,
     successOrders: 0,
     deposit: 0,
+    profit: 0,
   };
 
   const classifiedOrders = userOrders?.map((order) => {
@@ -96,7 +97,11 @@ const Strategy = () => {
     // console.log('===>', order.fiat);
     snapshot.deposit += order.fiat;
     if (!percent.toString().includes('-')) {
-      if (percent >= target) snapshot.successOrders += 1;
+      snapshot.profit += order.amount * currentPrice;
+      if (percent >= target) {
+        snapshot.successOrders += 1;
+        // snapshot.profit += order.amount * currentPrice;
+      }
       snapshot.positiveOrders += 1;
     }
 
@@ -113,6 +118,8 @@ const Strategy = () => {
   });
 
   // ---
+
+  console.log('snapshot:', snapshot);
 
   const handleModal = () => openModal(ModalContentEnum.Form);
 
@@ -139,6 +146,7 @@ const Strategy = () => {
                 positiveOrders={snapshot.positiveOrders}
                 successOrders={snapshot.successOrders}
                 depositAmount={snapshot.deposit}
+                profitAmount={snapshot.profit}
               />
 
               <MainDividerSection

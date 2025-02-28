@@ -8,14 +8,22 @@ type Props = {
   positiveOrders: number;
   successOrders: number;
   depositAmount: number;
+  profitAmount: number;
 };
 
 const StrategySnapshotSection = (props: Props) => {
-  const { orderNumber, positiveOrders, successOrders, depositAmount } = props;
+  const {
+    orderNumber,
+    positiveOrders,
+    successOrders,
+    depositAmount,
+    profitAmount,
+  } = props;
 
   // console.log('tokenAmount:', tokenAmount);
   // console.log('assetAmount:', assetAmount);
   // console.log('depositAmount:', depositAmount);
+  console.log('profitAmount:', profitAmount);
 
   return (
     <section className="section account-snapshot">
@@ -43,7 +51,7 @@ const StrategySnapshotSection = (props: Props) => {
         <li className="snapshot-item">
           <div className="item-content">
             <span className="content-name">Profit</span>
-            <span className="content-value">3985</span>
+            <span className="content-value">{profitAmount.toFixed()}</span>
           </div>
         </li>
       </ul>
