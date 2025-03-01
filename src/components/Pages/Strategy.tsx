@@ -59,7 +59,7 @@ const Strategy = () => {
     if (!updatedTokens || !userOrders) return;
     const price = (
       updatedTokens?.find((token) => {
-        return token.symbol === userOrders[0].symbol;
+        return token?.symbol === userOrders[0]?.symbol;
       }) ?? { price: 0 }
     ).price;
     setCurrentPrice(price);

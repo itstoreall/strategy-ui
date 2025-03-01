@@ -50,7 +50,7 @@ const StrategySnapshotSection = (props: Props) => {
         </li>
         <li className="snapshot-item">
           <div className="item-content">
-            <span className="content-name">Profit</span>
+            <span className="content-name">Unrealized</span>
             <span className="content-value">{profitAmount.toFixed()}</span>
           </div>
         </li>

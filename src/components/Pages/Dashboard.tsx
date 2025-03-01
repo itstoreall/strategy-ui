@@ -19,6 +19,7 @@ import MainLoader from '@/src/components/MainLoader';
 const Dashboard = () => {
   const [usingTokens, setUsingTokens] = useState(0);
   const [usingDeposit, setUsingDeposit] = useState(0);
+  const [currentProfit, setCurrentProfit] = useState(0);
   const [currentUser, setCurrentUser] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -66,6 +67,22 @@ const Dashboard = () => {
     }
   }, [userOrders]);
 
+  useEffect(() => {
+    if (!userOrders || !updatedTokens) return;
+    let totalProfit = 0;
+    for (let i = 0; i < userOrders.buy.length; i++) {
+      const order = userOrders.buy[i];
+      const token = updatedTokens.find((t) => t.symbol === order.symbol);
+      if (token) {
+        const unrealizedProfit = (token.price - order.price) * order.amount;
+        if (!unrealizedProfit.toString().includes('-')) {
+          totalProfit += +unrealizedProfit.toFixed();
+        }
+      }
+      setCurrentProfit(totalProfit);
+    }
+  }, [updatedTokens, userOrders]);
+
   const toggleUser = (currentUser: string) => {
     if (!users) return;
     for (let i = 0; i < users.length; i++) {
@@ -103,6 +120,7 @@ const Dashboard = () => {
                 tokenAmount={usingTokens}
                 assetAmount={userOrders?.buy.length}
                 depositAmount={usingDeposit}
+                profitAmount={currentProfit}
               />
 
               {userOrders?.buy.length ? (

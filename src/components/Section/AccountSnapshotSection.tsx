@@ -6,10 +6,11 @@ type Props = {
   tokenAmount: number;
   assetAmount: number;
   depositAmount: number;
+  profitAmount: number;
 };
 
 const AccountSnapshotSection = (props: Props) => {
-  const { tokenAmount, assetAmount, depositAmount } = props;
+  const { tokenAmount, assetAmount, depositAmount, profitAmount } = props;
 
   // console.log('tokenAmount:', tokenAmount);
   // console.log('assetAmount:', assetAmount);
@@ -41,7 +42,7 @@ const AccountSnapshotSection = (props: Props) => {
         <li className="snapshot-item">
           <div className="item-content">
             <span className="content-name">Profit</span>
-            <span className="content-value">3985</span>
+            <span className="content-value">{profitAmount}</span>
           </div>
         </li>
       </ul>
