@@ -1,13 +1,22 @@
 import { useState } from 'react';
 import Link from 'next/link';
-import { Order } from '@/src/types';
+import { Order, Token } from '@/src/types';
 import { OrderTypeEnum } from '@/src/enums';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
 import { formatMillionAmount } from '@/src/utils';
 
 type Props = {
   data: Order[];
+  tokens: Token[] | null;
   // removeOrder: (id: number) => void;
+};
+
+type AggregatedDataAcc = {
+  symbol: string;
+  totalAmount: number;
+  totalFiat: number;
+  orders: number;
+  percent: number;
 };
 
 const config = {
@@ -15,26 +24,45 @@ const config = {
   buyTargets: 'Buy Targets',
 };
 
-const OrderListSection = ({ data }: Props) => {
+const OrderListSection = ({ data, tokens }: Props) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const aggregatedData = Object.values(
-    data.reduce((acc, order) => {
+    data.reduce((acc, order: Order) => {
+      if (!tokens) return acc;
+      const token = tokens.find((token) => token.symbol === order.symbol);
+      if (!token) return acc;
+
+      console.log('token.price:', token.price);
+
+      const percent = ((token.price - order.price) / order.price) * 100;
+
       if (!acc[order.symbol]) {
+        console.log(1, 'order:', order);
         acc[order.symbol] = {
           symbol: order.symbol,
           totalAmount: order.amount,
           totalFiat: order.fiat,
           orders: 1,
+          percent: +percent.toFixed(),
         };
       } else {
+        const higherPercent =
+          percent > acc[order.symbol].percent
+            ? percent
+            : acc[order.symbol].percent;
+
+        console.log(2, 'order:', order);
         acc[order.symbol].totalAmount += order.amount;
         acc[order.symbol].totalFiat += order.fiat;
         acc[order.symbol].orders += 1;
+        acc[order.symbol].percent = +higherPercent.toFixed();
       }
       return acc;
-    }, {} as Record<string, { symbol: string; totalAmount: number; totalFiat: number; orders: number }>)
+    }, {} as Record<string, AggregatedDataAcc>)
   );
+
+  console.log('aggregatedData:', aggregatedData);
 
   const isBuy = data[0].type === OrderTypeEnum.Buy;
   const isToggle = new Set([...data.map((el) => el.symbol)]).size > 5;
@@ -98,7 +126,7 @@ const OrderListSection = ({ data }: Props) => {
                           isBuy ? 'color-green' : 'color-red'
                         }`}
                       >
-                        <span>{`${'+'}${2356}%`}</span>
+                        <span>{`${'+'}${order.percent}%`}</span>
                       </li>
                     </ul>
                   </Link>

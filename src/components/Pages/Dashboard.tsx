@@ -123,12 +123,15 @@ const Dashboard = () => {
                 profitAmount={currentProfit}
               />
 
-              {userOrders?.buy.length ? (
+              {userOrders?.buy.length && updatedTokens?.length ? (
                 <OrderListSection
                   data={userOrders.buy}
+                  tokens={updatedTokens}
                   // removeOrder={removeOrder}
                 />
-              ) : null}
+              ) : (
+                'Loading...'
+              )}
 
               {/* {userOrders?.sell.length ? (
                 <OrderListSection
