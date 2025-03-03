@@ -20,6 +20,7 @@ import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import MainLoader from '@/src/components/MainLoader';
 import MainDividerSection from '../Section/MainDividerSection';
 import { useEffect, useState } from 'react';
+import DotsLoader from '../DotsLoader';
 
 const Strategy = () => {
   // const [successAssets, setSuccessAssets] = useState(0);
@@ -49,7 +50,36 @@ const Strategy = () => {
     { enabled: !!userId }
   );
 
+  type Snapshot = {
+    positiveOrders: number;
+    successOrders: number | null;
+    deposit: number;
+    profit: number | null;
+  };
+
+  const snapshot: Snapshot = {
+    positiveOrders: 0,
+    successOrders: null,
+    deposit: 0,
+    profit: null,
+  };
+
   // if (userOrders) console.log('userOrders:', userOrders);
+
+  /*
+  useEffect(() => {
+    // console.log('profitAmount:', profitAmount);
+    // console.log('successOrders:', successOrders);
+
+    setTimeout(() => {
+      if (!snapshot.successOrders && !snapshot.positiveOrders) {
+        snapshot.successOrders = 0;
+        snapshot.positiveOrders = 0;
+        console.log('e:', 222);
+      }
+    }, 10000);
+  }, []);
+  */
 
   // ---
 
@@ -65,19 +95,7 @@ const Strategy = () => {
     setCurrentPrice(price);
   }, [updatedTokens, userOrders]);
 
-  // console.log('currentPrice:', currentPrice);
-
-  // const currentPrice = (
-  //   updatedTokens?.find((token) => {
-  //     return token.symbol === userOrders[0].symbol;
-  //   }) ?? { price: 0 }
-  // ).price;
-
   const classifyOrder = (percent: number) => {
-    // if (percent >= target / 2 && percent < target) return { priority: 1 };
-    // if (percent > -25 && percent < target / 2) return { priority: 2 };
-    // if (percent <= -25 && percent > -50) return { priority: 3 };
-    // if (percent <= -50) return { priority: 4 };
     if (percent >= target) return { priority: 0 };
     if (percent >= 0 && percent < target) return { priority: 1 };
     if (percent <= 0 && percent > -50) return { priority: 2 };
@@ -85,24 +103,32 @@ const Strategy = () => {
     return { priority: 4 };
   };
 
-  const snapshot = {
-    positiveOrders: 0,
-    successOrders: 0,
-    deposit: 0,
-    profit: 0,
-  };
-
   const classifiedOrders = userOrders?.map((order) => {
     const percent = ((currentPrice - order.price) / order.price) * 100;
-    // console.log('===>', order.fiat);
     snapshot.deposit += order.fiat;
+
     if (!percent.toString().includes('-')) {
-      snapshot.profit += order.amount * currentPrice;
+      if (snapshot.profit === null) {
+        snapshot.profit = 0 + order.amount * currentPrice;
+      } else {
+        snapshot.profit += order.amount * currentPrice;
+      }
+
       if (percent >= target) {
-        snapshot.successOrders += 1;
+        if (snapshot.successOrders === null) {
+          snapshot.successOrders = 1;
+        } else {
+          snapshot.successOrders += 1;
+        }
         // snapshot.profit += order.amount * currentPrice;
       }
-      snapshot.positiveOrders += 1;
+
+      if (snapshot.positiveOrders === null) {
+        snapshot.positiveOrders = 1;
+      } else {
+        snapshot.positiveOrders += 1;
+      }
+      // snapshot.positiveOrders += 1;
     }
 
     // console.log('-->', positiveOrders);
@@ -119,9 +145,29 @@ const Strategy = () => {
 
   // ---
 
-  console.log('snapshot:', snapshot);
+  // console.log('snapshot:', snapshot);
 
   const handleModal = () => openModal(ModalContentEnum.Form);
+
+  const ListLoader = () => {
+    const color = '#3a3f46';
+    return (
+      <span
+        style={{
+          display: 'flex',
+          paddingTop: '12px',
+          fontSize: '0.9rem',
+          color: color,
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {'Loading'}
+        <DotsLoader inlineStyle={{ color: color }} />
+      </span>
+    );
+  };
+
+  // console.log('sortedOrders:', sortedOrders);
 
   return (
     <PageContainer label={Label.Main}>
@@ -138,7 +184,7 @@ const Strategy = () => {
           isButtonDisabled={!updatedTokens}
         />
 
-        {userOrders && updatedTokens ? (
+        {userOrders ? (
           <div className="main-content">
             <SectionsContainer>
               <StrategySnapshotSection
@@ -149,21 +195,27 @@ const Strategy = () => {
                 profitAmount={snapshot.profit}
               />
 
-              <MainDividerSection
-                className="order-list-devider"
-                title={'Orders'}
-                // isSwitchButton={isToggle}
-                // isDisabled={!isExpanded}
-                // setIsDisabled={toggleList}
-              />
+              {updatedTokens ? (
+                <>
+                  <MainDividerSection
+                    className="order-list-devider"
+                    title={'Orders'}
+                    // isSwitchButton={isToggle}
+                    // isDisabled={!isExpanded}
+                    // setIsDisabled={toggleList}
+                  />
 
-              <StrategyOrderListSection
-                sortedOrders={sortedOrders ?? []}
-                target={target}
-                currentPrice={currentPrice}
-                // tokens={updatedTokens}
-                // orders={userOrders}
-              />
+                  <StrategyOrderListSection
+                    sortedOrders={sortedOrders ?? []}
+                    target={target}
+                    currentPrice={currentPrice}
+                    // tokens={updatedTokens}
+                    // orders={userOrders}
+                  />
+                </>
+              ) : (
+                <ListLoader />
+              )}
             </SectionsContainer>
           </div>
         ) : (

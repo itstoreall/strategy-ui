@@ -1,14 +1,12 @@
-// import { Token } from '@/src/types';
-
-// import { Order } from '@/src/types';
 import { formatMillionAmount } from '@/src/utils';
+import DotsLoader from '@/src/components/DotsLoader';
 
 type Props = {
   orderNumber: number;
   positiveOrders: number;
-  successOrders: number;
+  successOrders: number | null;
   depositAmount: number;
-  profitAmount: number;
+  profitAmount: number | null;
 };
 
 const StrategySnapshotSection = (props: Props) => {
@@ -23,7 +21,14 @@ const StrategySnapshotSection = (props: Props) => {
   // console.log('tokenAmount:', tokenAmount);
   // console.log('assetAmount:', assetAmount);
   // console.log('depositAmount:', depositAmount);
-  console.log('profitAmount:', profitAmount);
+  // console.log('profitAmount:', profitAmount);
+
+  const isProfit = profitAmount !== null;
+  const isPositive = successOrders !== null;
+
+  const orderValue = `${successOrders}/${positiveOrders}`;
+  const profitValue = isProfit ? profitAmount.toFixed() : <DotsLoader />;
+  const positiveValue = isPositive ? orderValue : <DotsLoader />;
 
   return (
     <section className="section account-snapshot">
@@ -37,7 +42,7 @@ const StrategySnapshotSection = (props: Props) => {
         <li className="snapshot-item">
           <div className="item-content">
             <span className="content-name">Success</span>
-            <span className="content-value">{`${successOrders}/${positiveOrders}`}</span>
+            <span className="content-value">{positiveValue}</span>
           </div>
         </li>
         <li className="snapshot-item">
@@ -51,7 +56,10 @@ const StrategySnapshotSection = (props: Props) => {
         <li className="snapshot-item">
           <div className="item-content">
             <span className="content-name">Unrealized</span>
-            <span className="content-value">{profitAmount.toFixed()}</span>
+            <span className="content-value">
+              {/* {profitAmount.toFixed()} */}
+              {profitValue}
+            </span>
           </div>
         </li>
       </ul>

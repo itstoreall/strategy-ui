@@ -1,12 +1,13 @@
 // import { Token } from '@/src/types';
 
 import { formatMillionAmount } from '@/src/utils';
+import DotsLoader from '../DotsLoader';
 
 type Props = {
   tokenAmount: number;
   assetAmount: number;
   depositAmount: number;
-  profitAmount: number;
+  profitAmount: number | null;
 };
 
 const AccountSnapshotSection = (props: Props) => {
@@ -15,6 +16,7 @@ const AccountSnapshotSection = (props: Props) => {
   // console.log('tokenAmount:', tokenAmount);
   // console.log('assetAmount:', assetAmount);
   // console.log('depositAmount:', depositAmount);
+  // console.log('profitAmount:', profitAmount);
 
   return (
     <section className="section account-snapshot">
@@ -42,7 +44,13 @@ const AccountSnapshotSection = (props: Props) => {
         <li className="snapshot-item">
           <div className="item-content">
             <span className="content-name">Profit</span>
-            <span className="content-value">{profitAmount}</span>
+            <span className="content-value">
+              {profitAmount !== null ? (
+                profitAmount
+              ) : (
+                <>{assetAmount ? <DotsLoader /> : assetAmount}</>
+              )}
+            </span>
           </div>
         </li>
       </ul>

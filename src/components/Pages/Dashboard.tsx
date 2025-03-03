@@ -3,10 +3,10 @@
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import useModal from '@/src/hooks/useModal';
-import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
-import useFetchAllUsers from '@/src/hooks/user/useFetchAllUsers';
-import useFetchAllTokens from '@/src/hooks/token/useFetchAllTokens';
 import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
+import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
+import useFetchAllTokens from '@/src/hooks/token/useFetchAllTokens';
+import useFetchAllUsers from '@/src/hooks/user/useFetchAllUsers';
 import { AuthRoleEnum, QueryKeyEnum } from '@/src/enums';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
@@ -16,12 +16,18 @@ import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import MainLoader from '@/src/components/MainLoader';
 
+/*
+const config = {
+  loading: 'Loading...',
+};
+*/
+
 const Dashboard = () => {
-  const [usingTokens, setUsingTokens] = useState(0);
-  const [usingDeposit, setUsingDeposit] = useState(0);
-  const [currentProfit, setCurrentProfit] = useState(0);
-  const [currentUser, setCurrentUser] = useState('');
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [currentProfit, setCurrentProfit] = useState<number | null>(null);
+  const [usingDeposit, setUsingDeposit] = useState<number>(0);
+  const [currentUser, setCurrentUser] = useState<string>('');
+  const [usingTokens, setUsingTokens] = useState<number>(0);
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   const { data: session } = useSession();
   const userId = session?.user?.id || null;
@@ -42,7 +48,9 @@ const Dashboard = () => {
   const currentUserId = currentUser ? currentUser : (userId as string);
 
   useEffect(() => {
-    if (userId) setCurrentUser(userId);
+    if (userId) {
+      setCurrentUser(userId);
+    }
   }, [userId]);
 
   useEffect(() => {
@@ -52,7 +60,7 @@ const Dashboard = () => {
   }, [currentUser]);
 
   useEffect(() => {
-    if (userOrders) {
+    if (userOrders?.buy.length) {
       let totalDeposit = 0;
       const assets = userOrders.buy.map((order) => {
         totalDeposit = totalDeposit + order.fiat;
@@ -64,6 +72,7 @@ const Dashboard = () => {
     } else {
       setUsingDeposit(0);
       setUsingTokens(0);
+      setCurrentProfit(0);
     }
   }, [userOrders]);
 
@@ -127,11 +136,10 @@ const Dashboard = () => {
                 <OrderListSection
                   data={userOrders.buy}
                   tokens={updatedTokens}
+                  userId={userId}
                   // removeOrder={removeOrder}
                 />
-              ) : (
-                'Loading...'
-              )}
+              ) : null}
 
               {/* {userOrders?.sell.length ? (
                 <OrderListSection

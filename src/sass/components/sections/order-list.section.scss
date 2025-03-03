@@ -55,6 +55,11 @@ section.order-list {
         > a {
           padding: 0.5rem 0;
           width: 100%;
+          cursor: auto;
+
+          &.admin-link {
+            cursor: pointer;
+          }
 
           ul.section-order-list-item-row-list {
             display: flex;

@@ -55,16 +55,19 @@ const PageHeading = ({
   const isStrategy = path.includes('/strategy/');
   const isButton = buttonText && (isDashboard || isStrategy);
 
-  // console.log('CurrentUserRole:', currentUserRole);
+  const price = assetPrice ? `$${assetPrice}` : null;
+
+  /*
+  console.log('CurrentUserRole:', currentUserRole);
+  const isPrice = assetPrice !== null;
+  const price = isPrice ? assetPrice : <DotsLoader />;
+  */
 
   return (
     <div className="main-heading">
       <span className="main-heading-title-block">
         <Title tag={'h2'} text={title} />
-
-        {assetPrice ? (
-          <span className={'main-heading-price'}>{assetPrice}</span>
-        ) : null}
+        <span className={'main-heading-price'}>{price}</span>
       </span>
 
       {role && <span className="user-role">{role}</span>}
