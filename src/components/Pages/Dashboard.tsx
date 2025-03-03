@@ -27,6 +27,7 @@ const Dashboard = () => {
   const [usingDeposit, setUsingDeposit] = useState<number>(0);
   const [currentUser, setCurrentUser] = useState<string>('');
   const [usingTokens, setUsingTokens] = useState<number>(0);
+  const [isProcess, setIsProcess] = useState<boolean>(true);
   const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   const { data: session } = useSession();
@@ -90,6 +91,7 @@ const Dashboard = () => {
       }
       setCurrentProfit(totalProfit);
     }
+    setIsProcess(false);
   }, [updatedTokens, userOrders]);
 
   const toggleUser = (currentUser: string) => {
@@ -130,6 +132,7 @@ const Dashboard = () => {
                 assetAmount={userOrders?.buy.length}
                 depositAmount={usingDeposit}
                 profitAmount={currentProfit}
+                isProcess={isProcess}
               />
 
               {userOrders?.buy.length && updatedTokens?.length ? (

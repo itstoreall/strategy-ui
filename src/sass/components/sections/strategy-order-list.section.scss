@@ -33,12 +33,18 @@ section.strategy-order-list {
       > li.section-strategy-order-list-item {
         // background-color: $blackMiddle;
 
-        &:first-child {
-          border-radius: $middleBorderRadius $middleBorderRadius 0 0;
+        &.single-item {
+          border-radius: $middleBorderRadius;
         }
 
-        &:last-child {
-          border-radius: 0 0 $middleBorderRadius $middleBorderRadius;
+        &.multi-items {
+          &:first-child {
+            border-radius: $middleBorderRadius $middleBorderRadius 0 0;
+          }
+
+          &:last-child {
+            border-radius: 0 0 $middleBorderRadius $middleBorderRadius;
+          }
         }
 
         &.success {

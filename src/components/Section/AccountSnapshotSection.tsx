@@ -8,10 +8,12 @@ type Props = {
   assetAmount: number;
   depositAmount: number;
   profitAmount: number | null;
+  isProcess: boolean;
 };
 
 const AccountSnapshotSection = (props: Props) => {
-  const { tokenAmount, assetAmount, depositAmount, profitAmount } = props;
+  const { tokenAmount, assetAmount, depositAmount, profitAmount, isProcess } =
+    props;
 
   // console.log('tokenAmount:', tokenAmount);
   // console.log('assetAmount:', assetAmount);
@@ -45,10 +47,10 @@ const AccountSnapshotSection = (props: Props) => {
           <div className="item-content">
             <span className="content-name">Profit</span>
             <span className="content-value">
-              {profitAmount !== null ? (
+              {!isProcess ? (
                 profitAmount
               ) : (
-                <>{assetAmount ? <DotsLoader /> : assetAmount}</>
+                <>{assetAmount ? <DotsLoader /> : 0}</>
               )}
             </span>
           </div>
