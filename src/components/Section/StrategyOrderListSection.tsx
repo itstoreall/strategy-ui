@@ -5,12 +5,14 @@ type Props = {
   sortedOrders: Order[];
   target: number;
   currentPrice: number;
+  isEditMenu: boolean;
 };
 
 const StrategyOrderListSection = (props: Props) => {
-  const { sortedOrders, target, currentPrice } = props;
+  const { sortedOrders, target, currentPrice, isEditMenu } = props;
 
   const showDetails = () => {
+    if (isEditMenu) return;
     alert(`
       Hi
 

@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import useFetchAllUserStrategyOrders from '@/src/hooks/order/useFetchAllUserStrategyOrders';
@@ -13,18 +14,17 @@ import {
 } from '@/src/enums';
 import StrategyOrderListSection from '@/src/components/Section/StrategyOrderListSection';
 import StrategySnapshotSection from '@/src/components/Section/StrategySnapshotSection';
+import MainDividerSection from '@/src/components/Section/MainDividerSection';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import MainLoader from '@/src/components/MainLoader';
-import MainDividerSection from '../Section/MainDividerSection';
-import { useEffect, useState } from 'react';
-import DotsLoader from '../DotsLoader';
+import DotsLoader from '@/src/components/DotsLoader';
 
 const Strategy = () => {
-  // const [successAssets, setSuccessAssets] = useState(0);
   const [currentPrice, setCurrentPrice] = useState(0);
+  const [isEditMenu, setIsEditMenu] = useState(false);
 
   const { data: session } = useSession();
   const { updatedTokens } = useFetchAllTokens();
@@ -200,15 +200,16 @@ const Strategy = () => {
                   <MainDividerSection
                     className="order-list-devider"
                     title={'Orders'}
-                    // isSwitchButton={isToggle}
-                    // isDisabled={!isExpanded}
-                    // setIsDisabled={toggleList}
+                    isSwitchButton={true}
+                    isDisabled={!isEditMenu}
+                    setIsDisabled={setIsEditMenu}
                   />
 
                   <StrategyOrderListSection
                     sortedOrders={sortedOrders ?? []}
                     target={target}
                     currentPrice={currentPrice}
+                    isEditMenu={isEditMenu}
                     // tokens={updatedTokens}
                     // orders={userOrders}
                   />
