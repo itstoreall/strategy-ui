@@ -232,6 +232,7 @@ section.strategy-order-list {
             }
 
             &.order-percent {
+              position: relative;
               text-align: end;
               // background-color: red;
               // min-width: 30px;

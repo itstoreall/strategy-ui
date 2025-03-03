@@ -1,5 +1,6 @@
 import { Order } from '@/src/types';
 import { formatMillionAmount, uniNumberFormatter } from '@/src/utils';
+import StrategyOrderEditMenu from './StrategyOrderEditMenu';
 
 type Props = {
   sortedOrders: Order[];
@@ -12,7 +13,10 @@ const StrategyOrderListSection = (props: Props) => {
   const { sortedOrders, target, currentPrice, isEditMenu } = props;
 
   const showDetails = () => {
-    if (isEditMenu) return;
+    if (isEditMenu) {
+      return;
+    }
+
     alert(`
       Hi
 
@@ -75,7 +79,61 @@ const StrategyOrderListSection = (props: Props) => {
                     </li>
                     <li className="row-strategy-list-item order-percent">
                       {/* <span>{'+2345%'}</span> */}
-                      <span>{percentDisplay}</span>
+
+                      {isEditMenu ? (
+                        <StrategyOrderEditMenu />
+                      ) : (
+                        // <div>
+                        //   <span
+                        //     style={{
+                        //       position: 'absolute',
+                        //       top: '-0.8rem',
+                        //       right: '1rem',
+                        //       display: 'flex',
+                        //       gap: '1rem',
+                        //       // minWidth: '40px',
+                        //       // backgroundColor: 'blue',
+                        //     }}
+                        //   >
+                        //     <span
+                        //       style={{
+                        //         // right: '1rem',
+                        //         display: 'flex',
+
+                        //         gap: '1rem',
+                        //         minWidth: '40px',
+                        //         backgroundColor: 'red',
+                        //       }}
+                        //     >
+                        //       Ed
+                        //     </span>
+                        //     <span
+                        //       style={{
+                        //         // right: '1rem',
+                        //         display: 'flex',
+                        //         gap: '1rem',
+                        //         minWidth: '40px',
+                        //         minHeight: '40px',
+                        //         backgroundColor: 'blue',
+                        //       }}
+                        //     >
+                        //       De
+                        //     </span>
+                        //     <span
+                        //       style={{
+                        //         // right: '1rem',
+                        //         display: 'flex',
+                        //         gap: '1rem',
+                        //         minWidth: '40px',
+                        //         backgroundColor: 'red',
+                        //       }}
+                        //     >
+                        //       Sm
+                        //     </span>
+                        //   </span>
+                        // </div>
+                        <span>{percentDisplay}</span>
+                      )}
                     </li>
                   </ul>
                 </li>
