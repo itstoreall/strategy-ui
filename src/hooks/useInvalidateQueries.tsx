@@ -5,9 +5,9 @@ const useInvalidateQueries = () => {
   const queryClient = useQueryClient();
 
   const updateData = (queryKeys: QueryKeyEnum[]) => {
-    queryKeys.forEach((key) =>
-      queryClient.invalidateQueries({ queryKey: [key] })
-    );
+    queryKeys.forEach((key) => {
+      queryClient.invalidateQueries({ queryKey: [key] });
+    });
     /*
     console.log(queryKeys, 'updated successfully');
     // */
