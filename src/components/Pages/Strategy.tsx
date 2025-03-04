@@ -200,7 +200,7 @@ const Strategy = () => {
                   <MainDividerSection
                     className="order-list-devider"
                     title={'Orders'}
-                    isSwitchButton={true}
+                    isSwitchButton={!!sortedOrders?.length}
                     isDisabled={!isEditMenu}
                     setIsDisabled={setIsEditMenu}
                   />

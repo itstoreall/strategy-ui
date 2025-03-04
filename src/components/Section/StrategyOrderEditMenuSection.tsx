@@ -2,9 +2,9 @@
 import { FiEdit3 } from 'react-icons/fi';
 */
 import { FiTrash2 } from 'react-icons/fi';
-import { QueryKeyEnum } from '@/src/enums';
-import useInvalidateQueries from '@/src/hooks/useInvalidateQueries';
 import { deleteOrder } from '@/src/lib/api/deleteOrderServerAction';
+import useInvalidateQueries from '@/src/hooks/useInvalidateQueries';
+import { QueryKeyEnum } from '@/src/enums';
 import Button from '@/src/components/Button/Button';
 
 type Props = { id: number };
