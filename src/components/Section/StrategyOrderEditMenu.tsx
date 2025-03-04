@@ -7,11 +7,13 @@ const StrategyOrderEditMenu = () => {
     <div
       style={{
         position: 'absolute',
-        top: '-0.8rem',
+        top: '-0.5rem',
         right: '0',
+        // right: '0.2rem',
         display: 'flex',
-        paddingLeft: '0.3rem',
-        backgroundColor: '#000000',
+        // paddingLeft: '0.3rem',
+        // gap: '0.2rem',
+        // backgroundColor: '#000000',
         borderRadius: '0 4px 4px 0',
       }}
     >
