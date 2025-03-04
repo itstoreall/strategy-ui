@@ -111,4 +111,29 @@ button.uni-button {
       }
     }
   }
+
+  &.strategy-order-edit-menu-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    min-width: 40px;
+    height: 40px;
+    border-radius: 0;
+    background-color: transparent;
+
+    &:last-child {
+      border-radius: 0 $middleBorderRadius $middleBorderRadius 0;
+    }
+
+    > svg {
+      transition: stroke $ease03s;
+    }
+
+    &:hover {
+      > svg {
+        stroke: $violetLight;
+      }
+    }
+  }
 }
