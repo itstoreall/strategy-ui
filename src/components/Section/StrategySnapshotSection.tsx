@@ -23,14 +23,17 @@ const StrategySnapshotSection = (props: Props) => {
   // console.log('depositAmount:', depositAmount);
   // console.log('profitAmount:', profitAmount);
 
-  const isPositive = successOrders !== null;
-  const isProfit = profitAmount !== null;
+  const isPositive = !!successOrders && successOrders > 0;
+  const isProfit = !!profitAmount && profitAmount > 0;
 
-  // console.log('profitAmount:', profitAmount);
-  // console.log('successOrders:', successOrders);
+  // console.log('successOrders | profitAmount:', successOrders, profitAmount);
 
-  const orderValue = `${successOrders}/${positiveOrders}`;
-  const positiveValue = isPositive ? orderValue : <DotsLoader />;
+  const successValue = isProfit && successOrders ? successOrders : 0;
+  const orderValue = `${successValue}/${positiveOrders}`;
+  const loaderValue = isProfit ? orderValue : <DotsLoader />;
+
+  const positiveValue = isPositive ? orderValue : loaderValue;
+
   const profitValue = isProfit ? profitAmount.toFixed() : <DotsLoader />;
 
   return (

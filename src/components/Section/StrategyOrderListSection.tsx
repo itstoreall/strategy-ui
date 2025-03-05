@@ -1,5 +1,8 @@
 import { Order } from '@/src/types';
-import { formatMillionAmount, uniNumberFormatter } from '@/src/utils';
+import normalizeDate, {
+  formatMillionAmount,
+  uniNumberFormatter,
+} from '@/src/utils';
 import StrategyOrderEditMenuSection from '@/src/components/Section/StrategyOrderEditMenuSection';
 
 type Props = {
@@ -12,16 +15,18 @@ type Props = {
 const StrategyOrderListSection = (props: Props) => {
   const { sortedOrders, target, currentPrice, isEditMenu } = props;
 
-  const showDetails = () => {
+  const showDetails = (order: Order) => {
     if (isEditMenu) {
       return;
     }
-
+    const profitValue = currentPrice * order.amount - order.fiat;
     alert(`
-      Hi
-
-      ${'Go:'}
-      555
+      ID: ${order.id}
+      Price: $${order.price}
+      Amount: ${order.amount}
+      Invested: $${order.fiat}
+      Profit: $${profitValue.toFixed()}
+      Created: ${normalizeDate(order.createdAt, 'DD-MM-YY')}
       `);
   };
 
@@ -31,26 +36,25 @@ const StrategyOrderListSection = (props: Props) => {
         {sortedOrders.length ? (
           <ul className="section-strategy-order-list">
             {sortedOrders.map((order: Order) => {
-              const percent =
-                ((currentPrice - order.price) / order.price) * 100;
+              const { id, price, amount } = order;
+              const percent = ((currentPrice - price) / price) * 100;
               const fixedPercent = Number(percent.toFixed());
               const isMinus = percent.toString().includes('-');
               const isPlus = !isMinus && fixedPercent !== 0;
               const percentDisplay = `${isPlus ? '+' : ''}${fixedPercent}%`;
 
               const isSuccess = fixedPercent >= target;
-              const isPositiveValue =
-                fixedPercent >= 0 && fixedPercent < target;
-              const isNegativeValue = fixedPercent <= 0 && fixedPercent > -50;
+              const isPositive = fixedPercent >= 0 && fixedPercent < target;
+              const isNegative = fixedPercent <= 0 && fixedPercent > -50;
               const isFailed = fixedPercent <= -50;
 
               // ---
 
               const orderStyle = isSuccess
                 ? 'success'
-                : isPositiveValue
+                : isPositive
                 ? 'positiveValue'
-                : isNegativeValue
+                : isNegative
                 ? 'negativeValue'
                 : isFailed
                 ? 'failed'
@@ -62,20 +66,18 @@ const StrategyOrderListSection = (props: Props) => {
 
               return (
                 <li
-                  key={order.id}
+                  key={id}
                   className={`section-strategy-order-list-item  ${orderItemStyle}`}
-                  onClick={showDetails}
+                  onClick={() => showDetails(order)}
                 >
                   <ul className="section-strategy-order-list-item-row-list">
                     <li className="row-strategy-list-item order-amount">
                       {/* <span>{formatMillionAmount('234567035')}</span> */}
-                      <span>
-                        {formatMillionAmount(order.amount.toString())}
-                      </span>
+                      <span>{formatMillionAmount(amount.toString())}</span>
                     </li>
                     <li className="row-strategy-list-item order-price">
                       {/* <span>{formatMillionAmount('234567035')}</span> */}
-                      <span>{uniNumberFormatter(order.price)}</span>
+                      <span>{uniNumberFormatter(price)}</span>
                     </li>
                     <li className="row-strategy-list-item order-percent">
                       {/* <span>{'+2345%'}</span> */}
