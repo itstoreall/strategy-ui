@@ -1,8 +1,9 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
+/* eslint-disable react-hooks/exhaustive-deps */
 import { SessionContextValue } from 'next-auth/react';
-import useFetchAllTokens from '@/src/hooks/token/useFetchAllTokens';
+// import useFetchAllTokens from '@/src/hooks/token/useFetchAllTokens';
+import useGlobalState from '@/src/hooks/useDashboard';
 import useModal from '@/src/hooks/useModal';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import AddTokenSection from '@/src/components/Section/Admin/AddTokenSection';
@@ -13,9 +14,9 @@ import MainLoader from '@/src/components/MainLoader';
 type Props = { session: SessionContextValue };
 
 const Admin = ({ session }: Props) => {
-  const { updatedTokens, fetchTokens } = useFetchAllTokens();
   // const userId = session.data?.user?.id;
 
+  const { updatedTokens, fetchTokens } = useGlobalState();
   const { RenderModal } = useModal();
 
   return (

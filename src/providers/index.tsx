@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { SessionProvider } from 'next-auth/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { DashboardProvider } from '@/src/context/dashboard.context';
+import { GlobalProvider } from '@/src/context/global.context';
 import { ModalProvider } from '@/src/context/modal.context';
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
@@ -12,9 +12,9 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <SessionProvider>
       <QueryClientProvider client={queryClient}>
-        <DashboardProvider>
+        <GlobalProvider>
           <ModalProvider>{children}</ModalProvider>
-        </DashboardProvider>
+        </GlobalProvider>
       </QueryClientProvider>
     </SessionProvider>
   );

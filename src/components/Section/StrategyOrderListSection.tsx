@@ -81,7 +81,10 @@ const StrategyOrderListSection = (props: Props) => {
                       {/* <span>{'+2345%'}</span> */}
 
                       {isEditMenu ? (
-                        <StrategyOrderEditMenuSection id={order.id} />
+                        <StrategyOrderEditMenuSection
+                          id={order.id}
+                          orderNumber={sortedOrders.length}
+                        />
                       ) : (
                         <span>{percentDisplay}</span>
                       )}

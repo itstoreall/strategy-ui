@@ -1,17 +1,13 @@
 'use client';
 
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import useFetchAllUserStrategyOrders from '@/src/hooks/order/useFetchAllUserStrategyOrders';
-import useFetchAllTokens from '@/src/hooks/token/useFetchAllTokens';
+import useGlobalState from '@/src/hooks/useDashboard';
 import useModal from '@/src/hooks/useModal';
-import {
-  OrderStatusEnum,
-  OrderTypeDisplayEnum,
-  OrderTypeEnum,
-  QueryKeyEnum,
-} from '@/src/enums';
+import * as enums from '@/src/enums';
 import StrategyOrderListSection from '@/src/components/Section/StrategyOrderListSection';
 import StrategySnapshotSection from '@/src/components/Section/StrategySnapshotSection';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
@@ -22,14 +18,23 @@ import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import MainLoader from '@/src/components/MainLoader';
 import DotsLoader from '@/src/components/DotsLoader';
 
+type Snapshot = {
+  positiveOrders: number;
+  successOrders: number | null;
+  deposit: number;
+  profit: number | null;
+};
+
+const { OrderStatusEnum, OrderTypeDisplayEnum, OrderTypeEnum, QueryKeyEnum } =
+  enums;
+
 const Strategy = () => {
   const [currentPrice, setCurrentPrice] = useState(0);
   const [isEditMenu, setIsEditMenu] = useState(false);
 
   const { data: session } = useSession();
-  const { updatedTokens } = useFetchAllTokens();
+  const { updatedTokens } = useGlobalState();
   const pathname = usePathname();
-  // const queryClient = useQueryClient();
 
   const userId = session?.user?.id || null;
   const path = pathname.split('/')[2];
@@ -50,12 +55,7 @@ const Strategy = () => {
     { enabled: !!userId }
   );
 
-  type Snapshot = {
-    positiveOrders: number;
-    successOrders: number | null;
-    deposit: number;
-    profit: number | null;
-  };
+  // ---
 
   const snapshot: Snapshot = {
     positiveOrders: 0,
@@ -94,6 +94,14 @@ const Strategy = () => {
     ).price;
     setCurrentPrice(price);
   }, [updatedTokens, userOrders]);
+
+  // useEffect(() => {
+  //   if (userOrders && !userOrders.length) {
+  //     console.log(1, 'userOrders:', userOrders);
+  //     redirectTo('/dashboard');
+  //     return;
+  //   }
+  // }, []);
 
   const classifyOrder = (percent: number) => {
     if (percent >= target) return { priority: 0 };

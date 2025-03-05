@@ -1,10 +1,10 @@
 import { useContext } from 'react';
-import DashboardContext from '@/src/context/dashboard.context';
+import GlobalContext from '@/src/context/global.context';
 
-const useDashboard = () => {
-  const context = useContext(DashboardContext);
-  if (!context) throw new Error('ERROR in useDashboard');
+const useGlobalState = () => {
+  const context = useContext(GlobalContext);
+  if (!context) throw new Error('ERROR in useGlobalState');
   return context;
 };
 
-export default useDashboard;
+export default useGlobalState;

@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
-import { Token } from '@/src/types';
-import useUpdatePrices from '@/src/hooks/token/useUpdatePrices';
 import { usePathname } from 'next/navigation';
+import useUpdatePrices from '@/src/hooks/token/useUpdatePrices';
+import { Token } from '@/src/types';
 
 type SortTokens = (a: Token, b: Token) => number;
 
@@ -33,7 +33,9 @@ const useFetchAllTokens = () => {
   };
 
   useEffect(() => {
-    fetchTokens();
+    if (path === '/') {
+      fetchTokens();
+    }
   }, [path]);
 
   return { updatedTokens, isLoading, fetchTokens };
