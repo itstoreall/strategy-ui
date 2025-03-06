@@ -134,6 +134,8 @@ const Dashboard = () => {
           isButtonDisabled={!updatedTokens}
         />
 
+        <span>{updatedTokens?.length}</span>
+
         {userOrders ? (
           <div className="main-content">
             <SectionsContainer>
