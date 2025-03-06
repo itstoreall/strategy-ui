@@ -6,7 +6,6 @@ import { useSession } from 'next-auth/react';
 import useModal from '@/src/hooks/useModal';
 import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
-// import useFetchAllTokens from '@/src/hooks/token/useFetchAllTokens';
 import useFetchAllUsers from '@/src/hooks/user/useFetchAllUsers';
 import { AuthRoleEnum, QueryKeyEnum } from '@/src/enums';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
@@ -41,20 +40,8 @@ const Dashboard = () => {
   const { users } = useFetchAllUsers(usersParam);
   const { userOrders } = useFetchAllUserOrders(currentUser, ordersParam);
   const { RenderModal, openModal, ModalContentEnum } = useModal();
-  // const { updatedTokens } = useFetchAllTokens();
 
   const { updatedTokens } = useGlobalState();
-
-  // useEffect(() => {
-  //   if (!updatedTokens) {
-  //     fetchTokens();
-  //   }
-  // }, [updatedTokens]);
-
-  // const removeOrder = async (id: number) => {
-  //   const isDeleted = await deleteOrder(id);
-  //   if (isDeleted) queryClient.invalidateQueries({ queryKey: ['userOrders'] });
-  // };
 
   const currentUserId = currentUser ? currentUser : (userId as string);
 
@@ -133,8 +120,6 @@ const Dashboard = () => {
           handleModal={() => openModal(ModalContentEnum.Form)}
           isButtonDisabled={!updatedTokens}
         />
-
-        <span>{updatedTokens?.length}</span>
 
         {userOrders ? (
           <div className="main-content">

@@ -8,6 +8,7 @@ import useFetchAllUserStrategyOrders from '@/src/hooks/order/useFetchAllUserStra
 import useGlobalState from '@/src/hooks/useDashboard';
 import useModal from '@/src/hooks/useModal';
 import * as enums from '@/src/enums';
+import { Order } from '@/src/types';
 import StrategyOrderListSection from '@/src/components/Section/StrategyOrderListSection';
 import StrategySnapshotSection from '@/src/components/Section/StrategySnapshotSection';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
@@ -31,6 +32,7 @@ const { OrderStatusEnum, OrderTypeDisplayEnum, OrderTypeEnum, QueryKeyEnum } =
 const Strategy = () => {
   const [currentPrice, setCurrentPrice] = useState(0);
   const [isEditMenu, setIsEditMenu] = useState(false);
+  // const [target, setTarget] = useState(100);
 
   const { data: session } = useSession();
   const { updatedTokens } = useGlobalState();
@@ -56,6 +58,8 @@ const Strategy = () => {
   );
 
   // ---
+
+  console.log('userOrders:', userOrders);
 
   const snapshot: Snapshot = {
     positiveOrders: 0,
@@ -83,7 +87,7 @@ const Strategy = () => {
 
   // ---
 
-  const target = 100;
+  // const target = 100;
 
   useEffect(() => {
     if (!updatedTokens || !userOrders) return;
@@ -95,17 +99,9 @@ const Strategy = () => {
     setCurrentPrice(price);
   }, [updatedTokens, userOrders]);
 
-  // useEffect(() => {
-  //   if (userOrders && !userOrders.length) {
-  //     console.log(1, 'userOrders:', userOrders);
-  //     redirectTo('/dashboard');
-  //     return;
-  //   }
-  // }, []);
-
-  const classifyOrder = (percent: number) => {
-    if (percent >= target) return { priority: 0 };
-    if (percent >= 0 && percent < target) return { priority: 1 };
+  const classifyOrder = (percent: number, order: Order) => {
+    if (percent >= order.target) return { priority: 0 };
+    if (percent >= 0 && percent < order.target) return { priority: 1 };
     if (percent <= 0 && percent > -50) return { priority: 2 };
     if (percent <= -50) return { priority: 3 };
     return { priority: 4 };
@@ -122,7 +118,7 @@ const Strategy = () => {
         snapshot.profit += order.amount * currentPrice;
       }
 
-      if (percent >= target) {
+      if (percent >= order.target) {
         if (snapshot.successOrders === null) {
           snapshot.successOrders = 1;
         } else {
@@ -141,7 +137,7 @@ const Strategy = () => {
 
     // console.log('-->', positiveOrders);
 
-    const { priority } = classifyOrder(percent);
+    const { priority } = classifyOrder(percent, order);
     return { ...order, percent, priority };
   });
 
@@ -215,7 +211,7 @@ const Strategy = () => {
 
                   <StrategyOrderListSection
                     sortedOrders={sortedOrders ?? []}
-                    target={target}
+                    // target={target}
                     currentPrice={currentPrice}
                     isEditMenu={isEditMenu}
                     // tokens={updatedTokens}

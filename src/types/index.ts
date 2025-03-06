@@ -57,6 +57,7 @@ export type Order = {
   fiat: number;
   status: OrderStatusEnum;
   userId: string;
+  target: number;
   createdAt: Date;
   updatedAt: Date;
 };

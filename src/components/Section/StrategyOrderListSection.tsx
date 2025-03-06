@@ -7,13 +7,13 @@ import StrategyOrderEditMenuSection from '@/src/components/Section/StrategyOrder
 
 type Props = {
   sortedOrders: Order[];
-  target: number;
+  // target: number;
   currentPrice: number;
   isEditMenu: boolean;
 };
 
 const StrategyOrderListSection = (props: Props) => {
-  const { sortedOrders, target, currentPrice, isEditMenu } = props;
+  const { sortedOrders, currentPrice, isEditMenu } = props;
 
   const showDetails = (order: Order) => {
     if (isEditMenu) {
@@ -36,7 +36,7 @@ const StrategyOrderListSection = (props: Props) => {
         {sortedOrders.length ? (
           <ul className="section-strategy-order-list">
             {sortedOrders.map((order: Order) => {
-              const { id, price, amount } = order;
+              const { id, price, amount, target } = order;
               const percent = ((currentPrice - price) / price) * 100;
               const fixedPercent = Number(percent.toFixed());
               const isMinus = percent.toString().includes('-');
