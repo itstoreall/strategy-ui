@@ -93,19 +93,20 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
           {displayedData.length ? (
             <ul className="section-order-list">
               {displayedData.map((order, idx) => {
-                // console.log(parseFloat(order.totalAmount.toFixed(6)));
-                // const values = `${order.symbol}: ${order.amount} - ${order.price}`;
+                const { symbol, orders, totalAmount, percent } = order;
 
-                const signPlus = order.percent.toString().includes('-')
+                const strategyPath = `/strategy/${strategy}-${symbol}`;
+                const percentValue = percent < 0 && percent > -1 ? 0 : percent;
+                const signPlus = percent.toString().includes('-')
                   ? ''
-                  : order.percent >= 1
+                  : percent >= 1
                   ? '+'
                   : '';
 
-                const percentValue =
-                  order.percent < 0 && order.percent > -1 ? 0 : order.percent;
+                // ---
 
-                const strategyPath = `/strategy/${strategy}-${order.symbol}`;
+                const percentColor = percent > 0 ? 'color-green' : 'color-blue';
+                const percentStyle = `row-list-item order-percent ${percentColor}`;
 
                 return (
                   <li key={idx} className="section-order-list-item">
@@ -116,40 +117,28 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
                       <ul className="section-order-list-item-row-list">
                         <li className="row-list-item order-symbol">
                           <span>
-                            {order.symbol}
+                            {symbol}
                             {/* {'WERTFGR'} */}
                           </span>
                         </li>
                         <li className="row-list-item order-count">
                           <span>
-                            {order.orders}
+                            {orders}
                             {/* {358} */}
                           </span>
                         </li>
                         <li className="row-list-item order-amount">
                           <span>
                             {formatMillionAmount(
-                              parseFloat(
-                                order.totalAmount.toFixed(6)
-                              ).toString()
+                              parseFloat(totalAmount.toFixed(6)).toString()
                             )}
                             {/* {38564326} */}
                           </span>
                         </li>
-                        {/* <li className="row-list-item order-amount">
-                        <span>
-                          {parseFloat(order.totalAmount.toFixed(6))}
-                        </span>
-                      </li> */}
-                        <li
-                          className={`row-list-item order-percent ${
-                            isBuy ? 'color-green' : 'color-red'
-                          }`}
-                        >
+                        <li className={percentStyle}>
                           <span
-                            title={order.percent.toString()}
+                            title={percent.toFixed(2)}
                           >{`${signPlus}${percentValue.toFixed()}%`}</span>
-                          {/* >{`${plus}${order.percent.toFixed()}%`}</span> */}
                         </li>
                       </ul>
                     </Link>
