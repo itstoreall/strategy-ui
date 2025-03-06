@@ -45,7 +45,7 @@ const config = {
 
 const typeOptions = [
   OrderTypeDisplayEnum.Asset,
-  OrderTypeDisplayEnum.BuyTarget,
+  // OrderTypeDisplayEnum.BuyTarget,
 ];
 
 const exchangeOptions = [
@@ -72,6 +72,7 @@ const AddOrderForm = ({
   invalidateQuery,
 }: Props) => {
   const [symbolOptions, setSymbolOptions] = useState<string[]>([]);
+  const [isProcess, setIsProcess] = useState(false);
 
   const { openDropdownId, toggleDropdown } = useSelectMulti();
   const [isPending, startTransition] = useTransition();
@@ -91,6 +92,7 @@ const AddOrderForm = ({
     if (tokens) {
       const options = tokens.map((token) => token.symbol);
       setSymbolOptions(options);
+      console.log('initType:', initType);
       if (initType) setValue('type', initType, { shouldValidate: true });
       if (initSymbol) setValue('symbol', initSymbol, { shouldValidate: true });
     }
@@ -134,6 +136,7 @@ const AddOrderForm = ({
     `;
 
     if (confirm(confirmMessage)) {
+      setIsProcess(true);
       const currentType =
         type === OrderTypeDisplayEnum.Asset
           ? OrderTypeEnum.Buy
@@ -156,87 +159,90 @@ const AddOrderForm = ({
               ? config.newAsset
               : type === OrderTypeDisplayEnum.BuyTarget
               ? config.newBuyTarget
-              : 'Process...'
+              : 'In progress...'
           }
         />
 
-        <Form handleSubmit={(e) => handleSubmit(e)}>
-          <FormContentContainer>
-            <SelectMulti
-              options={typeOptions.filter((opt) => opt !== type)}
-              initialOption={type}
-              placeholder="Type"
-              onSelect={(value) => handleSelectChange('type', value)}
-              isOpen={openDropdownId === 'type'}
-              onToggle={() =>
-                toggleDropdown(openDropdownId === 'type' ? '' : 'type')
-              }
-              isDisable={isStrategyPage}
-            />
+        {!isProcess && (
+          <Form handleSubmit={(e) => handleSubmit(e)}>
+            <FormContentContainer>
+              <SelectMulti
+                options={typeOptions.filter((opt) => opt !== type)}
+                initialOption={type}
+                placeholder="Type"
+                onSelect={(value) => handleSelectChange('type', value)}
+                isOpen={openDropdownId === 'type'}
+                onToggle={() =>
+                  toggleDropdown(openDropdownId === 'type' ? '' : 'type')
+                }
+                // isDisable={isStrategyPage}
+                isDisable={true}
+              />
 
-            <SelectMulti
-              options={symbolOptions.filter((opt) => opt !== symbol)}
-              initialOption={symbol}
-              placeholder={symbolOptions.length ? 'Symbol' : 'No tokens'}
-              onSelect={(value) => handleSelectChange('symbol', value)}
-              isOpen={openDropdownId === 'symbol'}
-              onToggle={() =>
-                toggleDropdown(openDropdownId === 'symbol' ? '' : 'symbol')
-              }
-              isDisable={!symbolOptions.length || isStrategyPage}
-            />
+              <SelectMulti
+                options={symbolOptions.filter((opt) => opt !== symbol)}
+                initialOption={symbol}
+                placeholder={symbolOptions.length ? 'Symbol' : 'No tokens'}
+                onSelect={(value) => handleSelectChange('symbol', value)}
+                isOpen={openDropdownId === 'symbol'}
+                onToggle={() =>
+                  toggleDropdown(openDropdownId === 'symbol' ? '' : 'symbol')
+                }
+                isDisable={!symbolOptions.length || isStrategyPage}
+              />
 
-            <SelectMulti
-              options={exchangeOptions.filter((opt) => opt !== exchange)}
-              placeholder="Exchange"
-              onSelect={(value) => handleSelectChange('exchange', value)}
-              isOpen={openDropdownId === exchange}
-              onToggle={() => toggleDropdown(exchange)}
-            />
+              <SelectMulti
+                options={exchangeOptions.filter((opt) => opt !== exchange)}
+                placeholder="Exchange"
+                onSelect={(value) => handleSelectChange('exchange', value)}
+                isOpen={openDropdownId === exchange}
+                onToggle={() => toggleDropdown(exchange)}
+              />
 
-            <TextInput
-              type="text"
-              placeholder="Amount"
-              disabled={isPending}
-              error={errors.amount}
-              {...register('amount', {
-                required: config.amountRequired,
-                validate: (value) =>
-                  /^\d*\.?\d*$/.test(value.toString()) ||
-                  config.amountValidation,
-              })}
-              onInput={handleNumericInput}
-            />
+              <TextInput
+                type="text"
+                placeholder="Amount"
+                disabled={isPending}
+                error={errors.amount}
+                {...register('amount', {
+                  required: config.amountRequired,
+                  validate: (value) =>
+                    /^\d*\.?\d*$/.test(value.toString()) ||
+                    config.amountValidation,
+                })}
+                onInput={handleNumericInput}
+              />
 
-            <TextInput
-              type="text"
-              placeholder="Price"
-              disabled={isPending}
-              error={errors.price}
-              {...register('price', {
-                required: config.priceRequired,
-                validate: (value) =>
-                  /^\d*\.?\d*$/.test(value.toString()) ||
-                  config.priceValidation,
-              })}
-              onInput={handleNumericInput}
-            />
+              <TextInput
+                type="text"
+                placeholder="Price"
+                disabled={isPending}
+                error={errors.price}
+                {...register('price', {
+                  required: config.priceRequired,
+                  validate: (value) =>
+                    /^\d*\.?\d*$/.test(value.toString()) ||
+                    config.priceValidation,
+                })}
+                onInput={handleNumericInput}
+              />
 
-            <div style={{ display: 'flex', gap: '1rem' }}>
-              <Button disabled={isPending || !!creationError} type="submit">
-                {isPending ? config.creating : config.submit}
-              </Button>
+              <div style={{ display: 'flex', gap: '1rem' }}>
+                <Button disabled={isPending || !!creationError} type="submit">
+                  {isPending ? config.creating : config.submit}
+                </Button>
 
-              <Button
-                style={{ flex: '0 0 47px', backgroundColor: '#f25c5e' }}
-                clickContent={closeModal}
-                type="button"
-              >
-                {null}
-              </Button>
-            </div>
-          </FormContentContainer>
-        </Form>
+                <Button
+                  style={{ flex: '0 0 47px', backgroundColor: '#f25c5e' }}
+                  clickContent={closeModal}
+                  type="button"
+                >
+                  {null}
+                </Button>
+              </div>
+            </FormContentContainer>
+          </Form>
+        )}
       </FormBackdropContainer>
     </FormWrapper>
   );

@@ -2,7 +2,7 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import { SessionContextValue } from 'next-auth/react';
-import useGlobalState from '@/src/hooks/useDashboard';
+import useGlobalState from '@/src/hooks/useGlobalState';
 import useModal from '@/src/hooks/useModal';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import AddTokenSection from '@/src/components/Section/Admin/AddTokenSection';

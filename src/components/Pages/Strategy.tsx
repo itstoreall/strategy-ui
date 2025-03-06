@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import useFetchAllUserStrategyOrders from '@/src/hooks/order/useFetchAllUserStrategyOrders';
-import useGlobalState from '@/src/hooks/useDashboard';
+import useGlobalState from '@/src/hooks/useGlobalState';
 import useModal from '@/src/hooks/useModal';
 import * as enums from '@/src/enums';
 import { Order } from '@/src/types';
@@ -58,8 +58,6 @@ const Strategy = () => {
   );
 
   // ---
-
-  console.log('userOrders:', userOrders);
 
   const snapshot: Snapshot = {
     positiveOrders: 0,

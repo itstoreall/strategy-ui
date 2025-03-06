@@ -2,14 +2,14 @@
 import { useEffect } from 'react';
 import { SessionContextValue } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import useGlobalState from '@/src/hooks/useGlobalState';
 import ProgressLoader from '@/src/assets/animation/ProgressLoader';
 import Logo from '@/src/components/Layout/Logo';
-// import useGlobalState from '@/src/hooks/useDashboard';
 
 type Props = { session: SessionContextValue };
 
 const Home = ({ session }: Props) => {
-  // const { updatedTokens } = useGlobalState();
+  const { app } = useGlobalState();
   const router = useRouter();
 
   // useEffect(() => {
@@ -30,6 +30,7 @@ const Home = ({ session }: Props) => {
     <div className="home-page">
       <Logo className="home-page-logo" iconSize={'6.5rem'} />
       <ProgressLoader duration={3000} />
+      <span className="home-page-version">{app.version}</span>
     </div>
   );
 };

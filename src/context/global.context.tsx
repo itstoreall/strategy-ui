@@ -9,11 +9,13 @@ type SortTokens = (a: t.Token, b: t.Token) => number;
 export type GlobalContextProps = {
   updatedTokens: t.Token[] | null;
   fetchTokens: () => void;
+  app: { version: string };
 };
 
 const initContext: GlobalContextProps = {
   updatedTokens: null,
   fetchTokens: () => {},
+  app: { version: '' },
 };
 
 const GlobalContext = createContext<GlobalContextProps>(initContext);
@@ -22,6 +24,7 @@ const sortById: SortTokens = (a, b) => a.id - b.id;
 export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   const [updatedTokens, setUpdatedTokens] = useState<t.Token[] | null>(null);
   const [isTokenLoading, setIsTokenLoading] = useState<boolean>(false);
+  const [app] = useState<{ version: string }>({ version: 'v1.0.1' });
 
   const { mutate: updatePrices } = useUpdatePrices();
   const { data: session } = useSession();
@@ -56,6 +59,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
       isTokenLoading,
       updatedTokens,
       fetchTokens,
+      app,
     };
   }, [userId, updatedTokens, fetchTokens]);
 

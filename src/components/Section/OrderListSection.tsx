@@ -9,7 +9,6 @@ type Props = {
   data: Order[];
   tokens: Token[] | null;
   userId: string | null;
-  // removeOrder: (id: number) => void;
 };
 
 type AggregatedDataAcc = {
@@ -28,11 +27,8 @@ const config = {
 const OrderListSection = ({ data, tokens, userId }: Props) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // console.log('data:', data);
-
   const isAdmin = data[0].userId === userId;
-
-  // console.log('isAdmin:', isAdmin);
+  const listItemLimit = 12;
 
   const aggregatedData = Object.values(
     data.reduce((acc, order: Order) => {
@@ -47,19 +43,13 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
           totalAmount: order.amount,
           totalFiat: order.fiat,
           orders: 1,
-          // percent: +percent.toFixed(),
           percent: percent,
         };
-
-        // console.log('percent:', percent);
-        // console.log('acc[order.symbol].percent:', acc[order.symbol].percent);
       } else {
         const higherPercent =
           percent > acc[order.symbol].percent
             ? percent
             : acc[order.symbol].percent;
-
-        // console.log('higherPercent:', higherPercent);
 
         acc[order.symbol].totalAmount += order.amount;
         acc[order.symbol].totalFiat += order.fiat;
@@ -74,7 +64,8 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
   // console.log('aggregatedData:', aggregatedData);
 
   const isBuy = data[0].type === OrderTypeEnum.Buy;
-  const isToggle = new Set([...data.map((el) => el.symbol)]).size > 5;
+  const isToggle =
+    new Set([...data.map((el) => el.symbol)]).size > listItemLimit;
   const strategy = isBuy ? OrderTypeEnum.Buy : OrderTypeEnum.Sell;
 
   const toggleList = () => setIsExpanded((prev) => !prev);
@@ -83,7 +74,7 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
 
   const displayedData = isExpanded
     ? aggregatedData
-    : aggregatedData.slice(0, 5);
+    : aggregatedData.slice(0, listItemLimit);
 
   // console.log('displayedData:', displayedData);
 

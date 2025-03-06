@@ -8,9 +8,18 @@
   justify-content: center;
   gap: 2rem;
   min-height: 100svh;
-  transform: translate(0, -40px);
+  transform: translate(0, -30px);
 
+  /*
   @include media-screen-orientation('min', $tablet) {
     transform: translate(0, -20px);
+  }
+  */
+
+  > span.home-page-version {
+    font-size: 0.8rem;
+    letter-spacing: 0.1rem;
+    color: $greyDark;
+    font-weight: 500;
   }
 }

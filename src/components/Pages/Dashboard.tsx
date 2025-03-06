@@ -3,11 +3,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
-import useModal from '@/src/hooks/useModal';
-import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
+import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import useFetchAllUsers from '@/src/hooks/user/useFetchAllUsers';
-import { AuthRoleEnum, QueryKeyEnum } from '@/src/enums';
+import useModal from '@/src/hooks/useModal';
+import { AuthRoleEnum, OrderTypeDisplayEnum, QueryKeyEnum } from '@/src/enums';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import OrderListSection from '@/src/components/Section/OrderListSection';
@@ -15,7 +15,7 @@ import PageContainer, { Label } from '@/src/components/Container/Page';
 import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import MainLoader from '@/src/components/MainLoader';
-import useGlobalState from '@/src/hooks/useDashboard';
+import useGlobalState from '@/src/hooks/useGlobalState';
 
 /*
 const config = {
@@ -157,6 +157,7 @@ const Dashboard = () => {
           <RenderModal>
             <AddOrderForm
               tokens={updatedTokens}
+              initType={OrderTypeDisplayEnum.Asset}
               invalidateQuery={[
                 QueryKeyEnum.UserOrders,
                 QueryKeyEnum.UserStrategyOrders,
