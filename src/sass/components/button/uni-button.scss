@@ -93,6 +93,23 @@ button.uni-button {
     font-size: 0.8rem;
   }
 
+  &.main-heading-return-button {
+    position: relative;
+    display: flex;
+    // justify-content: center;
+    // align-items: center;
+    padding: 0;
+    width: 30px;
+    height: 1rem;
+    background-color: transparent;
+
+    > svg {
+      position: absolute;
+      top: -5px;
+      fill: $greyDark;
+    }
+  }
+
   &.admin-heading-button {
     display: flex;
     justify-content: center;

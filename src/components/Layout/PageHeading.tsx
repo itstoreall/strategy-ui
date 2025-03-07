@@ -1,4 +1,5 @@
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { IoArrowUndoSharp } from 'react-icons/io5';
 import { GoPeople } from 'react-icons/go';
 import { Role } from '@/src/types';
 import Button from '@/src/components/Button/Button';
@@ -50,6 +51,7 @@ const PageHeading = ({
   handleModal,
 }: Props) => {
   const path = usePathname();
+  const router = useRouter();
 
   const isDashboard = path === '/dashboard';
   const isStrategy = path.includes('/strategy/');
@@ -63,6 +65,10 @@ const PageHeading = ({
   const price = isPrice ? assetPrice : <DotsLoader />;
   */
 
+  const returnFn = () => {
+    router.push('/dashboard');
+  };
+
   return (
     <div className="main-heading">
       <span
@@ -70,7 +76,18 @@ const PageHeading = ({
           isStrategy ? 'strategy-page' : ''
         }`}
       >
+        {isStrategy && (
+          <Button
+            className="main-heading-return-button"
+            clickContent={returnFn}
+            disabled={isAdminButtonDisabled}
+          >
+            <IoArrowUndoSharp size={26} />
+          </Button>
+        )}
+
         <Title tag={'h2'} text={title} />
+
         <span className={'main-heading-price'}>{price}</span>
       </span>
 
