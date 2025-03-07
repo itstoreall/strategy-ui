@@ -24,7 +24,7 @@ const sortById: SortTokens = (a, b) => a.id - b.id;
 export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   const [updatedTokens, setUpdatedTokens] = useState<t.Token[] | null>(null);
   const [isTokenLoading, setIsTokenLoading] = useState<boolean>(false);
-  const [app] = useState<{ version: string }>({ version: 'v1.0.2' });
+  const [app] = useState<{ version: string }>({ version: 'v1.0.3' });
 
   const { mutate: updatePrices } = useUpdatePrices();
   const { data: session } = useSession();

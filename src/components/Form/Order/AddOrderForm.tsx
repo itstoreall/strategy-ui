@@ -90,7 +90,8 @@ const AddOrderForm = ({
 
   useEffect(() => {
     if (tokens) {
-      const options = tokens.map((token) => token.symbol);
+      // const options = tokens.map((token) => token.symbol);
+      const options = tokens.map((token) => token.symbol).sort();
       setSymbolOptions(options);
       console.log('initType:', initType);
       if (initType) setValue('type', initType, { shouldValidate: true });
@@ -176,7 +177,7 @@ const AddOrderForm = ({
                   toggleDropdown(openDropdownId === 'type' ? '' : 'type')
                 }
                 // isDisable={isStrategyPage}
-                isDisable={true}
+                // isDisable={true}
               />
 
               <SelectMulti

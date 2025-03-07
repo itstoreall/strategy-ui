@@ -30,7 +30,7 @@ const StrategySnapshotSection = (props: Props) => {
 
   // console.log('isPositive | successOrders:', isPositive, successOrders);
   // console.log('isProfit | isProfit | profitAmount:', isProfit, profitAmount);
-  console.log('isNegative:', isAllNegative);
+  // console.log('isNegative:', isAllNegative, successOrders, profitAmount);
 
   const successValue = isProfit && successOrders ? successOrders : 0;
   const orderValue = `${successValue}/${positiveOrders}`;

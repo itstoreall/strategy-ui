@@ -65,7 +65,11 @@ const PageHeading = ({
 
   return (
     <div className="main-heading">
-      <span className="main-heading-title-block">
+      <span
+        className={`${'main-heading-title-block'} ${
+          isStrategy ? 'strategy-page' : ''
+        }`}
+      >
         <Title tag={'h2'} text={title} />
         <span className={'main-heading-price'}>{price}</span>
       </span>
