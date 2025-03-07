@@ -5,6 +5,7 @@ import Button from '@/src/components/Button/Button';
 type Props = {
   className?: 'order-list-devider' | 'settings-devider';
   title?: string;
+  subTitle?: string | null;
   isSwitchButton?: boolean;
   isDisabled?: boolean;
   setIsDisabled?: Dispatch<SetStateAction<boolean>>;
@@ -13,6 +14,7 @@ type Props = {
 const MainDividerSection = ({
   className,
   title = '',
+  subTitle = '',
   isSwitchButton = false,
   isDisabled,
   setIsDisabled,
@@ -25,6 +27,10 @@ const MainDividerSection = ({
   return (
     <section className={`main-divider ${className}`}>
       {title && <span className="main-divider-section-title">{title}</span>}
+
+      {subTitle && (
+        <span className="main-divider-section-subtitle">{subTitle}</span>
+      )}
 
       <span className="main-divider-section-divider" />
 

@@ -171,6 +171,16 @@ const Strategy = () => {
 
   // console.log('sortedOrders:', sortedOrders);
 
+  const calculateStrategyPercent = () => {
+    const { deposit, profit } = snapshot;
+    if (!profit || (userOrders && userOrders?.length < 2)) {
+      return '';
+    }
+    const percent = ((profit - deposit) / deposit) * 100;
+    const signPlus = !percent.toString().includes('-') ? '+' : '';
+    return `${signPlus}${percent.toFixed()}%`;
+  };
+
   return (
     <PageContainer label={Label.Main}>
       <main className="main">
@@ -199,22 +209,34 @@ const Strategy = () => {
 
               {updatedTokens ? (
                 <>
+                  {/* <div className="sections-container-strategy-percent-block">
+                    <span className="sections-container-strategy-percent-value">
+                      {`${23456}%`}
+                    </span>
+                    <span className="sections-container-strategy-percent-message">
+                      Percent value of the orders
+                    </span>
+                  </div> */}
+
                   <MainDividerSection
                     className="order-list-devider"
-                    title={'Orders'}
+                    title={'Allocations'}
+                    subTitle={calculateStrategyPercent()}
                     isSwitchButton={!!sortedOrders?.length}
                     isDisabled={!isEditMenu}
                     setIsDisabled={setIsEditMenu}
                   />
 
-                  <StrategyOrderListSection
-                    sortedOrders={sortedOrders ?? []}
-                    // target={target}
-                    currentPrice={currentPrice}
-                    isEditMenu={isEditMenu}
-                    // tokens={updatedTokens}
-                    // orders={userOrders}
-                  />
+                  <div className="sections-container-strategy-order-list-block">
+                    <StrategyOrderListSection
+                      sortedOrders={sortedOrders ?? []}
+                      // target={target}
+                      currentPrice={currentPrice}
+                      isEditMenu={isEditMenu}
+                      // tokens={updatedTokens}
+                      // orders={userOrders}
+                    />
+                  </div>
                 </>
               ) : (
                 <ListLoader />
