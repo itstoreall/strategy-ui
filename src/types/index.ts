@@ -71,6 +71,8 @@ export type StrategyOrders = {
   sell: Order[];
 };
 
-// export type OrdersRes = {
-//   data: OrderData;
-// };
+/*
+export type OrdersRes = {
+  data: OrderData;
+};
+*/

@@ -67,8 +67,8 @@ class OrderService {
     // console.log('queryExchange:', queryExchange);
 
     try {
-      // const url = `/orders/user/${userId}/${symbol}`;
-      const url = `/orders/user/${userId}/strategy?symbol=${symbol}${queryType}${queryStatus}${queryExchange}`;
+      const query = `symbol=${symbol}${queryType}${queryStatus}${queryExchange}`;
+      const url = `/orders/user/${userId}/strategy?${query}`;
       const res = await apiClient.get(url);
       return res.data;
     } catch (err: unknown) {

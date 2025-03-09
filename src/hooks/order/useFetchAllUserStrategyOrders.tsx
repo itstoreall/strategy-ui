@@ -2,12 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 import { orderService } from '@/src/services/order.service';
 import { QueryKeyEnum } from '@/src/enums';
 import { OrderData } from '@/src/types';
-// import { OrderTypeEnum } from '@/src/enums';
-
-// export type Orders = {
-//   buy: Order[];
-//   sell: Order[];
-// };
 
 const useFetchAllUserStrategyOrders = (
   userId: string | null,
@@ -18,22 +12,6 @@ const useFetchAllUserStrategyOrders = (
   options: { enabled: boolean }
 ) => {
   const modifyData = (data: OrderData) => {
-    // const categorized = data.data.reduce<Orders>(
-    //   (acc, item) => {
-    //     if (item.type === OrderTypeEnum.Buy) acc.buy.push(item);
-    //     else if (item.type === OrderTypeEnum.Sell) acc.sell.push(item);
-    //     return acc;
-    //   },
-    //   { buy: [], sell: [] }
-    // );
-
-    // const modefied = data.data.orders.map((order) => ({
-    //   ...order,
-    //   target: data.data.target,
-    // }));
-
-    // console.log('modefied:', modefied);
-
     return data.data;
   };
 

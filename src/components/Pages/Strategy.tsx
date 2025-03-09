@@ -164,10 +164,17 @@ const Strategy = () => {
 
   const calculateStrategyPercent = () => {
     const { deposit, profit } = snapshot;
-    if (!profit || (userOrders && userOrders?.length < 2)) {
+
+    console.log('deposit, profit:', deposit, profit);
+    console.log('userOrders:', userOrders?.length);
+
+    /*
+    if (userOrders && userOrders?.length < 2) {
       return '';
     }
-    const percent = ((profit - deposit) / deposit) * 100;
+    */
+
+    const percent = profit ? ((profit - deposit) / deposit) * 100 : -100;
     const signPlus = !percent.toString().includes('-') ? '+' : '';
     return `${signPlus}${percent.toFixed()}%`;
   };
@@ -202,7 +209,7 @@ const Strategy = () => {
                 <>
                   <MainDividerSection
                     className="order-list-devider"
-                    title={'Allocations'}
+                    title={'Total liquidity:'} // Allocations
                     subTitle={calculateStrategyPercent()}
                     isSwitchButton={!!sortedOrders?.length}
                     isDisabled={!isEditMenu}
