@@ -19,6 +19,14 @@ section.main-divider {
     &.main-divider-section-subtitle {
       font-weight: 500;
       color: $violetLight;
+
+      &.color-green {
+        color: $googleGreen;
+      }
+
+      &.color-blue {
+        color: $googleBlue;
+      }
     }
 
     &.main-divider-section-divider {

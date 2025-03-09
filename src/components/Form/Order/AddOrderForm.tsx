@@ -93,7 +93,6 @@ const AddOrderForm = ({
       // const options = tokens.map((token) => token.symbol);
       const options = tokens.map((token) => token.symbol).sort();
       setSymbolOptions(options);
-      console.log('initType:', initType);
       if (initType) setValue('type', initType, { shouldValidate: true });
       if (initSymbol) setValue('symbol', initSymbol, { shouldValidate: true });
     }

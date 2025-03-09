@@ -32,7 +32,6 @@ const { OrderStatusEnum, OrderTypeDisplayEnum, OrderTypeEnum, QueryKeyEnum } =
 const Strategy = () => {
   const [currentPrice, setCurrentPrice] = useState(0);
   const [isEditMenu, setIsEditMenu] = useState(false);
-  // const [target, setTarget] = useState(100);
 
   const { data: session } = useSession();
   const { updatedTokens } = useGlobalState();
@@ -66,8 +65,6 @@ const Strategy = () => {
     profit: null,
   };
 
-  // if (userOrders) console.log('userOrders:', userOrders);
-
   /*
   useEffect(() => {
     // console.log('profitAmount:', profitAmount);
@@ -84,8 +81,6 @@ const Strategy = () => {
   */
 
   // ---
-
-  // const target = 100;
 
   useEffect(() => {
     if (!updatedTokens || !userOrders) return;
@@ -122,7 +117,6 @@ const Strategy = () => {
         } else {
           snapshot.successOrders += 1;
         }
-        // snapshot.profit += order.amount * currentPrice;
       }
 
       if (snapshot.positiveOrders === null) {
@@ -130,10 +124,7 @@ const Strategy = () => {
       } else {
         snapshot.positiveOrders += 1;
       }
-      // snapshot.positiveOrders += 1;
     }
-
-    // console.log('-->', positiveOrders);
 
     const { priority } = classifyOrder(percent, order);
     return { ...order, percent, priority };
@@ -209,15 +200,6 @@ const Strategy = () => {
 
               {updatedTokens ? (
                 <>
-                  {/* <div className="sections-container-strategy-percent-block">
-                    <span className="sections-container-strategy-percent-value">
-                      {`${23456}%`}
-                    </span>
-                    <span className="sections-container-strategy-percent-message">
-                      Percent value of the orders
-                    </span>
-                  </div> */}
-
                   <MainDividerSection
                     className="order-list-devider"
                     title={'Allocations'}

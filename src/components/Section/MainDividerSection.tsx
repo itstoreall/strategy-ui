@@ -24,13 +24,16 @@ const MainDividerSection = ({
     setIsDisabled((prev) => (prev === true ? false : true));
   };
 
+  // ---
+
+  const subTitleColor = !subTitle?.includes('-') ? 'color-green' : 'color-blue';
+  const subTitleStyle = `main-divider-section-subtitle ${subTitleColor}`;
+
   return (
     <section className={`main-divider ${className}`}>
       {title && <span className="main-divider-section-title">{title}</span>}
 
-      {subTitle && (
-        <span className="main-divider-section-subtitle">{subTitle}</span>
-      )}
+      {subTitle && <span className={subTitleStyle}>{subTitle}</span>}
 
       <span className="main-divider-section-divider" />
 

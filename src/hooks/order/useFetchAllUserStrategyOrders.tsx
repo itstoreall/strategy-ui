@@ -27,6 +27,13 @@ const useFetchAllUserStrategyOrders = (
     //   { buy: [], sell: [] }
     // );
 
+    // const modefied = data.data.orders.map((order) => ({
+    //   ...order,
+    //   target: data.data.target,
+    // }));
+
+    // console.log('modefied:', modefied);
+
     return data.data;
   };
 
