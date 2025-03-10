@@ -14,8 +14,8 @@ export default function RootLayout({ children }: ChildrenProps) {
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.png" type="image/png" />
         <title>Strategy PWA</title>
+        <link rel="icon" type="image/png" href="/favicon.png" />
         <meta name="format-detection" content="email=no" />
       </head>
 
