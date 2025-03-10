@@ -32,6 +32,7 @@ main.main {
     position: relative;
     display: flex;
     justify-content: space-between;
+    user-select: none;
 
     > span.main-heading-title-block {
       display: flex;
@@ -59,6 +60,7 @@ main.main {
         // left: 35px;
         font-size: 1rem;
         color: $colorAccent;
+        cursor: pointer;
       }
     }
     // }

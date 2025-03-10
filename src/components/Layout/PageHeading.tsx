@@ -17,6 +17,7 @@ type Props = {
   adminButtonText?: string;
   isAdminButtonDisabled?: boolean;
   adminButtonFn?: () => void;
+  fetchTokens?: () => void;
 
   // Right side:
   role?: Role;
@@ -43,6 +44,7 @@ const PageHeading = ({
   adminButtonText,
   isAdminButtonDisabled,
   adminButtonFn,
+  fetchTokens,
 
   // Right side:
   buttonText,
@@ -69,6 +71,21 @@ const PageHeading = ({
     router.push('/dashboard');
   };
 
+  const updatePrice = () => {
+    const key = 'lastFetchPriceTime';
+    const now = Date.now();
+    const lastFetchPriceTime = localStorage.getItem(key);
+    const lastFetchTime = lastFetchPriceTime
+      ? parseInt(lastFetchPriceTime, 10)
+      : 0;
+    if (now - lastFetchTime >= 60000) {
+      localStorage.setItem(key, now.toString());
+      if (fetchTokens) {
+        fetchTokens();
+      }
+    }
+  };
+
   return (
     <div className="main-heading">
       <span
@@ -88,7 +105,9 @@ const PageHeading = ({
 
         <Title tag={'h2'} text={title} />
 
-        <span className={'main-heading-price'}>{price}</span>
+        <span onClick={updatePrice} className={'main-heading-price'}>
+          {price}
+        </span>
       </span>
 
       {role && <span className="user-role">{role}</span>}

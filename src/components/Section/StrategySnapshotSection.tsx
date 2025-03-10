@@ -28,10 +28,6 @@ const StrategySnapshotSection = (props: Props) => {
   const isProfit = !!profitAmount && profitAmount > 0;
   const isAllNegative = isOrders && !isProfit && !isPositive;
 
-  // console.log('isPositive | successOrders:', isPositive, successOrders);
-  // console.log('isProfit | isProfit | profitAmount:', isProfit, profitAmount);
-  // console.log('isNegative:', isAllNegative, successOrders, profitAmount);
-
   const successValue = isProfit && successOrders ? successOrders : 0;
   const orderValue = `${successValue}/${positiveOrders}`;
   const loaderValue = isProfit ? orderValue : <DotsLoader />;
@@ -51,7 +47,7 @@ const StrategySnapshotSection = (props: Props) => {
   );
 
   return (
-    <section className="section account-snapshot">
+    <section className="section order-list-snapshot">
       <ul className="section-content snapshot-list">
         <li className="snapshot-item">
           <div className="item-content">
@@ -76,10 +72,7 @@ const StrategySnapshotSection = (props: Props) => {
         <li className="snapshot-item">
           <div className="item-content">
             <span className="content-name">Unrealized</span>
-            <span className="content-value">
-              {/* {profitAmount.toFixed()} */}
-              {profitValue}
-            </span>
+            <span className="content-value">{profitValue}</span>
           </div>
         </li>
       </ul>

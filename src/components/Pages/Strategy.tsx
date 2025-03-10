@@ -33,8 +33,8 @@ const Strategy = () => {
   const [currentPrice, setCurrentPrice] = useState(0);
   const [isEditMenu, setIsEditMenu] = useState(false);
 
+  const { updatedTokens, fetchTokens } = useGlobalState();
   const { data: session } = useSession();
-  const { updatedTokens } = useGlobalState();
   const pathname = usePathname();
 
   const userId = session?.user?.id || null;
@@ -165,8 +165,8 @@ const Strategy = () => {
   const calculateStrategyPercent = () => {
     const { deposit, profit } = snapshot;
 
-    console.log('deposit, profit:', deposit, profit);
-    console.log('userOrders:', userOrders?.length);
+    // console.log('deposit, profit:', deposit, profit);
+    // console.log('userOrders:', userOrders?.length);
 
     /*
     if (userOrders && userOrders?.length < 2) {
@@ -192,6 +192,7 @@ const Strategy = () => {
           }
           handleModal={handleModal}
           isButtonDisabled={!updatedTokens}
+          fetchTokens={fetchTokens}
         />
 
         {userOrders ? (

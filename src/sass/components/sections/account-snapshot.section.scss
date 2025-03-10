@@ -1,11 +1,13 @@
 @use '@/src/sass/mixins' as *;
 @use '@/src/sass/base/vars' as *;
 
-section.account-snapshot {
+section.account-snapshot,
+section.order-list-snapshot {
   > ul.snapshot-list {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 0.7rem;
+    user-select: none;
 
     > li.snapshot-item {
       &:not(:last-child) {

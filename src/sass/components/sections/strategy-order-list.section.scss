@@ -17,22 +17,14 @@ section.section.strategy-order-list {
 
 // Custom
 section.strategy-order-list {
-  // border-radius: 0;
   background-color: transparent;
-  // border: 1px solid green;
+  user-select: none;
 
   > div.section-content.strategy-order-list {
     padding: 0;
-    // > span.order-list-header {
-    //   display: flex;
-    //   height: 0.1rem;
-    // background-color: $greyDark;
-    //   // border-radius: $smallBorderRadius;
 
     > ul.section-strategy-order-list {
       > li.section-strategy-order-list-item {
-        // background-color: $blackMiddle;
-
         &.single-item {
           border-radius: $middleBorderRadius;
         }
@@ -72,13 +64,11 @@ section.strategy-order-list {
         }
 
         &.negativeValue {
-          // background-color: $googleRedDeepDark;
           background-color: $googleBlueDeepDark;
 
           > ul.section-strategy-order-list-item-row-list {
             > li.row-strategy-list-item {
               > span {
-                // color: $googleRed;
                 color: $googleBlue;
               }
             }
@@ -87,61 +77,17 @@ section.strategy-order-list {
 
         &.failed {
           background-color: $googleBlueMiddleDark;
-          // background-color: $googleBlueDeepDark;
-          // background-color: $googleRedMiddleDark;
 
           > ul.section-strategy-order-list-item-row-list {
             > li.row-strategy-list-item {
               > span {
                 color: $googleBlue;
-                // color: $googleRed;
               }
             }
           }
         }
       }
     }
-
-    /*
-    &.BUY {
-      > ul.section-strategy-order-list {
-        > li.section-strategy-order-list-item {
-          &.success {
-            background-color: $googleGreenMiddleDark;
-          }
-
-          &.halfSuccess {
-            background-color: $googleGreenDeepDark;
-          }
-
-          > ul.section-strategy-order-list-item-row-list {
-            > li.row-strategy-list-item {
-              > span {
-                color: $googleGreen;
-              }
-            }
-          }
-        }
-      }
-    }
-
-    &.SELL {
-      > ul.section-strategy-order-list {
-        > li.section-strategy-order-list-item {
-          background-color: $googleRedMiddleDark;
-
-          > ul.section-strategy-order-list-item-row-list {
-            > li.row-strategy-list-item {
-              > span {
-                color: $googleRed;
-              }
-            }
-          }
-        }
-      }
-    }
-    */
-    // }
 
     > ul.section-strategy-order-list {
       padding: 0;
@@ -153,8 +99,6 @@ section.strategy-order-list {
         display: flex;
         align-items: center;
         height: 40px;
-        // border-bottom: 1px solid green;
-        // background-color: teal;
 
         @include media-screen-orientation('min', $tablet) {
           height: 48px;
@@ -172,7 +116,6 @@ section.strategy-order-list {
           display: flex;
           gap: 1rem;
           min-width: 100%;
-          // background-color: palevioletred;
 
           > li.row-strategy-list-item {
             width: 100%;
@@ -200,62 +143,24 @@ section.strategy-order-list {
 
             &.order-amount {
               max-width: 12rem;
-              // text-align: end;
-              // min-width: 4.5rem;
-              // min-width: 6rem;
-              // background-color: palevioletred;
 
               @include media-screen-orientation('min', $mobile + 49) {
                 max-width: 6rem;
-                // background-color: skyblue;
               }
             }
 
             &.order-price {
               text-align: end;
               min-width: 5rem;
-              // max-width: 15rem;
-              // background-color: teal;
 
-              @include media-screen-orientation('max', $mobile + 50) {
-                // max-width: 4rem;
-                // background-color: skyblue;
-              }
-
-              // > span {
-              // padding: 0.2rem 0.5rem;
-              // font-weight: 600;
-              // color: $violetLight;
-              // background-color: $violetDark;
-              // border-radius: $smallBorderRadius;
-              // }
+              /*
+              @include media-screen-orientation('max', $mobile + 50) {}
+              */
             }
 
             &.order-percent {
               position: relative;
               text-align: end;
-              // background-color: red;
-              // min-width: 30px;
-              // background-color: palevioletred;
-
-              @include media-screen-orientation('max', $mobile + 50) {
-                // max-width: 4rem;
-                // background-color: skyblue;
-              }
-
-              /*
-              &.color-green {
-                > span {
-                  color: $googleGreen;
-                }
-              }
-
-              &.color-red {
-                > span {
-                  color: $googleRed;
-                }
-              }
-              */
             }
 
             > span {
@@ -265,26 +170,5 @@ section.strategy-order-list {
         }
       }
     }
-
-    // > div.toggle-block {
-    //   display: flex;
-    //   justify-content: center;
-    //   height: 40px;
-    //   // background-color: teal;
-
-    //   > button.toggle-button {
-    //     background-color: transparent;
-
-    //     > svg {
-    //       transition: stroke $ease03s;
-    //     }
-
-    //     &:hover {
-    //       > svg {
-    //         stroke: $violetLight;
-    //       }
-    //     }
-    //   }
-    // }
   }
 }

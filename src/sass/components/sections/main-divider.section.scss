@@ -8,6 +8,7 @@ section.main-divider {
   align-items: center;
   gap: 1rem;
   min-height: 22px;
+  user-select: none;
 
   > span {
     &.main-divider-section-title {
