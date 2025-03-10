@@ -210,7 +210,7 @@ const Strategy = () => {
                 <>
                   <MainDividerSection
                     className="order-list-devider"
-                    title={'Total liquidity:'} // Allocations
+                    title={'Total:'} // Allocations
                     subTitle={calculateStrategyPercent()}
                     isSwitchButton={!!sortedOrders?.length}
                     isDisabled={!isEditMenu}
