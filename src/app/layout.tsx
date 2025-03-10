@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   manifest: '/manifest.json',
   title: 'Strategy PWA',
   description: 'Crypto market strategies',
+  icons: { icon: '/favicon.png' },
 };
 
 export default function RootLayout({ children }: ChildrenProps) {
