@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { AuthRoleEnum, OrderStatusEnum } from '@/src/enums';
+import { AuthRoleEnum, ExchangeEnum, OrderStatusEnum } from '@/src/enums';
 
 export type ChildrenProps = { children: ReactNode };
 
@@ -58,6 +58,7 @@ export type Order = {
   status: OrderStatusEnum;
   userId: string;
   target: number;
+  exchange: ExchangeEnum;
   createdAt: Date;
   updatedAt: Date;
 };

@@ -220,11 +220,8 @@ const Strategy = () => {
                   <div className="sections-container-strategy-order-list-block">
                     <StrategyOrderListSection
                       sortedOrders={sortedOrders ?? []}
-                      // target={target}
                       currentPrice={currentPrice}
                       isEditMenu={isEditMenu}
-                      // tokens={updatedTokens}
-                      // orders={userOrders}
                     />
                   </div>
                 </>

@@ -1,13 +1,9 @@
+import * as u from '@/src/utils';
 import { Order } from '@/src/types';
-import normalizeDate, {
-  formatMillionAmount,
-  uniNumberFormatter,
-} from '@/src/utils';
 import StrategyOrderEditMenuSection from '@/src/components/Section/StrategyOrderEditMenuSection';
 
 type Props = {
   sortedOrders: Order[];
-  // target: number;
   currentPrice: number;
   isEditMenu: boolean;
 };
@@ -26,7 +22,8 @@ const StrategyOrderListSection = (props: Props) => {
       Amount: ${order.amount}
       Invested: $${order.fiat}
       Profit: $${profitValue.toFixed()}
-      Created: ${normalizeDate(order.createdAt, 'DD-MM-YY')}
+      Exchange: ${order.exchange}
+      Created: ${u.normalizeDate(order.createdAt, 'DD-MM-YY')}
       `);
   };
 
@@ -73,11 +70,11 @@ const StrategyOrderListSection = (props: Props) => {
                   <ul className="section-strategy-order-list-item-row-list">
                     <li className="row-strategy-list-item order-amount">
                       {/* <span>{formatMillionAmount('234567035')}</span> */}
-                      <span>{formatMillionAmount(amount.toString())}</span>
+                      <span>{u.formatMillionAmount(amount.toString())}</span>
                     </li>
                     <li className="row-strategy-list-item order-price">
                       {/* <span>{formatMillionAmount('234567035')}</span> */}
-                      <span>{uniNumberFormatter(price)}</span>
+                      <span>{u.uniNumberFormatter(price)}</span>
                     </li>
                     <li className="row-strategy-list-item order-percent">
                       {/* <span>{'+2345%'}</span> */}
