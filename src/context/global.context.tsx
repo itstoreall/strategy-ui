@@ -24,12 +24,12 @@ const sortById: SortTokens = (a, b) => a.id - b.id;
 export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   const [updatedTokens, setUpdatedTokens] = useState<t.Token[] | null>(null);
   const [isTokenLoading, setIsTokenLoading] = useState<boolean>(false);
-  const [app] = useState<{ version: string }>({ version: 'v1.2.3' });
 
   const { mutate: updatePrices } = useUpdatePrices();
   const { data: session } = useSession();
 
   const userId = session?.user?.id || null;
+  const app = { version: 'v1.2.4' };
 
   const fetchTokens = () => {
     const params = {};
