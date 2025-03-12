@@ -55,6 +55,30 @@ div.default-select {
     }
   }
 
+  > div.default-select-dropdown {
+    > input.default-select-search {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 3rem;
+      // min-height: 40px;
+      display: flex;
+      align-items: center;
+      padding: 0 1rem;
+      height: 53px;
+      width: 8rem;
+      color: $greyMiddle;
+      // background-color: blue;
+      background-color: $greyDeepDark;
+      border-radius: $middleBorderRadius;
+      z-index: 11;
+
+      &::placeholder {
+        color: $greyDark;
+      }
+    }
+  }
+
   > span.default-select-selected-disable {
     cursor: auto;
     color: $greyMiddle;

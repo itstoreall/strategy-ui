@@ -188,6 +188,7 @@ const AddOrderForm = ({
                 onToggle={() =>
                   toggleDropdown(openDropdownId === 'symbol' ? '' : 'symbol')
                 }
+                searchEnabled={true}
                 isDisable={!symbolOptions.length || isStrategyPage}
               />
 

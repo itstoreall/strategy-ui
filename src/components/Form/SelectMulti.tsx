@@ -10,6 +10,7 @@ type Props = {
   initialOption?: string | null;
   onSelect: (selectedOption: string) => void;
   placeholder?: string;
+  searchEnabled?: boolean;
   isDisable?: boolean;
   isReset?: boolean;
   isError?: boolean;
@@ -19,6 +20,7 @@ type Props = {
 
 const SelectMulti = (props: Props) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const {
     className,
@@ -26,6 +28,7 @@ const SelectMulti = (props: Props) => {
     options,
     initialOption,
     isOpen,
+    searchEnabled = false,
     onToggle,
     onSelect,
     isDisable,
@@ -55,6 +58,17 @@ const SelectMulti = (props: Props) => {
     }
   };
 
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredOptions = options.filter(
+    (option) => option.toLowerCase().startsWith(searchTerm.toLowerCase())
+    /*
+    option.toLowerCase().includes(searchTerm.toLowerCase())
+    */
+  );
+
   // ---
 
   const optionSelectedStyle = selectedOption ? 'option-selected' : '';
@@ -75,9 +89,21 @@ const SelectMulti = (props: Props) => {
             {isOpen ? <FiChevronUp /> : <FiChevronDown />}
           </div>
 
+          {isOpen && searchEnabled && (
+            <div className="default-select-dropdown">
+              <input
+                type="text"
+                className="default-select-search"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={handleSearch}
+              />
+            </div>
+          )}
+
           {isOpen && (
             <ul className="default-select-option-list">
-              {options.map((option) => (
+              {filteredOptions.map((option) => (
                 <li
                   key={option}
                   className="default-select-option-list-item"
