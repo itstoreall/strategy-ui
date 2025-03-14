@@ -136,13 +136,25 @@ button.uni-button {
     max-width: 60px;
     height: 20px;
     background-color: transparent;
-    border: 0.08rem solid $colorAccent;
+    border: 0.08rem solid $greyDeepDark;
+    // border: 0.08rem solid $colorAccent;
     border-radius: $smallBorderRadius;
 
+    transition: $ease03s;
+
     > span {
-      padding-bottom: 1px;
+      transition: $ease03s;
+      // padding-bottom: 1px;
       font-size: 0.6rem;
-      color: $colorAccent;
+      color: $greyDark;
+    }
+
+    &:hover {
+      border-color: $colorAccent;
+
+      > span {
+        color: $colorAccent;
+      }
     }
   }
 
@@ -170,7 +182,7 @@ button.uni-button {
 
     &:hover {
       > svg {
-        stroke: $violetLight;
+        stroke: $colorAccent;
       }
     }
   }

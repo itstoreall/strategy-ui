@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
-import { Order, Token } from '@/src/types';
+import { Order, Token, InputEvent } from '@/src/types';
 import { OrderTypeEnum, SortEnum } from '@/src/enums';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
 import { formatMillionAmount } from '@/src/utils';
@@ -27,7 +27,7 @@ const config = {
 const OrderListSection = ({ data, tokens, userId }: Props) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [sortField, setSortField] = useState<SortEnum>(SortEnum.Percent);
-  const [isAscending, setIsAscending] = useState(false);
+  const [filterSymbol, setFilterSymbol] = useState('');
 
   const isAdmin = data[0].userId === userId;
   const listItemLimit = 10;
@@ -77,23 +77,38 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
   const handleSortToggle = () => {
     if (sortField === SortEnum.Percent) {
       setSortField(SortEnum.Symbol);
-      setIsAscending(true);
     } else {
       setSortField(SortEnum.Percent);
-      setIsAscending(false);
     }
   };
 
+  const handleFilterChange = (e: InputEvent) => {
+    setFilterSymbol(e.target.value);
+  };
+
+  const filteredData = aggregatedData.filter((order) =>
+    order.symbol.toLowerCase().startsWith(filterSymbol.toLowerCase())
+  );
+
+  /*
   const displayedData = aggregatedData
     .sort((a, b) => {
       if (sortField === SortEnum.Symbol) {
-        return isAscending
-          ? a.symbol.localeCompare(b.symbol)
-          : b.symbol.localeCompare(a.symbol);
+        return a.symbol.localeCompare(b.symbol);
       }
-      return isAscending ? a.percent - b.percent : b.percent - a.percent;
+      return b.percent - a.percent;
     })
     .slice(0, isExpanded ? aggregatedData.length : listItemLimit);
+    */
+
+  const displayedData = filteredData
+    .sort((a, b) => {
+      if (sortField === SortEnum.Symbol) {
+        return a.symbol.localeCompare(b.symbol);
+      }
+      return b.percent - a.percent;
+    })
+    .slice(0, isExpanded ? filteredData.length : listItemLimit);
 
   // console.log('displayedData:', displayedData);
 
@@ -102,15 +117,25 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
       <MainDividerSection
         className="order-list-devider"
         title={isBuy ? config.assets : config.buyTargets}
-        isSwitchButton={isToggle}
+        filterSymbol={filterSymbol}
+        handleFilterChange={handleFilterChange}
         sortField={sortField}
         handleSortToggle={handleSortToggle}
+        isSwitchButton={isToggle}
         isDisabled={!isExpanded}
         setIsDisabled={toggleList}
       />
 
       <section className="section order-list">
         <div className="section-content order-list">
+          {/* <input
+            type="text"
+            className="filter-input"
+            placeholder="Filter by symbol..."
+            value={filterSymbol}
+            onChange={handleFilterChange}
+          /> */}
+
           {displayedData.length ? (
             <ul className="section-order-list">
               {displayedData.map((order, idx) => {

@@ -94,7 +94,7 @@ section.order-list {
                 > span {
                   padding: 0.2rem 0.5rem;
                   // font-weight: 600;
-                  color: $violetLight;
+                  color: $colorAccent;
                   // background-color: $violetDark;
                   // border-radius: $smallBorderRadius;
                 }
@@ -147,7 +147,7 @@ section.order-list {
 
         &:hover {
           > svg {
-            stroke: $violetLight;
+            stroke: $colorAccent;
           }
         }
       }

@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import SwitchIcon from '@/src/assets/icons/SwitchIcon';
+import { InputEvent } from '@/src/types';
 import { SortEnum } from '@/src/enums';
 import Button from '@/src/components/Button/Button';
 
@@ -7,9 +8,11 @@ type Props = {
   className?: 'order-list-devider' | 'settings-devider';
   title?: string;
   subTitle?: string | null;
-  isSwitchButton?: boolean;
+  filterSymbol?: string;
+  handleFilterChange?: (event: InputEvent) => void;
   sortField?: SortEnum;
   handleSortToggle?: () => void;
+  isSwitchButton?: boolean;
   isDisabled?: boolean;
   setIsDisabled?: Dispatch<SetStateAction<boolean>>;
 };
@@ -18,11 +21,13 @@ const MainDividerSection = ({
   className,
   title = '',
   subTitle = '',
-  isSwitchButton = false,
+  filterSymbol,
+  handleFilterChange,
   sortField,
   handleSortToggle,
   isDisabled,
   setIsDisabled,
+  isSwitchButton = false,
 }: Props) => {
   const toggleSwitch = () => {
     if (!setIsDisabled) return;
@@ -39,6 +44,14 @@ const MainDividerSection = ({
       {title && <span className="main-divider-section-title">{title}</span>}
 
       {subTitle && <span className={subTitleStyle}>{subTitle}</span>}
+
+      <input
+        type="text"
+        className="main-divider-section-filter-input"
+        placeholder="Filter..."
+        value={filterSymbol}
+        onChange={handleFilterChange}
+      />
 
       <span className="main-divider-section-divider" />
 
