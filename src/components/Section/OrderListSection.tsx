@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import Link from 'next/link';
-import { Order, Token, InputEvent } from '@/src/types';
-import { OrderTypeEnum, SortEnum } from '@/src/enums';
-import MainDividerSection from '@/src/components/Section/MainDividerSection';
+import useFilterAndSortOrderList from '@/src/hooks/order/useFilterAndSortOrderList';
+import { AggregatedOrderListAcc, Order, Token } from '@/src/types';
+import { OrderTypeEnum } from '@/src/enums';
 import { formatMillionAmount } from '@/src/utils';
+import MainDividerSection from '@/src/components/Section/MainDividerSection';
 
 type Props = {
   data: Order[];
@@ -11,26 +12,18 @@ type Props = {
   userId: string | null;
 };
 
-type AggregatedDataAcc = {
-  symbol: string;
-  totalAmount: number;
-  totalFiat: number;
-  orders: number;
-  percent: number;
-};
-
+/*
 const config = {
   assets: 'Assets',
   buyTargets: 'Buy Targets',
 };
+*/
 
 const OrderListSection = ({ data, tokens, userId }: Props) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [sortField, setSortField] = useState<SortEnum>(SortEnum.Percent);
-  const [filterSymbol, setFilterSymbol] = useState('');
 
   const isAdmin = data[0].userId === userId;
-  const listItemLimit = 10;
+  const itemLimit = 10;
 
   const aggregatedData = Object.values(
     data.reduce((acc, order: Order) => {
@@ -60,65 +53,38 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
         acc[order.symbol].percent = higherPercent;
       }
       return acc;
-    }, {} as Record<string, AggregatedDataAcc>)
+    }, {} as Record<string, AggregatedOrderListAcc>)
   );
+
+  const {
+    displayedData,
+    filterSymbol,
+    sortField,
+    handleFilterChange,
+    handleSortToggle,
+    resetFilter,
+  } = useFilterAndSortOrderList({
+    aggregatedData,
+    isExpanded,
+    itemLimit,
+  });
 
   // console.log('aggregatedData:', aggregatedData);
 
   const isBuy = data[0].type === OrderTypeEnum.Buy;
-  const isToggle =
-    new Set([...data.map((el) => el.symbol)]).size > listItemLimit;
+  const isToggle = new Set([...data.map((el) => el.symbol)]).size > itemLimit;
   const strategy = isBuy ? OrderTypeEnum.Buy : OrderTypeEnum.Sell;
 
   const toggleList = () => setIsExpanded((prev) => !prev);
-
-  // ---
-
-  const handleSortToggle = () => {
-    if (sortField === SortEnum.Percent) {
-      setSortField(SortEnum.Symbol);
-    } else {
-      setSortField(SortEnum.Percent);
-    }
-  };
-
-  const handleFilterChange = (e: InputEvent) => {
-    setFilterSymbol(e.target.value);
-  };
-
-  const filteredData = aggregatedData.filter((order) =>
-    order.symbol.toLowerCase().startsWith(filterSymbol.toLowerCase())
-  );
-
-  /*
-  const displayedData = aggregatedData
-    .sort((a, b) => {
-      if (sortField === SortEnum.Symbol) {
-        return a.symbol.localeCompare(b.symbol);
-      }
-      return b.percent - a.percent;
-    })
-    .slice(0, isExpanded ? aggregatedData.length : listItemLimit);
-    */
-
-  const displayedData = filteredData
-    .sort((a, b) => {
-      if (sortField === SortEnum.Symbol) {
-        return a.symbol.localeCompare(b.symbol);
-      }
-      return b.percent - a.percent;
-    })
-    .slice(0, isExpanded ? filteredData.length : listItemLimit);
-
-  // console.log('displayedData:', displayedData);
 
   return (
     <>
       <MainDividerSection
         className="order-list-devider"
-        title={isBuy ? config.assets : config.buyTargets}
+        // title={isBuy ? config.assets : config.buyTargets}
         filterSymbol={filterSymbol}
         handleFilterChange={handleFilterChange}
+        resetFilter={resetFilter}
         sortField={sortField}
         handleSortToggle={handleSortToggle}
         isSwitchButton={isToggle}
@@ -128,14 +94,6 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
 
       <section className="section order-list">
         <div className="section-content order-list">
-          {/* <input
-            type="text"
-            className="filter-input"
-            placeholder="Filter by symbol..."
-            value={filterSymbol}
-            onChange={handleFilterChange}
-          /> */}
-
           {displayedData.length ? (
             <ul className="section-order-list">
               {displayedData.map((order, idx) => {

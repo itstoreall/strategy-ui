@@ -6,6 +6,8 @@ import * as t from '@/src/types';
 
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
+const appVersion = 'v1.2.7';
+
 export type GlobalContextProps = {
   updatedTokens: t.Token[] | null;
   fetchTokens: () => void;
@@ -29,7 +31,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   const { data: session } = useSession();
 
   const userId = session?.user?.id || null;
-  const app = { version: 'v1.2.5' };
+  const app = { version: appVersion };
 
   const fetchTokens = () => {
     const params = {};

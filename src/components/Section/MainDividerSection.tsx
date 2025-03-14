@@ -10,6 +10,7 @@ type Props = {
   subTitle?: string | null;
   filterSymbol?: string;
   handleFilterChange?: (event: InputEvent) => void;
+  resetFilter?: () => void;
   sortField?: SortEnum;
   handleSortToggle?: () => void;
   isSwitchButton?: boolean;
@@ -23,6 +24,7 @@ const MainDividerSection = ({
   subTitle = '',
   filterSymbol,
   handleFilterChange,
+  resetFilter,
   sortField,
   handleSortToggle,
   isDisabled,
@@ -45,13 +47,23 @@ const MainDividerSection = ({
 
       {subTitle && <span className={subTitleStyle}>{subTitle}</span>}
 
-      <input
-        type="text"
-        className="main-divider-section-filter-input"
-        placeholder="Filter..."
-        value={filterSymbol}
-        onChange={handleFilterChange}
-      />
+      {handleFilterChange && (
+        <div className="main-divider-section-filter-input-block">
+          <input
+            type="text"
+            className="main-divider-section-filter-input"
+            placeholder="Filter..."
+            value={filterSymbol}
+            onChange={handleFilterChange}
+          />
+          <Button
+            className="main-divider-section-filter-reset-button"
+            clickContent={resetFilter}
+          >
+            {''}
+          </Button>
+        </div>
+      )}
 
       <span className="main-divider-section-divider" />
 

@@ -77,3 +77,11 @@ export type OrdersRes = {
   data: OrderData;
 };
 */
+
+export type AggregatedOrderListAcc = {
+  symbol: string;
+  totalAmount: number;
+  totalFiat: number;
+  orders: number;
+  percent: number;
+};

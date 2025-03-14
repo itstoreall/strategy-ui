@@ -37,18 +37,24 @@ section.main-divider {
     }
   }
 
-  > input.main-divider-section-filter-input {
-    padding: 0 0.25rem;
-    width: 40px;
-    height: 20px;
-    color: $greyDark;
-    color: $colorAccent;
-    background-color: transparent;
-    border-radius: $smallBorderRadius;
+  > div.main-divider-section-filter-input-block {
+    position: relative;
+    display: flex;
+    // background-color: teal;
 
-    &::placeholder {
-      font-size: 0.9rem;
-      color: $greyDeepDark;
+    > input.main-divider-section-filter-input {
+      padding: 0 0.25rem;
+      width: 45px;
+      height: 20px;
+      color: $greyDark;
+      color: $colorAccent;
+      background-color: transparent;
+      border-radius: $smallBorderRadius;
+
+      &::placeholder {
+        font-size: 0.9rem;
+        color: $greyDark;
+      }
     }
   }
 
