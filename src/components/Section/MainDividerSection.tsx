@@ -55,13 +55,14 @@ const MainDividerSection = ({
             placeholder="Filter..."
             value={filterSymbol}
             onChange={handleFilterChange}
+            onFocus={resetFilter}
           />
-          <Button
+          {/* <Button
             className="main-divider-section-filter-reset-button"
             clickContent={resetFilter}
           >
             {''}
-          </Button>
+          </Button> */}
         </div>
       )}
 
