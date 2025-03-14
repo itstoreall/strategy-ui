@@ -5,7 +5,7 @@ export enum AuthRoleEnum {
   Admin = 'ADMIN',
 }
 
-// ------ Token:
+// ------ :
 
 export enum QueryKeyEnum {
   Users = 'users',
@@ -80,4 +80,11 @@ export enum ChartIntervalEnum {
 
 export enum ModalContentEnum {
   Form = 'FORM',
+}
+
+// ------ :
+
+export enum SortEnum {
+  Percent = 'PERCENT',
+  Symbol = 'SYMBOL',
 }

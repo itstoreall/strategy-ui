@@ -94,7 +94,7 @@ main.main {
       font-size: 0.6rem;
       color: $colorAccent;
       border: 0.08rem solid $colorAccent;
-      border-radius: 0.15rem;
+      border-radius: $smallBorderRadius;
     }
   }
 

@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import SwitchIcon from '@/src/assets/icons/SwitchIcon';
+import { SortEnum } from '@/src/enums';
 import Button from '@/src/components/Button/Button';
 
 type Props = {
@@ -7,6 +8,8 @@ type Props = {
   title?: string;
   subTitle?: string | null;
   isSwitchButton?: boolean;
+  sortField?: SortEnum;
+  handleSortToggle?: () => void;
   isDisabled?: boolean;
   setIsDisabled?: Dispatch<SetStateAction<boolean>>;
 };
@@ -16,6 +19,8 @@ const MainDividerSection = ({
   title = '',
   subTitle = '',
   isSwitchButton = false,
+  sortField,
+  handleSortToggle,
   isDisabled,
   setIsDisabled,
 }: Props) => {
@@ -36,6 +41,19 @@ const MainDividerSection = ({
       {subTitle && <span className={subTitleStyle}>{subTitle}</span>}
 
       <span className="main-divider-section-divider" />
+
+      {sortField && handleSortToggle && (
+        <Button
+          clickContent={handleSortToggle}
+          className="main-divider-section-sort-toggle-button"
+        >
+          <span>
+            {sortField === SortEnum.Percent
+              ? SortEnum.Symbol
+              : SortEnum.Percent}
+          </span>
+        </Button>
+      )}
 
       {isSwitchButton && (
         <Button className="switch-button" clickContent={toggleSwitch}>

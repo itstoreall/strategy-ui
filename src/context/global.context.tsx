@@ -29,7 +29,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   const { data: session } = useSession();
 
   const userId = session?.user?.id || null;
-  const app = { version: 'v1.2.4' };
+  const app = { version: 'v1.2.5' };
 
   const fetchTokens = () => {
     const params = {};

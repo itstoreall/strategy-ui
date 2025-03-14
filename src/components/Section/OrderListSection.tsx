@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Order, Token } from '@/src/types';
-import { OrderTypeEnum } from '@/src/enums';
+import { OrderTypeEnum, SortEnum } from '@/src/enums';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
 import { formatMillionAmount } from '@/src/utils';
 
@@ -26,9 +26,11 @@ const config = {
 
 const OrderListSection = ({ data, tokens, userId }: Props) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [sortField, setSortField] = useState<SortEnum>(SortEnum.Percent);
+  const [isAscending, setIsAscending] = useState(false);
 
   const isAdmin = data[0].userId === userId;
-  const listItemLimit = 12;
+  const listItemLimit = 10;
 
   const aggregatedData = Object.values(
     data.reduce((acc, order: Order) => {
@@ -72,9 +74,26 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
 
   // ---
 
-  const displayedData = isExpanded
-    ? aggregatedData
-    : aggregatedData.slice(0, listItemLimit);
+  const handleSortToggle = () => {
+    if (sortField === SortEnum.Percent) {
+      setSortField(SortEnum.Symbol);
+      setIsAscending(true);
+    } else {
+      setSortField(SortEnum.Percent);
+      setIsAscending(false);
+    }
+  };
+
+  const displayedData = aggregatedData
+    .sort((a, b) => {
+      if (sortField === SortEnum.Symbol) {
+        return isAscending
+          ? a.symbol.localeCompare(b.symbol)
+          : b.symbol.localeCompare(a.symbol);
+      }
+      return isAscending ? a.percent - b.percent : b.percent - a.percent;
+    })
+    .slice(0, isExpanded ? aggregatedData.length : listItemLimit);
 
   // console.log('displayedData:', displayedData);
 
@@ -84,6 +103,8 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
         className="order-list-devider"
         title={isBuy ? config.assets : config.buyTargets}
         isSwitchButton={isToggle}
+        sortField={sortField}
+        handleSortToggle={handleSortToggle}
         isDisabled={!isExpanded}
         setIsDisabled={toggleList}
       />
