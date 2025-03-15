@@ -9,6 +9,10 @@ section.section.order-list {
     min-height: 3rem;
   }
 
+  &.empty {
+    min-height: 0;
+  }
+
   > div.section-content {
     padding-top: 0;
     padding-bottom: 0;

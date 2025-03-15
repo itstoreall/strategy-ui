@@ -64,7 +64,10 @@ const StrategySnapshotSection = (props: Props) => {
         <li className="snapshot-item">
           <div className="item-content">
             <span className="content-name">Deposit</span>
-            <span className="content-value" title={depositAmount.toFixed(2)}>
+            <span
+              className="content-value"
+              title={`$${depositAmount?.toFixed(2)}`}
+            >
               {formatMillionAmount(depositAmount.toFixed())}
             </span>
           </div>
@@ -72,7 +75,12 @@ const StrategySnapshotSection = (props: Props) => {
         <li className="snapshot-item">
           <div className="item-content">
             <span className="content-name">Unrealized</span>
-            <span className="content-value">{profitValue}</span>
+            <span
+              className="content-value"
+              title={`$${(+profitValue).toFixed(2)}`}
+            >
+              {profitValue}
+            </span>
           </div>
         </li>
       </ul>

@@ -38,7 +38,10 @@ const AccountSnapshotSection = (props: Props) => {
         <li className="snapshot-item">
           <div className="item-content">
             <span className="content-name">Deposit</span>
-            <span className="content-value" title={depositAmount.toFixed(2)}>
+            <span
+              className="content-value"
+              title={`$${depositAmount.toFixed(2)}`}
+            >
               {formatMillionAmount(depositAmount.toFixed())}
             </span>
           </div>
@@ -46,7 +49,10 @@ const AccountSnapshotSection = (props: Props) => {
         <li className="snapshot-item">
           <div className="item-content">
             <span className="content-name">Profit</span>
-            <span className="content-value">
+            <span
+              className="content-value"
+              title={`$${profitAmount?.toFixed(2)}`}
+            >
               {!isProcess ? (
                 profitAmount
               ) : (

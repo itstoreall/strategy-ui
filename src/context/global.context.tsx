@@ -6,7 +6,7 @@ import * as t from '@/src/types';
 
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
-const appVersion = 'v1.2.9';
+const appVersion = 'v1.2.10';
 
 export type GlobalContextProps = {
   updatedTokens: t.Token[] | null;

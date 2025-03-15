@@ -92,7 +92,7 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
         setIsDisabled={toggleList}
       />
 
-      <section className="section order-list">
+      <section className={`section order-list ${'empty'}`}>
         <div className="section-content order-list">
           {displayedData.length ? (
             <ul className="section-order-list">
@@ -150,9 +150,8 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
                 );
               })}
             </ul>
-          ) : (
-            <span>No orders!</span>
-          )}
+          ) : // <span>No orders!</span>
+          null}
         </div>
       </section>
     </>
