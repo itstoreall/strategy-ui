@@ -55,13 +55,26 @@ div.default-select {
     }
   }
 
+  &.open {
+    > div.default-select-selected {
+      border-radius: $middleBorderRadius $middleBorderRadius 0 0;
+      border-bottom: 1px solid $greyDark;
+    }
+
+    &.empty {
+      > div.default-select-selected {
+        border-radius: $middleBorderRadius;
+        border-bottom: none;
+      }
+    }
+  }
+
   > div.default-select-dropdown {
     > input.default-select-search {
       position: absolute;
       top: 0;
       left: 0;
       height: 3rem;
-      // min-height: 40px;
       display: flex;
       align-items: center;
       padding: 0 1rem;
@@ -114,13 +127,6 @@ div.default-select {
         background-color: $greyDark;
         color: $greyLight;
       }
-    }
-  }
-
-  &.open {
-    > div.default-select-selected {
-      border-radius: $middleBorderRadius $middleBorderRadius 0 0;
-      border-bottom: 1px solid $greyDark;
     }
   }
 }
