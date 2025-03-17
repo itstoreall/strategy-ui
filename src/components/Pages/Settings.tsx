@@ -30,6 +30,7 @@ const Settings = ({ session }: Props) => {
     role,
     email,
     isAuth,
+    userId,
     username,
     isPending,
     isAccountLinked,
@@ -51,6 +52,7 @@ const Settings = ({ session }: Props) => {
         {isAuth && username && role ? (
           <div className="main-content">
             <SectionsContainer>
+              <OptionSection name={'User ID'} value={userId} />
               <OptionSection name={'Name'} value={username} mutable />
               <OptionSection name={'Email'} value={email ?? '...'} />
             </SectionsContainer>

@@ -1,5 +1,5 @@
 import { useEffect, useState, useTransition } from 'react';
-import { SessionContextValue, useSession } from 'next-auth/react';
+import { SessionContextValue } from 'next-auth/react';
 import useModal from '@/src/hooks/useModal';
 import { handleSignOut } from '@/src/lib/auth/signOutServerAction';
 import { getUserName } from '@/src/lib/auth/getUserNameServerAction';
@@ -11,14 +11,14 @@ import { handleGoogleSignIn } from '@/src/lib/auth/googleSignInServerAction';
 import { Role } from '@/src/types';
 
 const useSettings = (session: SessionContextValue) => {
+  const [isPending, startTransition] = useTransition();
   const [isAccountLinked, setIsAccountLinked] = useState(false);
+  const [userId, setUserId] = useState('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState<Role>('');
-  const [isPending, startTransition] = useTransition();
 
   const { closeModal } = useModal();
-  const { update } = useSession();
 
   const isAuth = session.status === 'authenticated';
 
@@ -54,6 +54,7 @@ const useSettings = (session: SessionContextValue) => {
     // }
 
     setEmail(session?.data?.user?.email || '');
+    setUserId(session?.data?.user?.id || '');
   }, [session]);
 
   useEffect(() => {
@@ -67,7 +68,7 @@ const useSettings = (session: SessionContextValue) => {
   }, [isAuth, username, role]);
 
   const handleUpdateUsername = () => {
-    update({ name: username });
+    session.update({ name: username });
     closeModal();
   };
 
@@ -99,6 +100,7 @@ const useSettings = (session: SessionContextValue) => {
     role,
     email,
     isAuth,
+    userId,
     username,
     isPending,
     isAccountLinked,
