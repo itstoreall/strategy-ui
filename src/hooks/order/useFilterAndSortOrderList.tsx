@@ -16,6 +16,8 @@ const useFilterAndSortOrderList = (props: Props) => {
 
   const handleSortToggle = () => {
     if (sortField === SortEnum.Percent) {
+      setSortField(SortEnum.Date);
+    } else if (sortField === SortEnum.Date) {
       setSortField(SortEnum.Symbol);
     } else {
       setSortField(SortEnum.Percent);
@@ -38,8 +40,13 @@ const useFilterAndSortOrderList = (props: Props) => {
     .sort((a, b) => {
       if (sortField === SortEnum.Symbol) {
         return a.symbol.localeCompare(b.symbol);
+      } else if (sortField === SortEnum.Date) {
+        const dateA = new Date(a.orderDate).getTime();
+        const dateB = new Date(b.orderDate).getTime();
+        return dateB - dateA;
+      } else {
+        return b.percent - a.percent;
       }
-      return b.percent - a.percent;
     })
     .slice(0, isExpanded ? filteredData.length : itemLimit);
 

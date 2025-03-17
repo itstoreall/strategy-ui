@@ -3,7 +3,7 @@ import Link from 'next/link';
 import useFilterAndSortOrderList from '@/src/hooks/order/useFilterAndSortOrderList';
 import { AggregatedOrderListAcc, Order, Token } from '@/src/types';
 import { OrderTypeEnum } from '@/src/enums';
-import { formatMillionAmount } from '@/src/utils';
+import { formatMillionAmount, normalizeDate } from '@/src/utils';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
 
 type Props = {
@@ -39,6 +39,7 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
           totalFiat: order.fiat,
           orders: 1,
           percent: percent,
+          orderDate: order.updatedAt.toString(),
         };
       } else {
         const higherPercent =
@@ -46,11 +47,14 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
             ? percent
             : acc[order.symbol].percent;
 
+        const orderDate = normalizeDate(order.updatedAt, 'DD-MM-YY');
+
         acc[order.symbol].totalAmount += order.amount;
         acc[order.symbol].totalFiat += order.fiat;
         acc[order.symbol].orders += 1;
         // acc[order.symbol].percent = +higherPercent.toFixed();
         acc[order.symbol].percent = higherPercent;
+        acc[order.symbol].orderDate = orderDate;
       }
       return acc;
     }, {} as Record<string, AggregatedOrderListAcc>)

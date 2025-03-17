@@ -75,6 +75,8 @@ const MainDividerSection = ({
         >
           <span>
             {sortField === SortEnum.Percent
+              ? SortEnum.Date
+              : sortField === SortEnum.Date
               ? SortEnum.Symbol
               : SortEnum.Percent}
           </span>

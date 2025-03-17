@@ -87,4 +87,5 @@ export enum ModalContentEnum {
 export enum SortEnum {
   Percent = 'PERCENT',
   Symbol = 'SYMBOL',
+  Date = 'DATE',
 }
