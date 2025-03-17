@@ -92,10 +92,65 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
 
+    /*
     async session({ session, token }) {
-      /*
-      console.log("session callback:", { session, token });
-      */
+      return { ...session, user: { ...session.user, id: token.id as string } };
+    },
+    */
+
+    async session({ session, token }) {
+      const sessionWithUser = {
+        ...session,
+        user: { ...session.user, id: token.id as string },
+      };
+
+      if (sessionWithUser.user?.id) {
+        /*
+        const deleteParam = { where: { userId: sessionWithUser.user?.id } };
+        await prisma.session.deleteMany(
+          deleteParam
+          // {}
+        );
+        // */
+
+        // /*
+        try {
+          const userExists = await prisma.user.findUnique({
+            where: { id: sessionWithUser.user.id },
+          });
+
+          if (userExists) {
+            const sessionToken = token.jti;
+
+            if (sessionToken) {
+              const existingSession = await prisma.session.findFirst({
+                where: { userId: sessionWithUser.user.id },
+              });
+
+              if (existingSession) {
+                await prisma.session.update({
+                  where: { sessionToken: existingSession.sessionToken },
+                  data: {
+                    expires: session.expires,
+                  },
+                });
+              } else {
+                await prisma.session.create({
+                  data: {
+                    userId: sessionWithUser.user.id,
+                    sessionToken,
+                    expires: session.expires,
+                  },
+                });
+              }
+            }
+          }
+        } catch (error) {
+          console.error('Error saving session to database:', error);
+        }
+        // */
+      }
+
       return { ...session, user: { ...session.user, id: token.id as string } };
     },
   },
