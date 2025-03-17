@@ -155,9 +155,12 @@ button.uni-button {
 
     > span {
       transition: $ease03s;
-      // padding-bottom: 1px;
       font-size: 0.6rem;
       color: $greyDark;
+
+      @include media-screen-orientation('min', $tablet) {
+        padding-bottom: 1px;
+      }
     }
 
     &:hover {

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import useFilterAndSortOrderList from '@/src/hooks/order/useFilterAndSortOrderList';
 import { AggregatedOrderListAcc, Order, Token } from '@/src/types';
@@ -19,8 +19,17 @@ const config = {
 };
 */
 
+const lsLimitKey = 'orderListLimited';
+
 const OrderListSection = ({ data, tokens, userId }: Props) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState<boolean>(() => {
+    const savedState = localStorage.getItem(lsLimitKey);
+    return savedState ? JSON.parse(savedState) : false;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(lsLimitKey, JSON.stringify(isExpanded));
+  }, [isExpanded]);
 
   const isAdmin = data[0].userId === userId;
   const itemLimit = 10;
@@ -72,8 +81,6 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
     isExpanded,
     itemLimit,
   });
-
-  // console.log('aggregatedData:', aggregatedData);
 
   const isBuy = data[0].type === OrderTypeEnum.Buy;
   const isToggle = new Set([...data.map((el) => el.symbol)]).size > itemLimit;

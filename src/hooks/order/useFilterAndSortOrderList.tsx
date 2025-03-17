@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AggregatedOrderListAcc, InputEvent } from '@/src/types';
 import { SortEnum } from '@/src/enums';
 
@@ -8,20 +8,31 @@ type Props = {
   itemLimit: number;
 };
 
+const lsSortKey = 'orderListSort';
+
 const useFilterAndSortOrderList = (props: Props) => {
   const { aggregatedData, isExpanded, itemLimit } = props;
 
-  const [sortField, setSortField] = useState<SortEnum>(SortEnum.Percent);
+  const [sortField, setSortField] = useState<SortEnum>(() => {
+    const savedSortField = localStorage.getItem(lsSortKey);
+    return savedSortField ? (savedSortField as SortEnum) : SortEnum.Percent;
+  });
+
   const [filterSymbol, setFilterSymbol] = useState('');
 
+  useEffect(() => {
+    localStorage.setItem(lsSortKey, sortField);
+  }, [sortField]);
+
   const handleSortToggle = () => {
-    if (sortField === SortEnum.Percent) {
-      setSortField(SortEnum.Date);
-    } else if (sortField === SortEnum.Date) {
-      setSortField(SortEnum.Symbol);
-    } else {
-      setSortField(SortEnum.Percent);
-    }
+    const newSortField =
+      sortField === SortEnum.Percent
+        ? SortEnum.Date
+        : sortField === SortEnum.Date
+        ? SortEnum.Symbol
+        : SortEnum.Percent;
+
+    setSortField(newSortField);
   };
 
   const handleFilterChange = (e: InputEvent) => {
