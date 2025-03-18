@@ -99,6 +99,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     */
 
     async session({ session, token }) {
+      // const sessionToken = token.jti;
       const sessionWithUser = {
         ...session,
         user: { ...session.user, id: token.id as string },
@@ -114,31 +115,32 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         // */
 
         // /*
+
         try {
           const userExists = await prisma.user.findUnique({
             where: { id: sessionWithUser.user.id },
           });
 
           if (userExists) {
-            const sessionToken = token.jti;
-
-            if (sessionToken) {
+            if (token.jti) {
               const existingSession = await prisma.session.findFirst({
                 where: { userId: sessionWithUser.user.id },
               });
 
+              // console.log('token:', token);
+              // console.log('sessionToken:', sessionToken);
+              // console.log('existingSession:', existingSession);
+
               if (existingSession) {
                 await prisma.session.update({
                   where: { sessionToken: existingSession.sessionToken },
-                  data: {
-                    expires: session.expires,
-                  },
+                  data: { sessionToken: token.jti, expires: session.expires },
                 });
               } else {
                 await prisma.session.create({
                   data: {
                     userId: sessionWithUser.user.id,
-                    sessionToken,
+                    sessionToken: token.jti,
                     expires: session.expires,
                   },
                 });
@@ -146,12 +148,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             }
           }
         } catch (error) {
-          console.error('Error saving session to database:', error);
+          if (error) {
+            console.error('Error saving session to database!');
+          }
         }
         // */
       }
 
-      return { ...session, user: { ...session.user, id: token.id as string } };
+      return {
+        ...session,
+        user: { ...session.user, id: token.id as string },
+        currentToken: token.jti,
+      };
     },
   },
 });

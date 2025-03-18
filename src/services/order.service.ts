@@ -2,6 +2,7 @@ import { AxiosError } from 'axios';
 import apiClient from '@/src/lib/api/client';
 import { OrderTypeEnum } from '@/src/enums';
 import { OrderData } from '@/src/types';
+import { getSessionToken } from '../lib/auth/getSessionTokenServerAction';
 
 const errorHandler = (msg: string, err: unknown) => {
   const errMsg = err instanceof AxiosError ? err.response?.statusText : err;
@@ -35,13 +36,20 @@ class OrderService {
   }
 
   async fetchAllByUserId(userId: string): Promise<OrderData> {
+    const sessionToken = await getSessionToken();
     if (!userId) {
       throw new Error('User ID is required to fetch orders.');
     }
-
+    if (!sessionToken) {
+      throw new Error('Session token is missing. Please log in again.');
+    }
     try {
       const url = `/orders/user/${userId}`;
-      const res = await apiClient.get(url);
+      const res = await apiClient.get(url, {
+        headers: {
+          Authorization: `Bearer ${sessionToken}`,
+        },
+      });
       return res.data;
     } catch (err: unknown) {
       const errorMessage = errorHandler('ERROR in fetchAllByUserId:', err);
