@@ -45,11 +45,12 @@ class OrderService {
     }
     try {
       const url = `/orders/user/${userId}`;
-      const res = await apiClient.get(url, {
-        headers: {
-          Authorization: `Bearer ${sessionToken}`,
-        },
-      });
+      const res = await apiClient.get(url);
+      // const res = await apiClient.get(url, {
+      //   headers: {
+      //     Authorization: `Bearer ${sessionToken}`,
+      //   },
+      // });
       return res.data;
     } catch (err: unknown) {
       const errorMessage = errorHandler('ERROR in fetchAllByUserId:', err);
