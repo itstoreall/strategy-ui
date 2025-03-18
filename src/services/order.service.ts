@@ -36,21 +36,16 @@ class OrderService {
   }
 
   async fetchAllByUserId(userId: string): Promise<OrderData> {
-    const sessionToken = await getSessionToken();
+    const hashedSessionToken = await getSessionToken();
     if (!userId) {
       throw new Error('User ID is required to fetch orders.');
     }
-    if (!sessionToken) {
+    if (!hashedSessionToken) {
       throw new Error('Session token is missing. Please log in again.');
     }
     try {
-      const url = `/orders/user/${userId}`;
+      const url = `/orders/user/${userId}?sessionToken=${hashedSessionToken}`;
       const res = await apiClient.get(url);
-      // const res = await apiClient.get(url, {
-      //   headers: {
-      //     Authorization: `Bearer ${sessionToken}`,
-      //   },
-      // });
       return res.data;
     } catch (err: unknown) {
       const errorMessage = errorHandler('ERROR in fetchAllByUserId:', err);
