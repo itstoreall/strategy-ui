@@ -14,6 +14,7 @@ type Props = {
   isDisable?: boolean;
   isReset?: boolean;
   isError?: boolean;
+  errorMsg?: string;
   isOpen: boolean;
   onToggle: () => void;
 };
@@ -33,6 +34,7 @@ const SelectMulti = (props: Props) => {
     onSelect,
     isDisable,
     isError,
+    errorMsg,
     isReset,
   } = props;
 
@@ -128,7 +130,7 @@ const SelectMulti = (props: Props) => {
               }}
               className={'error-message'}
             >
-              {`${placeholder} is required`}
+              {errorMsg ? errorMsg : `${placeholder} is required`}
             </span>
           )}
         </>

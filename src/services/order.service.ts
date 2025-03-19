@@ -1,8 +1,8 @@
 import { AxiosError } from 'axios';
+import { getSessionData } from '@/src/lib/auth/getSessionDataServerAction';
 import apiClient from '@/src/lib/api/client';
 import { OrderTypeEnum } from '@/src/enums';
 import { OrderData } from '@/src/types';
-import { getSessionToken } from '../lib/auth/getSessionTokenServerAction';
 
 const errorHandler = (msg: string, err: unknown) => {
   const errMsg = err instanceof AxiosError ? err.response?.statusText : err;
@@ -36,15 +36,15 @@ class OrderService {
   }
 
   async fetchAllByUserId(userId: string): Promise<OrderData> {
-    const hashedSessionToken = await getSessionToken();
+    const sessionData = await getSessionData();
     if (!userId) {
       throw new Error('User ID is required to fetch orders.');
     }
-    if (!hashedSessionToken) {
-      throw new Error('Session token is missing. Please log in again.');
+    if (!sessionData) {
+      throw new Error('Session token is missing!');
     }
     try {
-      const url = `/orders/user/${userId}?sessionToken=${hashedSessionToken}`;
+      const url = `/orders/user/${userId}?sessionToken=${sessionData.hashedToken}`;
       const res = await apiClient.get(url);
       return res.data;
     } catch (err: unknown) {

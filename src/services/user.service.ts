@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
+import { getSessionData } from '@/src/lib/auth/getSessionDataServerAction';
 import { AuthRoleEnum } from '@/src/enums';
 import { User } from '@/src/types';
 
@@ -27,14 +28,17 @@ const errorHandler = (msg: string, err: unknown) => {
 
 class UserService {
   async getAllUsers() {
+    const sessionData = await getSessionData();
+    if (!sessionData) {
+      throw new Error('Session token is missing!');
+    }
+    const { userId, hashedToken } = sessionData;
     try {
-      const url = '/all';
+      const url = `/all?userId=${userId}&sessionToken=${hashedToken}`;
       const res: AxiosResponse<Users> = await axios.get(url);
       return res.data;
     } catch (err: unknown) {
-      errorHandler('Failed to retrieve user role:', err);
-      // throw err;
-      // return null;
+      errorHandler('Failed to fetch All Users:', err);
     }
   }
 

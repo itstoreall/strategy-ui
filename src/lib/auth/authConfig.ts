@@ -149,7 +149,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           }
         } catch (error) {
           if (error) {
-            console.error('Error saving session to database!');
+            console.error(' one session missed');
           }
         }
         // */

@@ -24,7 +24,7 @@ const EditUsernameForm = ({ username, setUsername, update }: Props) => {
         <Title tag={'h3'} className="form-title" text={config.formTitle} />
 
         <FormContentContainer>
-          <DefaultInput username={username} handleChange={setUsername} />
+          <DefaultInput value={username} handleChange={setUsername} />
           <Button clickContent={update}>{config.buttonText}</Button>
         </FormContentContainer>
       </FormBackdropContainer>

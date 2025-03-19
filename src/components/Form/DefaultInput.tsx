@@ -2,7 +2,7 @@ type Props = {
   type?: string;
   className?: string;
   placeholder?: string;
-  username: string;
+  value: string;
   handleChange: (str: string) => void;
   disabled?: boolean;
   error?: string;
@@ -13,7 +13,7 @@ const DefaultInput = (props: Props) => {
     type = 'text',
     className,
     placeholder,
-    username,
+    value,
     handleChange,
     disabled = false,
     error,
@@ -25,7 +25,7 @@ const DefaultInput = (props: Props) => {
         className={`default-input ${className} ${error ? 'error' : ''}`}
         type={type}
         placeholder={placeholder}
-        value={username}
+        value={value}
         onChange={(e) => handleChange(e.target.value)}
         disabled={disabled}
       />

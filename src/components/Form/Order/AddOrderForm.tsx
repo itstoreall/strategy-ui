@@ -128,12 +128,17 @@ const AddOrderForm = ({
     const confirmMessage = `
       ${config.confirmSubmit}
       
-      ${type || '-'}
-      ${symbol || '-'}
-      ${exchange || '-'}
-      ${amount || '-'}
-      ${price || '-'}
+      ${type || '--'}
+      ${symbol || '--'}
+      ${exchange || '--'}
+      ${amount || '--'}
+      ${price || '--'}
     `;
+
+    if (confirmMessage.includes('--')) {
+      alert('Please fill in all the fields!');
+      return;
+    }
 
     if (confirm(confirmMessage)) {
       setIsProcess(true);
