@@ -18,7 +18,7 @@ const ClearSessionSection = ({ userOptions }: Props) => {
 
   useEffect(() => {
     if (errorMsg) {
-      alert(errorMsg);
+      alert(errorMsg); //
     }
   }, [errorMsg]);
 
