@@ -15,7 +15,7 @@ type Props = { session: SessionContextValue };
 
 const Admin = ({ session }: Props) => {
   const { updatedTokens, fetchTokens, RenderModal, users, userOptions } =
-    useAdmin(session);
+    useAdmin();
 
   return (
     <PageContainer label={Label.Main}>

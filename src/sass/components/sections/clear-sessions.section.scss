@@ -6,6 +6,7 @@ section.clear-session {
     display: grid;
     gap: 1rem;
     background-color: $greyDeepDarkPlus;
+    border-radius: $middleBorderRadius;
   }
 
   > div.clear-session-section-button-block {

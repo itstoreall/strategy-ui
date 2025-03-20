@@ -12,7 +12,7 @@ section.section {
   }
 
   @include media-screen-orientation('min', $tablet) {
-    min-height: 4.2rem; // *
+    min-height: 4.2rem;
 
     > div.section-content,
     > ul.section-content {

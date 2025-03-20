@@ -1,11 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
-import { SessionContextValue } from 'next-auth/react';
+import useFetchAllUsers from '@/src/hooks/user/useFetchAllUsers';
 import useGlobalState from '@/src/hooks/useGlobalState';
 import useModal from '@/src/hooks/useModal';
-import useFetchAllUsers from '@/src/hooks/user/useFetchAllUsers';
 
-const useAdmin = (session: SessionContextValue) => {
+const useAdmin = () => {
   const [userOptions, setUserOptions] = useState<string[]>([]);
 
   const { users } = useFetchAllUsers({ enabled: !userOptions.length });
@@ -23,7 +22,6 @@ const useAdmin = (session: SessionContextValue) => {
   }, [users]);
 
   return {
-    session,
     updatedTokens,
     fetchTokens,
     RenderModal,
