@@ -2,14 +2,12 @@
 import { useState, useEffect } from 'react';
 import useFetchAllUsers from '@/src/hooks/user/useFetchAllUsers';
 import useGlobalState from '@/src/hooks/useGlobalState';
-import useModal from '@/src/hooks/useModal';
 
 const useAdmin = () => {
   const [userOptions, setUserOptions] = useState<string[]>([]);
 
   const { users } = useFetchAllUsers({ enabled: !userOptions.length });
   const { updatedTokens, fetchTokens } = useGlobalState();
-  const { RenderModal } = useModal();
 
   const handleUserOptions = (options: string[]) => setUserOptions(options);
 
@@ -23,10 +21,9 @@ const useAdmin = () => {
 
   return {
     updatedTokens,
-    fetchTokens,
-    RenderModal,
     users,
     userOptions,
+    fetchTokens,
     handleUserOptions,
   };
 };
