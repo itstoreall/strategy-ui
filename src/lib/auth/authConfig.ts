@@ -106,16 +106,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       };
 
       if (sessionWithUser.user?.id) {
-        /*
-        const deleteParam = { where: { userId: sessionWithUser.user?.id } };
-        await prisma.session.deleteMany(
-          deleteParam
-          // {}
-        );
-        // */
-
-        // /*
-
         try {
           const userExists = await prisma.user.findUnique({
             where: { id: sessionWithUser.user.id },

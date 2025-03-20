@@ -1,0 +1,39 @@
+@use '@/src/sass/base/vars' as *;
+@use '@/src/sass/mixins' as *;
+
+section.clear-session {
+  > div.clear-session-section-content {
+    display: grid;
+    gap: 1rem;
+    background-color: $greyDeepDarkPlus;
+  }
+
+  > div.clear-session-section-button-block {
+    @include media-screen-orientation('max', $mobile + 199.9) {
+      padding-top: 1rem;
+      border-top: 0.05rem solid $greyDark;
+    }
+  }
+
+  @include media-screen-orientation('min', $mobile + 200) {
+    > div.clear-session-section-content {
+      grid-template-columns: 1fr 14rem;
+      gap: 0.7rem;
+
+      > div.clear-session-section-button-block {
+        padding-left: 0.7rem;
+        border-left: 0.05rem solid $greyDark;
+      }
+    }
+  }
+
+  @include media-screen-orientation('min', $tablet) {
+    > div.clear-session-section-content {
+      gap: 1rem;
+
+      > div.clear-session-section-button-block {
+        padding-left: 1rem;
+      }
+    }
+  }
+}

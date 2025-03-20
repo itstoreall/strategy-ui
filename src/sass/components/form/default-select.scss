@@ -129,4 +129,14 @@ div.default-select {
       }
     }
   }
+
+  &.clear-session-section-content-select {
+    @include media-screen-orientation('min', $mobile + 200) {
+      height: auto;
+    }
+
+    /*
+    > div.default-select-selected {}
+    */
+  }
 }

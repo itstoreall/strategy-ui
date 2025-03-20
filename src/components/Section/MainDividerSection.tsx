@@ -5,7 +5,10 @@ import { SortEnum } from '@/src/enums';
 import Button from '@/src/components/Button/Button';
 
 type Props = {
-  className?: 'order-list-devider' | 'settings-devider';
+  className?:
+    | 'admin-main-content-devider'
+    | 'order-list-devider'
+    | 'settings-devider';
   title?: string;
   subTitle?: string | null;
   filterSymbol?: string;
