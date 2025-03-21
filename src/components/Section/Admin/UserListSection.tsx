@@ -1,4 +1,5 @@
 import { User } from '@/src/types';
+import { normalizeDate } from '@/src/utils';
 
 type Props = {
   users: User[];
@@ -11,6 +12,7 @@ const UserListSection = ({ users }: Props) => {
     <section className="section user-list">
       <div className="section-content user-list-section-content">
         <ul
+          className="user-list-section-user-list"
           style={{
             display: 'flex',
             flexDirection: 'column',
@@ -19,23 +21,24 @@ const UserListSection = ({ users }: Props) => {
         >
           {users.map((user, idx) => {
             return (
-              <li key={idx}>
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    // gap: '1rem',
-                  }}
-                >
-                  <span>{user.id}</span>
-                  <span>{user.name}</span>
-                  <span>{user.email}</span>
-                  <span>
-                    {user.emailVerified ? user.emailVerified.toString() : null}
-                  </span>
-                  <span>{user.role}</span>
-                  <span>{user.createdAt.toString()}</span>
-                  <span>{user.updatedAt.toString()}</span>
+              <li key={idx} className="user-list-section-list-item">
+                <div className="user-list-section-list-item-block-wrapper">
+                  <div className="user-list-section-list-item-block">
+                    <span>{user.name}</span>
+                    <span>{user.role}</span>
+                    <span>{user.id}</span>
+                    <span>{user.email}</span>
+                  </div>
+
+                  <div className="user-list-section-list-item-block">
+                    <span>{normalizeDate(user.createdAt, 'DD-MM-YY')}</span>
+                    <span>{normalizeDate(user.updatedAt, 'DD-MM-YY')}</span>
+                    <span>
+                      {user.emailVerified
+                        ? normalizeDate(user.emailVerified, 'DD-MM-YY')
+                        : 'Not verified'}
+                    </span>
+                  </div>
                 </div>
               </li>
             );

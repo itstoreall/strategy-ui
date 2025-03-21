@@ -1,0 +1,99 @@
+@use '@/src/sass/base/vars' as *;
+@use '@/src/sass/mixins' as *;
+
+section.user-list {
+  background-color: transparent;
+  
+  > div.user-list-section-content {
+    padding: 0;
+    // border-radius: $middleBorderRadius;
+
+    > ul.user-list-section-user-list {
+
+      > li.user-list-section-list-item {
+
+        > div.user-list-section-list-item-block-wrapper {
+          display: grid;
+          padding: 0.7rem;
+          padding-bottom: 0.8rem;
+          border: 1px solid $googleGreen;
+          border-radius: $middleBorderRadius;
+
+          > div.user-list-section-list-item-block {
+            // background-color: skyblue;
+            // padding: 0.7rem;
+
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            > span {
+              font-size: 0.9rem;
+              color: $googleGreen;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // > div.clear-session-section-button-block {
+  //   @include media-screen-orientation('max', $mobile + 199.9) {
+  //     padding-top: 1rem;
+  //     border-top: 0.05rem solid $greyDark;
+  //   }
+  // }
+
+  @include media-screen-orientation('max', $mobile + 199.9) {
+    > div.user-list-section-content {
+      > ul.user-list-section-user-list {
+        > li.user-list-section-list-item {
+          > div.user-list-section-list-item-block-wrapper {
+            gap: 0.5rem;
+
+            // > div.user-list-section-list-item-block {
+            //   // padding: 0;
+            // }
+          }
+        }
+      }
+    }
+  }
+
+  @include media-screen-orientation('min', $mobile + 200) {
+    > div.user-list-section-content {
+      > ul.user-list-section-user-list {
+        > li.user-list-section-list-item {
+          > div.user-list-section-list-item-block-wrapper {
+            grid-template-columns: 60% 40%;
+            gap: 1rem;
+
+            // > div.user-list-section-list-item-block {
+            //   &:first-child {
+            //     background-color: tomato;
+            //   }
+            // }
+          }
+        }
+      }
+    }
+  }
+
+  @include media-screen-orientation('min', $tablet) {
+    > div.user-list-section-content {
+      > ul.user-list-section-user-list {
+        > li.user-list-section-list-item {
+          > div.user-list-section-list-item-block-wrapper {
+            padding: 1rem;
+
+            // > div.user-list-section-list-item-block {
+            //   &:first-child {
+            //     // background-color: tomato;
+            //   }
+            // }
+          }
+        }
+      }
+    }
+  }
+}

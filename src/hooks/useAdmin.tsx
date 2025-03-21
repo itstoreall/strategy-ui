@@ -1,13 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
-import useFetchAllUsers from '@/src/hooks/user/useFetchAllUsers';
-import useGlobalState from '@/src/hooks/useGlobalState';
+// import useFetchAllUsers from '@/src/hooks/user/useFetchAllUsers';
+// import useGlobalState from '@/src/hooks/useGlobalState';
+import { User } from '../types';
 
-const useAdmin = () => {
+const useAdmin = (users: User[]) => {
   const [userOptions, setUserOptions] = useState<string[]>([]);
-
-  const { users } = useFetchAllUsers({ enabled: !userOptions.length });
-  const { updatedTokens, fetchTokens } = useGlobalState();
 
   const handleUserOptions = (options: string[]) => setUserOptions(options);
 
@@ -19,13 +17,7 @@ const useAdmin = () => {
     }
   }, [users]);
 
-  return {
-    updatedTokens,
-    users,
-    userOptions,
-    fetchTokens,
-    handleUserOptions,
-  };
+  return { userOptions };
 };
 
 export default useAdmin;

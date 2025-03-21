@@ -12,11 +12,13 @@ import PageHeading from '@/src/components/Layout/PageHeading';
 import MainLoader from '@/src/components/MainLoader';
 import useAdmin from '@/src/hooks/useAdmin';
 import useModal from '@/src/hooks/useModal';
+import useGlobalState from '@/src/hooks/useGlobalState';
 
 type Props = { session: SessionContextValue };
 
 const Admin = ({ session }: Props) => {
-  const { updatedTokens, fetchTokens, users, userOptions } = useAdmin();
+  const { updatedTokens, users, fetchTokens } = useGlobalState();
+  const { userOptions } = useAdmin(users);
   const { RenderModal } = useModal();
 
   return (
@@ -29,6 +31,10 @@ const Admin = ({ session }: Props) => {
             <AdminSnapshotSection
               usersNumber={users?.length ?? 0}
               tokensNumber={updatedTokens.length}
+            />
+            <MainDividerSection
+              className="admin-main-content-devider"
+              title="Users"
             />
             <UserListSection users={users} />
             <MainDividerSection
