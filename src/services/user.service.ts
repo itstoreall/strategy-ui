@@ -16,7 +16,7 @@ type DeleteUser = { deleted: boolean };
 type Provider = 'google';
 
 const BASE_URL = process.env.NEXT_PUBLIC_STRATEGY_API_URL;
-const userUrl = `${BASE_URL}/api/user`;
+const userUrl = `${BASE_URL}/api/users`;
 
 axios.defaults.baseURL = userUrl;
 

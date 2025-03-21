@@ -3,15 +3,16 @@
 
 section.user-list {
   background-color: transparent;
-  
+
   > div.user-list-section-content {
     padding: 0;
-    // border-radius: $middleBorderRadius;
 
     > ul.user-list-section-user-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
 
       > li.user-list-section-list-item {
-
         > div.user-list-section-list-item-block-wrapper {
           display: grid;
           padding: 0.7rem;
@@ -20,16 +21,17 @@ section.user-list {
           border-radius: $middleBorderRadius;
 
           > div.user-list-section-list-item-block {
-            // background-color: skyblue;
-            // padding: 0.7rem;
-
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
 
-            > span {
-              font-size: 0.9rem;
-              color: $googleGreen;
+            > span.user-list-section-list-item-block-value {
+              display: flex;
+              justify-content: space-between;
+              > span {
+                font-size: 0.9rem;
+                color: $googleGreen;
+              }
             }
           }
         }
@@ -66,13 +68,17 @@ section.user-list {
         > li.user-list-section-list-item {
           > div.user-list-section-list-item-block-wrapper {
             grid-template-columns: 60% 40%;
-            gap: 1rem;
 
-            // > div.user-list-section-list-item-block {
-            //   &:first-child {
-            //     background-color: tomato;
-            //   }
-            // }
+            > div.user-list-section-list-item-block {
+              &:first-child {
+                padding-right: 0.7rem;
+                border-right: 1px solid $googleGreen;
+              }
+
+              &:last-child {
+                padding-left: 0.7rem;
+              }
+            }
           }
         }
       }
@@ -86,11 +92,15 @@ section.user-list {
           > div.user-list-section-list-item-block-wrapper {
             padding: 1rem;
 
-            // > div.user-list-section-list-item-block {
-            //   &:first-child {
-            //     // background-color: tomato;
-            //   }
-            // }
+            > div.user-list-section-list-item-block {
+              &:first-child {
+                padding-right: 1rem;
+              }
+
+              &:last-child {
+                padding-left: 1rem;
+              }
+            }
           }
         }
       }

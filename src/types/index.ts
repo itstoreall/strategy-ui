@@ -10,6 +10,10 @@ export type InputEvent = React.ChangeEvent<HTMLInputElement>;
 
 export type Role = AuthRoleEnum.Admin | AuthRoleEnum.User | '';
 
+// --- Sessions:
+
+export type Session = { updatedAt: Date; userId: string };
+
 // --- Tokens:
 
 export type User = {
