@@ -1,21 +1,27 @@
-import useUserList from '@/src/hooks/user/useUserList';
-import { Session, User } from '@/src/types';
+// import useUserList from '@/src/hooks/user/useUserList';
+import {
+  // Session,
+  User,
+} from '@/src/types';
 import { normalizeDate } from '@/src/utils';
 
 type Props = {
   users: User[];
-  sessions: Session[];
+  // sessions: Session[];
 };
 
-const UserListSection = ({ users, sessions }: Props) => {
-  const { getRecentSession } = useUserList();
+const UserListSection = ({
+  users,
+}: // sessions
+Props) => {
+  // const { getRecentSession } = useUserList();
 
   return (
     <section className="section user-list">
       <div className="section-content user-list-section-content">
         <ul className="user-list-section-user-list">
           {users.map((user, idx) => {
-            const mostRecentSessionDate = getRecentSession(sessions, user.id);
+            // const mostRecentSessionDate = getRecentSession(sessions, user.id);
             return (
               <li key={idx} className="user-list-section-list-item">
                 <div className="user-list-section-list-item-block-wrapper">
@@ -57,11 +63,11 @@ const UserListSection = ({ users, sessions }: Props) => {
                     </span>
                     <span className="user-list-section-list-item-block-value">
                       <span>{'Recent:'}</span>
-                      <span>
+                      {/* <span>
                         {mostRecentSessionDate
                           ? normalizeDate(mostRecentSessionDate, 'DD-MM-YY')
                           : 'No sessions'}
-                      </span>
+                      </span> */}
                     </span>
                   </div>
                 </div>

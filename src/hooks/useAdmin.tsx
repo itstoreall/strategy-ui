@@ -6,7 +6,7 @@ import {
   User,
 } from '@/src/types';
 
-const useAdmin = (users: User[]) => {
+const useAdmin = (users: User[] | null) => {
   const [userOptions, setUserOptions] = useState<string[]>([]);
   // const [sessions, setSessions] = useState<Session[]>([]);
 
@@ -22,13 +22,13 @@ const useAdmin = (users: User[]) => {
 
   useEffect(() => {
     if (userOptions.length) return;
-    if (users?.length) {
+    if (users) {
       const options = users.map((el) => el.id);
       handleUserOptions(options);
     }
   }, [users]);
 
-  return { userOptions, sessions: [] };
+  return { userOptions };
 };
 
 export default useAdmin;
