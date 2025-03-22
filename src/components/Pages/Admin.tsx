@@ -13,13 +13,13 @@ import UserListSection from '@/src/components/Section/Admin/UserListSection';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import PageHeading from '@/src/components/Layout/PageHeading';
 import MainLoader from '@/src/components/MainLoader';
-import useFetchAllUsers from '@/src/hooks/user/useFetchAllUsers';
+// import useFetchAllUsers from '@/src/hooks/user/useFetchAllUsers';
 
 type Props = { session: SessionContextValue };
 
 const Admin = ({ session }: Props) => {
-  const { updatedTokens, fetchTokens } = useGlobalState();
-  const { users } = useFetchAllUsers({ enabled: true });
+  const { updatedTokens, users, fetchTokens } = useGlobalState();
+  // const { users } = useFetchAllUsers({ enabled: true });
   const { userOptions } = useAdmin(users ?? null);
   const { RenderModal } = useModal();
 

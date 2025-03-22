@@ -1,25 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { createContext, useEffect, useMemo, useState } from 'react';
 import { useSession } from 'next-auth/react';
-// import useFetchAllUsers from '@/src/hooks/user/useFetchAllUsers';
+import useFetchAllUsers from '@/src/hooks/user/useFetchAllUsers';
 import useUpdatePrices from '@/src/hooks/token/useUpdatePrices';
 import * as t from '@/src/types';
-// import { User } from '@/src/types';
 
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
-const appVersion = 'v1.3.5';
+const appVersion = 'v1.3.6';
 
 export type GlobalContextProps = {
   updatedTokens: t.Token[] | null;
-  // users: User[];
+  users: t.User[] | null;
   fetchTokens: () => void;
   app: { version: string };
 };
 
 const initContext: GlobalContextProps = {
   updatedTokens: null,
-  // users: [],
+  users: null,
   fetchTokens: () => {},
   app: { version: '' },
 };
@@ -32,7 +31,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   const [isTokenLoading, setIsTokenLoading] = useState<boolean>(false);
 
   const { mutate: updatePrices } = useUpdatePrices();
-  // const { users = [] } = useFetchAllUsers({ enabled: true });
+  const { users = null } = useFetchAllUsers({ enabled: true });
   const { data: session } = useSession();
 
   const userId = session?.user?.id || null;
@@ -65,7 +64,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
     return {
       isTokenLoading,
       updatedTokens,
-      // users,
+      users,
       fetchTokens,
       app,
     };
