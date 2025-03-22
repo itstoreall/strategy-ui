@@ -47,7 +47,7 @@ const Admin = ({ session }: Props) => {
             />
             <UserListSection
               users={users}
-              // sessions={[]}
+              // sessions={sessions}
             />
 
             <MainDividerSection

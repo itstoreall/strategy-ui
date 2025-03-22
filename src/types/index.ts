@@ -14,18 +14,19 @@ export type Role = AuthRoleEnum.Admin | AuthRoleEnum.User | '';
 
 export type Session = { updatedAt: Date; userId: string };
 
-// --- Tokens:
+// --- Users:
 
 export type User = {
-  createdAt: Date;
+  id: string;
   email: string;
   emailVerified: Date;
-  id: string;
-  image: string | null;
+  // image: string | null;
   name: string;
   password: string;
   role: AuthRoleEnum;
+  createdAt: Date;
   updatedAt: Date;
+  sessions: { updatedAt: Date }[];
 };
 
 // --- Tokens:

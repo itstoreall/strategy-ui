@@ -1,27 +1,16 @@
-// import useUserList from '@/src/hooks/user/useUserList';
-import {
-  // Session,
-  User,
-} from '@/src/types';
+import { User } from '@/src/types';
 import { normalizeDate } from '@/src/utils';
 
 type Props = {
   users: User[];
-  // sessions: Session[];
 };
 
-const UserListSection = ({
-  users,
-}: // sessions
-Props) => {
-  // const { getRecentSession } = useUserList();
-
+const UserListSection = ({ users }: Props) => {
   return (
     <section className="section user-list">
       <div className="section-content user-list-section-content">
         <ul className="user-list-section-user-list">
           {users.map((user, idx) => {
-            // const mostRecentSessionDate = getRecentSession(sessions, user.id);
             return (
               <li key={idx} className="user-list-section-list-item">
                 <div className="user-list-section-list-item-block-wrapper">
@@ -63,11 +52,14 @@ Props) => {
                     </span>
                     <span className="user-list-section-list-item-block-value">
                       <span>{'Recent:'}</span>
-                      {/* <span>
-                        {mostRecentSessionDate
-                          ? normalizeDate(mostRecentSessionDate, 'DD-MM-YY')
+                      <span>
+                        {user?.sessions[0]?.updatedAt
+                          ? normalizeDate(
+                              user.sessions[0].updatedAt,
+                              'DD-MM-YY HH:mm:ss'
+                            )
                           : 'No sessions'}
-                      </span> */}
+                      </span>
                     </span>
                   </div>
                 </div>
