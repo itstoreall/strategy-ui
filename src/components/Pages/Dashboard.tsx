@@ -16,6 +16,7 @@ import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import MainLoader from '@/src/components/MainLoader';
 import useGlobalState from '@/src/hooks/useGlobalState';
+import PricesSection from '../Section/PricesSection';
 
 /*
 const config = {
@@ -131,6 +132,8 @@ const Dashboard = () => {
                 profitAmount={currentProfit}
                 isProcess={isProcess}
               />
+
+              <PricesSection tokens={updatedTokens} />
 
               {userOrders?.buy.length && updatedTokens?.length ? (
                 <OrderListSection

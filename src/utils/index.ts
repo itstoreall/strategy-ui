@@ -2,25 +2,13 @@ type TrimAddress = (address: string, start: number, end: number) => string;
 
 type Format = 'DD-MM-YY' | 'MM-YY' | 'YY' | 'MM' | 'DD;' | 'DD-MM-YY HH:mm:ss';
 
-// export const normalizeDate = (date: Date, format?: Format) => {
-//   if (!date) return date;
-//   const newDate = new Date(date).toISOString();
-//   const splitDate = newDate.split('T')[0];
-//   const [year, month, day] = splitDate.split('-');
-//   return format === 'DD-MM-YY'
-//     ? `${day}-${month}-${year}`
-//     : format === 'MM-YY'
-//     ? `${month}-${year}`
-//     : newDate;
-// };
-
 export const normalizeDate = (date: Date, format?: Format) => {
   if (!date) return date;
   const newDate = new Date(date);
   const isoString = newDate.toISOString();
   const splitDate = isoString.split('T')[0];
   const [year, month, day] = splitDate.split('-');
-  const time = isoString.split('T')[1].split('.')[0]; // Extracts the time without milliseconds
+  const time = isoString.split('T')[1].split('.')[0];
 
   return format === 'DD-MM-YY'
     ? `${day}-${month}-${year}`
@@ -28,7 +16,7 @@ export const normalizeDate = (date: Date, format?: Format) => {
     ? `${month}-${year}`
     : format === 'DD-MM-YY HH:mm:ss'
     ? `${day}-${month}-${year} ${time}`
-    : newDate.toISOString(); // Default to ISO string if no format matches
+    : newDate.toISOString();
 };
 
 export const copyToClipboard = async (value: string = '') => {

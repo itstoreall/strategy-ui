@@ -1,0 +1,144 @@
+@use '@/src/sass/base/vars' as *;
+@use '@/src/sass/mixins' as *;
+
+section.token-prices {
+  background-color: transparent;
+
+  > div.section-content.token-prices {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    border: 1px solid $greyDeepDark;
+    border-radius: $middleBorderRadius;
+
+    > ul.section-token-price-list {
+      display: grid;
+
+      > li.section-token-price-list-item {
+        display: grid;
+        grid-template-columns: 50% 50%;
+
+        > span.section-token-price-list-item-content {
+          display: flex;
+          justify-content: space-between;
+
+          > span {
+            &:last-child {
+              color: $greyLight;
+            }
+
+            &:first-child {
+              font-weight: 500;
+              color: $violetLight;
+            }
+          }
+        }
+
+        > span.section-token-price-list-item-content:first-child {
+          > span {
+            &:last-child {
+              // padding-right: 0.7rem;
+              padding-right: 1rem;
+            }
+          }
+        }
+
+        > span.section-token-price-list-item-content:last-child {
+          border-left: 1px solid $greyDeepDark;
+
+          > span {
+            &:first-child {
+              padding-left: 1rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @include media-screen-orientation('max', $mobile + 199.9) {
+    > div.section-content.token-prices {
+      > ul.section-token-price-list {
+        gap: 1rem;
+      }
+    }
+  }
+
+  @include media-screen-orientation('max', $tablet - 0.1) {
+    > div.section-content.token-prices {
+      > ul.section-token-price-list {
+        > li.section-token-price-list-item {
+          > span.section-token-price-list-item-content {
+            > span {
+              font-size: 0.9rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @include media-screen-orientation('min', $mobile + 200) {
+    > div.section-content.token-prices {
+      gap: 0.7rem;
+
+      > ul.section-token-price-list {
+        grid-template-columns: 50% 50%;
+
+        > li.section-token-price-list-item {
+          &:first-child {
+            padding-right: 1rem;
+
+            > span.section-token-price-list-item-content:first-child {
+              > span {
+                &:last-child {
+                  padding-right: 1rem;
+                }
+              }
+            }
+
+            > span.section-token-price-list-item-content:last-child {
+              > span {
+                &:first-child {
+                  padding-left: 1rem;
+                }
+              }
+            }
+          }
+
+          &:last-child {
+            padding-left: 1rem;
+            border-left: 1px solid $greyDeepDark;
+
+            > span.section-token-price-list-item-content:first-child {
+              > span {
+                &:last-child {
+                  padding-right: 1rem;
+                }
+              }
+            }
+
+            > span.section-token-price-list-item-content:last-child {
+              > span {
+                &:first-child {
+                  padding-left: 1rem;
+                }
+              }
+            }
+          }
+
+          > span.section-token-price-list-item-content {
+            display: flex;
+            justify-content: space-between;
+          }
+        }
+      }
+    }
+  }
+
+  @include media-screen-orientation('min', $tablet) {
+    > div.section-content.token-prices {
+      gap: 1rem;
+    }
+  }
+}

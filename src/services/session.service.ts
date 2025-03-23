@@ -24,7 +24,6 @@ class SessionService {
     try {
       const url = `/all?userId=${userId}&sessionToken=${hashedToken}`;
       const res: AxiosResponse<Session[]> = await axios.get(url);
-      // console.log('res:::', res);
       return res.data;
     } catch (err: unknown) {
       errorHandler('Failed to fetch All Sessions:', err);

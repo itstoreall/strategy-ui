@@ -13,13 +13,11 @@ import UserListSection from '@/src/components/Section/Admin/UserListSection';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import PageHeading from '@/src/components/Layout/PageHeading';
 import MainLoader from '@/src/components/MainLoader';
-// import useFetchAllUsers from '@/src/hooks/user/useFetchAllUsers';
 
 type Props = { session: SessionContextValue };
 
 const Admin = ({ session }: Props) => {
   const { updatedTokens, users, fetchTokens } = useGlobalState();
-  // const { users } = useFetchAllUsers({ enabled: true });
   const { userOptions } = useAdmin(users ?? null);
   const { RenderModal } = useModal();
 
@@ -45,10 +43,7 @@ const Admin = ({ session }: Props) => {
               className="admin-main-content-devider"
               title="Users"
             />
-            <UserListSection
-              users={users}
-              // sessions={sessions}
-            />
+            <UserListSection users={users} />
 
             <MainDividerSection
               className="admin-main-content-devider"
