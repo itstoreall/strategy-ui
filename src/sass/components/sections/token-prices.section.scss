@@ -8,7 +8,7 @@ section.token-prices {
     display: flex;
     flex-direction: column;
     gap: 0.7rem;
-    border: 1px solid $greyDeepDark;
+    border: 1px solid $blue;
     border-radius: $middleBorderRadius;
 
     > ul.section-token-price-list {
@@ -23,7 +23,8 @@ section.token-prices {
           justify-content: space-between;
 
           > span {
-            color: $greyDark;
+            color: $blue;
+            // color: $greyDark;
 
             &:first-child {
               font-weight: 500;
@@ -40,7 +41,7 @@ section.token-prices {
         }
 
         > span.section-token-price-list-item-content:last-child {
-          border-left: 1px solid $greyDeepDark;
+          border-left: 1px solid $blue;
 
           > span {
             &:first-child {
@@ -104,7 +105,7 @@ section.token-prices {
 
           &:last-child {
             padding-left: 1rem;
-            border-left: 1px solid $greyDeepDark;
+            border-left: 1px solid $blue;
 
             > span.section-token-price-list-item-content:first-child {
               > span {
