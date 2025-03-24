@@ -1,6 +1,8 @@
 @use '@/src/sass/base/vars' as *;
 @use '@/src/sass/mixins' as *;
 
+$mainColor: $greyMiddle;
+
 section.token-prices {
   background-color: transparent;
 
@@ -8,7 +10,7 @@ section.token-prices {
     display: flex;
     flex-direction: column;
     gap: 0.7rem;
-    border: 1px solid $blue;
+    border: 1px solid $mainColor;
     border-radius: $middleBorderRadius;
 
     > ul.section-token-price-list {
@@ -23,10 +25,10 @@ section.token-prices {
           justify-content: space-between;
 
           > span {
-            color: $blue;
-            // color: $greyDark;
+            color: $mainColor;
 
             &:first-child {
+              // color: $violetDark;
               font-weight: 500;
             }
           }
@@ -41,7 +43,7 @@ section.token-prices {
         }
 
         > span.section-token-price-list-item-content:last-child {
-          border-left: 1px solid $blue;
+          border-left: 1px solid $mainColor;
 
           > span {
             &:first-child {
