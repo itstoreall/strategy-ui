@@ -1,3 +1,4 @@
+import useGlobalState from '@/src/hooks/useGlobalState';
 import { Token } from '@/src/types';
 
 type Props = {
@@ -8,6 +9,8 @@ const firstSet = [{ symbols: ['BTC', 'ETH'] }, { symbols: ['SOL', 'DOGE'] }];
 const secondSet = [{ symbols: ['XRP', 'SUI'] }, { symbols: ['OP', 'TON'] }];
 
 const PricesSection = ({ tokens }: Props) => {
+  const { fetchTokens } = useGlobalState();
+
   const ItemContent = ({ symbol }: { symbol: string }) => (
     <span className="section-token-price-list-item-content">
       <span>{`${symbol}:`}</span>
@@ -31,7 +34,11 @@ const PricesSection = ({ tokens }: Props) => {
   );
 
   return (
-    <section className="section token-prices">
+    <section
+      className="section token-prices"
+      onClick={fetchTokens}
+      title="Click to update"
+    >
       <div className="section-content token-prices">
         <PriceList tokenSet={firstSet} />
         <PriceList tokenSet={secondSet} />

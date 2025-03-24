@@ -1,10 +1,13 @@
 @use '@/src/sass/base/vars' as *;
 @use '@/src/sass/mixins' as *;
 
-$mainColor: $greyMiddle;
+$mainColor: $blue;
 
 section.token-prices {
-  background-color: transparent;
+  // background-color: transparent;
+  background-color: $googleBlueDeepDark;
+  user-select: none;
+  cursor: pointer;
 
   > div.section-content.token-prices {
     display: flex;
@@ -25,10 +28,9 @@ section.token-prices {
           justify-content: space-between;
 
           > span {
-            color: $mainColor;
+            color: $googleBlue;
 
             &:first-child {
-              // color: $violetDark;
               font-weight: 500;
             }
           }
@@ -107,7 +109,7 @@ section.token-prices {
 
           &:last-child {
             padding-left: 1rem;
-            border-left: 1px solid $blue;
+            border-left: 1px solid $mainColor;
 
             > span.section-token-price-list-item-content:first-child {
               > span {

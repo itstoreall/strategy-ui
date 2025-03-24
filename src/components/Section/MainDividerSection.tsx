@@ -7,6 +7,7 @@ import Button from '@/src/components/Button/Button';
 type Props = {
   className?:
     | 'admin-main-content-devider'
+    | 'prices-devider'
     | 'order-list-devider'
     | 'settings-devider';
   title?: string;
