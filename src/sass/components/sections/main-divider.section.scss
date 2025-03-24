@@ -40,13 +40,14 @@ section.main-divider {
   > div.main-divider-section-filter-input-block {
     position: relative;
     display: flex;
-    // background-color: teal;
+    width: 100px;
 
     > input.main-divider-section-filter-input {
+      position: absolute;
+      top: -30px;
       padding: 0 0.25rem;
-      width: 45px;
-      height: 20px;
-      // color: $greyDark;
+      width: 55px;
+      height: 60px;
       color: $colorAccent;
       background-color: transparent;
       border-radius: $smallBorderRadius;

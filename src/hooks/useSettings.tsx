@@ -1,13 +1,13 @@
 import { useEffect, useState, useTransition } from 'react';
 import { SessionContextValue } from 'next-auth/react';
-import useModal from '@/src/hooks/useModal';
 import { handleSignOut } from '@/src/lib/auth/signOutServerAction';
 import { getUserName } from '@/src/lib/auth/getUserNameServerAction';
 import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
 import { getAccountLinkStatus } from '@/src/lib/auth/getAccountLinkStatusServerAction';
 import { unlinkGoogleAccount } from '@/src/lib/auth/unlinkGoogleAccountServerAction';
-import { deleteUserServerAction } from '@/src/lib/auth/deleteUserServerAction';
 import { handleGoogleSignIn } from '@/src/lib/auth/googleSignInServerAction';
+import { deleteUser } from '@/src/lib/auth/deleteUserServerAction';
+import useModal from '@/src/hooks/useModal';
 import { Role } from '@/src/types';
 
 const useSettings = (session: SessionContextValue) => {
@@ -89,7 +89,7 @@ const useSettings = (session: SessionContextValue) => {
 
   const handleDeleteUser = async () => {
     if (session.data?.user?.id) {
-      const res = await deleteUserServerAction(session.data?.user?.id);
+      const res = await deleteUser(session.data?.user?.id);
       if (res && res.deleted) {
         handleSignOut();
       }

@@ -13,8 +13,11 @@ section.add-token {
       padding: 0;
       gap: 0.5rem;
 
-      span.add-token-section-list-item-value {
-        line-height: 1.2rem;
+      > li.add-token-section-list-item {
+        > span.add-token-section-list-item-value {
+          line-height: 1.2rem;
+          cursor: pointer;
+        }
       }
     }
 

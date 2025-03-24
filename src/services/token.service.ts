@@ -1,4 +1,4 @@
-import { AxiosError } from 'axios';
+import { AxiosError, AxiosResponse } from 'axios';
 import apiClient from '@/src/lib/api/client';
 
 const errorHandler = (msg: string, err: unknown) => {
@@ -49,6 +49,17 @@ class TokenService {
       return res.data;
     } catch (err: unknown) {
       errorHandler('ERROR in updatePrices:', err);
+      throw err;
+    }
+  }
+
+  async removeToken(symbol: string) {
+    try {
+      const url = `/tokens/${symbol}`;
+      const res: AxiosResponse = await apiClient.delete(url);
+      return res.data;
+    } catch (err: unknown) {
+      errorHandler('ERROR in removeTokens:', err);
       throw err;
     }
   }

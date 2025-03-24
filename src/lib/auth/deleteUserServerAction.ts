@@ -2,7 +2,7 @@
 
 import { userService } from '@/src/services/user.service';
 
-export const deleteUserServerAction = async (id: string) => {
+export const deleteUser = async (id: string) => {
   try {
     const res = await userService.deleteUser(id);
     console.log('deleteUserServerAction res:', res);

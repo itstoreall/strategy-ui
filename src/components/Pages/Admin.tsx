@@ -37,7 +37,7 @@ const Admin = ({ session }: Props) => {
               className="admin-main-content-devider"
               title="Tokens"
             />
-            <AddTokenSection tokens={updatedTokens} />
+            <AddTokenSection tokens={updatedTokens} refetchTokens={fetchTokens} />
 
             <MainDividerSection
               className="admin-main-content-devider"
