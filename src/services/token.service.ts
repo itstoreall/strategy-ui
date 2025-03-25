@@ -59,7 +59,6 @@ class TokenService {
       const res: AxiosResponse = await apiClient.delete(url);
       return res.data;
     } catch (err: unknown) {
-      errorHandler('ERROR in removeTokens:', err);
       throw err;
     }
   }

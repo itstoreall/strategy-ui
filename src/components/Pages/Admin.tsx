@@ -18,7 +18,7 @@ type Props = { session: SessionContextValue };
 
 const Admin = ({ session }: Props) => {
   const { updatedTokens, users, fetchTokens } = useGlobalState();
-  const { userOptions } = useAdmin(users ?? null);
+  const { userOptions, removeToken } = useAdmin(users ?? null);
   const { RenderModal } = useModal();
 
   return (
@@ -37,7 +37,7 @@ const Admin = ({ session }: Props) => {
               className="admin-main-content-devider"
               title="Tokens"
             />
-            <AddTokenSection tokens={updatedTokens} refetchTokens={fetchTokens} />
+            <AddTokenSection tokens={updatedTokens} removeToken={removeToken} />
 
             <MainDividerSection
               className="admin-main-content-devider"

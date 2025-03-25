@@ -7,6 +7,6 @@ export const deleteToken = async (symbol: string) => {
     const res = await tokenService.removeToken(symbol);
     return res.data;
   } catch (err) {
-    console.log('ERROR in deleteToken:', err);
+    throw err;
   }
 };

@@ -17,6 +17,7 @@ export enum QueryKeyEnum {
 
 export enum MutationKeyEnum {
   AddToken = 'addToken',
+  DeleteToken = 'deleteToken',
   AddOrder = 'addOrder',
   UpdatePrices = 'updatePrices',
 }
