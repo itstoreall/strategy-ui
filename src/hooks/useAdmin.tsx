@@ -8,9 +8,13 @@ const useAdmin = (users: User[] | null) => {
   const [userOptions, setUserOptions] = useState<string[]>([]);
 
   const { fetchTokens } = useGlobalState();
-  const { mutate: deleteToken, isError } = useRemoveToken(fetchTokens);
+  const {
+    mutate: deleteToken,
+    isSuccess: isSuccessRemoveToken,
+    isError: isErrorRemoveToken,
+  } = useRemoveToken(fetchTokens);
 
-  const handleUserOptions = (options: string[]) => setUserOptions(options);
+  // ---
 
   useEffect(() => {
     if (userOptions.length) return;
@@ -21,10 +25,17 @@ const useAdmin = (users: User[] | null) => {
   }, [users]);
 
   useEffect(() => {
-    if (isError) {
+    if (isSuccessRemoveToken) {
+      alert('Token successfully deleted!');
+    }
+    if (isErrorRemoveToken) {
       alert('Token deletion error!');
     }
-  }, [isError]);
+  }, [isSuccessRemoveToken, isErrorRemoveToken]);
+
+  // ---
+
+  const handleUserOptions = (options: string[]) => setUserOptions(options);
 
   const removeToken = async (symbol: string) => {
     if (confirm(`The Token (${symbol}) will be deleted!`)) {
