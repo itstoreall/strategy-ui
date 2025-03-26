@@ -45,7 +45,7 @@ const config = {
 
 const typeOptions = [
   OrderTypeDisplayEnum.Asset,
-  // OrderTypeDisplayEnum.BuyTarget,
+  OrderTypeDisplayEnum.BuyTarget,
 ];
 
 const exchangeOptions = [

@@ -140,16 +140,16 @@ const Dashboard = () => {
                   data={userOrders.buy}
                   tokens={updatedTokens}
                   userId={userId}
-                  // removeOrder={removeOrder}
                 />
               ) : null}
 
-              {/* {userOrders?.sell.length ? (
+              {userOrders?.sell.length ? (
                 <OrderListSection
                   data={userOrders.sell}
-                  // removeOrder={removeOrder}
+                  tokens={updatedTokens}
+                  userId={userId}
                 />
-              ) : null} */}
+              ) : null}
             </SectionsContainer>
           </div>
         ) : (

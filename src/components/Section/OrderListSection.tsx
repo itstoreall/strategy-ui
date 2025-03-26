@@ -31,19 +31,25 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
     localStorage.setItem(lsLimitKey, JSON.stringify(isExpanded));
   }, [isExpanded]);
 
+  const itemLimit = 5;
   const isAdmin = data[0].userId === userId;
-  const itemLimit = 10;
+  const isBull = data[0].type === OrderTypeEnum.Buy;
+  const isToggle = new Set([...data.map((el) => el.symbol)]).size > itemLimit;
+  const strategy = isBull ? OrderTypeEnum.Buy : OrderTypeEnum.Sell;
 
   const aggregatedData = Object.values(
     data.reduce((acc, order: Order) => {
       if (!tokens) return acc;
       const token = tokens.find((token) => token.symbol === order.symbol);
       if (!token) return acc;
-      const percent = ((token.price - order.price) / order.price) * 100;
+      const percent = isBull
+        ? ((token.price - order.price) / order.price) * 100
+        : ((order.price - token.price) / token.price) * 100;
+
       if (!acc[order.symbol]) {
-        // console.log(1, 'order:', order);
         acc[order.symbol] = {
           symbol: order.symbol,
+          price: order.price,
           totalAmount: order.amount,
           totalFiat: order.fiat,
           orders: 1,
@@ -58,6 +64,7 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
 
         const orderDate = normalizeDate(order.updatedAt, 'DD-MM-YY');
 
+        acc[order.symbol].price += order.price;
         acc[order.symbol].totalAmount += order.amount;
         acc[order.symbol].totalFiat += order.fiat;
         acc[order.symbol].orders += 1;
@@ -77,22 +84,21 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
     handleSortToggle,
     resetFilter,
   } = useFilterAndSortOrderList({
+    label: isBull ? OrderTypeEnum.Buy : OrderTypeEnum.Sell,
     aggregatedData,
     isExpanded,
     itemLimit,
   });
 
-  const isBuy = data[0].type === OrderTypeEnum.Buy;
-  const isToggle = new Set([...data.map((el) => el.symbol)]).size > itemLimit;
-  const strategy = isBuy ? OrderTypeEnum.Buy : OrderTypeEnum.Sell;
-
   const toggleList = () => setIsExpanded((prev) => !prev);
+
+  // ---
 
   return (
     <>
       <MainDividerSection
         className="order-list-devider"
-        // title={isBuy ? config.assets : config.buyTargets}
+        // title={isBull ? config.assets : config.buyTargets}
         filterSymbol={filterSymbol}
         handleFilterChange={handleFilterChange}
         resetFilter={resetFilter}
@@ -105,64 +111,67 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
 
       <section className={`section order-list ${'empty'}`}>
         <div className="section-content order-list">
-          {displayedData.length ? (
-            <ul className="section-order-list">
-              {displayedData.map((order, idx) => {
-                const { symbol, orders, totalAmount, percent } = order;
+          <ul className="section-order-list">
+            {displayedData.map((order: AggregatedOrderListAcc, idx) => {
+              const { symbol, price, orders, totalAmount, percent } = order;
 
-                const strategyPath = `/strategy/${strategy}-${symbol}`;
-                const percentValue = percent < 0 && percent > -1 ? 0 : percent;
-                const signPlus = percent.toString().includes('-')
-                  ? ''
-                  : percent >= 1
-                  ? '+'
-                  : '';
+              const strategyPath = `/strategy/${strategy}-${symbol}`;
+              const percentValue = percent < 0 && percent > -1 ? 0 : percent;
+              const signPlus = percent.toString().includes('-')
+                ? ''
+                : percent >= 1
+                ? '+'
+                : '';
 
-                // ---
+              // ---
 
-                const percentColor = percent > 0 ? 'color-green' : 'color-blue';
-                const percentStyle = `row-list-item order-percent ${percentColor}`;
+              const bullColor = percent > 0 ? 'color-green' : 'color-blue';
+              const bearColor = percent > 0 ? 'color-green' : 'color-yellow';
+              const percentColor = isBull ? bullColor : bearColor;
+              const percentStyle = `row-list-item order-percent ${percentColor}`;
 
-                return (
-                  <li key={idx} className="section-order-list-item">
-                    <Link
-                      className={`${isAdmin ? 'admin-link' : ''}`}
-                      href={isAdmin ? strategyPath : ''}
-                    >
-                      <ul className="section-order-list-item-row-list">
-                        <li className="row-list-item order-symbol">
-                          <span>
-                            {symbol}
-                            {/* {'WERTFGR'} */}
-                          </span>
-                        </li>
-                        <li className="row-list-item order-count">
-                          <span>
-                            {orders}
-                            {/* {358} */}
-                          </span>
-                        </li>
-                        <li className="row-list-item order-amount">
-                          <span>
-                            {formatMillionAmount(
-                              parseFloat(totalAmount.toFixed(6)).toString()
-                            )}
-                            {/* {38564326} */}
-                          </span>
-                        </li>
-                        <li className={percentStyle}>
-                          <span
-                            title={percent.toFixed(2)}
-                          >{`${signPlus}${percentValue.toFixed()}%`}</span>
-                        </li>
-                      </ul>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          ) : // <span>No orders!</span>
-          null}
+              return (
+                <li key={idx} className="section-order-list-item">
+                  <Link
+                    className={`${isAdmin ? 'admin-link' : ''}`}
+                    href={isAdmin ? strategyPath : ''}
+                  >
+                    <ul className="section-order-list-item-row-list">
+                      <li className="row-list-item order-symbol">
+                        <span>
+                          {symbol}
+                          {/* {'WERTFGR'} */}
+                        </span>
+                      </li>
+                      <li className="row-list-item uni-order-count-and-empty-value">
+                        <span>
+                          {isBull ? orders : '-'}
+                          {/* {358} */}
+                        </span>
+                      </li>
+
+                      <li className="row-list-item uni-order-amount-and-turget-buy-price">
+                        <span>
+                          {isBull
+                            ? formatMillionAmount(
+                                parseFloat(totalAmount.toFixed(6)).toString()
+                              )
+                            : price}
+                          {/* {38564326} */}
+                        </span>
+                      </li>
+
+                      <li className={percentStyle}>
+                        <span
+                          title={percent.toFixed(2)}
+                        >{`${signPlus}${percentValue.toFixed()}%`}</span>
+                      </li>
+                    </ul>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </section>
     </>
