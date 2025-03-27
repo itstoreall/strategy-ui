@@ -97,6 +97,7 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
   const toggleList = () => setIsExpanded((prev) => !prev);
 
   const removeBuyTarget = async (symbol: string, id: number) => {
+    if (isBull) return;
     if (!confirm(`(${symbol}) ${config.confirmDeletion}`)) return;
     const isDeleted = await deleteOrder(id);
     if (isDeleted) {
