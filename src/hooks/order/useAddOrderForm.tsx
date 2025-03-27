@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useCreateOrder from '@/src/hooks/order/useCreateOrder';
-import { OrderTypeEnum, QueryKeyEnum } from '@/src/enums';
+import { ExchangeEnum, OrderTypeEnum, QueryKeyEnum } from '@/src/enums';
 import { useSession } from 'next-auth/react';
 
 type Credentials = {
@@ -16,6 +16,12 @@ type Credentials = {
 
 const config = {
   error: 'Order creation unsuccessful.',
+  errType: 'Type is required!',
+  errSymbol: 'Symbol is required!',
+  errExchange: 'Exchange is required!',
+  errAmount: 'Amount must be a positive number!',
+  errPrice: 'Price must be a positive number!',
+  errUserId: 'User ID is required to create an order!',
 };
 
 const useAddOrderForm = (
@@ -70,26 +76,29 @@ const useAddOrderForm = (
   }, [watchedValues]);
 
   const onSubmit = handleSubmit((data) => {
+    const isBull = data.type === 'BUY';
     if (!data.type) {
-      return setCreationError('Type is required!');
+      return setCreationError(config.errType);
     } else if (!data.symbol) {
-      return setCreationError('Symbol is required!');
+      return setCreationError(config.errSymbol);
     } else if (!data.exchange) {
-      return setCreationError('Exchange is required!');
+      if (isBull) return setCreationError(config.errExchange);
     } else if (isNaN(data.amount) || data.amount <= 0) {
-      return setCreationError('Amount must be a positive number!');
+      return setCreationError(config.errAmount);
     } else if (isNaN(data.price) || data.price <= 0) {
-      return setCreationError('Price must be a positive number!');
+      if (isBull) return setCreationError(config.errPrice);
     } else if (!userId) {
-      return setCreationError('User ID is required to create an order!');
+      return setCreationError(config.errUserId);
     }
+
+    // console.log('data.type:', data.type);
 
     const payload = {
       ...data,
-      exchange: data.exchange,
+      exchange: data.exchange ?? ExchangeEnum.Binance,
       amount: +data.amount,
       price: +data.price,
-      userId,
+      userId: data.userId,
     };
 
     console.log('payload:', payload);

@@ -84,6 +84,7 @@ export type OrdersRes = {
 */
 
 export type AggregatedOrderListAcc = {
+  id: number;
   symbol: string;
   price: number;
   totalAmount: number;

@@ -4,6 +4,7 @@ import { GoPeople } from 'react-icons/go';
 import { Role } from '@/src/types';
 import Button from '@/src/components/Button/Button';
 import Title from '@/src/components/Layout/Title';
+import { OrderTypeEnum } from '@/src/enums';
 
 type Props = {
   /*
@@ -57,6 +58,7 @@ const PageHeading = ({
 
   const isDashboard = path === '/dashboard';
   const isStrategy = path.includes('/strategy/');
+  const isBear = path.includes(`/strategy/${OrderTypeEnum.Sell}-`);
   const isButton = buttonText && (isDashboard || isStrategy);
 
   const price = assetPrice ? `$${assetPrice}` : null;
@@ -128,7 +130,7 @@ const PageHeading = ({
         </div>
       )}
 
-      {isButton && (
+      {isButton && !isBear && (
         <Button
           className="main-heading-button"
           clickContent={handleModal}

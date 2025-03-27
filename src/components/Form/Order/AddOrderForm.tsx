@@ -39,11 +39,13 @@ const config = {
   symbolValidation: 'Symbol can only contain letters and numbers',
   amountValidation: 'Amount must be a valid number',
   priceValidation: 'Price must be a valid number',
-  confirmSubmit: 'Please confirm your order details:',
+  confirmOrderSubmit: 'Please confirm your order details:',
+  confirmBuyTargetSubmit: 'Please confirm your Buy Target details:',
   emptyField: 'Please fill in all the fields!',
   targetExists: 'Buy Target already exists!',
   submit: 'Submit',
   creating: 'Creating...',
+  inProgress: 'In progress...',
 };
 
 const typeOptions = [
@@ -78,7 +80,6 @@ const AddOrderForm = ({
   const [symbolOptions, setSymbolOptions] = useState<string[]>([]);
   const [isProcess, setIsProcess] = useState(false);
 
-  // const {}= useGlobalState()
   const [isPending, startTransition] = useTransition();
   const { openDropdownId, toggleDropdown } = useSelectMulti();
   const orderForm = useCreateOrderForm(initForm, invalidateQuery);
@@ -97,7 +98,6 @@ const AddOrderForm = ({
 
   useEffect(() => {
     if (tokens) {
-      // const options = tokens.map((token) => token.symbol);
       const options = tokens.map((token) => token.symbol).sort();
       setSymbolOptions(options);
       if (initType) setValue('type', initType, { shouldValidate: true });
@@ -132,13 +132,21 @@ const AddOrderForm = ({
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    const confirmMessage = `
-      ${config.confirmSubmit}
+    const confirmMessage = isAsset
+      ? `
+      ${config.confirmOrderSubmit}
       
       ${type || '--'}
       ${symbol || '--'}
-      ${isAsset ? exchange || '--' : 'empty'}
-      ${isAsset ? amount || '--' : 'empty'}
+      ${exchange || '--'}
+      ${amount || '--'}
+      ${price || '--'}
+    `
+      : `
+      ${config.confirmBuyTargetSubmit}
+      
+      ${type || '--'}
+      ${symbol || '--'}
       ${price || '--'}
     `;
 
@@ -160,6 +168,7 @@ const AddOrderForm = ({
       setIsProcess(true);
       const currentType = isAsset ? OrderTypeEnum.Buy : OrderTypeEnum.Sell;
       setValue('type', currentType, { shouldValidate: true });
+      console.log(88);
       startTransition(async () => {
         onSubmit();
       });
@@ -178,7 +187,7 @@ const AddOrderForm = ({
               ? config.newAsset
               : isBuyTarget
               ? config.newBuyTarget
-              : 'In progress...'
+              : config.inProgress
           }
         />
 
@@ -194,7 +203,7 @@ const AddOrderForm = ({
                 onToggle={() =>
                   toggleDropdown(openDropdownId === 'type' ? '' : 'type')
                 }
-                // isDisable={isStrategyPage}
+                isDisable={isStrategyPage}
                 // isDisable={true}
               />
 

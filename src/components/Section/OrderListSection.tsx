@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { deleteOrder } from '@/src/lib/api/deleteOrderServerAction';
 import useFilterAndSortOrderList from '@/src/hooks/order/useFilterAndSortOrderList';
+import useInvalidateQueries from '@/src/hooks/useInvalidateQueries';
 import { AggregatedOrderListAcc, Order, Token } from '@/src/types';
-import { OrderTypeEnum } from '@/src/enums';
+import { OrderTypeEnum, QueryKeyEnum } from '@/src/enums';
 import { formatMillionAmount, normalizeDate } from '@/src/utils';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
 
@@ -12,12 +14,10 @@ type Props = {
   userId: string | null;
 };
 
-/*
 const config = {
-  assets: 'Assets',
+  confirmDeletion: 'Buy Target will be deleted!',
   buyTargets: 'Buy Targets',
 };
-*/
 
 const lsLimitKey = 'orderListLimited';
 
@@ -26,6 +26,8 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
     const savedState = localStorage.getItem(lsLimitKey);
     return savedState ? JSON.parse(savedState) : false;
   });
+
+  const { updateData } = useInvalidateQueries();
 
   useEffect(() => {
     localStorage.setItem(lsLimitKey, JSON.stringify(isExpanded));
@@ -48,6 +50,7 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
 
       if (!acc[order.symbol]) {
         acc[order.symbol] = {
+          id: order.id,
           symbol: order.symbol,
           price: order.price,
           totalAmount: order.amount,
@@ -64,6 +67,7 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
 
         const orderDate = normalizeDate(order.updatedAt, 'DD-MM-YY');
 
+        acc[order.symbol].id += order.id;
         acc[order.symbol].price += order.price;
         acc[order.symbol].totalAmount += order.amount;
         acc[order.symbol].totalFiat += order.fiat;
@@ -91,6 +95,14 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
   });
 
   const toggleList = () => setIsExpanded((prev) => !prev);
+
+  const removeBuyTarget = async (symbol: string, id: number) => {
+    if (!confirm(`(${symbol}) ${config.confirmDeletion}`)) return;
+    const isDeleted = await deleteOrder(id);
+    if (isDeleted) {
+      updateData([QueryKeyEnum.UserOrders, QueryKeyEnum.UserStrategyOrders]);
+    }
+  };
 
   // ---
 
@@ -134,7 +146,8 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
                 <li key={idx} className="section-order-list-item">
                   <Link
                     className={`${isAdmin ? 'admin-link' : ''}`}
-                    href={isAdmin ? strategyPath : ''}
+                    href={isAdmin && isBull ? strategyPath : '/dashboard'}
+                    onClick={() => removeBuyTarget(order.symbol, order.id)}
                   >
                     <ul className="section-order-list-item-row-list">
                       <li className="row-list-item order-symbol">
