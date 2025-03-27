@@ -165,6 +165,7 @@ const Dashboard = () => {
                 QueryKeyEnum.UserOrders,
                 QueryKeyEnum.UserStrategyOrders,
               ]}
+              buyTargets={userOrders?.sell}
             />
           </RenderModal>
         )}

@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useTransition } from 'react';
+import { usePathname } from 'next/navigation';
 import useCreateOrderForm from '@/src/hooks/order/useAddOrderForm';
 import useSelectMulti from '@/src/hooks/useSelectMulti';
 import useModal from '@/src/hooks/useModal';
-import { FormEvent, Token } from '@/src/types';
+import { FormEvent, Order, Token } from '@/src/types';
 import {
   ExchangeEnum,
   OrderTypeDisplayEnum,
@@ -18,13 +19,13 @@ import TextInput from '@/src/components/Form/TextInput';
 import Button from '@/src/components/Button/Button';
 import Title from '@/src/components/Layout/Title';
 import Form from '@/src/components/Form/Form';
-import { usePathname } from 'next/navigation';
 
 type Props = {
   tokens: Token[];
   initType?: OrderTypeEnum | string;
   initSymbol?: string;
   invalidateQuery: QueryKeyEnum[];
+  buyTargets?: Order[];
 };
 
 const config = {
@@ -39,6 +40,8 @@ const config = {
   amountValidation: 'Amount must be a valid number',
   priceValidation: 'Price must be a valid number',
   confirmSubmit: 'Please confirm your order details:',
+  emptyField: 'Please fill in all the fields!',
+  targetExists: 'Buy Target already exists!',
   submit: 'Submit',
   creating: 'Creating...',
 };
@@ -60,9 +63,9 @@ const exchangeOptions = [
 const initForm = {
   type: '',
   symbol: '',
+  exchange: '',
   amount: 0.0,
   price: 0.0,
-  exchange: '',
 };
 
 const AddOrderForm = ({
@@ -70,12 +73,14 @@ const AddOrderForm = ({
   initType,
   initSymbol,
   invalidateQuery,
+  buyTargets,
 }: Props) => {
   const [symbolOptions, setSymbolOptions] = useState<string[]>([]);
   const [isProcess, setIsProcess] = useState(false);
 
-  const { openDropdownId, toggleDropdown } = useSelectMulti();
+  // const {}= useGlobalState()
   const [isPending, startTransition] = useTransition();
+  const { openDropdownId, toggleDropdown } = useSelectMulti();
   const orderForm = useCreateOrderForm(initForm, invalidateQuery);
   const { closeModal } = useModal();
   const path = usePathname();
@@ -86,6 +91,8 @@ const AddOrderForm = ({
   const formValues = watch();
   const { symbol, type, exchange, amount, price } = formValues;
 
+  const isAsset = type === OrderTypeDisplayEnum.Asset;
+  const isBuyTarget = type === OrderTypeDisplayEnum.BuyTarget;
   const isStrategyPage = path.includes('/strategy/');
 
   useEffect(() => {
@@ -130,27 +137,34 @@ const AddOrderForm = ({
       
       ${type || '--'}
       ${symbol || '--'}
-      ${exchange || '--'}
-      ${amount || '--'}
+      ${isAsset ? exchange || '--' : 'empty'}
+      ${isAsset ? amount || '--' : 'empty'}
       ${price || '--'}
     `;
 
     if (confirmMessage.includes('--')) {
-      alert('Please fill in all the fields!');
+      alert(config.emptyField);
       return;
     }
 
+    // console.log(1, buyTargets);
+    if (!!buyTargets?.find((target) => target.symbol === symbol)) {
+      // console.log(2);
+      alert(`${symbol} ${config.targetExists}`);
+      return;
+    }
+    // console.log(3);
+
+    // /*
     if (confirm(confirmMessage)) {
       setIsProcess(true);
-      const currentType =
-        type === OrderTypeDisplayEnum.Asset
-          ? OrderTypeEnum.Buy
-          : OrderTypeEnum.Sell;
+      const currentType = isAsset ? OrderTypeEnum.Buy : OrderTypeEnum.Sell;
       setValue('type', currentType, { shouldValidate: true });
       startTransition(async () => {
         onSubmit();
       });
     }
+    // */
   };
 
   return (
@@ -160,9 +174,9 @@ const AddOrderForm = ({
           tag={'h3'}
           className="form-title"
           text={
-            type === OrderTypeDisplayEnum.Asset
+            isAsset
               ? config.newAsset
-              : type === OrderTypeDisplayEnum.BuyTarget
+              : isBuyTarget
               ? config.newBuyTarget
               : 'In progress...'
           }
@@ -197,27 +211,34 @@ const AddOrderForm = ({
                 isDisable={!symbolOptions.length || isStrategyPage}
               />
 
-              <SelectMulti
-                options={exchangeOptions.filter((opt) => opt !== exchange)}
-                placeholder="Exchange"
-                onSelect={(value) => handleSelectChange('exchange', value)}
-                isOpen={openDropdownId === exchange}
-                onToggle={() => toggleDropdown(exchange)}
-              />
+              {isAsset && (
+                <SelectMulti
+                  options={exchangeOptions.filter((opt) => opt !== exchange)}
+                  placeholder={'Exchange'}
+                  onSelect={(value) => handleSelectChange('exchange', value)}
+                  isOpen={openDropdownId === exchange}
+                  onToggle={() => toggleDropdown(exchange)}
+                  // isDisable={isBuyTarget}
+                />
+              )}
 
-              <TextInput
-                type="text"
-                placeholder="Amount"
-                disabled={isPending}
-                error={errors.amount}
-                {...register('amount', {
-                  required: config.amountRequired,
-                  validate: (value) =>
-                    /^\d*\.?\d*$/.test(value.toString()) ||
-                    config.amountValidation,
-                })}
-                onInput={handleNumericInput}
-              />
+              {isAsset && (
+                <TextInput
+                  type="text"
+                  placeholder="Amount"
+                  // placeholder={isAsset ? 'Amount' : '-'}
+                  disabled={isPending}
+                  error={errors.amount}
+                  {...register('amount', {
+                    required: config.amountRequired,
+                    validate: (value) =>
+                      /^\d*\.?\d*$/.test(value.toString()) ||
+                      config.amountValidation,
+                  })}
+                  onInput={handleNumericInput}
+                  // disabled={isPending || isBuyTarget}
+                />
+              )}
 
               <TextInput
                 type="text"
