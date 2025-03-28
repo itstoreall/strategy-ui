@@ -5,8 +5,12 @@ type Props = {
   tokens: Token[] | null;
 };
 
-const firstSet = [{ symbols: ['BTC', 'ETH'] }, { symbols: ['SOL', 'DOGE'] }];
-const secondSet = [{ symbols: ['XRP', 'SUI'] }, { symbols: ['OP', 'TON'] }];
+const firstSet = [{ symbols: ['BTC', 'DOGE'] }, { symbols: ['ETH', 'NEAR'] }];
+const secondSet = [{ symbols: ['SOL', 'ALGO'] }, { symbols: ['XRP', 'HBAR'] }];
+const thirdSet = [{ symbols: ['TON', 'LINK'] }, { symbols: ['SUI', 'ORDI'] }];
+const fourthSet = [{ symbols: ['XLM', 'WLD'] }, { symbols: ['OP', 'STRK'] }];
+const fifthSet = [{ symbols: ['ARB', 'UNI'] }, { symbols: ['APT', 'CRV'] }];
+const sixthSet = [{ symbols: ['DOT', 'RAY'] }, { symbols: ['ENA', 'JUP'] }];
 
 const PricesSection = ({ tokens }: Props) => {
   const { fetchTokens } = useGlobalState();
@@ -42,6 +46,10 @@ const PricesSection = ({ tokens }: Props) => {
       <div className="section-content token-prices">
         <PriceList tokenSet={firstSet} />
         <PriceList tokenSet={secondSet} />
+        <PriceList tokenSet={thirdSet} />
+        <PriceList tokenSet={fourthSet} />
+        <PriceList tokenSet={fifthSet} />
+        <PriceList tokenSet={sixthSet} />
       </div>
     </section>
   );
