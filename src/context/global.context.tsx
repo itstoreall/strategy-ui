@@ -7,7 +7,7 @@ import * as t from '@/src/types';
 
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
-const appVersion = 'v1.3.16';
+const appVersion = 'v1.3.17';
 
 export type GlobalContextProps = {
   updatedTokens: t.Token[] | null;
@@ -42,7 +42,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
     setIsTokenLoading(true);
     updatePrices(params, {
       onSuccess: (data) => {
-        console.log('fetch was successful');
+        console.log('Fetch was successful:', data.tokens.length, 'tokens');
         setUpdatedTokens(data.tokens.sort(sortById));
         setIsTokenLoading(false);
       },
