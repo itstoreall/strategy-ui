@@ -54,10 +54,6 @@ const useAddOrderForm = (
   }, [userId, setValue]);
 
   useEffect(() => {
-    // if (isSuccess) {
-    //   console.log("Fetch new user's orders here!");
-    // }
-
     if (isError) {
       setCreationError(config.error);
     }
@@ -90,8 +86,6 @@ const useAddOrderForm = (
     } else if (!userId) {
       return setCreationError(config.errUserId);
     }
-
-    // console.log('data.type:', data.type);
 
     const payload = {
       ...data,
