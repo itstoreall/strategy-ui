@@ -41,7 +41,6 @@ const Dashboard = () => {
   const { users } = useFetchAllUsers(usersParam);
   const { userOrders } = useFetchAllUserOrders(currentUser, ordersParam);
   const { RenderModal, openModal, ModalContentEnum } = useModal();
-
   const { updatedTokens } = useGlobalState();
 
   const currentUserId = currentUser ? currentUser : (userId as string);

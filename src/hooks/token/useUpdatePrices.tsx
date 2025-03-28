@@ -18,7 +18,6 @@ const useUpdatePrices = () => {
     retry: (failureCount, error) => {
       if (failureCount < 3) {
         // return error?.response?.status === 500;
-        // return error?.response?.status === 500;
         console.error('Attempt:', failureCount);
         console.error('Error:', error);
         return true;
