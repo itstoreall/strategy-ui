@@ -8,9 +8,9 @@ type Props = {
 const set1 = [{ symbols: ['BTC', 'ETH'] }, { symbols: ['SOL', 'DOGE'] }];
 const set2 = [{ symbols: ['XRP', 'SUI'] }, { symbols: ['OP', 'TON'] }];
 const set3 = [{ symbols: ['UNI', 'ORDI'] }, { symbols: ['APT', 'STRK'] }];
-const set4 = [{ symbols: ['ALGO', 'HBAR'] }, { symbols: ['NEAR', 'LINK'] }];
-const set5 = [{ symbols: ['XLM', 'ENA'] }, { symbols: ['ARB', 'DOT'] }];
-const set6 = [{ symbols: ['CRV', 'RAY'] }, { symbols: ['JUP', 'WLD'] }];
+const set4 = [{ symbols: ['ALGO', 'HBAR'] }, { symbols: ['XLM', 'ENA'] }];
+const set5 = [{ symbols: ['ARB', 'JUP'] }, { symbols: ['CRV', 'RAY'] }];
+// const set6 = [{ symbols: ['NEAR', 'LINK'] }, { symbols: ['DOT', 'WLD'] }];
 
 const PricesSection = ({ tokens }: Props) => {
   const { fetchTokens } = useGlobalState();
@@ -49,7 +49,7 @@ const PricesSection = ({ tokens }: Props) => {
         <PriceList tokenSet={set3} />
         <PriceList tokenSet={set4} />
         <PriceList tokenSet={set5} />
-        <PriceList tokenSet={set6} />
+        {/* <PriceList tokenSet={set6} /> */}
       </div>
     </section>
   );
