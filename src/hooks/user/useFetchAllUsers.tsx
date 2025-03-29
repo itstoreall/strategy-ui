@@ -11,7 +11,7 @@ const useFetchAllUsers = (options: { enabled: boolean }) => {
 
   const { data, error, isLoading, isSuccess } = useQuery({
     queryKey: [QueryKeyEnum.Users],
-    retry: 3,
+    // retry: 3,
     queryFn: async () => {
       const users = await userService.getAllUsers();
       if (!users) throw new Error('No users found.');

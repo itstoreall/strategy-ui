@@ -36,6 +36,7 @@ class UserService {
     try {
       const url = `/all?userId=${userId}&sessionToken=${hashedToken}`;
       const res: AxiosResponse<Users> = await axios.get(url);
+      console.log('res::', res);
       return res.data;
     } catch (err: unknown) {
       errorHandler('Failed to fetch All Users:', err);
