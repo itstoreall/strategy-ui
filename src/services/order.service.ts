@@ -44,7 +44,8 @@ class OrderService {
       throw new Error('Session token is missing!');
     }
     try {
-      const url = `/orders/user/${userId}?sessionToken=${sessionData.hashedToken}`;
+      // const url = `/orders/user/${userId}?sessionToken=${sessionData.hashedToken}`;
+      const url = `/orders/user/${userId}`;
       const res = await apiClient.get(url);
       return res.data;
     } catch (err: unknown) {
