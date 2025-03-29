@@ -1,9 +1,7 @@
-// import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { IoArrowUndoSharp } from 'react-icons/io5';
 import { GoPeople } from 'react-icons/go';
 import useGlobalState from '@/src/hooks/useGlobalState';
-// import { chartService } from '@/src/services/chart.service';
 import { OrderTypeEnum } from '@/src/enums';
 import { Role } from '@/src/types';
 import Button from '@/src/components/Button/Button';
@@ -56,7 +54,6 @@ const PageHeading = ({
   isButtonDisabled,
   handleModal,
 }: Props) => {
-  // const [fearAndGreed, setFearAndGreed] = useState(0);
   const { fearAndGreed } = useGlobalState();
 
   const path = usePathname();
@@ -69,20 +66,6 @@ const PageHeading = ({
   const isButton = buttonText && (isDashboard || isStrategy);
 
   const price = assetPrice ? `$${assetPrice}` : null;
-
-  /*
-  console.log('CurrentUserRole:', currentUserRole);
-  const isPrice = assetPrice !== null;
-  const price = isPrice ? assetPrice : <DotsLoader />;
-  */
-
-  // useEffect(() => {
-  //   chartService.fetchFearAndGreedIndex().then((idx) => {
-  //     if (idx) {
-  //       setFearAndGreed(idx);
-  //     }
-  //   });
-  // }, []);
 
   const returnFn = () => {
     router.push('/dashboard');

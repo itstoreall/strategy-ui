@@ -15,16 +15,6 @@ const useUpdatePrices = () => {
   return useMutation({
     mutationKey: [MutationKeyEnum.UpdatePrices],
     mutationFn: (params: UpdatePricesParams) => updatePrices(params),
-    // retry: (failureCount, error) => {
-    //   if (failureCount < 3) {
-    //     // return error?.response?.status === 500;
-    //     console.error('Attempt:', failureCount);
-    //     console.error('Error:', error);
-    //     return true;
-    //   }
-    //   console.error('Attempts are over.');
-    //   return false;
-    // },
     retry: 3,
     onSuccess: (data) => {
       updateData([QueryKeyEnum.Tokens]);
