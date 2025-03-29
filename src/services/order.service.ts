@@ -19,11 +19,6 @@ export type CreateOrderDto = {
 };
 
 class OrderService {
-  // async fetchAllByUserId(userId: string): Promise<Order[]> {
-  //   const response = await apiClient.get(`/api/orders?userId=${userId}`);
-  //   return response.data;
-  // }
-
   async fetchAllOrders(): Promise<OrderData> {
     try {
       const url = '/orders';
@@ -44,8 +39,7 @@ class OrderService {
       throw new Error('Session token is missing!');
     }
     try {
-      // const url = `/orders/user/${userId}?sessionToken=${sessionData.hashedToken}`;
-      const url = `/orders/user/${userId}`;
+      const url = `/orders/user/${userId}?sessionToken=${sessionData.hashedToken}`;
       const res = await apiClient.get(url);
       return res.data;
     } catch (err: unknown) {
@@ -69,8 +63,6 @@ class OrderService {
     const queryStatus = exchange ? `&status=${status}` : '';
     const queryExchange = exchange ? `&exchange=${exchange}` : '';
 
-    // console.log('queryExchange:', queryExchange);
-
     try {
       const query = `symbol=${symbol}${queryType}${queryStatus}${queryExchange}`;
       const url = `/orders/user/${userId}/strategy?${query}`;
@@ -84,19 +76,6 @@ class OrderService {
       throw new Error(errorMessage);
     }
   }
-
-  // async fetchAllByUserId(userId: string) {
-  //   console.log('api getAllByUserId', userId);
-
-  //   try {
-  //     const url = `/orders/user/${userId}`;
-  //     const res = await apiClient.get(url);
-  //     return res.data;
-  //   } catch (err: unknown) {
-  //     errorHandler('ERROR in createOrder:', err);
-  //     throw err;
-  //   }
-  // }
 
   async createOrder(orderData: CreateOrderDto) {
     try {
