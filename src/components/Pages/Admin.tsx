@@ -19,7 +19,7 @@ type Props = { session: SessionContextValue };
 const Admin = ({ session }: Props) => {
   const { updatedTokens, users, fetchTokens } = useGlobalState();
   const { userOptions, removeToken } = useAdmin(users ?? null);
-  const { RenderModal } = useModal();
+  const { RenderModal } = useModal(); //
 
   return (
     <PageContainer label={Label.Main}>
@@ -39,13 +39,11 @@ const Admin = ({ session }: Props) => {
             /> */}
 
             <AddTokenSection tokens={updatedTokens} removeToken={removeToken} />
-
             <MainDividerSection
               className="admin-main-content-devider"
               title="Users"
             />
             <UserListSection users={users} />
-
             <MainDividerSection
               className="admin-main-content-devider"
               title="Sessions"
