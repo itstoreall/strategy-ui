@@ -102,7 +102,7 @@ const PageHeading = ({
     }
   };
 
-  // ---
+  // --- //
 
   return (
     <div className="main-heading">
