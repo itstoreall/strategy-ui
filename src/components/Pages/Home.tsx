@@ -9,12 +9,13 @@ import Logo from '@/src/components/Layout/Logo';
 type Props = { session: SessionContextValue };
 
 const Home = ({ session }: Props) => {
-  const { app, fetchTokens } = useGlobalState();
+  const { app } = useGlobalState();
   const router = useRouter();
 
   useEffect(() => {
     if (session) {
-      fetchTokens();
+      console.log('session:', session.status);
+      // fetchTokens();
     }
   }, [session]);
 
