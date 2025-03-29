@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { getSessionData } from '@/src/lib/auth/getSessionDataServerAction';
+// import { getSessionData } from '@/src/lib/auth/getSessionDataServerAction';
 import { AuthRoleEnum } from '@/src/enums';
 import { User } from '@/src/types';
 
@@ -28,13 +28,14 @@ const errorHandler = (msg: string, err: unknown) => {
 
 class UserService {
   async getAllUsers() {
-    const sessionData = await getSessionData();
-    if (!sessionData) {
-      throw new Error('Session token is missing!');
-    }
-    const { userId, hashedToken } = sessionData;
+    // const sessionData = await getSessionData();
+    // if (!sessionData) {
+    //   throw new Error('Session token is missing!');
+    // }
+    // const { userId, hashedToken } = sessionData;
     try {
-      const url = `/all?userId=${userId}&sessionToken=${hashedToken}`;
+      // const url = `/all?userId=${userId}&sessionToken=${hashedToken}`;
+      const url = '/all';
       const res: AxiosResponse<Users> = await axios.get(url);
       return res.data;
     } catch (err: unknown) {

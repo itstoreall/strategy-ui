@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { IoArrowUndoSharp } from 'react-icons/io5';
 import { GoPeople } from 'react-icons/go';
@@ -6,7 +6,7 @@ import { OrderTypeEnum } from '@/src/enums';
 import { Role } from '@/src/types';
 import Button from '@/src/components/Button/Button';
 import Title from '@/src/components/Layout/Title';
-import { chartService } from '@/src/services/chart.service';
+// import { chartService } from '@/src/services/chart.service';
 
 type Props = {
   /*
@@ -55,13 +55,13 @@ const PageHeading = ({
   isButtonDisabled,
   handleModal,
 }: Props) => {
-  const [fearAndGreed, setFearAndGreed] = useState(0);
+  // const [fearAndGreed, setFearAndGreed] = useState(0);
   // const { fearAndGreed } = useGlobalState();
 
   const path = usePathname();
   const router = useRouter();
 
-  const isChart = path === '/chart';
+  // const isChart = path === '/chart';
   const isDashboard = path === '/dashboard';
   const isStrategy = path.includes('/strategy/');
   const isBear = path.includes(`/strategy/${OrderTypeEnum.Sell}-`);
@@ -75,13 +75,13 @@ const PageHeading = ({
   const price = isPrice ? assetPrice : <DotsLoader />;
   */
 
-  useEffect(() => {
-    chartService.fetchFearAndGreedIndex().then((idx) => {
-      if (idx) {
-        setFearAndGreed(idx);
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   chartService.fetchFearAndGreedIndex().then((idx) => {
+  //     if (idx) {
+  //       setFearAndGreed(idx);
+  //     }
+  //   });
+  // }, []);
 
   const returnFn = () => {
     router.push('/dashboard');
@@ -123,7 +123,7 @@ const PageHeading = ({
 
         <Title tag={'h2'} text={title} />
 
-        {isChart && fearAndGreed > 0 && (
+        {/* {isChart && fearAndGreed > 0 && (
           <span
             className={`main-heading-fear-and-greed-index ${
               fearAndGreed <= 50 ? 'fear' : 'greed'
@@ -131,7 +131,7 @@ const PageHeading = ({
           >
             {`${fearAndGreed < 50 ? 'Fear' : 'Greed'}: ${fearAndGreed}`}
           </span>
-        )}
+        )} */}
 
         <span onClick={updatePrice} className={'main-heading-price'}>
           {price}
