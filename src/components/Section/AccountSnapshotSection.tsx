@@ -1,5 +1,3 @@
-// import { Token } from '@/src/types';
-
 import { formatMillionAmount } from '@/src/utils';
 import DotsLoader from '../DotsLoader';
 

@@ -159,7 +159,7 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
                       </li>
                       <li className="row-list-item uni-order-count-and-empty-value">
                         <span>
-                          {isBull ? orders : 1}
+                          {isBull ? orders : percentValue > 0 ? 'Buy' : 'Wait'}
                           {/* {358} */}
                         </span>
                       </li>

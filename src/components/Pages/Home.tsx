@@ -9,16 +9,16 @@ import Logo from '@/src/components/Layout/Logo';
 type Props = { session: SessionContextValue };
 
 const Home = ({ session }: Props) => {
-  const { app } = useGlobalState();
+  const { app, fetchTokens } = useGlobalState();
   const router = useRouter();
 
-  // useEffect(() => {
-  //   console.log('updatedTokens:', updatedTokens);
-  // }, [updatedTokens]);
+  useEffect(() => {
+    if (session) {
+      fetchTokens();
+    }
+  }, [session]);
 
   useEffect(() => {
-    console.log(session && 'strategy');
-
     // /*
     setTimeout(() => {
       router.push('/dashboard');

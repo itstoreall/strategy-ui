@@ -1,10 +1,11 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { IoArrowUndoSharp } from 'react-icons/io5';
 import { GoPeople } from 'react-icons/go';
+import useGlobalState from '@/src/hooks/useGlobalState';
+import { OrderTypeEnum } from '@/src/enums';
 import { Role } from '@/src/types';
 import Button from '@/src/components/Button/Button';
 import Title from '@/src/components/Layout/Title';
-import { OrderTypeEnum } from '@/src/enums';
 
 type Props = {
   /*
@@ -53,9 +54,12 @@ const PageHeading = ({
   isButtonDisabled,
   handleModal,
 }: Props) => {
+  const { fearAndGreed } = useGlobalState();
+
   const path = usePathname();
   const router = useRouter();
 
+  const isChart = path === '/chart';
   const isDashboard = path === '/dashboard';
   const isStrategy = path.includes('/strategy/');
   const isBear = path.includes(`/strategy/${OrderTypeEnum.Sell}-`);
@@ -88,6 +92,8 @@ const PageHeading = ({
     }
   };
 
+  // ---
+
   return (
     <div className="main-heading">
       <span
@@ -106,6 +112,16 @@ const PageHeading = ({
         )}
 
         <Title tag={'h2'} text={title} />
+
+        {isChart && fearAndGreed > 0 && (
+          <span
+            className={`main-heading-fear-and-greed-index ${
+              fearAndGreed <= 50 ? 'fear' : 'greed'
+            }`}
+          >
+            {`${fearAndGreed < 50 ? 'Fear' : 'Greed'}: ${fearAndGreed}`}
+          </span>
+        )}
 
         <span onClick={updatePrice} className={'main-heading-price'}>
           {price}

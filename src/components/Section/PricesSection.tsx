@@ -41,7 +41,7 @@ const PricesSection = ({ tokens }: Props) => {
     <section
       className="section token-prices"
       onClick={fetchTokens}
-      title="Click to update"
+      // title="Click to update"
     >
       <div className="section-content token-prices">
         <PriceList tokenSet={set1} />

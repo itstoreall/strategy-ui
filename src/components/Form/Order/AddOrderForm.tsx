@@ -155,20 +155,16 @@ const AddOrderForm = ({
       return;
     }
 
-    // console.log(1, buyTargets);
     if (!!buyTargets?.find((target) => target.symbol === symbol)) {
-      // console.log(2);
       alert(`${symbol} ${config.targetExists}`);
       return;
     }
-    // console.log(3);
 
     // /*
     if (confirm(confirmMessage)) {
       setIsProcess(true);
       const currentType = isAsset ? OrderTypeEnum.Buy : OrderTypeEnum.Sell;
       setValue('type', currentType, { shouldValidate: true });
-      console.log(88);
       startTransition(async () => {
         onSubmit();
       });
@@ -204,7 +200,6 @@ const AddOrderForm = ({
                   toggleDropdown(openDropdownId === 'type' ? '' : 'type')
                 }
                 isDisable={isStrategyPage}
-                // isDisable={true}
               />
 
               <SelectMulti
