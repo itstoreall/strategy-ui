@@ -1,10 +1,19 @@
 @use '@/src/sass/base/vars' as *;
 @use '@/src/sass/mixins' as *;
 
+// General
+section.section.add-token {
+  background-color: transparent;
+  padding-top: 0.5rem;
+}
+
+// Custom
 section.add-token {
   > div.add-token-section-content {
+    background-color: $greyDeepDark;
     display: grid;
     gap: 1rem;
+    border-radius: $middleBorderRadius;
 
     > ul.add-token-section-list {
       display: flex;

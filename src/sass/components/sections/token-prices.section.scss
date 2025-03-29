@@ -5,12 +5,12 @@ $mainColor: $blue;
 
 // General
 section.section.token-prices {
+  background-color: transparent;
   padding-top: 0.5rem;
 }
 
 // Custom
 section.token-prices {
-  background-color: transparent;
   user-select: none;
   cursor: pointer;
 
