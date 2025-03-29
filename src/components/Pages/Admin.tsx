@@ -37,6 +37,7 @@ const Admin = ({ session }: Props) => {
               className="admin-main-content-devider"
               title="Tokens"
             /> */}
+
             <AddTokenSection tokens={updatedTokens} removeToken={removeToken} />
 
             <MainDividerSection
