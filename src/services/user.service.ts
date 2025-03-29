@@ -34,8 +34,8 @@ class UserService {
     // }
     // const { userId, hashedToken } = sessionData;
     try {
-      // const url = `/all?userId=${userId}&sessionToken=${hashedToken}`;
       const url = '/all';
+      // const url = `/all?userId=${userId}&sessionToken=${hashedToken}`;
       const res: AxiosResponse<Users> = await axios.get(url);
       return res.data;
     } catch (err: unknown) {

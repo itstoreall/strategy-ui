@@ -13,10 +13,7 @@ const Home = ({ session }: Props) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (session) {
-      console.log('session:', session.status);
-      // fetchTokens();
-    }
+    if (session) return;
   }, [session]);
 
   useEffect(() => {
