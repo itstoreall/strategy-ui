@@ -1,6 +1,12 @@
 @use '@/src/sass/mixins' as *;
 @use '@/src/sass/base/vars' as *;
 
+/*
+// General
+section.section.account-snapshot {}
+*/
+
+// Custom
 section.account-snapshot,
 section.order-list-snapshot {
   > ul.snapshot-list {
