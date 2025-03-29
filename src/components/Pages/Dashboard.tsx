@@ -6,18 +6,17 @@ import { useSession } from 'next-auth/react';
 import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
 import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import useFetchAllUsers from '@/src/hooks/user/useFetchAllUsers';
+import useGlobalState from '@/src/hooks/useGlobalState';
 import useModal from '@/src/hooks/useModal';
 import { AuthRoleEnum, OrderTypeDisplayEnum, QueryKeyEnum } from '@/src/enums';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import OrderListSection from '@/src/components/Section/OrderListSection';
 import PageContainer, { Label } from '@/src/components/Container/Page';
-import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
+import SectionsContainer from '@/src/components/Container/Sections';
+import PricesSection from '@/src/components/Section/PricesSection';
 import MainLoader from '@/src/components/MainLoader';
-import useGlobalState from '@/src/hooks/useGlobalState';
-import PricesSection from '../Section/PricesSection';
-import MainDividerSection from '../Section/MainDividerSection';
 
 /*
 const config = {
@@ -125,12 +124,6 @@ const Dashboard = () => {
         {userOrders ? (
           <div className="main-content">
             <SectionsContainer>
-              <PricesSection tokens={updatedTokens} />
-
-              <MainDividerSection
-                className="order-list-devider"
-                title={'Orders & Targets'}
-              />
               <AccountSnapshotSection
                 tokenAmount={usingTokens}
                 assetAmount={userOrders?.buy.length}
@@ -138,6 +131,13 @@ const Dashboard = () => {
                 profitAmount={currentProfit}
                 isProcess={isProcess}
               />
+
+              {/* <MainDividerSection
+                className="order-list-devider"
+                title={'Prices'}
+              /> */}
+
+              <PricesSection tokens={updatedTokens} />
 
               {userOrders?.buy.length && updatedTokens?.length ? (
                 <OrderListSection

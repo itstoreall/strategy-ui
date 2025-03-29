@@ -3,13 +3,19 @@
 
 $mainColor: $blue;
 
+// General
+section.section.token-prices {
+  padding-top: 0.5rem;
+}
+
+// Custom
 section.token-prices {
-  // background-color: transparent;
-  background-color: $googleBlueDeepDark;
+  background-color: transparent;
   user-select: none;
   cursor: pointer;
 
   > div.section-content.token-prices {
+    background-color: $googleBlueDeepDark;
     display: flex;
     flex-direction: column;
     gap: 0.7rem;
