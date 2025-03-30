@@ -54,7 +54,6 @@ const Dashboard = () => {
     if (!userId) return;
     getUserRole(userId).then((res) => {
       const _isAdmin = res?.role === AuthRoleEnum.Admin;
-      console.log('_isAdmin', _isAdmin);
       setIsAdmin(_isAdmin);
     });
   }, [currentUser]);

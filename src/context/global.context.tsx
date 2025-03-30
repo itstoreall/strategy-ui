@@ -8,7 +8,7 @@ import * as t from '@/src/types';
 
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
-const appVersion = 'v1.3.29';
+const appVersion = 'v1.3.30';
 
 export type GlobalContextProps = {
   app: { version: string };
@@ -48,11 +48,9 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
       onSuccess: (data) => {
         console.log('Fetch was successful:', data.tokens.length, 'tokens');
         setUpdatedTokens(data.tokens.sort(sortById));
-        // setIsTokenLoading(false);
       },
       onError: (error) => {
         console.error('ERROR in updating prices (Dashboard):', error);
-        // setIsTokenLoading(false);
       },
     });
     setIsTokenLoading(false);
