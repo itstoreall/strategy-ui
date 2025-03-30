@@ -31,6 +31,7 @@ class OrderService {
   }
 
   async fetchAllByUserId(userId: string): Promise<OrderData> {
+    /*
     const sessionData = await getSessionData();
     if (!userId) {
       throw new Error('User ID is required to fetch orders.');
@@ -38,8 +39,10 @@ class OrderService {
     if (!sessionData) {
       throw new Error('Session token is missing!');
     }
+    const url = `/orders/user/${userId}?sessionToken=${sessionData.hashedToken}`;
+    */
     try {
-      const url = `/orders/user/${userId}?sessionToken=${sessionData.hashedToken}`;
+      const url = `/orders/user/${userId}?sessionToken=${'sessionToken'}`;
       const res = await apiClient.get(url);
       return res.data;
     } catch (err: unknown) {

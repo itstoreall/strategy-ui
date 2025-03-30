@@ -108,6 +108,8 @@ const Dashboard = () => {
     }
   };
 
+  console.log('userOrders:', userOrders);
+
   return (
     <PageContainer label={Label.Main}>
       <main className="main">
@@ -121,7 +123,7 @@ const Dashboard = () => {
           isButtonDisabled={!updatedTokens}
         />
 
-        {userOrders ? (
+        {userOrders && updatedTokens?.length ? (
           <div className="main-content">
             <SectionsContainer>
               <AccountSnapshotSection
@@ -139,7 +141,7 @@ const Dashboard = () => {
 
               <PricesSection tokens={updatedTokens} />
 
-              {userOrders?.buy.length && updatedTokens?.length ? (
+              {userOrders.buy.length ? (
                 <OrderListSection
                   data={userOrders.buy}
                   tokens={updatedTokens}
@@ -147,7 +149,7 @@ const Dashboard = () => {
                 />
               ) : null}
 
-              {userOrders?.sell.length ? (
+              {userOrders.sell.length ? (
                 <OrderListSection
                   data={userOrders.sell}
                   tokens={updatedTokens}
