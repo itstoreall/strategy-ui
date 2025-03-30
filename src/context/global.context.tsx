@@ -34,12 +34,12 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   const [isTokenLoading, setIsTokenLoading] = useState<boolean>(false);
   const [fearAndGreed, setFearAndGreed] = useState(0);
 
-  const { mutate: updatePrices } = useUpdatePrices();
-  const { users = null } = useFetchAllUsers({ enabled: true });
   const { data: session } = useSession();
-
   const userId = session?.user?.id || null;
   const app = { version: appVersion };
+
+  const { mutate: updatePrices } = useUpdatePrices();
+  const { users = null } = useFetchAllUsers({ enabled: !!userId });
 
   const fetchTokens = () => {
     const params = {};

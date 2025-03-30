@@ -138,8 +138,6 @@ const Strategy = () => {
 
   // ---
 
-  // console.log('snapshot:', snapshot);
-
   const handleModal = () => openModal(ModalContentEnum.Form);
 
   const ListLoader = () => {
@@ -160,20 +158,8 @@ const Strategy = () => {
     );
   };
 
-  // console.log('sortedOrders:', sortedOrders);
-
   const calculateStrategyPercent = () => {
     const { deposit, profit } = snapshot;
-
-    // console.log('deposit, profit:', deposit, profit);
-    // console.log('userOrders:', userOrders?.length);
-
-    /*
-    if (userOrders && userOrders?.length < 2) {
-      return '';
-    }
-    */
-
     const percent = profit ? ((profit - deposit) / deposit) * 100 : -100;
     const signPlus = !percent.toString().includes('-') ? '+' : '';
     return `${signPlus}${percent.toFixed()}%`;

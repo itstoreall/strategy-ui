@@ -32,9 +32,9 @@ class UserService {
     if (!sessionData) {
       throw new Error('Session token is missing!');
     }
-    const { userId, hashedToken } = sessionData;
     try {
-      const url = `/all?userId=${userId}&sessionToken=${hashedToken}`;
+      // const url = `/all?userId=${sessionData.userId}&sessionToken=${sessionData.hashedToken}`;
+      const url = `/all?userId=${sessionData.userId}`;
       const res: AxiosResponse<Users> = await axios.get(url);
       return res.data;
     } catch (err: unknown) {

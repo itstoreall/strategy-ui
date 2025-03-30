@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
 import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
-import useFetchAllUsers from '@/src/hooks/user/useFetchAllUsers';
 import useGlobalState from '@/src/hooks/useGlobalState';
 import useModal from '@/src/hooks/useModal';
 import { AuthRoleEnum, OrderTypeDisplayEnum, QueryKeyEnum } from '@/src/enums';
@@ -35,13 +34,13 @@ const Dashboard = () => {
   const { data: session } = useSession();
   const userId = session?.user?.id || null;
 
-  const usersParam = { enabled: isAdmin };
+  // const usersParam = { enabled: isAdmin };
   const ordersParam = { enabled: !!userId };
 
-  const { users } = useFetchAllUsers(usersParam);
+  // const { users } = useFetchAllUsers(usersParam);
   const { userOrders } = useFetchAllUserOrders(currentUser, ordersParam);
   const { RenderModal, openModal, ModalContentEnum } = useModal();
-  const { updatedTokens } = useGlobalState();
+  const { updatedTokens, users } = useGlobalState();
 
   const currentUserId = currentUser ? currentUser : (userId as string);
 
@@ -108,14 +107,12 @@ const Dashboard = () => {
     }
   };
 
-  console.log('userOrders:', userOrders);
-
   return (
     <PageContainer label={Label.Main}>
       <main className="main">
         <PageHeading
           title={'Dashboard'}
-          isAdminButton={!!users && !!userId}
+          isAdminButton={isAdmin && !!users && !!userId}
           adminButtonText={currentUserId ? currentUserId.slice(-4) : ''}
           adminButtonFn={() => toggleUser(currentUserId)}
           buttonText={heading.headingConfig.create}
