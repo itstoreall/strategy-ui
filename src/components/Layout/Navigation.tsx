@@ -46,13 +46,13 @@ const Navigation: React.FC<Props> = ({ session, className }) => {
 
         const linkItem =
           label === 'admin' ? (
-            <GoUnlock size={'1.3rem'} />
+            <GoUnlock size={'20.8px'} />
           ) : label === 'chart' ? (
-            <GoGraph size={'1.3rem'} />
+            <GoGraph size={'20.8px'} />
           ) : label === 'dashboard' ? (
-            <GoProject size={'1.3rem'} />
+            <GoProject size={'20.8px'} />
           ) : label === 'settings' ? (
-            <GoGear size={'1.3rem'} />
+            <GoGear size={'20.8px'} />
           ) : (
             label
           );

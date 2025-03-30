@@ -8,7 +8,7 @@ type Props = {
   iconSize?: string;
 };
 
-const Logo = ({ className, iconSize = '1.3rem' }: Props) => {
+const Logo = ({ className, iconSize = '20.8px' }: Props) => {
   const path = usePathname();
 
   const isHomePage = path === '/';

@@ -51,8 +51,11 @@ const Dashboard = () => {
   }, [userId]);
 
   useEffect(() => {
-    getUserRole(currentUser).then((res) => {
-      setIsAdmin(res?.role === AuthRoleEnum.Admin);
+    if (!userId) return;
+    getUserRole(userId).then((res) => {
+      const _isAdmin = res?.role === AuthRoleEnum.Admin;
+      console.log('_isAdmin', _isAdmin);
+      setIsAdmin(_isAdmin);
     });
   }, [currentUser]);
 
