@@ -30,7 +30,7 @@ class UserService {
   async getAllUsers() {
     const sessionData = await getSessionData();
     if (!sessionData) {
-      throw new Error('Session token is missing!');
+      throw new Error('Session is missing!');
     }
     try {
       // const url = `/all?userId=${sessionData.userId}&sessionToken=${sessionData.hashedToken}`;

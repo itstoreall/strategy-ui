@@ -14,7 +14,6 @@ const useFetchAllUsers = (options: { enabled: boolean }) => {
     // retry: 3,
     queryFn: async () => {
       const users = await userService.getAllUsers();
-      // console.log('users:::', users);
       if (!users) throw new Error('No users found.');
       return users;
     },
