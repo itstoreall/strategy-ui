@@ -10,7 +10,9 @@ type Props = {
     | ChartSymbolEnum.OthersBitcoin
     | ChartSymbolEnum.Total
     | ChartSymbolEnum.Total2
-    | ChartSymbolEnum.Total3;
+    | ChartSymbolEnum.Total3
+    | ChartSymbolEnum.M2LiquidityFRED
+    | ChartSymbolEnum.SPX500;
   chartInterval:
     | ChartIntervalEnum.Hour
     | ChartIntervalEnum.Day
@@ -24,16 +26,15 @@ const chartUrl =
 function TradingViewWidget({ chartSymbol, chartInterval }: Props) {
   const container = useRef<HTMLDivElement | null>(null);
 
+  // const isM2 = chartSymbol === ChartSymbolEnum.M2LiquidityFRED;
+
   useEffect(() => {
     if (container.current && !container.current.querySelector('script')) {
       container.current.innerHTML = '';
 
       const script = document.createElement('script');
 
-      script.src = chartUrl;
-      script.type = 'text/javascript';
-      script.async = true;
-      script.innerHTML = `
+      const configCrypto = `
         {
           "width": "100%",
           "symbol": "CRYPTOCAP:${chartSymbol}",
@@ -46,6 +47,44 @@ function TradingViewWidget({ chartSymbol, chartInterval }: Props) {
           "hide_top_toolbar": true,
           "support_host": "https://www.tradingview.com"
         }`;
+
+      const configM2 = `
+        {
+          "width": "100%",
+          "symbol": "FRED:M2SL",
+          "interval": "1M",
+          "timezone": "Etc/UTC",
+          "theme": "dark",
+          "style": "1",
+          "locale": "en",
+          "calendar": false,
+          "hide_top_toolbar": true,
+          "support_host": "https://www.tradingview.com"
+        }`;
+
+      const configSPX500 = `
+        {
+          "width": "100%",
+          "symbol": "OANDA:SPX500USD",
+          "interval": "${chartInterval}",
+          "timezone": "Etc/UTC",
+          "theme": "dark",
+          "style": "1",
+          "locale": "en",
+          "calendar": false,
+          "hide_top_toolbar": true,
+          "support_host": "https://www.tradingview.com"
+        }`;
+
+      script.src = chartUrl;
+      script.type = 'text/javascript';
+      script.async = true;
+      script.innerHTML =
+        chartSymbol === ChartSymbolEnum.M2LiquidityFRED
+          ? configM2
+          : chartSymbol === ChartSymbolEnum.SPX500
+          ? configSPX500
+          : configCrypto;
 
       container.current.appendChild(script);
     }

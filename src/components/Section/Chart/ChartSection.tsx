@@ -3,7 +3,6 @@ import useSelectMulti from '@/src/hooks/useSelectMulti';
 import { ChartSymbolEnum as Symbol, ChartIntervalEnum } from '@/src/enums';
 import TradingViewWidget from '@/src/components/TradingViewWidget';
 import SelectMulti from '@/src/components/Form/SelectMulti';
-import M2LiquidityWidget from './M2LiquidityFRED';
 
 const symbolOptions = [
   { label: Symbol.BitcoinDominance, value: Symbol.BitcoinDominance },
@@ -15,6 +14,7 @@ const symbolOptions = [
   { label: Symbol.Total2, value: Symbol.Total2 },
   { label: Symbol.Total3, value: Symbol.Total3 },
   { label: Symbol.M2LiquidityFRED, value: Symbol.M2LiquidityFRED },
+  { label: Symbol.SPX500, value: Symbol.SPX500 },
 ];
 
 const intervalOptions = [
@@ -82,14 +82,10 @@ const ChartSection = () => {
           />
         </div>
 
-        {isM2 ? (
-          <M2LiquidityWidget />
-        ) : (
-          <TradingViewWidget
-            chartSymbol={chartSymbol}
-            chartInterval={chartInterval}
-          />
-        )}
+        <TradingViewWidget
+          chartSymbol={chartSymbol}
+          chartInterval={chartInterval}
+        />
       </div>
     </section>
   );
