@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useSelectMulti from '@/src/hooks/useSelectMulti';
 import { ChartSymbolEnum as Symbol, ChartIntervalEnum } from '@/src/enums';
 import TradingViewWidget from '@/src/components/TradingViewWidget';
 import SelectMulti from '@/src/components/Form/SelectMulti';
+import M2LiquidityWidget from './M2LiquidityFRED';
 
 const symbolOptions = [
   { label: Symbol.BitcoinDominance, value: Symbol.BitcoinDominance },
@@ -13,6 +14,7 @@ const symbolOptions = [
   { label: Symbol.Total, value: Symbol.Total },
   { label: Symbol.Total2, value: Symbol.Total2 },
   { label: Symbol.Total3, value: Symbol.Total3 },
+  { label: Symbol.M2LiquidityFRED, value: Symbol.M2LiquidityFRED },
 ];
 
 const intervalOptions = [
@@ -27,6 +29,21 @@ const ChartSection = () => {
   const [chartInterval, setChartInterval] = useState(intervalOptions[1].value);
 
   const { openDropdownId, toggleDropdown } = useSelectMulti();
+
+  const isM2 = chartSymbol === Symbol.M2LiquidityFRED;
+
+  useEffect(() => {
+    if (isM2) {
+      setChartInterval(ChartIntervalEnum.Month);
+    }
+  }, [isM2]);
+
+  // ---
+
+  const handleInterval = (label: ChartIntervalEnum) => {
+    const selectedOption = intervalOptions.find((opt) => opt.label === label);
+    if (selectedOption) setChartInterval(selectedOption.value);
+  };
 
   return (
     <section className="section chart">
@@ -58,21 +75,21 @@ const ChartSection = () => {
               intervalOptions.find((opt) => opt.value === chartInterval)?.label
             }
             placeholder="Interval"
-            onSelect={(label) => {
-              const selectedOption = intervalOptions.find(
-                (opt) => opt.label === label
-              );
-              if (selectedOption) setChartInterval(selectedOption.value);
-            }}
+            onSelect={(label) => handleInterval(label as ChartIntervalEnum)}
             isOpen={openDropdownId === chartInterval}
             onToggle={() => toggleDropdown(chartInterval)}
+            isDisable={isM2}
           />
         </div>
 
-        <TradingViewWidget
-          chartSymbol={chartSymbol}
-          chartInterval={chartInterval}
-        />
+        {isM2 ? (
+          <M2LiquidityWidget />
+        ) : (
+          <TradingViewWidget
+            chartSymbol={chartSymbol}
+            chartInterval={chartInterval}
+          />
+        )}
       </div>
     </section>
   );

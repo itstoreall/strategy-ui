@@ -68,6 +68,7 @@ export enum ChartSymbolEnum {
   Total = 'TOTAL',
   Total2 = 'TOTAL2',
   Total3 = 'TOTAL3',
+  M2LiquidityFRED = 'FRED:M2SL',
 }
 
 export enum ChartIntervalEnum {
