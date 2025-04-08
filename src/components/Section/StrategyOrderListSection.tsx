@@ -72,10 +72,12 @@ const StrategyOrderListSection = (props: Props) => {
                       {/* <span>{formatMillionAmount('234567035')}</span> */}
                       <span>{u.formatMillionAmount(amount.toString())}</span>
                     </li>
+
                     <li className="row-strategy-list-item order-price">
                       {/* <span>{formatMillionAmount('234567035')}</span> */}
                       <span>{u.uniNumberFormatter(price)}</span>
                     </li>
+
                     <li className="row-strategy-list-item order-percent">
                       {/* <span>{'+2345%'}</span> */}
 

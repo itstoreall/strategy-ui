@@ -91,5 +91,6 @@ export type AggregatedOrderListAcc = {
   totalFiat: number;
   orders: number;
   percent: number;
+  unrealized: number | null;
   orderDate: string;
 };

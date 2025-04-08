@@ -104,6 +104,8 @@ const Strategy = () => {
     const percent = ((currentPrice - order.price) / order.price) * 100;
     snapshot.deposit += order.fiat;
 
+    // console.log('snapshot:', snapshot);
+
     if (!percent.toString().includes('-')) {
       if (snapshot.profit === null) {
         snapshot.profit = 0 + order.amount * currentPrice;

@@ -44,6 +44,9 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
       if (!tokens) return acc;
       const token = tokens.find((token) => token.symbol === order.symbol);
       if (!token) return acc;
+
+      const isProfitable = token.price > order.price;
+      const profit = isBull && isProfitable ? token.price * order.amount : null;
       const percent = isBull
         ? ((token.price - order.price) / order.price) * 100
         : ((order.price - token.price) / token.price) * 100;
@@ -57,15 +60,21 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
           totalFiat: order.fiat,
           orders: 1,
           percent: percent,
+          unrealized: profit,
           orderDate: order.updatedAt.toString(),
         };
       } else {
+        const orderDate = normalizeDate(order.updatedAt, 'DD-MM-YY');
+
         const higherPercent =
           percent > acc[order.symbol].percent
             ? percent
             : acc[order.symbol].percent;
 
-        const orderDate = normalizeDate(order.updatedAt, 'DD-MM-YY');
+        const unrealized =
+          profit || acc[order.symbol].unrealized
+            ? ((acc[order.symbol].unrealized as number) += profit as number)
+            : null;
 
         acc[order.symbol].id += order.id;
         acc[order.symbol].price += order.price;
@@ -74,6 +83,7 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
         acc[order.symbol].orders += 1;
         // acc[order.symbol].percent = +higherPercent.toFixed();
         acc[order.symbol].percent = higherPercent;
+        acc[order.symbol].unrealized = unrealized;
         acc[order.symbol].orderDate = orderDate;
       }
       return acc;
@@ -138,6 +148,10 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
 
               // ---
 
+              // if (order.unrealized) {
+              //   console.log('order:', order);
+              // }
+
               const bullColor = percent > 0 ? 'color-green' : 'color-blue';
               const bearColor = percent > 0 ? 'color-green' : 'color-yellow';
               const percentColor = isBull ? bullColor : bearColor;
@@ -157,11 +171,24 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
                           {/* {'WERTFGR'} */}
                         </span>
                       </li>
-                      <li className="row-list-item uni-order-count-and-empty-value">
-                        <span>
-                          {isBull ? orders : percentValue > 0 ? 'Buy' : 'Wait'}
-                          {/* {358} */}
-                        </span>
+
+                      <li className="row-list-item uni-value-field">
+                        <div className="uni-value-field-content">
+                          {isBull && order.unrealized && (
+                            <span className="unrealized-value">
+                              {order.unrealized.toFixed()}
+                            </span>
+                          )}
+
+                          <span className="uni-value">
+                            {isBull
+                              ? orders
+                              : percentValue > 0
+                              ? 'Buy'
+                              : 'Wait'}
+                            {/* {358} */}
+                          </span>
+                        </div>
                       </li>
 
                       <li className="row-list-item uni-order-amount-and-turget-buy-price">
