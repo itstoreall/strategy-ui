@@ -70,6 +70,7 @@ export enum ChartSymbolEnum {
   Total3 = 'TOTAL3',
   M2LiquidityFRED = 'FRED:M2SL',
   SPX500 = 'SPX500USD',
+  Gold = 'XAUUSD',
 }
 
 export enum ChartIntervalEnum {

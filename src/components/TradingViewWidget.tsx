@@ -12,7 +12,8 @@ type Props = {
     | ChartSymbolEnum.Total2
     | ChartSymbolEnum.Total3
     | ChartSymbolEnum.M2LiquidityFRED
-    | ChartSymbolEnum.SPX500;
+    | ChartSymbolEnum.SPX500
+    | ChartSymbolEnum.Gold
   chartInterval:
     | ChartIntervalEnum.Hour
     | ChartIntervalEnum.Day
@@ -26,8 +27,27 @@ const chartUrl =
 function TradingViewWidget({ chartSymbol, chartInterval }: Props) {
   const container = useRef<HTMLDivElement | null>(null);
 
-  // const isM2 = chartSymbol === ChartSymbolEnum.M2LiquidityFRED;
+  const getTradingViewSymbol = (symbol: ChartSymbolEnum) => {
+    switch (symbol) {
+      case ChartSymbolEnum.BitcoinDominance:
+      case ChartSymbolEnum.TetherDominance:
+      case ChartSymbolEnum.BitcoinEther:
+      case ChartSymbolEnum.EtherBitcoin:
+      case ChartSymbolEnum.OthersBitcoin:
+      case ChartSymbolEnum.Total:
+      case ChartSymbolEnum.Total2:
+      case ChartSymbolEnum.Total3:
+        return `CRYPTOCAP:${symbol}`;
+      case ChartSymbolEnum.M2LiquidityFRED:
+        return 'FRED:M2SL';
+      case ChartSymbolEnum.SPX500:
+        return 'OANDA:SPX500USD';
+      case ChartSymbolEnum.Gold:
+        return 'TVC:GOLD';
+    }
+  };
 
+  /*
   useEffect(() => {
     if (container.current && !container.current.querySelector('script')) {
       container.current.innerHTML = '';
@@ -76,6 +96,34 @@ function TradingViewWidget({ chartSymbol, chartInterval }: Props) {
           "support_host": "https://www.tradingview.com"
         }`;
 
+      const configGold = `
+        {
+          "width": "100%",
+          "symbol": "TVC:GOLD",
+          "interval": "${chartInterval}",
+          "timezone": "Etc/UTC",
+          "theme": "dark",
+          "style": "1",
+          "locale": "en",
+          "calendar": false,
+          "hide_top_toolbar": true,
+          "support_host": "https://www.tradingview.com"
+        }`;
+
+      const configVIX = `
+        {
+          "width": "100%",
+          "symbol": "%5EVIX",
+          "interval": "${chartInterval}",
+          "timezone": "Etc/UTC",
+          "theme": "dark",
+          "style": "1",
+          "locale": "en",
+          "calendar": false,
+          "hide_top_toolbar": true,
+          "support_host": "https://www.tradingview.com"
+        }`;
+
       script.src = chartUrl;
       script.type = 'text/javascript';
       script.async = true;
@@ -84,7 +132,57 @@ function TradingViewWidget({ chartSymbol, chartInterval }: Props) {
           ? configM2
           : chartSymbol === ChartSymbolEnum.SPX500
           ? configSPX500
+          : chartSymbol === ChartSymbolEnum.Gold
+          ? configGold
+          : chartSymbol === ChartSymbolEnum.VIX
+          ? configVIX
           : configCrypto;
+
+      container.current.appendChild(script);
+    }
+  }, [chartSymbol, chartInterval]);
+  */
+
+  useEffect(() => {
+    if (container.current && !container.current.querySelector('script')) {
+      container.current.innerHTML = '';
+
+      const script = document.createElement('script');
+      const tradingViewSymbol = getTradingViewSymbol(chartSymbol);
+
+      const config = `
+        {
+          "width": "100%",
+          "symbol": "${tradingViewSymbol}",
+          "interval": "${chartInterval}",
+          "timezone": "Etc/UTC",
+          "theme": "dark",
+          "style": "1",
+          "locale": "en",
+          "calendar": false,
+          "hide_top_toolbar": true,
+          "support_host": "https://www.tradingview.com"
+        }`;
+
+      const configM2 = `
+        {
+          "width": "100%",
+          "symbol": "${tradingViewSymbol}",
+          "interval": "1M",
+          "timezone": "Etc/UTC",
+          "theme": "dark",
+          "style": "1",
+          "locale": "en",
+          "calendar": false,
+          "hide_top_toolbar": true,
+          "support_host": "https://www.tradingview.com"
+        }`;
+
+      script.src = chartUrl;
+      script.type = 'text/javascript';
+      script.async = true;
+      script.innerHTML =
+        chartSymbol === ChartSymbolEnum.M2LiquidityFRED ? configM2 : config;
 
       container.current.appendChild(script);
     }

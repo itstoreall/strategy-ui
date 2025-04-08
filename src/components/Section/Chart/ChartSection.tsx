@@ -7,14 +7,15 @@ import SelectMulti from '@/src/components/Form/SelectMulti';
 const symbolOptions = [
   { label: Symbol.BitcoinDominance, value: Symbol.BitcoinDominance },
   { label: Symbol.TetherDominance, value: Symbol.TetherDominance },
+  { label: 'S&P500', value: Symbol.SPX500 },
+  { label: 'GOLD', value: Symbol.Gold },
+  { label: 'M2', value: Symbol.M2LiquidityFRED },
   { label: Symbol.BitcoinEther, value: Symbol.BitcoinEther },
   { label: Symbol.EtherBitcoin, value: Symbol.EtherBitcoin },
   { label: Symbol.OthersBitcoin, value: Symbol.OthersBitcoin },
   { label: Symbol.Total, value: Symbol.Total },
   { label: Symbol.Total2, value: Symbol.Total2 },
   { label: Symbol.Total3, value: Symbol.Total3 },
-  { label: Symbol.M2LiquidityFRED, value: Symbol.M2LiquidityFRED },
-  { label: Symbol.SPX500, value: Symbol.SPX500 },
 ];
 
 const intervalOptions = [
