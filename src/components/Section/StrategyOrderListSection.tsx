@@ -23,7 +23,7 @@ const StrategyOrderListSection = (props: Props) => {
       Invested: $${order.fiat}
       Profit: $${profitValue.toFixed()}
       Exchange: ${order.exchange}
-      Created: ${u.normalizeDate(order.createdAt, 'DD-MM-YY')}
+      Created: ${u.normalizeISODate(order.createdAt, 'DD-MM-YY')}
       `);
   };
 

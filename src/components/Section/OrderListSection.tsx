@@ -5,7 +5,7 @@ import useFilterAndSortOrderList from '@/src/hooks/order/useFilterAndSortOrderLi
 import useInvalidateQueries from '@/src/hooks/useInvalidateQueries';
 import { AggregatedOrderListAcc, Order, Token } from '@/src/types';
 import { OrderTypeEnum, QueryKeyEnum } from '@/src/enums';
-import { formatMillionAmount, normalizeDate } from '@/src/utils';
+import * as u from '@/src/utils';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
 
 type Props = {
@@ -64,7 +64,7 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
           orderDate: order.updatedAt.toString(),
         };
       } else {
-        const orderDate = normalizeDate(order.updatedAt, 'DD-MM-YY');
+        const orderDate = u.normalizeISODate(order.updatedAt, 'DD-MM-YY');
 
         const higherPercent =
           percent > acc[order.symbol].percent
@@ -194,7 +194,7 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
                       <li className="row-list-item uni-order-amount-and-turget-buy-price">
                         <span>
                           {isBull
-                            ? formatMillionAmount(
+                            ? u.formatMillionAmount(
                                 parseFloat(totalAmount.toFixed(6)).toString()
                               )
                             : price}

@@ -1,8 +1,21 @@
 import { User } from '@/src/types';
-import { normalizeDate } from '@/src/utils';
+import * as u from '@/src/utils';
 
 type Props = {
   users: User[];
+};
+
+const config = {
+  id: 'Id:',
+  name: 'Name:',
+  role: 'Role:',
+  email: 'Email:',
+  created: 'Created:',
+  updeted: 'Updeted:',
+  verified: 'Verified:',
+  notVerified: 'Not verified',
+  recent: 'Recent:',
+  noSessions: 'No sessions',
 };
 
 const UserListSection = ({ users }: Props) => {
@@ -11,54 +24,63 @@ const UserListSection = ({ users }: Props) => {
       <div className="section-content user-list-section-content">
         <ul className="user-list-section-user-list">
           {users.map((user, idx) => {
+            const { createdAt, updatedAt, emailVerified } = user;
+            const dateAndTimeFormat = 'DD-MM-YY HH:mm:ss';
+            const dateFormat = 'DD-MM-YY';
             return (
               <li key={idx} className="user-list-section-list-item">
                 <div className="user-list-section-list-item-block-wrapper">
                   <div className="user-list-section-list-item-block">
                     <span className="user-list-section-list-item-block-value">
-                      <span>{'Id:'}</span>
+                      <span>{config.id}</span>
                       <span>{user.id}</span>
                     </span>
+
                     <span className="user-list-section-list-item-block-value">
-                      <span>{'Name:'}</span>
+                      <span>{config.name}</span>
                       <span>{user.name}</span>
                     </span>
+
                     <span className="user-list-section-list-item-block-value">
-                      <span>{'Role:'}</span>
+                      <span>{config.role}</span>
                       <span>{user.role}</span>
                     </span>
+
                     <span className="user-list-section-list-item-block-value">
-                      <span>{'Email:'}</span>
+                      <span>{config.email}</span>
                       <span>{user.email}</span>
                     </span>
                   </div>
 
                   <div className="user-list-section-list-item-block">
                     <span className="user-list-section-list-item-block-value">
-                      <span>{'Created:'}</span>
-                      <span>{normalizeDate(user.createdAt, 'DD-MM-YY')}</span>
+                      <span>{config.created}</span>
+                      <span>{u.normalizeISODate(createdAt, dateFormat)}</span>
                     </span>
+
                     <span className="user-list-section-list-item-block-value">
-                      <span>{'Updeted:'}</span>
-                      <span>{normalizeDate(user.updatedAt, 'DD-MM-YY')}</span>
+                      <span>{config.updeted}</span>
+                      <span>{u.normalizeISODate(updatedAt, dateFormat)}</span>
                     </span>
+
                     <span className="user-list-section-list-item-block-value">
-                      <span>{'Verified:'}</span>
+                      <span>{config.verified}</span>
                       <span>
                         {user.emailVerified
-                          ? normalizeDate(user.emailVerified, 'DD-MM-YY')
-                          : 'Not verified'}
+                          ? u.normalizeISODate(emailVerified, dateFormat)
+                          : config.notVerified}
                       </span>
                     </span>
+
                     <span className="user-list-section-list-item-block-value">
-                      <span>{'Recent:'}</span>
+                      <span>{config.recent}</span>
                       <span>
                         {user?.sessions[0]?.updatedAt
-                          ? normalizeDate(
+                          ? u.normalizeKyivDate(
                               user.sessions[0].updatedAt,
-                              'DD-MM-YY HH:mm:ss'
+                              dateAndTimeFormat
                             )
-                          : 'No sessions'}
+                          : config.noSessions}
                       </span>
                     </span>
                   </div>
