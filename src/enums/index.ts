@@ -71,6 +71,10 @@ export enum ChartSymbolEnum {
   M2LiquidityFRED = 'FRED:M2SL',
   SPX500 = 'OANDA:SPX500USD',
   Gold = 'XAUUSD',
+  Yena = 'FX:USDJPY',
+  Yuan = 'FX:USDCNH',
+  OilWTI = 'TVC:USOIL',
+  OilBrent = 'TVC:UKOIL',
 }
 
 export enum ChartIntervalEnum {

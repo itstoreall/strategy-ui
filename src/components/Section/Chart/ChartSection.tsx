@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import useSelectMulti from '@/src/hooks/useSelectMulti';
 import { ChartSymbolEnum as Symbol, ChartIntervalEnum } from '@/src/enums';
-import TradingViewWidget from '@/src/components/TradingViewWidget';
+import TradingViewWidget from '@/src/components/Section/Chart/TradingViewWidget';
 import SelectMulti from '@/src/components/Form/SelectMulti';
 
 const symbolOptions = [
@@ -16,6 +16,10 @@ const symbolOptions = [
   { label: Symbol.Total, value: Symbol.Total },
   { label: Symbol.Total2, value: Symbol.Total2 },
   { label: Symbol.Total3, value: Symbol.Total3 },
+  { label: 'Yena', value: Symbol.Yena },
+  { label: 'Yuan', value: Symbol.Yuan },
+  { label: 'Oil WTI', value: Symbol.OilWTI },
+  { label: 'Oil Brent', value: Symbol.OilBrent },
 ];
 
 const intervalOptions = [

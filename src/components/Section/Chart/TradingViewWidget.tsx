@@ -13,7 +13,11 @@ type Props = {
     | ChartSymbolEnum.Total3
     | ChartSymbolEnum.M2LiquidityFRED
     | ChartSymbolEnum.SPX500
-    | ChartSymbolEnum.Gold;
+    | ChartSymbolEnum.Gold
+    | ChartSymbolEnum.Yena
+    | ChartSymbolEnum.Yuan
+    | ChartSymbolEnum.OilWTI
+    | ChartSymbolEnum.OilBrent
   chartInterval:
     | ChartIntervalEnum.Hour
     | ChartIntervalEnum.Day
@@ -50,6 +54,22 @@ function TradingViewWidget({ chartSymbol, chartInterval }: Props) {
       // Gold
       case ChartSymbolEnum.Gold:
         return ChartSymbolEnum.Gold;
+
+      // Yena
+      case ChartSymbolEnum.Yena:
+        return ChartSymbolEnum.Yena;
+
+      // Yuan
+      case ChartSymbolEnum.Yuan:
+        return ChartSymbolEnum.Yuan;
+
+      // Oil (WTI - West Texas Intermediate)
+      case ChartSymbolEnum.OilWTI:
+        return ChartSymbolEnum.OilWTI;
+
+      // Oil (Brent)
+      case ChartSymbolEnum.OilBrent:
+        return ChartSymbolEnum.OilBrent;
     }
   };
 
