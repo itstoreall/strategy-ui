@@ -18,6 +18,7 @@ type Props = {
     | ChartSymbolEnum.Yuan
     | ChartSymbolEnum.OilWTI
     | ChartSymbolEnum.OilBrent
+    | ChartSymbolEnum.Nasdaq
   chartInterval:
     | ChartIntervalEnum.Hour
     | ChartIntervalEnum.Day
@@ -70,6 +71,10 @@ function TradingViewWidget({ chartSymbol, chartInterval }: Props) {
       // Oil (Brent)
       case ChartSymbolEnum.OilBrent:
         return ChartSymbolEnum.OilBrent;
+
+      // Nasdaq (National Association of Securities Dealers Automated Quotations - mode 3300 companies)
+      case ChartSymbolEnum.Nasdaq:
+        return ChartSymbolEnum.Nasdaq;
     }
   };
 

@@ -7,8 +7,9 @@ import SelectMulti from '@/src/components/Form/SelectMulti';
 const symbolOptions = [
   { label: Symbol.BitcoinDominance, value: Symbol.BitcoinDominance },
   { label: Symbol.TetherDominance, value: Symbol.TetherDominance },
-  { label: 'S&P500', value: Symbol.SPX500 },
   { label: 'GOLD', value: Symbol.Gold },
+  { label: 'S&P500', value: Symbol.SPX500 },
+  { label: 'Nasdaq', value: Symbol.Nasdaq },
   { label: 'M2', value: Symbol.M2LiquidityFRED },
   { label: Symbol.BitcoinEther, value: Symbol.BitcoinEther },
   { label: Symbol.EtherBitcoin, value: Symbol.EtherBitcoin },
