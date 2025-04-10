@@ -76,6 +76,7 @@ export enum ChartSymbolEnum {
   OilWTI = 'TVC:USOIL',
   OilBrent = 'TVC:UKOIL',
   Nasdaq = 'NASDAQ:NDX',
+  DXY = 'INDEX:DXY',
 }
 
 export enum ChartIntervalEnum {
