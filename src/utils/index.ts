@@ -103,7 +103,8 @@ export const uniNumberFormatter = (value: number): string => {
   if (match) {
     const leadingZeros = match[1].length;
     const significantDigits = match[2];
-    return `0.0{${leadingZeros}}${significantDigits}`;
+    return `0.0{${leadingZeros}}${significantDigits.slice(0, 2)}`;
   }
-  return value.toString();
+  return value.toFixed(2);
+  // return value.toString();
 };

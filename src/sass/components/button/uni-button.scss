@@ -138,6 +138,29 @@ button.uni-button {
   //   // background-color: tomato;
   // }
 
+  &.main-divider-section-average-price-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    max-width: 35px;
+    height: 20px;
+    font-size: 0.7rem;
+    background-color: transparent;
+    border-radius: $smallBorderRadius;
+    // transition: $ease03s;
+
+    &.color-green {
+      color: $googleGreen;
+      border: 0.08rem solid $googleGreen;
+    }
+
+    &.color-blue {
+      color: $googleBlue;
+      border: 0.08rem solid $googleBlue;
+    }
+  }
+
   &.main-divider-section-sort-toggle-button {
     display: flex;
     justify-content: center;
@@ -148,9 +171,7 @@ button.uni-button {
     height: 20px;
     background-color: transparent;
     border: 0.08rem solid $greyDeepDark;
-    // border: 0.08rem solid $colorAccent;
     border-radius: $smallBorderRadius;
-
     transition: $ease03s;
 
     > span {

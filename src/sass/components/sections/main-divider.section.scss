@@ -30,6 +30,19 @@ section.main-divider {
       }
     }
 
+    &.main-divider-section-avg {
+      font-weight: 500;
+      color: $colorAccent;
+
+      &.color-green {
+        color: $googleGreen;
+      }
+
+      &.color-blue {
+        color: $googleBlue;
+      }
+    }
+
     &.main-divider-section-divider {
       width: 100%;
       height: 0.05rem;

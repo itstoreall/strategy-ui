@@ -24,12 +24,14 @@ type Snapshot = {
   successOrders: number | null;
   deposit: number;
   profit: number | null;
+  // averageBuyPrice: number | null;
 };
 
 const { OrderStatusEnum, OrderTypeDisplayEnum, OrderTypeEnum, QueryKeyEnum } =
   enums;
 
 const Strategy = () => {
+  const [avgBuyPrice, setAvgBuyPrice] = useState(0);
   const [currentPrice, setCurrentPrice] = useState(0);
   const [isEditMenu, setIsEditMenu] = useState(false);
 
@@ -63,6 +65,7 @@ const Strategy = () => {
     successOrders: null,
     deposit: 0,
     profit: null,
+    // averageBuyPrice: null,
   };
 
   /*
@@ -82,6 +85,18 @@ const Strategy = () => {
 
   // ---
 
+  const calculateWeightedAveragePrice = (orders: Order[]) => {
+    if (!orders?.length) return 0;
+    const totalPrice = orders.reduce((acc, order) => {
+      return acc + order.price * order.amount;
+    }, 0);
+    const totalAmount = orders.reduce((acc, order) => {
+      return acc + order.amount;
+    }, 0);
+    return totalAmount ? totalPrice / totalAmount : 0;
+  };
+
+  // /*
   useEffect(() => {
     if (!updatedTokens || !userOrders) return;
     const price = (
@@ -90,7 +105,10 @@ const Strategy = () => {
       }) ?? { price: 0 }
     ).price;
     setCurrentPrice(price);
+    const averagePrice = calculateWeightedAveragePrice(userOrders);
+    setAvgBuyPrice(averagePrice);
   }, [updatedTokens, userOrders]);
+  // */
 
   const classifyOrder = (percent: number, order: Order) => {
     if (percent >= order.target) return { priority: 0 };
@@ -103,8 +121,6 @@ const Strategy = () => {
   const classifiedOrders = userOrders?.map((order) => {
     const percent = ((currentPrice - order.price) / order.price) * 100;
     snapshot.deposit += order.fiat;
-
-    // console.log('snapshot:', snapshot);
 
     if (!percent.toString().includes('-')) {
       if (snapshot.profit === null) {
@@ -132,11 +148,18 @@ const Strategy = () => {
     return { ...order, percent, priority };
   });
 
+  // const averageBuyPrice = totalQuantityBought
+  //   ? totalFiatSpent / totalQuantityBought
+  //   : 0;
+
   const sortedOrders = classifiedOrders?.sort((a, b) => {
     if (a.priority === b.priority) {
       return b.percent - a.percent;
     } else return a.priority - b.priority;
   });
+
+  // console.log('sortedOrders:', sortedOrders);
+  // console.log('avgBuyPrice:', avgBuyPrice);
 
   // ---
 
@@ -200,6 +223,7 @@ const Strategy = () => {
                     className="order-list-devider"
                     title={'Total:'}
                     subTitle={calculateStrategyPercent()}
+                    avgBuyPrice={avgBuyPrice}
                     isSwitchButton={!!sortedOrders?.length}
                     isDisabled={!isEditMenu}
                     setIsDisabled={setIsEditMenu}

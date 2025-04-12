@@ -73,7 +73,7 @@ const symbols = [
   brent,
 ];
 
-const initIntervals = [hour, day, week, month];
+const initIntervals: Interval[] = [hour, day, week, month];
 
 const ChartSection = () => {
   const [symbol, setSymbol] = useState(btcD.value);
@@ -129,10 +129,10 @@ const ChartSection = () => {
 
           <SelectMulti
             options={intervals
-              .filter((opt) => opt.value !== interval)
-              .map((opt) => opt.label)}
+              .filter((opt: Interval) => opt.value !== interval)
+              .map((opt: Interval) => opt.label)}
             initialOption={
-              intervals.find((opt) => opt.value === interval)?.label
+              intervals.find((opt: Interval) => opt.value === interval)?.label
             }
             placeholder={config.symbolInterval}
             onSelect={(label) => handleInterval(label as ChartIntervalEnum)}

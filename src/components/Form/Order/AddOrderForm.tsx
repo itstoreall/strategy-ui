@@ -155,7 +155,11 @@ const AddOrderForm = ({
       return;
     }
 
-    if (!!buyTargets?.find((target) => target.symbol === symbol)) {
+    const isBuyTargetExists = !!buyTargets?.find(
+      (target) => target.symbol === symbol
+    );
+
+    if (isBuyTarget && isBuyTargetExists) {
       alert(`${symbol} ${config.targetExists}`);
       return;
     }
