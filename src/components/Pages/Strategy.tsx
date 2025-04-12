@@ -24,7 +24,12 @@ type Snapshot = {
   successOrders: number | null;
   deposit: number;
   profit: number | null;
-  // averageBuyPrice: number | null;
+};
+
+const config = {
+  listLoaderColor: '#3a3f46',
+  loading: 'Loading',
+  dividerTitle: 'Total:',
 };
 
 const { OrderStatusEnum, OrderTypeDisplayEnum, OrderTypeEnum, QueryKeyEnum } =
@@ -44,10 +49,6 @@ const Strategy = () => {
   const type = path.split('-')[0];
   const symbol = path.split('-')[1];
 
-  // console.log('userId:', userId);
-  // console.log('type:', type);
-  // console.log('symbol:', symbol);
-
   const { RenderModal, openModal, ModalContentEnum } = useModal();
   const { userOrders } = useFetchAllUserStrategyOrders(
     userId,
@@ -65,7 +66,6 @@ const Strategy = () => {
     successOrders: null,
     deposit: 0,
     profit: null,
-    // averageBuyPrice: null,
   };
 
   /*
@@ -96,7 +96,6 @@ const Strategy = () => {
     return totalAmount ? totalPrice / totalAmount : 0;
   };
 
-  // /*
   useEffect(() => {
     if (!updatedTokens || !userOrders) return;
     const price = (
@@ -108,7 +107,6 @@ const Strategy = () => {
     const averagePrice = calculateWeightedAveragePrice(userOrders);
     setAvgBuyPrice(averagePrice);
   }, [updatedTokens, userOrders]);
-  // */
 
   const classifyOrder = (percent: number, order: Order) => {
     if (percent >= order.target) return { priority: 0 };
@@ -148,37 +146,29 @@ const Strategy = () => {
     return { ...order, percent, priority };
   });
 
-  // const averageBuyPrice = totalQuantityBought
-  //   ? totalFiatSpent / totalQuantityBought
-  //   : 0;
-
   const sortedOrders = classifiedOrders?.sort((a, b) => {
     if (a.priority === b.priority) {
       return b.percent - a.percent;
     } else return a.priority - b.priority;
   });
 
-  // console.log('sortedOrders:', sortedOrders);
-  // console.log('avgBuyPrice:', avgBuyPrice);
-
   // ---
 
   const handleModal = () => openModal(ModalContentEnum.Form);
 
   const ListLoader = () => {
-    const color = '#3a3f46';
     return (
       <span
         style={{
           display: 'flex',
           paddingTop: '12px',
           fontSize: '0.9rem',
-          color: color,
+          color: config.listLoaderColor,
           whiteSpace: 'nowrap',
         }}
       >
-        {'Loading'}
-        <DotsLoader inlineStyle={{ color: color }} />
+        {config.loading}
+        <DotsLoader inlineStyle={{ color: config.listLoaderColor }} />
       </span>
     );
   };
@@ -221,9 +211,10 @@ const Strategy = () => {
                 <>
                   <MainDividerSection
                     className="order-list-devider"
-                    title={'Total:'}
+                    title={config.dividerTitle}
                     subTitle={calculateStrategyPercent()}
                     avgBuyPrice={avgBuyPrice}
+                    currentPrice={currentPrice}
                     isSwitchButton={!!sortedOrders?.length}
                     isDisabled={!isEditMenu}
                     setIsDisabled={setIsEditMenu}

@@ -15,6 +15,7 @@ type Props = {
   subTitle?: string | null;
   filterSymbol?: string;
   avgBuyPrice?: number;
+  currentPrice?: number;
   handleFilterChange?: (event: InputEvent) => void;
   resetFilter?: () => void;
   sortField?: SortEnum;
@@ -24,6 +25,11 @@ type Props = {
   setIsDisabled?: Dispatch<SetStateAction<boolean>>;
 };
 
+const config = {
+  avg: 'AVG',
+  filterPlaceholder: 'Filter...',
+};
+
 const MainDividerSection = (props: Props) => {
   const {
     className,
@@ -31,6 +37,7 @@ const MainDividerSection = (props: Props) => {
     subTitle = '',
     filterSymbol,
     avgBuyPrice = 0,
+    currentPrice = 0,
     handleFilterChange,
     resetFilter,
     sortField,
@@ -40,15 +47,8 @@ const MainDividerSection = (props: Props) => {
     isSwitchButton = false,
   } = props;
 
-  // useEffect(() => {
-  //   console.log('27.97528:', uniNumberFormatter(27.97528));
-  //   console.log('0.03456:', uniNumberFormatter(0.03456));
-  //   console.log('1.01234:', uniNumberFormatter(1.01234));
-  //   console.log('0.0000034562:', uniNumberFormatter(0.0000034562));
-  // }, []);
-
   const displayAvgBuyPrice = () => {
-    alert(`AVG: ${uniNumberFormatter(avgBuyPrice)}`);
+    alert(`${config.avg}: ${uniNumberFormatter(avgBuyPrice)}`);
   };
 
   const toggleSwitch = () => {
@@ -60,7 +60,7 @@ const MainDividerSection = (props: Props) => {
 
   const subTitleColor = !subTitle?.includes('-') ? 'color-green' : 'color-blue';
   const subTitleStyle = `main-divider-section-subtitle ${subTitleColor}`;
-  const avgColor = true ? 'color-green' : 'color-blue';
+  const avgColor = currentPrice >= avgBuyPrice ? 'color-green' : 'color-grey';
   const avgStyle = `main-divider-section-average-price-button ${avgColor}`;
 
   return (
@@ -70,7 +70,7 @@ const MainDividerSection = (props: Props) => {
 
       {subTitle && (
         <Button className={avgStyle} clickContent={displayAvgBuyPrice}>
-          {'AVG'}
+          {config.avg}
         </Button>
       )}
 
@@ -79,7 +79,7 @@ const MainDividerSection = (props: Props) => {
           <input
             type="text"
             className="main-divider-section-filter-input"
-            placeholder="Filter..."
+            placeholder={config.filterPlaceholder}
             value={filterSymbol}
             onChange={handleFilterChange}
             onFocus={resetFilter}
