@@ -18,7 +18,6 @@ section.token-prices {
     background-color: $googleBlueDeepDark;
     display: flex;
     flex-direction: column;
-    gap: 0.7rem;
     border: 1px solid $mainColor;
     border-radius: $middleBorderRadius;
 
@@ -28,6 +27,7 @@ section.token-prices {
       > li.section-token-price-list-item {
         display: grid;
         grid-template-columns: 50% 50%;
+        height: 1.4rem;
 
         > span.section-token-price-list-item-content {
           display: flex;
@@ -66,7 +66,11 @@ section.token-prices {
   @include media-screen-orientation('max', $mobile + 199.9) {
     > div.section-content.token-prices {
       > ul.section-token-price-list {
-        gap: 0.7rem;
+        &:last-child {
+          > li.section-token-price-list-item:last-child {
+            height: 0.9rem;
+          }
+        }
       }
     }
   }
@@ -87,8 +91,6 @@ section.token-prices {
 
   @include media-screen-orientation('min', $mobile + 200) {
     > div.section-content.token-prices {
-      // gap: 0.7rem;
-
       > ul.section-token-price-list {
         grid-template-columns: 50% 50%;
 
@@ -139,13 +141,23 @@ section.token-prices {
             justify-content: space-between;
           }
         }
+
+        &:last-child {
+          > li.section-token-price-list-item {
+            height: 1rem;
+          }
+        }
       }
     }
   }
 
   @include media-screen-orientation('min', $tablet) {
     > div.section-content.token-prices {
-      gap: 1rem;
+      > ul.section-token-price-list {
+        > li.section-token-price-list-item {
+          height: 1.7rem;
+        }
+      }
     }
   }
 }
