@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { deleteOrder } from '@/src/lib/api/deleteOrderServerAction';
@@ -7,6 +8,7 @@ import { AggregatedOrderListAcc, Order, Token } from '@/src/types';
 import { OrderTypeEnum, QueryKeyEnum } from '@/src/enums';
 import * as u from '@/src/utils';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
+import useGlobalState from '@/src/hooks/useGlobalState';
 
 type Props = {
   data: Order[];
@@ -15,22 +17,24 @@ type Props = {
 };
 
 const config = {
+  lsLimitKey: 'orderListLimited',
   confirmDeletion: 'Buy Target will be deleted!',
   buyTargets: 'Buy Targets',
+  buy: 'Buy',
+  wait: 'Wait',
 };
-
-const lsLimitKey = 'orderListLimited';
 
 const OrderListSection = ({ data, tokens, userId }: Props) => {
   const [isExpanded, setIsExpanded] = useState<boolean>(() => {
-    const savedState = localStorage.getItem(lsLimitKey);
+    const savedState = localStorage.getItem(config.lsLimitKey);
     return savedState ? JSON.parse(savedState) : false;
   });
 
   const { updateData } = useInvalidateQueries();
+  const { unrealized, handleUnrealized } = useGlobalState();
 
   useEffect(() => {
-    localStorage.setItem(lsLimitKey, JSON.stringify(isExpanded));
+    localStorage.setItem(config.lsLimitKey, JSON.stringify(isExpanded));
   }, [isExpanded]);
 
   const itemLimit = 5;
@@ -103,6 +107,22 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
     isExpanded,
     itemLimit,
   });
+
+  useEffect(() => {
+    if (aggregatedData && aggregatedData.length > 0 && !unrealized) {
+      let unrealizedValue: number = 0;
+      aggregatedData.forEach((item) => {
+        if (item.unrealized) {
+          unrealizedValue += item.unrealized;
+        }
+      });
+      if (unrealizedValue) {
+        handleUnrealized(+unrealizedValue.toFixed());
+      }
+    }
+  }, [aggregatedData]);
+
+  // ---
 
   const toggleList = () => setIsExpanded((prev) => !prev);
 
@@ -184,8 +204,8 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
                             {isBull
                               ? orders
                               : percentValue > 0
-                              ? 'Buy'
-                              : 'Wait'}
+                              ? config.buy
+                              : config.wait}
                             {/* {358} */}
                           </span>
                         </div>

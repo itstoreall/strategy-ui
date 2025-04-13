@@ -35,6 +35,10 @@ section.order-list-snapshot {
             font-size: 0.9rem;
           }
         }
+
+        &.available-click {
+          cursor: pointer;
+        }
       }
     }
   }

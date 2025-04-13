@@ -9,7 +9,7 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const config = {
-  appVersion: 'v1.3.43',
+  appVersion: 'v1.3.44',
   fetch: 'Fetch was successful:',
   refetch: 'refetching tokens...',
   errUpdatePrices: 'ERROR in updating prices:',
@@ -20,7 +20,9 @@ export type GlobalContextProps = {
   updatedTokens: t.Token[] | null;
   users: t.User[] | null;
   fearAndGreed: number;
+  unrealized: number;
   fetchTokens: () => void;
+  handleUnrealized: (val: number) => void;
 };
 
 const initContext: GlobalContextProps = {
@@ -28,7 +30,9 @@ const initContext: GlobalContextProps = {
   updatedTokens: null,
   users: null,
   fearAndGreed: 0,
+  unrealized: 0,
   fetchTokens: () => {},
+  handleUnrealized: () => {},
 };
 
 const GlobalContext = createContext<GlobalContextProps>(initContext);
@@ -38,6 +42,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   const [updatedTokens, setUpdatedTokens] = useState<t.Token[] | null>(null);
   const [isTokenLoading, setIsTokenLoading] = useState<boolean>(false);
   const [fearAndGreed, setFearAndGreed] = useState(0);
+  const [unrealized, setUnrealized] = useState(0);
 
   const { mutate: updatePrices } = useUpdatePrices();
   const { users = null } = useFetchAllUsers({ enabled: true });
@@ -52,14 +57,15 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
         console.log(config.refetch);
         fetchTokens();
       }
-    }, 5000);
+    }, 2000);
 
-    // ---
-
+    // Fear and Greed
     chartService.fetchFearAndGreedIndex().then((idx) => {
       if (idx) setFearAndGreed(idx);
     });
   }, []);
+
+  const handleUnrealized = (val: number) => setUnrealized(val);
 
   const fetchTokens = () => {
     const params = {};
@@ -76,14 +82,6 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
     setIsTokenLoading(false);
   };
 
-  // ---
-
-  // useEffect(() => {
-  //   chartService.fetchFearAndGreedIndex().then((idx) => {
-  //     if (idx) setFearAndGreed(idx);
-  //   });
-  // }, []);
-
   const values = useMemo(() => {
     return {
       app,
@@ -91,9 +89,11 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
       updatedTokens,
       users,
       fearAndGreed,
+      unrealized,
       fetchTokens,
+      handleUnrealized,
     };
-  }, [userId, updatedTokens, fetchTokens]);
+  }, [userId, updatedTokens, unrealized]);
 
   return (
     <GlobalContext.Provider value={values}>{children}</GlobalContext.Provider>
