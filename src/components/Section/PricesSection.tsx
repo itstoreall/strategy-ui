@@ -6,10 +6,10 @@ type Props = {
 };
 
 const set1 = [{ symbols: ['BTC', 'ETH'] }, { symbols: ['SOL', 'DOGE'] }];
-const set2 = [{ symbols: ['XRP', 'SUI'] }, { symbols: ['OP', 'TON'] }];
-const set3 = [{ symbols: ['UNI', 'ORDI'] }, { symbols: ['APT', 'STRK'] }];
-const set4 = [{ symbols: ['ENA', 'MOVE'] }, { symbols: ['XLM', 'ALGO'] }];
-const set5 = [{ symbols: ['ARB', 'JUP'] }, { symbols: ['CRV', 'RAY'] }];
+const set2 = [{ symbols: ['XRP', 'SUI'] }, { symbols: ['ONDO', 'TON'] }];
+const set3 = [{ symbols: ['ALGO', 'ORDI'] }, { symbols: ['APT', 'STRK'] }];
+const set4 = [{ symbols: ['ENA', 'MOVE'] }, { symbols: ['OP', 'ARB'] }];
+const set5 = [{ symbols: ['UNI', 'JUP'] }, { symbols: ['CRV', 'RAY'] }];
 // const set6 = [{ symbols: ['NEAR', 'LINK'] }, { symbols: ['DOT', 'WLD'] }];
 
 const PricesSection = ({ tokens }: Props) => {

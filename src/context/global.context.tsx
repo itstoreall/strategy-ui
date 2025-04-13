@@ -8,7 +8,12 @@ import * as t from '@/src/types';
 
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
-const appVersion = 'v1.3.42';
+const config = {
+  appVersion: 'v1.3.43',
+  fetch: 'Fetch was successful:',
+  refetch: 'refetching tokens...',
+  errUpdatePrices: 'ERROR in updating prices:',
+};
 
 export type GlobalContextProps = {
   app: { version: string };
@@ -39,12 +44,12 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   const { data: session } = useSession();
 
   const userId = session?.user?.id || null;
-  const app = { version: appVersion };
+  const app = { version: config.appVersion };
 
   useEffect(() => {
     setTimeout(() => {
       if (updatedTokens === null) {
-        console.log('refetching tokens...');
+        console.log(config.refetch);
         fetchTokens();
       }
     }, 5000);
@@ -61,11 +66,11 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
     setIsTokenLoading(true);
     updatePrices(params, {
       onSuccess: (data) => {
-        console.log('Fetch was successful:', data.tokens.length, 'tokens');
+        console.log(config.fetch, data.tokens.length, 'tokens');
         setUpdatedTokens(data.tokens.sort(sortById));
       },
       onError: (error) => {
-        console.error('ERROR in updating prices (Dashboard):', error);
+        console.error(config.errUpdatePrices, error);
       },
     });
     setIsTokenLoading(false);
