@@ -6,9 +6,9 @@ type Props = {
 };
 
 const set1 = [{ symbols: ['BTC', 'ETH'] }, { symbols: ['SOL', 'DOGE'] }];
-const set2 = [{ symbols: ['XRP', 'SUI'] }, { symbols: ['ONDO', 'TON'] }];
-const set3 = [{ symbols: ['ALGO', 'ORDI'] }, { symbols: ['APT', 'STRK'] }];
-const set4 = [{ symbols: ['ENA', 'MOVE'] }, { symbols: ['OP', 'ARB'] }];
+const set2 = [{ symbols: ['XRP', 'SUI'] }, { symbols: ['ONDO', 'ENA'] }];
+const set3 = [{ symbols: ['ALGO', 'ORDI'] }, { symbols: ['MOVE', 'TON'] }];
+const set4 = [{ symbols: ['APT', 'OP'] }, { symbols: ['STRK', 'ARB'] }];
 const set5 = [{ symbols: ['UNI', 'JUP'] }, { symbols: ['CRV', 'RAY'] }];
 // const set6 = [{ symbols: ['NEAR', 'LINK'] }, { symbols: ['DOT', 'WLD'] }];
 
