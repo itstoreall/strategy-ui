@@ -16,15 +16,21 @@ import MainLoader from '@/src/components/MainLoader';
 
 type Props = { session: SessionContextValue };
 
+const config = {
+  adminTitle: 'Admin',
+  usersTitle: 'Users',
+  sessionsTitle: 'Sessions',
+};
+
 const Admin = ({ session }: Props) => {
   const { updatedTokens, users, fetchTokens } = useGlobalState();
   const { userOptions, removeToken } = useAdmin(users ?? null);
-  const { RenderModal } = useModal(); //
+  const { RenderModal } = useModal();
 
   return (
     <PageContainer label={Label.Main}>
       <main className="main">
-        <PageHeading title={'Admin'} />
+        <PageHeading title={config.adminTitle} />
 
         {session && users && updatedTokens ? (
           <div className="main-content">
@@ -41,12 +47,12 @@ const Admin = ({ session }: Props) => {
             <AddTokenSection tokens={updatedTokens} removeToken={removeToken} />
             <MainDividerSection
               className="admin-main-content-devider"
-              title="Users"
+              title={config.usersTitle}
             />
             <UserListSection users={users} />
             <MainDividerSection
               className="admin-main-content-devider"
-              title="Sessions"
+              title={config.sessionsTitle}
             />
             <ClearSessionSection userOptions={userOptions} />
           </div>

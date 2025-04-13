@@ -8,7 +8,7 @@ import * as t from '@/src/types';
 
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
-const appVersion = 'v1.3.41';
+const appVersion = 'v1.3.42';
 
 export type GlobalContextProps = {
   app: { version: string };
@@ -41,6 +41,21 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   const userId = session?.user?.id || null;
   const app = { version: appVersion };
 
+  useEffect(() => {
+    setTimeout(() => {
+      if (updatedTokens === null) {
+        console.log('refetching tokens...');
+        fetchTokens();
+      }
+    }, 5000);
+
+    // ---
+
+    chartService.fetchFearAndGreedIndex().then((idx) => {
+      if (idx) setFearAndGreed(idx);
+    });
+  }, []);
+
   const fetchTokens = () => {
     const params = {};
     setIsTokenLoading(true);
@@ -58,17 +73,11 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
 
   // ---
 
-  useEffect(() => {
-    chartService.fetchFearAndGreedIndex().then((idx) => {
-      if (idx) setFearAndGreed(idx);
-    });
-  }, []);
-
-  useEffect(() => {
-    if (!updatedTokens) {
-      fetchTokens();
-    }
-  }, [updatedTokens]);
+  // useEffect(() => {
+  //   chartService.fetchFearAndGreedIndex().then((idx) => {
+  //     if (idx) setFearAndGreed(idx);
+  //   });
+  // }, []);
 
   const values = useMemo(() => {
     return {

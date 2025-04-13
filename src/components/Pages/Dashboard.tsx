@@ -17,11 +17,9 @@ import SectionsContainer from '@/src/components/Container/Sections';
 import PricesSection from '@/src/components/Section/PricesSection';
 import MainLoader from '@/src/components/MainLoader';
 
-/*
 const config = {
-  loading: 'Loading...',
+  dashboardTitle: 'Dashboard',
 };
-*/
 
 const Dashboard = () => {
   const [currentProfit, setCurrentProfit] = useState<number | null>(null);
@@ -33,11 +31,8 @@ const Dashboard = () => {
 
   const { data: session } = useSession();
   const userId = session?.user?.id || null;
-
-  // const usersParam = { enabled: isAdmin };
   const ordersParam = { enabled: !!userId };
 
-  // const { users } = useFetchAllUsers(usersParam);
   const { userOrders } = useFetchAllUserOrders(currentUser, ordersParam);
   const { RenderModal, openModal, ModalContentEnum } = useModal();
   const { updatedTokens, users } = useGlobalState();
@@ -109,11 +104,14 @@ const Dashboard = () => {
     }
   };
 
+  // console.log('userOrders:', userOrders);
+  // console.log('updatedTokens:', updatedTokens);
+
   return (
     <PageContainer label={Label.Main}>
       <main className="main">
         <PageHeading
-          title={'Dashboard'}
+          title={config.dashboardTitle}
           isAdminButton={isAdmin && !!users && !!userId}
           adminButtonText={currentUserId ? currentUserId.slice(-4) : ''}
           adminButtonFn={() => toggleUser(currentUserId)}
