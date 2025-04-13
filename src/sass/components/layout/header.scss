@@ -8,6 +8,7 @@ header.header {
   width: 100%;
   height: $headerHeight;
   background-color: $blackMiddle;
+  background: linear-gradient(to top, $blackMiddle, $black);
   z-index: $headerZIndex;
   box-shadow: $shadow;
 
