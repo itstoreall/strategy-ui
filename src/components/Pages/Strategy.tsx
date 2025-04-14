@@ -40,7 +40,7 @@ const Strategy = () => {
   const [currentPrice, setCurrentPrice] = useState(0);
   const [isEditMenu, setIsEditMenu] = useState(false);
 
-  const { updatedTokens, fetchTokens } = useGlobalState();
+  const { updatedTokens } = useGlobalState();
   const { data: session } = useSession();
   const pathname = usePathname();
 
@@ -67,21 +67,6 @@ const Strategy = () => {
     deposit: 0,
     profit: null,
   };
-
-  /*
-  useEffect(() => {
-    // console.log('profitAmount:', profitAmount);
-    // console.log('successOrders:', successOrders);
-
-    setTimeout(() => {
-      if (!snapshot.successOrders && !snapshot.positiveOrders) {
-        snapshot.successOrders = 0;
-        snapshot.positiveOrders = 0;
-        console.log('e:', 222);
-      }
-    }, 10000);
-  }, []);
-  */
 
   // ---
 
@@ -193,7 +178,6 @@ const Strategy = () => {
           }
           handleModal={handleModal}
           isButtonDisabled={!updatedTokens}
-          fetchTokens={fetchTokens}
         />
 
         {userOrders ? (
