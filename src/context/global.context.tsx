@@ -9,7 +9,7 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const config = {
-  appVersion: 'v1.3.47',
+  appVersion: 'v1.3.48',
   fetch: 'Fetch was successful:',
   refetch: 'refetching tokens...',
   errUpdatePrices: 'ERROR in updating prices:',
@@ -65,20 +65,43 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
     });
   }, []);
 
+  const [i, setI] = useState<number>(0);
+  useEffect(() => {
+    // console.log(i);
+    const timeoutId = setTimeout(() => {
+      updatePrices(
+        {},
+        {
+          onSuccess: (data) => {
+            console.log(config.fetch, data.tokens.length, 'tokens');
+            setUpdatedTokens(data.tokens.sort(sortById));
+          },
+          onError: (error) => {
+            console.error(config.errUpdatePrices, error);
+          },
+        }
+      );
+      setI((prev) => prev + 1);
+    }, 60000);
+    return () => clearTimeout(timeoutId);
+  }, [i]);
+
   const handleUnrealized = (val: number) => setUnrealized(val);
 
   const fetchTokens = () => {
-    const params = {};
     setIsTokenLoading(true);
-    updatePrices(params, {
-      onSuccess: (data) => {
-        console.log(config.fetch, data.tokens.length, 'tokens');
-        setUpdatedTokens(data.tokens.sort(sortById));
-      },
-      onError: (error) => {
-        console.error(config.errUpdatePrices, error);
-      },
-    });
+    updatePrices(
+      {},
+      {
+        onSuccess: (data) => {
+          console.log(config.fetch, data.tokens.length, 'tokens');
+          setUpdatedTokens(data.tokens.sort(sortById));
+        },
+        onError: (error) => {
+          console.error(config.errUpdatePrices, error);
+        },
+      }
+    );
     setIsTokenLoading(false);
   };
 
