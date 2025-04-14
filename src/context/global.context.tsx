@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { createContext, useEffect, useMemo, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import useFetchAllUsers from '@/src/hooks/user/useFetchAllUsers';
 import useUpdatePrices from '@/src/hooks/token/useUpdatePrices';
@@ -9,7 +10,7 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const config = {
-  appVersion: 'v1.3.50',
+  appVersion: 'v1.4.1',
   fetchTokens: 'Fetch was successful:',
   updatePrices: 'Prices updated successfully:',
   refetch: 'refetching tokens...',
@@ -44,14 +45,18 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   const [isTokenLoading, setIsTokenLoading] = useState<boolean>(false);
   const [fearAndGreed, setFearAndGreed] = useState(0);
   const [unrealized, setUnrealized] = useState(0);
-  const [i, setI] = useState<number>(0);
+  const [count, setCount] = useState<number>(0);
 
   const { mutate: updatePrices } = useUpdatePrices();
   const { users = null } = useFetchAllUsers({ enabled: true });
   const { data: session } = useSession();
 
+  const path = usePathname();
+
   const userId = session?.user?.id || null;
   const app = { version: config.appVersion };
+  const isDashboard = path === '/dashboard';
+  const isStrategy = path.includes('/strategy/');
 
   useEffect(() => {
     setTimeout(() => {
@@ -67,12 +72,25 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   }, []);
 
   useEffect(() => {
+    const init = 5000;
+    const cron = 60000;
+    const delay = count < 3 ? init : cron;
     const timeoutId = setTimeout(() => {
-      updateTokens(config.updatePrices);
-      setI((prev) => prev + 1);
-    }, 60000);
+      if (isDashboard || isStrategy) {
+        if (count >= 2) {
+          if (!updatedTokens) {
+            updateTokens(config.updatePrices);
+          } else {
+            if (delay === cron) {
+              updateTokens(config.updatePrices);
+            }
+          }
+        }
+      }
+      setCount((prev) => prev + 1);
+    }, delay);
     return () => clearTimeout(timeoutId);
-  }, [i]);
+  }, [count]);
 
   // ---
 

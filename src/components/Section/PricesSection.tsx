@@ -1,5 +1,6 @@
 import useGlobalState from '@/src/hooks/useGlobalState';
 import { Token } from '@/src/types';
+import { uniNumberFormatter } from '@/src/utils';
 
 type Props = {
   tokens: Token[] | null;
@@ -19,7 +20,11 @@ const PricesSection = ({ tokens }: Props) => {
     <span className="section-token-price-list-item-content">
       <span>{`${symbol}:`}</span>
       <span>
-        {tokens ? tokens.find((token) => token.symbol === symbol)?.price : 0}
+        {uniNumberFormatter(
+          tokens
+            ? tokens.find((token) => token.symbol === symbol)?.price ?? 0
+            : 0
+        )}
       </span>
     </span>
   );

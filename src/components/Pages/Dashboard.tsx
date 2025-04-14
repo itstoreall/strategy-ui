@@ -16,7 +16,6 @@ import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import SectionsContainer from '@/src/components/Container/Sections';
 import PricesSection from '@/src/components/Section/PricesSection';
 import MainLoader from '@/src/components/MainLoader';
-// import useUpdatePricesCron from '@/src/hooks/token/useUpdatePricesCron';
 
 const config = {
   dashboardTitle: 'Dashboard',
@@ -38,28 +37,7 @@ const Dashboard = () => {
   const { RenderModal, openModal, ModalContentEnum } = useModal();
   const { updatedTokens, users } = useGlobalState();
 
-  // const { mutate: updatePricesCron } = useUpdatePricesCron();
-
   const currentUserId = currentUser ? currentUser : (userId as string);
-
-  // const [i, setI] = useState<number>(0);
-  // useEffect(() => {
-  //   const timeoutId = setTimeout(() => {
-  //     // updatePricesCron()
-  //     const params = {};
-  //     // updatePricesCron(params, {
-  //     //   onSuccess: (data) => {
-  //     //     console.log('---->', data);
-  //     //     // setUpdatedTokens(data.tokens.sort(sortById));
-  //     //   },
-  //     //   onError: (error) => {
-  //     //     console.error('ERR --->', error);
-  //     //   },
-  //     // });
-  //     setI((prev) => prev + 1);
-  //   }, 20000);
-  //   return () => clearTimeout(timeoutId);
-  // }, [i]);
 
   useEffect(() => {
     if (userId) {
@@ -131,17 +109,6 @@ const Dashboard = () => {
 
   return (
     <PageContainer label={Label.Main}>
-      {/* <div
-        style={{
-          position: 'absolute',
-          top: '15px',
-          left: '120px',
-          color: 'red',
-          zIndex: 100,
-        }}
-      >
-        {i}
-      </div> */}
       <main className="main">
         <PageHeading
           title={config.dashboardTitle}
