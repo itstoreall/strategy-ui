@@ -17,8 +17,10 @@ const useUpdatePrices = () => {
     mutationFn: (params: UpdatePricesParams) => updatePrices(params),
     retry: 3,
     onSuccess: (data) => {
-      updateData([QueryKeyEnum.Tokens]);
-      console.log(config.success, data.tokens.length, 'tokens');
+      if (data) {
+        updateData([QueryKeyEnum.Tokens]);
+      }
+      // console.log(config.success, data.tokens.length, 'tokens');
     },
     onError: (error) => {
       console.error(config.error, error);
