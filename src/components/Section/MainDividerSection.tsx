@@ -16,6 +16,7 @@ type Props = {
   filterSymbol?: string;
   avgBuyPrice?: number;
   currentPrice?: number;
+  ordersNumber?: number;
   handleFilterChange?: (event: InputEvent) => void;
   resetFilter?: () => void;
   sortField?: SortEnum;
@@ -38,6 +39,7 @@ const MainDividerSection = (props: Props) => {
     filterSymbol,
     avgBuyPrice = 0,
     currentPrice = 0,
+    ordersNumber = 0,
     handleFilterChange,
     resetFilter,
     sortField,
@@ -68,7 +70,7 @@ const MainDividerSection = (props: Props) => {
       {title && <span className="main-divider-section-title">{title}</span>}
       {subTitle && <span className={subTitleStyle}>{subTitle}</span>}
 
-      {subTitle && (
+      {ordersNumber > 1 && (
         <Button className={avgStyle} clickContent={displayAvgBuyPrice}>
           {config.avg}
         </Button>

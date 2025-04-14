@@ -215,6 +215,7 @@ const Strategy = () => {
                     subTitle={calculateStrategyPercent()}
                     avgBuyPrice={avgBuyPrice}
                     currentPrice={currentPrice}
+                    ordersNumber={sortedOrders?.length}
                     isSwitchButton={!!sortedOrders?.length}
                     isDisabled={!isEditMenu}
                     setIsDisabled={setIsEditMenu}
