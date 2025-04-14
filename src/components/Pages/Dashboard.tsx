@@ -43,7 +43,7 @@ const Dashboard = () => {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setI((prev) => prev + 1);
-    }, 3000);
+    }, 20000);
     return () => clearTimeout(timeoutId);
   }, [i]);
 
