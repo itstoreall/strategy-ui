@@ -39,6 +39,14 @@ const Dashboard = () => {
 
   const currentUserId = currentUser ? currentUser : (userId as string);
 
+  const [i, setI] = useState<number>(0);
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setI((prev) => prev + 1);
+    }, 3000);
+    return () => clearTimeout(timeoutId);
+  }, [i]);
+
   useEffect(() => {
     if (userId) {
       setCurrentUser(userId);
@@ -109,6 +117,17 @@ const Dashboard = () => {
 
   return (
     <PageContainer label={Label.Main}>
+      <div
+        style={{
+          position: 'absolute',
+          top: '15px',
+          left: '120px',
+          color: 'red',
+          zIndex: 100,
+        }}
+      >
+        {i}
+      </div>
       <main className="main">
         <PageHeading
           title={config.dashboardTitle}
