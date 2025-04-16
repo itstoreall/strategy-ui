@@ -58,12 +58,11 @@ const symbols = [
   usdtD,
   gold,
   spx500,
-  nasdaq,
+  others,
   m2,
   dxy,
   btcEth,
   ethBtc,
-  others,
   total,
   total2,
   total3,
@@ -71,6 +70,7 @@ const symbols = [
   yuan,
   wti,
   brent,
+  nasdaq,
 ];
 
 const initIntervals: Interval[] = [hour, day, week, month];
