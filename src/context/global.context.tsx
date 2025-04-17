@@ -100,8 +100,10 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
     const param = {};
     updatePrices(param, {
       onSuccess: (data) => {
-        console.log(msg, data.tokens.length, 'tokens');
-        setUpdatedTokens(data.tokens.sort(sortById));
+        if (data?.tokens?.length) {
+          console.log(msg, data.tokens.length, 'tokens');
+          setUpdatedTokens(data.tokens.sort(sortById));
+        }
       },
       onError: (error) => {
         console.error(config.errUpdatePrices, error);
