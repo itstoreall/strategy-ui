@@ -92,14 +92,16 @@ section.order-list {
                   gap: 1rem;
 
                   > span.unrealized-value {
-                    // display: flex;
-                    // align-items: center;
                     color: $googleGreen;
                     opacity: 30%;
                   }
 
                   > span.uni-value {
                     color: $colorAccent;
+
+                    &.color-green {
+                      color: $googleGreen;
+                    }
                   }
                 }
               }
