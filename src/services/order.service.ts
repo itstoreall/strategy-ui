@@ -70,7 +70,6 @@ class OrderService {
       const query = `symbol=${symbol}${queryType}${queryStatus}${queryExchange}`;
       const url = `/orders/user/${userId}/strategy?${query}`;
       const res = await apiClient.get(url);
-      console.log('res -->', res);
       return res.data;
     } catch (err: unknown) {
       const errorMessage = errorHandler(

@@ -137,6 +137,11 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
 
   // ---
 
+  // console.log(
+  //   'tokens:',
+  //   tokens?.find((token) => token.symbol === 'BTC')?.price
+  // );
+
   return (
     <>
       <MainDividerSection
@@ -158,6 +163,10 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
             {displayedData.map((order: AggregatedOrderListAcc, idx) => {
               const { symbol, price, orders, totalAmount, percent } = order;
 
+              // if (!isBull) {
+              //   console.log('order:', order);
+              // }
+
               const strategyPath = `/strategy/${strategy}-${symbol}`;
               const percentValue = percent < 0 && percent > -1 ? 0 : percent;
               const signPlus = percent.toString().includes('-')
@@ -168,9 +177,21 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
 
               // ---
 
-              // if (order.unrealized) {
-              //   console.log('order:', order);
-              // }
+              const currentBuyTargetPrice = tokens?.find(
+                (token) => token.symbol === order.symbol
+              )?.price;
+
+              const currentBuyTargetValue = currentBuyTargetPrice
+                ? order.symbol === 'BTC' || order.symbol === 'ETH'
+                  ? Number(
+                      u.uniNumberFormatter(currentBuyTargetPrice)
+                    ).toFixed()
+                  : u.uniNumberFormatter(currentBuyTargetPrice)
+                : percentValue > 0
+                ? config.buy
+                : config.wait;
+
+              // ---
 
               const bullColor = percent > 0 ? 'color-green' : 'color-blue';
               const bearColor = percent > 0 ? 'color-green' : 'color-yellow';
@@ -201,13 +222,16 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
                           )}
 
                           <span className="uni-value">
+                            {isBull ? orders : currentBuyTargetValue}
+                          </span>
+                          {/* <span className="uni-value">
                             {isBull
                               ? orders
                               : percentValue > 0
                               ? config.buy
                               : config.wait}
-                            {/* {358} */}
-                          </span>
+                          </span> */}
+                          {/* {358} */}
                         </div>
                       </li>
 
