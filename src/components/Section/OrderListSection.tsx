@@ -185,7 +185,7 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
                   : u.uniNumberFormatter(currentBuyTargetPrice)
                 : config.wait;
 
-              const isReachedTarget = percentValue >= 0;
+              const isReachedTarget = percentValue > 0;
 
               const currentBuyTargetValue = isReachedTarget
                 ? config.buy
