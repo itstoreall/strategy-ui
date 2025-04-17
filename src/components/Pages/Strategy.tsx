@@ -94,8 +94,8 @@ const Strategy = () => {
   }, [updatedTokens, userOrders]);
 
   const classifyOrder = (percent: number, order: Order) => {
-    if (percent >= order.target) return { priority: 0 };
-    if (percent >= 0 && percent < order.target) return { priority: 1 };
+    if (percent >= order.strategy.target) return { priority: 0 };
+    if (percent >= 0 && percent < order.strategy.target) return { priority: 1 };
     if (percent <= 0 && percent > -50) return { priority: 2 };
     if (percent <= -50) return { priority: 3 };
     return { priority: 4 };
@@ -112,7 +112,7 @@ const Strategy = () => {
         snapshot.profit += order.amount * currentPrice;
       }
 
-      if (percent >= order.target) {
+      if (percent >= order.strategy.target) {
         if (snapshot.successOrders === null) {
           snapshot.successOrders = 1;
         } else {

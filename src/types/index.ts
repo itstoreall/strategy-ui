@@ -62,7 +62,10 @@ export type Order = {
   fiat: number;
   status: OrderStatusEnum;
   userId: string;
-  target: number;
+  strategy: {
+    target: number;
+    data: JSON;
+  };
   exchange: ExchangeEnum;
   createdAt: Date;
   updatedAt: Date;

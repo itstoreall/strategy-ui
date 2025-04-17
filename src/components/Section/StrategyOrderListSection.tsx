@@ -33,15 +33,16 @@ const StrategyOrderListSection = (props: Props) => {
         {sortedOrders.length ? (
           <ul className="section-strategy-order-list">
             {sortedOrders.map((order: Order) => {
-              const { id, price, amount, target } = order;
+              const { id, price, amount, strategy } = order;
               const percent = ((currentPrice - price) / price) * 100;
               const fixedPercent = Number(percent.toFixed());
               const isMinus = percent.toString().includes('-');
               const isPlus = !isMinus && fixedPercent !== 0;
               const percentDisplay = `${isPlus ? '+' : ''}${fixedPercent}%`;
 
-              const isSuccess = fixedPercent >= target;
-              const isPositive = fixedPercent >= 0 && fixedPercent < target;
+              const isSuccess = fixedPercent >= strategy.target;
+              const isPositive =
+                fixedPercent >= 0 && fixedPercent < strategy.target;
               const isNegative = fixedPercent <= 0 && fixedPercent > -50;
               const isFailed = fixedPercent <= -50;
 
