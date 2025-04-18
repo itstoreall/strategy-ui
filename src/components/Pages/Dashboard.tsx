@@ -7,7 +7,7 @@ import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
 import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import useGlobalState from '@/src/hooks/useGlobalState';
 import useModal from '@/src/hooks/useModal';
-import { AuthRoleEnum, OrderTypeDisplayEnum, QueryKeyEnum } from '@/src/enums';
+import { AuthRoleEnum, QueryKeyEnum } from '@/src/enums';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import OrderListSection from '@/src/components/Section/OrderListSection';
@@ -163,7 +163,6 @@ const Dashboard = () => {
           <RenderModal>
             <AddOrderForm
               tokens={updatedTokens}
-              initType={OrderTypeDisplayEnum.Asset}
               invalidateQuery={[
                 QueryKeyEnum.UserOrders,
                 QueryKeyEnum.UserStrategyOrders,

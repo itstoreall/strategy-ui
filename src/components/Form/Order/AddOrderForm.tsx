@@ -94,6 +94,7 @@ const AddOrderForm = ({
 
   const isAsset = type === OrderTypeDisplayEnum.Asset;
   const isBuyTarget = type === OrderTypeDisplayEnum.BuyTarget;
+  const isInit = !isAsset && !isBuyTarget;
   const isStrategyPage = path.includes('/strategy/');
 
   useEffect(() => {
@@ -134,20 +135,14 @@ const AddOrderForm = ({
     e.preventDefault();
     const confirmMessage = isAsset
       ? `
-      ${config.confirmOrderSubmit}
-      
-      ${type || '--'}
-      ${symbol || '--'}
-      ${exchange || '--'}
-      ${amount || '--'}
-      ${price || '--'}
+      ${type || '--'}: ${symbol || '--'}
+      Exchange: ${exchange || '--'}
+      Amount: ${amount || '--'}
+      Price: ${price || '--'}
+      Invested: $${price && amount ? price * amount : '--'}
     `
       : `
-      ${config.confirmBuyTargetSubmit}
-      
-      ${type || '--'}
-      ${symbol || '--'}
-      ${price || '--'}
+      ${type || '--'}: ${symbol || '--'} - ${price || '--'}
     `;
 
     if (confirmMessage.includes('--')) {
@@ -176,19 +171,36 @@ const AddOrderForm = ({
     // */
   };
 
+  // console.log('isAsset:', isAsset);
+  // console.log('isBuyTarget:', isBuyTarget);
+
+  const handleTitle = () => {
+    switch (true) {
+      case isAsset:
+        return config.newAsset;
+      case isBuyTarget:
+        return config.newBuyTarget;
+      case isProcess:
+        return config.inProgress;
+      default:
+        return config.create;
+    }
+  };
+
   return (
     <FormWrapper className="create-order-form-wrapper">
       <FormBackdropContainer>
         <Title
           tag={'h3'}
           className="form-title"
-          text={
-            isAsset
-              ? config.newAsset
-              : isBuyTarget
-              ? config.newBuyTarget
-              : config.inProgress
-          }
+          text={handleTitle()}
+          // text={
+          //   isAsset
+          //     ? config.newAsset
+          //     : isBuyTarget
+          //     ? config.newBuyTarget
+          //     : config.inProgress
+          // }
         />
 
         {!isProcess && (
@@ -219,7 +231,7 @@ const AddOrderForm = ({
                 isDisable={!symbolOptions.length || isStrategyPage}
               />
 
-              {isAsset && (
+              {(isAsset || isInit) && (
                 <SelectMulti
                   options={exchangeOptions.filter((opt) => opt !== exchange)}
                   placeholder={'Exchange'}
@@ -230,7 +242,7 @@ const AddOrderForm = ({
                 />
               )}
 
-              {isAsset && (
+              {(isAsset || isInit) && (
                 <TextInput
                   type="text"
                   placeholder="Amount"
