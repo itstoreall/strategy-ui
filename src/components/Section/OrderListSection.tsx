@@ -198,7 +198,10 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
               const percentColor = isBull ? bullColor : bearColor;
               const percentStyle = `row-list-item order-percent ${percentColor}`;
               const reachedTargetStyle = isReachedTarget ? 'color-green' : '';
-              const uniValueStyle = `uni-value ${reachedTargetStyle}`;
+              const uniValueStyle = `uni-value ${
+                !isBull ? reachedTargetStyle : ''
+              }`;
+              // const uniValueStyle = `uni-value ${reachedTargetStyle}`;
 
               return (
                 <li key={idx} className="section-order-list-item">
