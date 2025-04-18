@@ -171,9 +171,6 @@ const AddOrderForm = ({
     // */
   };
 
-  // console.log('isAsset:', isAsset);
-  // console.log('isBuyTarget:', isBuyTarget);
-
   const handleTitle = () => {
     switch (true) {
       case isAsset:
@@ -190,18 +187,7 @@ const AddOrderForm = ({
   return (
     <FormWrapper className="create-order-form-wrapper">
       <FormBackdropContainer>
-        <Title
-          tag={'h3'}
-          className="form-title"
-          text={handleTitle()}
-          // text={
-          //   isAsset
-          //     ? config.newAsset
-          //     : isBuyTarget
-          //     ? config.newBuyTarget
-          //     : config.inProgress
-          // }
-        />
+        <Title tag={'h3'} className="form-title" text={handleTitle()} />
 
         {!isProcess && (
           <Form handleSubmit={(e) => handleSubmit(e)}>

@@ -197,10 +197,8 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
               const bearColor = percent > 0 ? 'color-green' : 'color-yellow';
               const percentColor = isBull ? bullColor : bearColor;
               const percentStyle = `row-list-item order-percent ${percentColor}`;
-              const reachedTargetStyle = isReachedTarget ? 'color-green' : '';
-              const uniValueStyle = `uni-value ${
-                !isBull ? reachedTargetStyle : ''
-              }`;
+              const reachedTarget = isReachedTarget ? 'color-green' : '';
+              const uniValueStyle = `uni-value ${!isBull ? reachedTarget : ''}`;
               // const uniValueStyle = `uni-value ${reachedTargetStyle}`;
 
               return (
@@ -238,7 +236,7 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
                             ? u.formatMillionAmount(
                                 parseFloat(totalAmount.toFixed(6)).toString()
                               )
-                            : price}
+                            : u.uniNumberFormatter(price)}
                           {/* {38564326} */}
                         </span>
                       </li>
