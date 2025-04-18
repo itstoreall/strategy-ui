@@ -13,18 +13,23 @@ const set5 = [{ symbols: ['UNI', 'JUP'] }, { symbols: ['CRV', 'RAY'] }];
 // const set6 = [{ symbols: ['NEAR', 'LINK'] }, { symbols: ['DOT', 'WLD'] }];
 
 const PricesSection = ({ tokens }: Props) => {
-  const ItemContent = ({ symbol }: { symbol: string }) => (
-    <span className="section-token-price-list-item-content">
-      <span>{`${symbol}:`}</span>
-      <span>
-        {uniNumberFormatter(
-          tokens
-            ? tokens.find((token) => token.symbol === symbol)?.price ?? 0
-            : 0
-        )}
+  const ItemContent = ({ symbol }: { symbol: string }) => {
+    const tokenPriceValue = +uniNumberFormatter(
+      tokens ? tokens.find((token) => token.symbol === symbol)?.price ?? 0 : 0
+    );
+
+    const isFixedZero = symbol === 'BTC' || symbol === 'ETH';
+    const isFixedOne = symbol === 'SOL';
+
+    return (
+      <span className="section-token-price-list-item-content">
+        <span>{`${symbol}:`}</span>
+        <span>
+          {tokenPriceValue.toFixed(isFixedZero ? 0 : isFixedOne ? 1 : 2)}
+        </span>
       </span>
-    </span>
-  );
+    );
+  };
 
   const PriceList = ({ tokenSet }: { tokenSet: { symbols: string[] }[] }) => (
     <ul className="section-token-price-list">
