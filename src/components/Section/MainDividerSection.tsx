@@ -58,6 +58,13 @@ const MainDividerSection = (props: Props) => {
     setIsDisabled((prev) => (prev === true ? false : true));
   };
 
+  const nextSortValue =
+    sortField === SortEnum.Percent
+      ? SortEnum.Date
+      : sortField === SortEnum.Date
+      ? SortEnum.Symbol
+      : SortEnum.Percent;
+
   // ---
 
   const subTitleColor = !subTitle?.includes('-') ? 'color-green' : 'color-blue';
@@ -97,11 +104,11 @@ const MainDividerSection = (props: Props) => {
           className="main-divider-section-sort-toggle-button"
         >
           <span>
-            {sortField === SortEnum.Percent
-              ? SortEnum.Date
-              : sortField === SortEnum.Date
-              ? SortEnum.Symbol
-              : SortEnum.Percent}
+            <span>
+              <span>Sorting by</span>
+              {sortField}
+            </span>
+            <span>{nextSortValue}</span>
           </span>
         </Button>
       )}
