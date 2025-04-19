@@ -17,7 +17,8 @@ type Props = {
 };
 
 const config = {
-  lsLimitKey: 'orderListLimited',
+  lsOrderLimitKey: 'orderListLimited',
+  lsBuyTargetLimitKey: 'buyTargetListLimited',
   confirmDeletion: 'Buy Target will be deleted!',
   buyTargets: 'Buy Targets',
   buy: 'Buy',
@@ -25,8 +26,13 @@ const config = {
 };
 
 const OrderListSection = ({ data, tokens, userId }: Props) => {
+  const isBull = data[0].type === OrderTypeEnum.Buy;
+  const currentLsKey = isBull
+    ? config.lsOrderLimitKey
+    : config.lsBuyTargetLimitKey;
+
   const [isExpanded, setIsExpanded] = useState<boolean>(() => {
-    const savedState = localStorage.getItem(config.lsLimitKey);
+    const savedState = localStorage.getItem(currentLsKey);
     return savedState ? JSON.parse(savedState) : false;
   });
 
@@ -34,12 +40,11 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
   const { unrealized, handleUnrealized } = useGlobalState();
 
   useEffect(() => {
-    localStorage.setItem(config.lsLimitKey, JSON.stringify(isExpanded));
+    localStorage.setItem(currentLsKey, JSON.stringify(isExpanded));
   }, [isExpanded]);
 
   const itemLimit = 5;
   const isAdmin = data[0].userId === userId;
-  const isBull = data[0].type === OrderTypeEnum.Buy;
   const isToggle = new Set([...data.map((el) => el.symbol)]).size > itemLimit;
   const strategy = isBull ? OrderTypeEnum.Buy : OrderTypeEnum.Sell;
 
@@ -136,11 +141,6 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
   };
 
   // ---
-
-  // console.log(
-  //   'tokens:',
-  //   tokens?.find((token) => token.symbol === 'BTC')?.price
-  // );
 
   return (
     <>
