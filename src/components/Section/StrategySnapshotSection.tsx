@@ -1,8 +1,13 @@
-import { formatMillionAmount } from '@/src/utils';
+import { formatMillionAmount, uniNumberFormatter } from '@/src/utils';
 import DotsLoader from '@/src/components/DotsLoader';
+// import { Order } from '@/src/types';
 
 type Props = {
+  /*
+  sortedOrders: Order[] | null;
+  */
   orderNumber: number;
+  totalAmount: number;
   positiveOrders: number;
   successOrders: number | null;
   depositAmount: number;
@@ -11,14 +16,18 @@ type Props = {
 
 const StrategySnapshotSection = (props: Props) => {
   const {
+    /*
+    sortedOrders,
+    */
     orderNumber,
+    totalAmount,
     positiveOrders,
     successOrders,
     depositAmount,
     profitAmount,
   } = props;
 
-  // console.log('tokenAmount:', tokenAmount);
+  // console.log('totalAmount:', totalAmount);
   // console.log('assetAmount:', assetAmount);
   // console.log('depositAmount:', depositAmount);
   // console.log('profitAmount:', profitAmount);
@@ -51,8 +60,10 @@ const StrategySnapshotSection = (props: Props) => {
       <ul className="section-content snapshot-list">
         <li className="snapshot-item">
           <div className="item-content">
-            <span className="content-name">Orders</span>
-            <span className="content-value">{orderNumber}</span>
+            <span className="content-name">Amount</span>
+            <span className="content-value">
+              {uniNumberFormatter(totalAmount)}
+            </span>
           </div>
         </li>
         <li className="snapshot-item">

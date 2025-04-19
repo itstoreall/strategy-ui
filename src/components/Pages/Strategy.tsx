@@ -20,6 +20,7 @@ import MainLoader from '@/src/components/MainLoader';
 import DotsLoader from '@/src/components/DotsLoader';
 
 type Snapshot = {
+  totalAmount: number;
   positiveOrders: number;
   successOrders: number | null;
   deposit: number;
@@ -62,6 +63,7 @@ const Strategy = () => {
   // ---
 
   const snapshot: Snapshot = {
+    totalAmount: 0,
     positiveOrders: 0,
     successOrders: null,
     deposit: 0,
@@ -104,6 +106,7 @@ const Strategy = () => {
   const classifiedOrders = userOrders?.map((order) => {
     const percent = ((currentPrice - order.price) / order.price) * 100;
     snapshot.deposit += order.fiat;
+    snapshot.totalAmount += order.amount;
 
     if (!percent.toString().includes('-')) {
       if (snapshot.profit === null) {
@@ -184,7 +187,11 @@ const Strategy = () => {
           <div className="main-content">
             <SectionsContainer>
               <StrategySnapshotSection
+                /*
+                sortedOrders={sortedOrders ?? null}
+                */
                 orderNumber={sortedOrders?.length ?? 0}
+                totalAmount={snapshot.totalAmount}
                 positiveOrders={snapshot.positiveOrders}
                 successOrders={snapshot.successOrders}
                 depositAmount={snapshot.deposit}

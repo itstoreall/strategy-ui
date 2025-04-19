@@ -19,6 +19,7 @@ import TextInput from '@/src/components/Form/TextInput';
 import Button from '@/src/components/Button/Button';
 import Title from '@/src/components/Layout/Title';
 import Form from '@/src/components/Form/Form';
+import { uniNumberFormatter } from '@/src/utils';
 
 type Props = {
   tokens: Token[];
@@ -139,7 +140,7 @@ const AddOrderForm = ({
       Exchange: ${exchange || '--'}
       Amount: ${amount || '--'}
       Price: ${price || '--'}
-      Invested: $${price && amount ? price * amount : '--'}
+      Invested: $${price && amount ? uniNumberFormatter(price * amount) : '--'}
     `
       : `
       ${type || '--'}: ${symbol || '--'} - ${price || '--'}
