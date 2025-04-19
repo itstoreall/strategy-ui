@@ -104,10 +104,7 @@ const MainDividerSection = (props: Props) => {
           className="main-divider-section-sort-toggle-button"
         >
           <span>
-            <span>
-              <span>Sorting by</span>
-              {sortField}
-            </span>
+            <span>{sortField}</span>
             <span>{nextSortValue}</span>
           </span>
         </Button>
