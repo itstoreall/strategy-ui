@@ -8,7 +8,9 @@ import Button from '@/src/components/Button/Button';
 
 const PageWrapperContainer = ({ children }: ChildrenProps) => {
   const [showButton, setShowButton] = useState(false);
+  const [isScrollTop, setIsScrollTop] = useState(false);
 
+  const lastScrollTop = useRef(0);
   const ref = useRef<HTMLDivElement | null>(null);
   const path = usePathname();
 
@@ -21,8 +23,14 @@ const PageWrapperContainer = ({ children }: ChildrenProps) => {
 
     const handleScroll = () => {
       if (isAllowed) {
-        const scrollPosition = currentRef.scrollTop;
-        setShowButton(scrollPosition >= 600);
+        const scrollTop = currentRef.scrollTop;
+        setShowButton(scrollTop >= 600);
+        if (scrollTop > lastScrollTop.current) {
+          setIsScrollTop(false);
+        } else if (scrollTop < lastScrollTop.current) {
+          setIsScrollTop(true);
+        }
+        lastScrollTop.current = scrollTop <= 0 ? 0 : scrollTop;
       }
     };
 
@@ -43,11 +51,16 @@ const PageWrapperContainer = ({ children }: ChildrenProps) => {
     }
   };
 
+  // ---
+
+  const scrollDirection = isScrollTop ? 'scroll-up' : '';
+  const goToTopButtonStyle = `go-to-top-button ${scrollDirection}`;
+
   return (
     <div className="page-wrapper-container" ref={ref}>
       {children}
       {showButton && (
-        <Button className="go-to-top-button" clickContent={goToTop}>
+        <Button className={goToTopButtonStyle} clickContent={goToTop}>
           <span className="go-to-top-button-bg" />
           <GoChevronUp size={30} />
         </Button>
