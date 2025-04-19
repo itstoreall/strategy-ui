@@ -102,9 +102,12 @@ export const uniNumberFormatter = (value: number): string => {
   const match = strValue.match(/^0\.(0+)(\d+)$/);
   if (match) {
     const leadingZeros = match[1].length;
+    if (leadingZeros <= 2) {
+      const fixValue = leadingZeros === 1 ? 3 : 4;
+      return Number(strValue).toFixed(fixValue);
+    }
     const significantDigits = match[2];
     return `0.0{${leadingZeros}}${significantDigits.slice(0, 2)}`;
   }
   return value.toFixed(2);
-  // return value.toString();
 };

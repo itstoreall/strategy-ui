@@ -10,11 +10,14 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const config = {
-  appVersion: 'v1.4.9',
+  appVersion: 'v1.4.10',
+  dashboardPath: '/dashboard',
+  strategyPath: '/strategy/',
   fetchTokens: 'Fetch was successful:',
   updatePrices: 'Prices updated successfully:',
   refetch: 'refetching tokens...',
   errUpdatePrices: 'ERROR in updating prices:',
+  tokens: 'tokens',
 };
 
 export type GlobalContextProps = {
@@ -55,8 +58,8 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
 
   const userId = session?.user?.id || null;
   const app = { version: config.appVersion };
-  const isDashboard = path === '/dashboard';
-  const isStrategy = path.includes('/strategy/');
+  const isDashboard = path === config.dashboardPath;
+  const isStrategy = path.includes(config.strategyPath);
 
   useEffect(() => {
     setTimeout(() => {
@@ -101,7 +104,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
     updatePrices(param, {
       onSuccess: (data) => {
         if (data?.tokens?.length) {
-          console.log(msg, data.tokens.length, 'tokens');
+          console.log(msg, data.tokens.length, config.tokens);
           setUpdatedTokens(data.tokens.sort(sortById));
         }
       },
