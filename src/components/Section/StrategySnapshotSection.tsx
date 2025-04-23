@@ -61,7 +61,7 @@ const StrategySnapshotSection = (props: Props) => {
         <li className="snapshot-item">
           <div className="item-content">
             <span className="content-name">Amount</span>
-            <span className="content-value">
+            <span className="content-value" title={totalAmount.toString()}>
               {uniNumberFormatter(totalAmount)}
             </span>
           </div>

@@ -90,12 +90,19 @@ export const formatMillionAmount = (amount: string): string => {
   return `${(Number(amount) / 1_000_000).toFixed(3)}M`;
 };
 
+export const formatOneHundredThousandAmount = (amount: string): string => {
+  if (Number(amount) < 1_00_000) return amount;
+  return `${(Number(amount) / 1_000).toFixed()}K`;
+};
+
 export const uniNumberFormatter = (value: number): string => {
   if (value >= 1 || value <= -1) {
     // --- Handle non-small numbers normally:
     const _value = value.toString().split('.')[0];
     if (_value.length >= 7) {
-      return formatMillionAmount(value.toFixed(2));
+      return formatMillionAmount(value.toFixed());
+    } else if (_value.length >= 4) {
+      return formatOneHundredThousandAmount(value.toFixed());
     } else return value.toFixed(2);
   }
   const strValue = value.toString();

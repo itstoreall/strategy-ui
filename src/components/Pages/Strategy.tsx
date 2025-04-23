@@ -27,7 +27,7 @@ type Snapshot = {
   profit: number | null;
 };
 
-const config = {
+const c = {
   listLoaderColor: '#3a3f46',
   loading: 'Loading',
   dividerTitle: 'Trades',
@@ -165,12 +165,12 @@ const Strategy = () => {
           display: 'flex',
           paddingTop: '12px',
           fontSize: '0.9rem',
-          color: config.listLoaderColor,
+          color: c.listLoaderColor,
           whiteSpace: 'nowrap',
         }}
       >
-        {config.loading}
-        <DotsLoader inlineStyle={{ color: config.listLoaderColor }} />
+        {c.loading}
+        <DotsLoader inlineStyle={{ color: c.listLoaderColor }} />
       </span>
     );
   };
@@ -209,7 +209,7 @@ const Strategy = () => {
                 <>
                   <MainDividerSection
                     className="order-list-devider"
-                    title={config.dividerTitle}
+                    title={c.dividerTitle}
                     /*
                     subTitle={calculateStrategyPercent()}
                     */
