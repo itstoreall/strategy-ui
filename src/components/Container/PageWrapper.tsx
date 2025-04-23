@@ -6,6 +6,15 @@ import { GoChevronUp } from 'react-icons/go';
 import { ChildrenProps } from '@/src/types';
 import Button from '@/src/components/Button/Button';
 
+const c = {
+  x: 0,
+  y: 0,
+  scrollValue: 400,
+  dashboardPath: '/dashboard',
+  scrollEvent: 'scroll',
+  scrollBehavior: 'smooth' as ScrollBehavior,
+};
+
 const PageWrapperContainer = ({ children }: ChildrenProps) => {
   const [showButton, setShowButton] = useState(false);
   const [isScrollTop, setIsScrollTop] = useState(false);
@@ -15,16 +24,16 @@ const PageWrapperContainer = ({ children }: ChildrenProps) => {
   const path = usePathname();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo(c.x, c.y);
 
     const currentRef = ref.current;
-    const isDashboardPage = path === '/dashboard';
+    const isDashboardPage = path === c.dashboardPath;
     const isAllowed = isDashboardPage && currentRef;
 
     const handleScroll = () => {
       if (isAllowed) {
         const scrollTop = currentRef.scrollTop;
-        setShowButton(scrollTop >= 600);
+        setShowButton(scrollTop >= c.scrollValue);
         if (scrollTop > lastScrollTop.current) {
           setIsScrollTop(false);
         } else if (scrollTop < lastScrollTop.current) {
@@ -35,19 +44,19 @@ const PageWrapperContainer = ({ children }: ChildrenProps) => {
     };
 
     if (isAllowed) {
-      currentRef.addEventListener('scroll', handleScroll);
+      currentRef.addEventListener(c.scrollEvent, handleScroll);
     }
 
     return () => {
       if (isAllowed) {
-        currentRef.removeEventListener('scroll', handleScroll);
+        currentRef.removeEventListener(c.scrollEvent, handleScroll);
       }
     };
   }, [path]);
 
   const goToTop = () => {
     if (ref.current) {
-      ref.current.scrollTo({ top: 0, behavior: 'smooth' });
+      ref.current.scrollTo({ top: 0, behavior: c.scrollBehavior });
     }
   };
 

@@ -79,7 +79,7 @@ const useAddOrderForm = (
       return setCreationError(config.errSymbol);
     } else if (!data.exchange) {
       if (isBull) return setCreationError(config.errExchange);
-    } else if (isNaN(data.amount) || data.amount <= 0) {
+    } else if (isBull && (isNaN(data.amount) || data.amount <= 0)) {
       return setCreationError(config.errAmount);
     } else if (isNaN(data.price) || data.price <= 0) {
       if (isBull) return setCreationError(config.errPrice);

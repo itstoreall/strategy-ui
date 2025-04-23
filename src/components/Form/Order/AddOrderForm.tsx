@@ -107,6 +107,12 @@ const AddOrderForm = ({
     }
   }, [tokens]);
 
+  /*
+  useEffect(() => {
+    console.log('formValues:', formValues);
+  }, [type]);
+  */
+
   useEffect(() => {
     if (creationError) alert(creationError);
   }, [creationError]);
@@ -160,16 +166,16 @@ const AddOrderForm = ({
       return;
     }
 
-    // /*
     if (confirm(confirmMessage)) {
+      // /*
       setIsProcess(true);
       const currentType = isAsset ? OrderTypeEnum.Buy : OrderTypeEnum.Sell;
       setValue('type', currentType, { shouldValidate: true });
       startTransition(async () => {
         onSubmit();
       });
+      // */
     }
-    // */
   };
 
   const handleTitle = () => {
