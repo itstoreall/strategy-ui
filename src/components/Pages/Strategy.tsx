@@ -7,7 +7,7 @@ import { usePathname } from 'next/navigation';
 import useFetchAllUserStrategyOrders from '@/src/hooks/order/useFetchAllUserStrategyOrders';
 import useGlobalState from '@/src/hooks/useGlobalState';
 import useModal from '@/src/hooks/useModal';
-import * as enums from '@/src/enums';
+import * as enm from '@/src/enums';
 import { Order } from '@/src/types';
 import StrategyOrderListSection from '@/src/components/Section/StrategyOrderListSection';
 import StrategySnapshotSection from '@/src/components/Section/StrategySnapshotSection';
@@ -30,15 +30,16 @@ type Snapshot = {
 const config = {
   listLoaderColor: '#3a3f46',
   loading: 'Loading',
-  dividerTitle: 'Total:',
+  dividerTitle: 'Trades',
 };
 
 const { OrderStatusEnum, OrderTypeDisplayEnum, OrderTypeEnum, QueryKeyEnum } =
-  enums;
+  enm;
 
 const Strategy = () => {
-  const [avgBuyPrice, setAvgBuyPrice] = useState(0);
+  const [filterExchange, setFilterExchange] = useState(enm.ExchangeEnum.All);
   const [currentPrice, setCurrentPrice] = useState(0);
+  const [avgBuyPrice, setAvgBuyPrice] = useState(0);
   const [isEditMenu, setIsEditMenu] = useState(false);
 
   const { updatedTokens } = useGlobalState();
@@ -71,6 +72,10 @@ const Strategy = () => {
   };
 
   // ---
+
+  const handleFilterExchange = (val: enm.ExchangeEnum) => {
+    setFilterExchange(val);
+  };
 
   const calculateWeightedAveragePrice = (orders: Order[]) => {
     if (!orders?.length) return 0;
@@ -144,6 +149,15 @@ const Strategy = () => {
 
   const handleModal = () => openModal(ModalContentEnum.Form);
 
+  /*
+  const calculateStrategyPercent = () => {
+    const { deposit, profit } = snapshot;
+    const percent = profit ? ((profit - deposit) / deposit) * 100 : -100;
+    const signPlus = !percent.toString().includes('-') ? '+' : '';
+    return `${signPlus}${percent.toFixed()}%`;
+  };
+  */
+
   const ListLoader = () => {
     return (
       <span
@@ -159,13 +173,6 @@ const Strategy = () => {
         <DotsLoader inlineStyle={{ color: config.listLoaderColor }} />
       </span>
     );
-  };
-
-  const calculateStrategyPercent = () => {
-    const { deposit, profit } = snapshot;
-    const percent = profit ? ((profit - deposit) / deposit) * 100 : -100;
-    const signPlus = !percent.toString().includes('-') ? '+' : '';
-    return `${signPlus}${percent.toFixed()}%`;
   };
 
   return (
@@ -203,10 +210,14 @@ const Strategy = () => {
                   <MainDividerSection
                     className="order-list-devider"
                     title={config.dividerTitle}
+                    /*
                     subTitle={calculateStrategyPercent()}
+                    */
                     avgBuyPrice={avgBuyPrice}
+                    filterExchange={filterExchange}
                     currentPrice={currentPrice}
                     ordersNumber={sortedOrders?.length}
+                    handleFilterExchange={handleFilterExchange}
                     isSwitchButton={!!sortedOrders?.length}
                     isDisabled={!isEditMenu}
                     setIsDisabled={setIsEditMenu}
@@ -215,6 +226,7 @@ const Strategy = () => {
                   <div className="sections-container-strategy-order-list-block">
                     <StrategyOrderListSection
                       sortedOrders={sortedOrders ?? []}
+                      filterExchange={filterExchange}
                       currentPrice={currentPrice}
                       isEditMenu={isEditMenu}
                     />

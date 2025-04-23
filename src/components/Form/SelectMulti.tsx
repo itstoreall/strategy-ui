@@ -2,7 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import { FiChevronUp } from 'react-icons/fi';
-// import { GoAlert } from 'react-icons/go';
+/*
+import { GoAlert } from 'react-icons/go';
+*/
 
 type Props = {
   className?: string;
@@ -79,6 +81,7 @@ const SelectMulti = (props: Props) => {
 
   // console.log('initialOption:', initialOption);
   // console.log('options:', options);
+  // console.log('selectedOption:', selectedOption);
 
   return (
     <div className={`default-select ${className} ${openStyle} ${emptyStyle}`}>

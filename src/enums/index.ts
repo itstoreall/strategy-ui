@@ -49,6 +49,7 @@ export enum OrderStatusEnum {
 }
 
 export enum ExchangeEnum {
+  All = 'ALL', //EXCHANGES
   Binance = 'BINANCE',
   Bybit = 'BYBIT',
   Mexc = 'MEXC',

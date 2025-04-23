@@ -1,61 +1,90 @@
 import * as u from '@/src/utils';
 import { Order } from '@/src/types';
+import { ExchangeEnum } from '@/src/enums';
 import StrategyOrderEditMenuSection from '@/src/components/Section/StrategyOrderEditMenuSection';
 
 type Props = {
   sortedOrders: Order[];
+  filterExchange: string;
   currentPrice: number;
   isEditMenu: boolean;
 };
 
+const c = {
+  success: 'success',
+  positiveValue: 'positiveValue',
+  negativeValue: 'negativeValue',
+  failed: 'failed',
+  id: 'ID',
+  price: 'Price',
+  amount: 'Amount',
+  invested: 'Invested',
+  profit: 'Profit',
+  losses: 'Losses',
+  exchange: 'Exchange',
+  created: 'Created',
+  noOrders: 'No orders!',
+};
+
 const StrategyOrderListSection = (props: Props) => {
-  const { sortedOrders, currentPrice, isEditMenu } = props;
+  const { sortedOrders, filterExchange, currentPrice, isEditMenu } = props;
 
   const showDetails = (order: Order) => {
     if (isEditMenu) {
       return;
     }
-    const profitValue = currentPrice * order.amount - order.fiat;
+    const calculatedProfit = currentPrice * order.amount - order.fiat;
+    const isProfit = calculatedProfit > 0;
+    const profitValue = isProfit
+      ? `$${calculatedProfit.toFixed(2)}`
+      : `${calculatedProfit.toFixed(2)} ($)`;
+
     alert(`
-      ID: ${order.id}
-      Price: $${order.price}
-      Amount: ${order.amount}
-      Invested: $${order.fiat}
-      Profit: $${profitValue.toFixed()}
-      Exchange: ${order.exchange}
-      Created: ${u.normalizeISODate(order.createdAt, 'DD-MM-YY')}
+      ${c.id}: ${order.id}
+      ${c.price}: $${order.price}
+      ${c.amount}: ${order.amount}
+      ${c.invested}: $${order.fiat}
+      ${isProfit ? c.profit : c.losses}: ${profitValue}
+      ${c.exchange}: ${order.exchange}
+      ${c.created}: ${u.normalizeISODate(order.createdAt, 'DD-MM-YY')}
       `);
   };
+
+  const filteredOrders = filterExchange
+    ? filterExchange !== ExchangeEnum.All
+      ? sortedOrders.filter((order: Order) => order.exchange === filterExchange)
+      : sortedOrders
+    : sortedOrders;
 
   return (
     <section className="section strategy-order-list">
       <div className={'section-content strategy-order-list'}>
-        {sortedOrders.length ? (
+        {filteredOrders.length ? (
           <ul className="section-strategy-order-list">
-            {sortedOrders.map((order: Order) => {
+            {filteredOrders.map((order: Order) => {
               const { id, price, amount, strategy } = order;
+              const { target } = strategy;
               const percent = ((currentPrice - price) / price) * 100;
               const fixedPercent = Number(percent.toFixed());
               const isMinus = percent.toString().includes('-');
               const isPlus = !isMinus && fixedPercent !== 0;
               const percentDisplay = `${isPlus ? '+' : ''}${fixedPercent}%`;
 
-              const isSuccess = fixedPercent >= strategy.target;
-              const isPositive =
-                fixedPercent >= 0 && fixedPercent < strategy.target;
+              const isSuccess = fixedPercent >= target;
+              const isPositive = fixedPercent >= 0 && fixedPercent < target;
               const isNegative = fixedPercent <= 0 && fixedPercent > -50;
               const isFailed = fixedPercent <= -50;
 
               // ---
 
               const orderStyle = isSuccess
-                ? 'success'
+                ? c.success
                 : isPositive
-                ? 'positiveValue'
+                ? c.positiveValue
                 : isNegative
-                ? 'negativeValue'
+                ? c.negativeValue
                 : isFailed
-                ? 'failed'
+                ? c.failed
                 : '';
 
               const isSingle = sortedOrders.length === 1;
@@ -97,7 +126,7 @@ const StrategyOrderListSection = (props: Props) => {
             })}
           </ul>
         ) : (
-          <span>No orders!</span>
+          <span>{c.noOrders}</span>
         )}
       </div>
     </section>

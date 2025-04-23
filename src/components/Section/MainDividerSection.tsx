@@ -1,9 +1,11 @@
 import { Dispatch, SetStateAction } from 'react';
 import { InputEvent } from '@/src/types';
-import { SortEnum } from '@/src/enums';
+import { ExchangeEnum, SortEnum } from '@/src/enums';
 import { uniNumberFormatter } from '@/src/utils';
 import SwitchIcon from '@/src/assets/icons/SwitchIcon';
 import Button from '@/src/components/Button/Button';
+import SelectMulti from '../Form/SelectMulti';
+import useSelectMulti from '@/src/hooks/useSelectMulti';
 
 type Props = {
   className?:
@@ -14,10 +16,12 @@ type Props = {
   title?: string;
   subTitle?: string | null;
   filterSymbol?: string;
+  filterExchange?: string;
   avgBuyPrice?: number;
   currentPrice?: number;
   ordersNumber?: number;
   handleFilterChange?: (event: InputEvent) => void;
+  handleFilterExchange?: (val: ExchangeEnum) => void;
   resetFilter?: () => void;
   sortField?: SortEnum;
   handleSortToggle?: () => void;
@@ -26,10 +30,22 @@ type Props = {
   setIsDisabled?: Dispatch<SetStateAction<boolean>>;
 };
 
-const config = {
+const c = {
   avg: 'AVG',
+  placeholderExchange: 'Exchange',
+  selectFieldExchange: 'exchange',
   filterPlaceholder: 'Filter...',
 };
+
+const exchanges = [
+  ExchangeEnum.All,
+  ExchangeEnum.Binance,
+  ExchangeEnum.Mexc,
+  ExchangeEnum.Bybit,
+  ExchangeEnum.Bitget,
+  ExchangeEnum.Okx,
+  ExchangeEnum.Bingx,
+];
 
 const MainDividerSection = (props: Props) => {
   const {
@@ -37,10 +53,12 @@ const MainDividerSection = (props: Props) => {
     title = '',
     subTitle = '',
     filterSymbol,
+    filterExchange,
     avgBuyPrice = 0,
     currentPrice = 0,
     ordersNumber = 0,
     handleFilterChange,
+    handleFilterExchange,
     resetFilter,
     sortField,
     handleSortToggle,
@@ -49,8 +67,16 @@ const MainDividerSection = (props: Props) => {
     isSwitchButton = false,
   } = props;
 
+  const { openDropdownId, toggleDropdown } = useSelectMulti();
+
   const displayAvgBuyPrice = () => {
-    alert(`${config.avg}: ${uniNumberFormatter(avgBuyPrice)}`);
+    alert(`${c.avg}: ${uniNumberFormatter(avgBuyPrice)}`);
+  };
+
+  const handleSelectChange = (field: string, value: string) => {
+    if (field && handleFilterExchange) {
+      handleFilterExchange(value as ExchangeEnum);
+    }
   };
 
   const toggleSwitch = () => {
@@ -79,8 +105,21 @@ const MainDividerSection = (props: Props) => {
 
       {ordersNumber > 1 && (
         <Button className={avgStyle} clickContent={displayAvgBuyPrice}>
-          {config.avg}
+          {c.avg}
         </Button>
+      )}
+
+      {handleFilterExchange && ordersNumber > 1 && (
+        <SelectMulti
+          className="main-divider-section-filter-select"
+          options={exchanges.filter((opt) => opt !== filterExchange)}
+          placeholder={c.placeholderExchange}
+          onSelect={(value) => handleSelectChange(c.selectFieldExchange, value)}
+          initialOption={exchanges[0]}
+          isOpen={openDropdownId === filterExchange}
+          onToggle={() => toggleDropdown(filterExchange ?? '')}
+          // isDisable={isBuyTarget}
+        />
       )}
 
       {handleFilterChange && (
@@ -88,7 +127,7 @@ const MainDividerSection = (props: Props) => {
           <input
             type="text"
             className="main-divider-section-filter-input"
-            placeholder={config.filterPlaceholder}
+            placeholder={c.filterPlaceholder}
             value={filterSymbol}
             onChange={handleFilterChange}
             onFocus={resetFilter}

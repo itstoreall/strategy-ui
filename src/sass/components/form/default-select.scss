@@ -33,10 +33,9 @@ div.default-select {
     padding: 0 1rem;
     height: 100%;
     text-align: left;
-    cursor: pointer;
-
     background-color: $greyDeepDark;
     border-radius: $middleBorderRadius;
+    cursor: pointer;
 
     &.option-selected {
       > span {
@@ -138,5 +137,68 @@ div.default-select {
     /*
     > div.default-select-selected {}
     */
+  }
+
+  // Exchanges:
+  &.main-divider-section-filter-select {
+    min-width: 80px;
+    max-width: 80px;
+    height: 18px;
+    border: 1px solid $greyDark;
+    border-radius: $smallBorderRadius;
+
+    > div.default-select-selected {
+      padding: 0 3px 0 5px;
+      background-color: $black;
+
+      &.option-selected {
+        > span {
+          font-size: 0.7rem;
+          font-weight: 600;
+          color: $greyDark;
+          white-space: nowrap;
+        }
+
+        > svg {
+          stroke: $greyDark;
+          width: 14px;
+          height: 14px;
+          stroke-width: 2.2;
+        }
+      }
+    }
+
+    &.open {
+      border-radius: $smallBorderRadius $smallBorderRadius 0 0;
+    }
+
+    > ul.default-select-option-list {
+      @extend %extends-hide-scrollbar;
+      position: absolute;
+      left: -1px;
+      margin-top: -1px;
+      border-radius: 0 0 $smallBorderRadius $smallBorderRadius;
+      border: 1px solid $greyDark;
+      background-color: transparent;
+
+      > li.default-select-option-list-item {
+        padding: 0 0 0 5px;
+        height: 18px;
+        color: $greyDark;
+        font-size: 0.7rem;
+        font-weight: 600;
+        background-color: $black;
+        cursor: pointer;
+
+        &:not(:last-child) {
+          border-bottom: 1px solid $greyDark;
+        }
+
+        &:hover {
+          background-color: $black;
+          color: $greyLight;
+        }
+      }
+    }
   }
 }
