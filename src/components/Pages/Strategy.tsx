@@ -33,8 +33,13 @@ const c = {
   dividerTitle: 'Trades',
 };
 
-const { OrderStatusEnum, OrderTypeDisplayEnum, OrderTypeEnum, QueryKeyEnum } =
-  enm;
+const {
+  OrderStatusEnum,
+  OrderTypeDisplayEnum,
+  OrderTypeEnum,
+  QueryKeyEnum,
+  ExchangeEnum,
+} = enm;
 
 const Strategy = () => {
   const [filterExchange, setFilterExchange] = useState(enm.ExchangeEnum.All);
@@ -63,6 +68,7 @@ const Strategy = () => {
 
   // ---
 
+  const exchanges: enm.ExchangeEnum[] = [ExchangeEnum.All];
   const snapshot: Snapshot = {
     totalAmount: 0,
     positiveOrders: 0,
@@ -73,11 +79,25 @@ const Strategy = () => {
 
   // ---
 
+  useEffect(() => {
+    if (!updatedTokens || !userOrders) return;
+    const price = (
+      updatedTokens?.find((token) => {
+        return token?.symbol === userOrders[0]?.symbol;
+      }) ?? { price: 0 }
+    ).price;
+    setCurrentPrice(price);
+    const averagePrice = calculateAveragePrice(userOrders);
+    setAvgBuyPrice(averagePrice);
+  }, [updatedTokens, userOrders]);
+
+  // --
+
   const handleFilterExchange = (val: enm.ExchangeEnum) => {
     setFilterExchange(val);
   };
 
-  const calculateWeightedAveragePrice = (orders: Order[]) => {
+  const calculateAveragePrice = (orders: Order[]) => {
     if (!orders?.length) return 0;
     const totalPrice = orders.reduce((acc, order) => {
       return acc + order.price * order.amount;
@@ -88,17 +108,17 @@ const Strategy = () => {
     return totalAmount ? totalPrice / totalAmount : 0;
   };
 
-  useEffect(() => {
-    if (!updatedTokens || !userOrders) return;
-    const price = (
-      updatedTokens?.find((token) => {
-        return token?.symbol === userOrders[0]?.symbol;
-      }) ?? { price: 0 }
-    ).price;
-    setCurrentPrice(price);
-    const averagePrice = calculateWeightedAveragePrice(userOrders);
-    setAvgBuyPrice(averagePrice);
-  }, [updatedTokens, userOrders]);
+  // useEffect(() => {
+  //   if (!updatedTokens || !userOrders) return;
+  //   const price = (
+  //     updatedTokens?.find((token) => {
+  //       return token?.symbol === userOrders[0]?.symbol;
+  //     }) ?? { price: 0 }
+  //   ).price;
+  //   setCurrentPrice(price);
+  //   const averagePrice = calculateAveragePrice(userOrders);
+  //   setAvgBuyPrice(averagePrice);
+  // }, [updatedTokens, userOrders]);
 
   const classifyOrder = (percent: number, order: Order) => {
     if (percent >= order.strategy.target) return { priority: 0 };
@@ -111,7 +131,16 @@ const Strategy = () => {
   const classifiedOrders = userOrders?.map((order) => {
     const percent = ((currentPrice - order.price) / order.price) * 100;
     snapshot.deposit += order.fiat;
-    snapshot.totalAmount += order.amount;
+
+    if (!exchanges.includes(order.exchange)) {
+      exchanges.push(order.exchange);
+    }
+
+    if (order.exchange === filterExchange) {
+      snapshot.totalAmount += order.amount;
+    } else if (filterExchange === ExchangeEnum.All) {
+      snapshot.totalAmount += order.amount;
+    }
 
     if (!percent.toString().includes('-')) {
       if (snapshot.profit === null) {
@@ -175,6 +204,8 @@ const Strategy = () => {
     );
   };
 
+  // console.log('exchanges:', exchanges);
+
   return (
     <PageContainer label={Label.Main}>
       <main className="main">
@@ -214,6 +245,7 @@ const Strategy = () => {
                     subTitle={calculateStrategyPercent()}
                     */
                     avgBuyPrice={avgBuyPrice}
+                    exchanges={exchanges}
                     filterExchange={filterExchange}
                     currentPrice={currentPrice}
                     ordersNumber={sortedOrders?.length}

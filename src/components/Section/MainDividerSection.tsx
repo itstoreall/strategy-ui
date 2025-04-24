@@ -16,6 +16,7 @@ type Props = {
   title?: string;
   subTitle?: string | null;
   filterSymbol?: string;
+  exchanges?: ExchangeEnum[];
   filterExchange?: string;
   avgBuyPrice?: number;
   currentPrice?: number;
@@ -37,22 +38,13 @@ const c = {
   filterPlaceholder: 'Filter...',
 };
 
-const exchanges = [
-  ExchangeEnum.All,
-  ExchangeEnum.Binance,
-  ExchangeEnum.Mexc,
-  ExchangeEnum.Bybit,
-  ExchangeEnum.Bitget,
-  ExchangeEnum.Okx,
-  ExchangeEnum.Bingx,
-];
-
 const MainDividerSection = (props: Props) => {
   const {
     className,
     title = '',
     subTitle = '',
     filterSymbol,
+    exchanges,
     filterExchange,
     avgBuyPrice = 0,
     currentPrice = 0,
@@ -109,7 +101,7 @@ const MainDividerSection = (props: Props) => {
         </Button>
       )}
 
-      {handleFilterExchange && ordersNumber > 1 && (
+      {handleFilterExchange && exchanges && exchanges?.length > 2 && (
         <SelectMulti
           className="main-divider-section-filter-select"
           options={exchanges.filter((opt) => opt !== filterExchange)}

@@ -17,7 +17,7 @@ import SectionsContainer from '@/src/components/Container/Sections';
 import PricesSection from '@/src/components/Section/PricesSection';
 import MainLoader from '@/src/components/MainLoader';
 
-const config = {
+const c = {
   dashboardTitle: 'Dashboard',
 };
 
@@ -111,7 +111,7 @@ const Dashboard = () => {
     <PageContainer label={Label.Main}>
       <main className="main">
         <PageHeading
-          title={config.dashboardTitle}
+          title={c.dashboardTitle}
           isAdminButton={isAdmin && !!users && !!userId}
           adminButtonText={currentUserId ? currentUserId.slice(-4) : ''}
           adminButtonFn={() => toggleUser(currentUserId)}
