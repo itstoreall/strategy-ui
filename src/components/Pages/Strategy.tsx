@@ -87,14 +87,28 @@ const Strategy = () => {
       }) ?? { price: 0 }
     ).price;
     setCurrentPrice(price);
-    const averagePrice = calculateAveragePrice(userOrders);
-    setAvgBuyPrice(averagePrice);
+    handleAVG(userOrders);
   }, [updatedTokens, userOrders]);
+
+  // AVG handling in accordance with the Exchange
+  useEffect(() => {
+    if (!userOrders) return;
+    const filteredOrders =
+      filterExchange !== ExchangeEnum.All
+        ? userOrders?.filter((order) => order.exchange === filterExchange)
+        : userOrders;
+    handleAVG(filteredOrders);
+  }, [filterExchange]);
 
   // --
 
   const handleFilterExchange = (val: enm.ExchangeEnum) => {
     setFilterExchange(val);
+  };
+
+  const handleAVG = (orders: Order[]) => {
+    const averagePrice = calculateAveragePrice(orders);
+    setAvgBuyPrice(averagePrice);
   };
 
   const calculateAveragePrice = (orders: Order[]) => {
@@ -107,18 +121,6 @@ const Strategy = () => {
     }, 0);
     return totalAmount ? totalPrice / totalAmount : 0;
   };
-
-  // useEffect(() => {
-  //   if (!updatedTokens || !userOrders) return;
-  //   const price = (
-  //     updatedTokens?.find((token) => {
-  //       return token?.symbol === userOrders[0]?.symbol;
-  //     }) ?? { price: 0 }
-  //   ).price;
-  //   setCurrentPrice(price);
-  //   const averagePrice = calculateAveragePrice(userOrders);
-  //   setAvgBuyPrice(averagePrice);
-  // }, [updatedTokens, userOrders]);
 
   const classifyOrder = (percent: number, order: Order) => {
     if (percent >= order.strategy.target) return { priority: 0 };
@@ -203,8 +205,6 @@ const Strategy = () => {
       </span>
     );
   };
-
-  // console.log('exchanges:', exchanges);
 
   return (
     <PageContainer label={Label.Main}>
