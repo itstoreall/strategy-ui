@@ -7,6 +7,7 @@ import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
 import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import useGlobalState from '@/src/hooks/useGlobalState';
 import useModal from '@/src/hooks/useModal';
+import { Order } from '@/src/types';
 import { AuthRoleEnum, QueryKeyEnum } from '@/src/enums';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
@@ -56,7 +57,7 @@ const Dashboard = () => {
   useEffect(() => {
     if (userOrders?.buy.length) {
       let totalDeposit = 0;
-      const assets = userOrders.buy.map((order) => {
+      const assets = userOrders.buy.map((order: Order) => {
         totalDeposit = totalDeposit + order.fiat;
         return order.symbol;
       });

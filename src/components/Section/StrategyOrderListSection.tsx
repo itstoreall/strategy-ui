@@ -1,10 +1,11 @@
 import * as u from '@/src/utils';
-import { Order } from '@/src/types';
+import { Order, Strategy } from '@/src/types';
 import { ExchangeEnum } from '@/src/enums';
 import StrategyOrderEditMenuSection from '@/src/components/Section/StrategyOrderEditMenuSection';
 
 type Props = {
   sortedOrders: Order[];
+  strategy: Strategy;
   filterExchange: string;
   currentPrice: number;
   isEditMenu: boolean;
@@ -27,7 +28,8 @@ const c = {
 };
 
 const StrategyOrderListSection = (props: Props) => {
-  const { sortedOrders, filterExchange, currentPrice, isEditMenu } = props;
+  const { sortedOrders, strategy, filterExchange, currentPrice, isEditMenu } =
+    props;
 
   const showDetails = (order: Order) => {
     if (isEditMenu) {
@@ -62,7 +64,7 @@ const StrategyOrderListSection = (props: Props) => {
         {filteredOrders.length ? (
           <ul className="section-strategy-order-list">
             {filteredOrders.map((order: Order) => {
-              const { id, price, amount, strategy } = order;
+              const { id, price, amount } = order;
               const { target } = strategy;
               const percent = ((currentPrice - price) / price) * 100;
               const fixedPercent = Number(percent.toFixed());

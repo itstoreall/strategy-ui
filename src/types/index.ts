@@ -75,6 +75,23 @@ export type OrderData = {
   data: Order[];
 };
 
+export type OrderStrategyData = {
+  orders: Order[];
+  strategy: Strategy;
+};
+
+export type Strategy = {
+  symbol: string;
+  id: number;
+  type: string;
+  status: OrderStatusEnum;
+  userId: string;
+  createdAt: Date;
+  updatedAt: Date;
+  target: number;
+  data: JSON;
+};
+
 export type StrategyOrders = {
   buy: Order[];
   sell: Order[];

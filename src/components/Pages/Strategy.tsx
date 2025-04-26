@@ -8,7 +8,7 @@ import useFetchAllUserStrategyOrders from '@/src/hooks/order/useFetchAllUserStra
 import useGlobalState from '@/src/hooks/useGlobalState';
 import useModal from '@/src/hooks/useModal';
 import * as enm from '@/src/enums';
-import { Order } from '@/src/types';
+import * as t from '@/src/types';
 import StrategyOrderListSection from '@/src/components/Section/StrategyOrderListSection';
 import StrategySnapshotSection from '@/src/components/Section/StrategySnapshotSection';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
@@ -57,7 +57,7 @@ const Strategy = () => {
   const symbol = path.split('-')[1];
 
   const { RenderModal, openModal, ModalContentEnum } = useModal();
-  const { userOrders } = useFetchAllUserStrategyOrders(
+  const { userOrderData } = useFetchAllUserStrategyOrders(
     userId,
     type,
     symbol,
@@ -65,6 +65,12 @@ const Strategy = () => {
     '', // ExchangeEnum
     { enabled: !!userId }
   );
+
+  /*
+  useEffect(() => {
+    console.log('strategy:', userOrderData?.strategy);
+  }, [userOrderData]);
+  */
 
   // ---
 
@@ -80,23 +86,25 @@ const Strategy = () => {
   // ---
 
   useEffect(() => {
-    if (!updatedTokens || !userOrders) return;
+    if (!updatedTokens || !userOrderData) return;
     const price = (
       updatedTokens?.find((token) => {
-        return token?.symbol === userOrders[0]?.symbol;
+        return token?.symbol === userOrderData.orders[0]?.symbol;
       }) ?? { price: 0 }
     ).price;
     setCurrentPrice(price);
-    handleAVG(userOrders);
-  }, [updatedTokens, userOrders]);
+    handleAVG(userOrderData.orders);
+  }, [updatedTokens, userOrderData?.orders]);
 
   // AVG handling in accordance with the Exchange
   useEffect(() => {
-    if (!userOrders) return;
+    if (!userOrderData?.orders) return;
     const filteredOrders =
       filterExchange !== ExchangeEnum.All
-        ? userOrders?.filter((order) => order.exchange === filterExchange)
-        : userOrders;
+        ? userOrderData.orders?.filter(
+            (order) => order.exchange === filterExchange
+          )
+        : userOrderData.orders;
     handleAVG(filteredOrders);
   }, [filterExchange]);
 
@@ -106,12 +114,12 @@ const Strategy = () => {
     setFilterExchange(val);
   };
 
-  const handleAVG = (orders: Order[]) => {
+  const handleAVG = (orders: t.Order[]) => {
     const averagePrice = calculateAveragePrice(orders);
     setAvgBuyPrice(averagePrice);
   };
 
-  const calculateAveragePrice = (orders: Order[]) => {
+  const calculateAveragePrice = (orders: t.Order[]) => {
     if (!orders?.length) return 0;
     const totalPrice = orders.reduce((acc, order) => {
       return acc + order.price * order.amount;
@@ -122,15 +130,17 @@ const Strategy = () => {
     return totalAmount ? totalPrice / totalAmount : 0;
   };
 
-  const classifyOrder = (percent: number, order: Order) => {
-    if (percent >= order.strategy.target) return { priority: 0 };
-    if (percent >= 0 && percent < order.strategy.target) return { priority: 1 };
+  const classifyOrder = (percent: number, strategy: t.Strategy) => {
+    if (userOrderData && percent >= userOrderData.strategy.target)
+      return { priority: 0 };
+
+    if (percent >= 0 && percent < strategy.target) return { priority: 1 };
     if (percent <= 0 && percent > -50) return { priority: 2 };
     if (percent <= -50) return { priority: 3 };
     return { priority: 4 };
   };
 
-  const classifiedOrders = userOrders?.map((order) => {
+  const classifiedOrders = userOrderData?.orders?.map((order) => {
     const percent = ((currentPrice - order.price) / order.price) * 100;
     snapshot.deposit += order.fiat;
 
@@ -151,7 +161,7 @@ const Strategy = () => {
         snapshot.profit += order.amount * currentPrice;
       }
 
-      if (percent >= order.strategy.target) {
+      if (percent >= userOrderData.strategy.target) {
         if (snapshot.successOrders === null) {
           snapshot.successOrders = 1;
         } else {
@@ -166,7 +176,7 @@ const Strategy = () => {
       }
     }
 
-    const { priority } = classifyOrder(percent, order);
+    const { priority } = classifyOrder(percent, userOrderData.strategy);
     return { ...order, percent, priority };
   });
 
@@ -221,7 +231,7 @@ const Strategy = () => {
           isButtonDisabled={!updatedTokens}
         />
 
-        {userOrders ? (
+        {userOrderData?.orders ? (
           <div className="main-content">
             <SectionsContainer>
               <StrategySnapshotSection
@@ -258,6 +268,7 @@ const Strategy = () => {
                   <div className="sections-container-strategy-order-list-block">
                     <StrategyOrderListSection
                       sortedOrders={sortedOrders ?? []}
+                      strategy={userOrderData.strategy}
                       filterExchange={filterExchange}
                       currentPrice={currentPrice}
                       isEditMenu={isEditMenu}

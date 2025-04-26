@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { orderService } from '@/src/services/order.service';
 import { QueryKeyEnum } from '@/src/enums';
-import { OrderData } from '@/src/types';
+import { OrderStrategyData } from '@/src/types';
 
 const useFetchAllUserStrategyOrders = (
   userId: string | null,
@@ -11,16 +11,11 @@ const useFetchAllUserStrategyOrders = (
   exchange: string | null,
   options: { enabled: boolean }
 ) => {
-  const modifyData = (data: OrderData) => {
-    return data.data;
+  const modifyData = (data: OrderStrategyData) => {
+    return data;
   };
 
-  const {
-    data: userOrders,
-    error,
-    isLoading,
-    isSuccess,
-  } = useQuery({
+  const { data, error, isLoading, isSuccess } = useQuery({
     queryKey: [
       QueryKeyEnum.UserStrategyOrders,
       userId,
@@ -53,7 +48,12 @@ const useFetchAllUserStrategyOrders = (
     enabled: options.enabled,
   });
 
-  return { userOrders, error, isLoading, isSuccess };
+  return {
+    userOrderData: data,
+    error,
+    isLoading,
+    isSuccess,
+  };
 };
 
 export default useFetchAllUserStrategyOrders;

@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 // import { getSessionData } from '@/src/lib/auth/getSessionDataServerAction';
 import apiClient from '@/src/lib/api/client';
 import { OrderTypeEnum } from '@/src/enums';
-import { OrderData } from '@/src/types';
+import { OrderData, OrderStrategyData } from '@/src/types';
 
 const errorHandler = (msg: string, err: unknown) => {
   const errMsg = err instanceof AxiosError ? err.response?.statusText : err;
@@ -57,7 +57,7 @@ class OrderService {
     symbol: string,
     status: string,
     exchange: string
-  ): Promise<OrderData> {
+  ): Promise<OrderStrategyData> {
     if (!userId) {
       throw new Error('User ID is required to fetch orders.');
     }
@@ -70,7 +70,7 @@ class OrderService {
       const query = `symbol=${symbol}${queryType}${queryStatus}${queryExchange}`;
       const url = `/orders/user/${userId}/strategy?${query}`;
       const res = await apiClient.get(url);
-      return res.data;
+      return res.data.data;
     } catch (err: unknown) {
       const errorMessage = errorHandler(
         'ERROR in fetchAllByUserIdAndStrategy:',
