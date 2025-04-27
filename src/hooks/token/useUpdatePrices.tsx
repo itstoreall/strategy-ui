@@ -4,7 +4,7 @@ import useInvalidateQueries from '@/src/hooks/useInvalidateQueries';
 import { UpdatePricesParams } from '@/src/services/token.service';
 import { MutationKeyEnum, QueryKeyEnum } from '@/src/enums';
 
-const config = {
+const c = {
   success: 'Prices updated successfully:',
   error: 'Error updating prices:',
 };
@@ -23,7 +23,7 @@ const useUpdatePrices = () => {
       // console.log(config.success, data.tokens.length, 'tokens');
     },
     onError: (error) => {
-      console.error(config.error, error);
+      console.error(c.error, error);
     },
   });
 };

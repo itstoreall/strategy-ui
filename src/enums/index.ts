@@ -20,6 +20,7 @@ export enum MutationKeyEnum {
   DeleteToken = 'deleteToken',
   AddOrder = 'addOrder',
   UpdatePrices = 'updatePrices',
+  UpdateStrategy = 'updateStrategy',
 }
 
 // ------ Token:

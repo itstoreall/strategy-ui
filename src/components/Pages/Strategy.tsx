@@ -5,6 +5,10 @@ import { useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import useFetchAllUserStrategyOrders from '@/src/hooks/order/useFetchAllUserStrategyOrders';
+/*
+import useTxn from '@/src/hooks/useTxn';
+import useUpdateStrategy from '@/src/hooks/strategy/useUpdateStrategy';
+*/
 import useGlobalState from '@/src/hooks/useGlobalState';
 import useModal from '@/src/hooks/useModal';
 import * as enm from '@/src/enums';
@@ -18,6 +22,9 @@ import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import MainLoader from '@/src/components/MainLoader';
 import DotsLoader from '@/src/components/DotsLoader';
+/*
+import Button from '@/src/components/Button/Button';
+*/
 
 type Snapshot = {
   totalAmount: number;
@@ -47,6 +54,11 @@ const Strategy = () => {
   const [avgBuyPrice, setAvgBuyPrice] = useState(0);
   const [isEditMenu, setIsEditMenu] = useState(false);
 
+  /*
+  const { mutateAsync: updateStrategy } = useUpdateStrategy();
+  const { isPending, txn } = useTxn();
+  */
+
   const { updatedTokens } = useGlobalState();
   const { data: session } = useSession();
   const pathname = usePathname();
@@ -66,11 +78,13 @@ const Strategy = () => {
     { enabled: !!userId }
   );
 
-  /*
+  // /*
   useEffect(() => {
-    console.log('strategy:', userOrderData?.strategy);
+    if (userOrderData) {
+      console.log('->', userOrderData.strategy.data);
+    }
   }, [userOrderData]);
-  */
+  // */
 
   // ---
 
@@ -191,6 +205,18 @@ const Strategy = () => {
   const handleModal = () => openModal(ModalContentEnum.Form);
 
   /*
+  const handleUpdateStrategy = async () => {
+    if (!userOrderData?.strategy.id) return;
+    txn(() =>
+      updateStrategy({
+        strategyId: userOrderData?.strategy.id,
+        params: { data: { value: 'a-17' } },
+      })
+    );
+  };
+  */
+
+  /*
   const calculateStrategyPercent = () => {
     const { deposit, profit } = snapshot;
     const percent = profit ? ((profit - deposit) / deposit) * 100 : -100;
@@ -230,6 +256,10 @@ const Strategy = () => {
           handleModal={handleModal}
           isButtonDisabled={!updatedTokens}
         />
+
+        {/* <Button clickContent={handleUpdateStrategy} disabled={isPending}>
+          {isPending ? 'Updating...' : 'Update'}
+        </Button> */}
 
         {userOrderData?.orders ? (
           <div className="main-content">
