@@ -127,6 +127,39 @@ button.uni-button {
     }
   }
 
+  &.section-trade-strategy-list-item-content-button {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0;
+    margin: -5px 0 0 -10px;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    // background-color: teal;
+
+    > span.trade-strategy-content-button-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 20px;
+      height: 20px;
+      background-color: $smokeVioletDark;
+      border-radius: 50%;
+      opacity: 0.5;
+
+      &.selected {
+        background-color: $googleGreen;
+        opacity: 1;
+      }
+
+      > svg path {
+        fill: $violetDeepDark;
+      }
+    }
+  }
+
   &.main-divider-section-average-price-button {
     display: flex;
     justify-content: center;

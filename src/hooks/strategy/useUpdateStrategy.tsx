@@ -22,9 +22,7 @@ const useUpdateStrategy = () => {
       return service.strategyService.updateStratedy(strategyId, params);
     },
     onSuccess: (data) => {
-      console.log('success 1:', data);
       if (data) {
-        console.log('success 2:', data);
         updateData([QueryKeyEnum.UserOrders, QueryKeyEnum.UserStrategyOrders]);
       }
     },

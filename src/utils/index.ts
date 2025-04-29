@@ -85,6 +85,12 @@ export const trimString: TrimAddress = (str, start, end) => {
     : str;
 };
 
+export const formatBillionAmount = (amount: string): string => {
+  if (Number(amount) < 1_000_000_000) return amount;
+  // return `${(Number(amount) / 1_000_000).toFixed(3)}M`;
+  return `${(Number(amount) / 1_000_000_000).toFixed(3)}B`;
+};
+
 export const formatMillionAmount = (amount: string): string => {
   if (Number(amount) < 1_000_000) return amount;
   return `${(Number(amount) / 1_000_000).toFixed(3)}M`;
@@ -99,7 +105,10 @@ export const uniNumberFormatter = (value: number): string => {
   if (value >= 1 || value <= -1) {
     // --- Handle non-small numbers normally:
     const _value = value.toString().split('.')[0];
-    if (_value.length >= 7) {
+    if (_value.length >= 10) {
+      // return `${(value / 1_000_000_000).toFixed(3)}B`;
+      return formatBillionAmount(value.toFixed());
+    } else if (_value.length >= 7) {
       return formatMillionAmount(value.toFixed());
     } else if (_value.length >= 4) {
       return formatOneHundredThousandAmount(value.toFixed());

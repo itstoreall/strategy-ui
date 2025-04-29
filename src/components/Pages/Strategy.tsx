@@ -8,7 +8,7 @@ import useFetchAllUserStrategyOrders from '@/src/hooks/order/useFetchAllUserStra
 /*
 import useTxn from '@/src/hooks/useTxn';
 import useUpdateStrategy from '@/src/hooks/strategy/useUpdateStrategy';
-*/
+// */
 import useGlobalState from '@/src/hooks/useGlobalState';
 import useModal from '@/src/hooks/useModal';
 import * as enm from '@/src/enums';
@@ -22,9 +22,10 @@ import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import MainLoader from '@/src/components/MainLoader';
 import DotsLoader from '@/src/components/DotsLoader';
+import TradeStrategySection from '../Section/TradeStrategySection';
 /*
 import Button from '@/src/components/Button/Button';
-*/
+// */
 
 type Snapshot = {
   totalAmount: number;
@@ -37,7 +38,7 @@ type Snapshot = {
 const c = {
   listLoaderColor: '#3a3f46',
   loading: 'Loading',
-  dividerTitle: 'Trades',
+  dividerTitle: 'Orders',
 };
 
 const {
@@ -57,7 +58,7 @@ const Strategy = () => {
   /*
   const { mutateAsync: updateStrategy } = useUpdateStrategy();
   const { isPending, txn } = useTxn();
-  */
+  // */
 
   const { updatedTokens } = useGlobalState();
   const { data: session } = useSession();
@@ -67,6 +68,7 @@ const Strategy = () => {
   const path = pathname.split('/')[2];
   const type = path.split('-')[0];
   const symbol = path.split('-')[1];
+  const token = updatedTokens?.find((token) => token?.symbol === symbol);
 
   const { RenderModal, openModal, ModalContentEnum } = useModal();
   const { userOrderData } = useFetchAllUserStrategyOrders(
@@ -80,8 +82,8 @@ const Strategy = () => {
 
   // /*
   useEffect(() => {
-    if (userOrderData) {
-      console.log('->', userOrderData.strategy.data);
+    if (!userOrderData) {
+      console.log('->', userOrderData);
     }
   }, [userOrderData]);
   // */
@@ -101,11 +103,13 @@ const Strategy = () => {
 
   useEffect(() => {
     if (!updatedTokens || !userOrderData) return;
-    const price = (
-      updatedTokens?.find((token) => {
-        return token?.symbol === userOrderData.orders[0]?.symbol;
-      }) ?? { price: 0 }
-    ).price;
+    const price = (token ?? { price: 0 }).price;
+    // const price = (
+    //   updatedTokens?.find((token) => {
+    //     return token?.symbol === symbol;
+    //     // return token?.symbol === userOrderData.orders[0]?.symbol;
+    //   }) ?? { price: 0 }
+    // ).price;
     setCurrentPrice(price);
     handleAVG(userOrderData.orders);
   }, [updatedTokens, userOrderData?.orders]);
@@ -214,7 +218,7 @@ const Strategy = () => {
       })
     );
   };
-  */
+  // */
 
   /*
   const calculateStrategyPercent = () => {
@@ -275,6 +279,10 @@ const Strategy = () => {
                 depositAmount={snapshot.deposit}
                 profitAmount={snapshot.profit}
               />
+
+              {token && userOrderData && (
+                <TradeStrategySection token={token} orderData={userOrderData} />
+              )}
 
               {updatedTokens ? (
                 <>
