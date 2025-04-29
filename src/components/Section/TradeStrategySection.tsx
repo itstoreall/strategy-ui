@@ -5,6 +5,7 @@ import { ExchangeEnum } from '@/src/enums';
 import { Order, OrderStrategyData, Token } from '@/src/types';
 import { copyToClipboard, uniNumberFormatter } from '@/src/utils';
 import Button from '../Button/Button';
+import MainDividerSection from './MainDividerSection';
 
 type Props = {
   token: Token;
@@ -129,39 +130,72 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
   };
 
   const OrderList = ({ token, orderSet }: ListProps) => (
-    <ul className="section-trade-strategy-list">
-      {orderSet.map((order) => {
-        const { id, amount, price, fiat } = order;
+    <>
+      <div className="section-trade-strategy-list-heading">
+        <div className="section-trade-strategy-list-heading-content">
+          <div className="trade-strategy-calculating-set">
+            <span className="trade-strategy-calculating-element">
+              {uniNumberFormatter(80000)}
+            </span>
+            <span className="trade-strategy-calculating-element">
+              {uniNumberFormatter(80000)}
+            </span>
+            <span className="trade-strategy-calculating-element">
+              {uniNumberFormatter(80000)}
+            </span>
+          </div>
+        </div>
+      </div>
 
-        const currentPrice = token.price;
-        const total = amount * currentPrice;
-        const percent = ((currentPrice - price) / price) * 100;
+      <ul className="section-trade-strategy-list">
+        {/* <li key={0} className="section-trade-strategy-list-item-heading">
+        <div className="section-trade-strategy-list-item-heading-content">
+        222
+        </div>
+        </li> */}
 
-        return percent > 0 ? (
-          <li key={id} className="section-trade-strategy-list-item">
-            <OrderContent
-              id={id}
-              amount={amount}
-              invested={fiat}
-              total={total}
-              percent={percent}
-              isSelected={selectedOrders.has(id.toString())}
-              onToggleSelect={handleToggleSelect}
-              onCopy={handleCopyValue}
-              copiedField={copiedField}
-            />
-          </li>
-        ) : null;
-      })}
-    </ul>
+        {orderSet.map((order) => {
+          const { id, amount, price, fiat } = order;
+
+          const currentPrice = token.price;
+          const total = amount * currentPrice;
+          const percent = ((currentPrice - price) / price) * 100;
+
+          return percent > 0 ? (
+            <li key={id} className="section-trade-strategy-list-item">
+              <OrderContent
+                id={id}
+                amount={amount}
+                invested={fiat}
+                total={total}
+                percent={percent}
+                isSelected={selectedOrders.has(id.toString())}
+                onToggleSelect={handleToggleSelect}
+                onCopy={handleCopyValue}
+                copiedField={copiedField}
+              />
+            </li>
+          ) : null;
+        })}
+      </ul>
+    </>
   );
 
   return orders && orders.length ? (
-    <section className="section trade-strategy">
-      <div className="section-content trade-strategy">
-        <OrderList token={token} orderSet={orders} />
-      </div>
-    </section>
+    <>
+      <MainDividerSection
+        className="order-list-devider"
+        title={'Binance trades'}
+        /*
+        subTitle={calculateStrategyPercent()}
+        */
+      />
+      <section className="section trade-strategy">
+        <div className="section-content trade-strategy">
+          <OrderList token={token} orderSet={orders} />
+        </div>
+      </section>
+    </>
   ) : null;
 };
 

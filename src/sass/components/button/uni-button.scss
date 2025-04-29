@@ -145,7 +145,7 @@ button.uni-button {
       align-items: center;
       width: 20px;
       height: 20px;
-      background-color: $smokeVioletDark;
+      background-color: $greyDark;
       border-radius: 50%;
       opacity: 0.5;
 
@@ -155,7 +155,7 @@ button.uni-button {
       }
 
       > svg path {
-        fill: $violetDeepDark;
+        fill: $blackMiddle;
       }
     }
   }
