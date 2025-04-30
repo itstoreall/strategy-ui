@@ -15,11 +15,13 @@ import PageHeading from '@/src/components/Layout/PageHeading';
 import MainLoader from '@/src/components/MainLoader';
 import Button from '@/src/components/Button/Button';
 
-const config = {
+const c = {
   pageTitle: 'Settings',
   connectAccount: 'Connect Google Account',
-  disconnectAccount: 'Disconnect Google Account',
   signOut: 'Sign Out',
+  enableTakeProfit: 'Enable Take Profit',
+  disableTakeProfit: 'Disable Take Profit',
+  disconnectAccount: 'Disconnect Google Account',
   deleteUser: 'Delete Account',
 };
 
@@ -32,9 +34,11 @@ const Settings = ({ session }: Props) => {
     isAuth,
     userId,
     username,
+    takeProfit,
     isPending,
     isAccountLinked,
     setUsername,
+    handleTakeProfit,
     handleUpdateUsername,
     handleGoogleAccount,
     handleDeleteUser,
@@ -47,7 +51,7 @@ const Settings = ({ session }: Props) => {
   return (
     <PageContainer label={Label.Main}>
       <main className="main">
-        <PageHeading title={config.pageTitle} role={role} />
+        <PageHeading title={c.pageTitle} role={role} />
 
         {isAuth && username && role ? (
           <div className="main-content">
@@ -70,24 +74,30 @@ const Settings = ({ session }: Props) => {
                 clickContent={handleSignOut}
                 disabled={isPending || isDisabled}
               >
-                {config.signOut}
+                {c.signOut}
+              </Button>
+
+              <Button
+                clickContent={handleTakeProfit}
+                disabled={isPending || isDisabled}
+              >
+                {takeProfit ? c.disableTakeProfit : c.enableTakeProfit}
               </Button>
 
               <Button
                 clickContent={handleGoogleAccount}
                 disabled={isPending || isDisabled}
               >
-                {!isAccountLinked
-                  ? config.connectAccount
-                  : config.disconnectAccount}
+                {!isAccountLinked ? c.connectAccount : c.disconnectAccount}
               </Button>
 
               <Button
                 className="delete-user-button"
                 clickContent={handleDeleteUser}
-                disabled={isPending || isDisabled}
+                disabled={true}
+                // disabled={isPending || isDisabled}
               >
-                {config.deleteUser}
+                {c.deleteUser}
               </Button>
             </ButtonFullScreenContainer>
           </div>

@@ -36,6 +36,7 @@ type Snapshot = {
 };
 
 const c = {
+  lsTakeProfitKey: 'takeProfit',
   listLoaderColor: '#3a3f46',
   loading: 'Loading',
   dividerTitle: 'Orders',
@@ -51,6 +52,7 @@ const {
 
 const Strategy = () => {
   const [filterExchange, setFilterExchange] = useState(enm.ExchangeEnum.All);
+  const [isTakeProfit, setIsTakeProfit] = useState(false);
   const [currentPrice, setCurrentPrice] = useState(0);
   const [avgBuyPrice, setAvgBuyPrice] = useState(0);
   const [isEditMenu, setIsEditMenu] = useState(false);
@@ -102,14 +104,13 @@ const Strategy = () => {
   // ---
 
   useEffect(() => {
+    const takeProfit = localStorage.getItem(c.lsTakeProfitKey) === 'true';
+    setIsTakeProfit(takeProfit);
+  }, []);
+
+  useEffect(() => {
     if (!updatedTokens || !userOrderData) return;
     const price = (token ?? { price: 0 }).price;
-    // const price = (
-    //   updatedTokens?.find((token) => {
-    //     return token?.symbol === symbol;
-    //     // return token?.symbol === userOrderData.orders[0]?.symbol;
-    //   }) ?? { price: 0 }
-    // ).price;
     setCurrentPrice(price);
     handleAVG(userOrderData.orders);
   }, [updatedTokens, userOrderData?.orders]);
@@ -280,7 +281,7 @@ const Strategy = () => {
                 profitAmount={snapshot.profit}
               />
 
-              {token && userOrderData && (
+              {isTakeProfit && token && userOrderData && (
                 <TradeStrategySection token={token} orderData={userOrderData} />
               )}
 
