@@ -143,8 +143,8 @@ button.uni-button {
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 20px;
-      height: 20px;
+      width: 14px;
+      height: 14px;
       background-color: $greyDark;
       border-radius: 50%;
       opacity: 0.5;
@@ -156,6 +156,11 @@ button.uni-button {
 
       > svg path {
         fill: $blackMiddle;
+      }
+
+      @include media-screen-orientation('min', $tablet) {
+        width: 16px;
+        height: 16px;
       }
     }
   }

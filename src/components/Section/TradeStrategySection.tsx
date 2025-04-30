@@ -1,11 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
-import { CgCheck } from 'react-icons/cg';
 import { ExchangeEnum } from '@/src/enums';
 import { Order, OrderStrategyData, Token } from '@/src/types';
 import { copyToClipboard, uniNumberFormatter } from '@/src/utils';
-import Button from '../Button/Button';
-import MainDividerSection from './MainDividerSection';
+import MainDividerSection from '@/src/components/Section/MainDividerSection';
+import Button from '@/src/components/Button/Button';
 
 type Props = {
   token: Token;
@@ -85,29 +84,36 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
     return (
       <div className="section-trade-strategy-list-item-content">
         <div className="trade-strategy-element-data-set">
-          <span
-            className={`trade-strategy-element ${
-              isCopied && copiedField.key === 'amount' ? 'copied' : ''
-            }`}
-            onClick={() => onCopy(id, 'amount', amount)}
-          >
-            {uniNumberFormatter(amount)}
+          <span className="trade-strategy-element">
+            <span
+              className={`trade-strategy-element-value ${
+                isCopied && copiedField.key === 'amount' ? 'copied' : ''
+              }`}
+              onClick={() => onCopy(id, 'amount', amount)}
+            >
+              {uniNumberFormatter(amount)}
+            </span>
           </span>
-          <span
-            className={`trade-strategy-element ${
-              isCopied && copiedField.key === 'invested' ? 'copied' : ''
-            }`}
-            onClick={() => onCopy(id, 'invested', invested)}
-          >
-            {uniNumberFormatter(invested)}
+          <span className="trade-strategy-element">
+            <span
+              className={`trade-strategy-element-value ${
+                isCopied && copiedField.key === 'invested' ? 'copied' : ''
+              }`}
+              onClick={() => onCopy(id, 'invested', invested)}
+            >
+              {uniNumberFormatter(invested)}
+            </span>
           </span>
-          <span
-            className={`trade-strategy-element ${
-              isCopied && copiedField.key === 'total' ? 'copied' : ''
-            }`}
-            onClick={() => onCopy(id, 'total', total)}
-          >
-            {uniNumberFormatter(total)}
+          <span className="trade-strategy-element">
+            <span
+              className={`trade-strategy-element-value ${
+                isCopied && copiedField.key === 'total' ? 'copied' : ''
+              }`}
+              onClick={() => onCopy(id, 'total', total)}
+            >
+              {uniNumberFormatter(total)}
+              {/* {uniNumberFormatter(8000000)} */}
+            </span>
           </span>
         </div>
 
@@ -120,9 +126,7 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
               className={`trade-strategy-content-button-icon ${
                 isSelected ? 'selected' : ''
               }`}
-            >
-              {isSelected && <CgCheck size={20} />}
-            </span>
+            />
           </Button>
         </div>
       </div>
@@ -185,7 +189,7 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
     <>
       <MainDividerSection
         className="order-list-devider"
-        title={'Binance trades'}
+        title={'Binance trading'}
         /*
         subTitle={calculateStrategyPercent()}
         */

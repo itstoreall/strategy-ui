@@ -1,13 +1,11 @@
 @use '@/src/sass/base/vars' as *;
 @use '@/src/sass/mixins' as *;
 
-// $mainColor: $smokeVioletDark;
 $mainColor: $greyDeepDark;
 
 // General
 section.section.trade-strategy {
-  background-color: transparent;
-  // padding-top: 0.5rem;
+  // background-color: transparent;
   min-height: 1rem;
 }
 
@@ -16,37 +14,20 @@ section.trade-strategy {
   > div.section-content.trade-strategy {
     display: flex;
     flex-direction: column;
-    // background-color: $violetDeepDark;
-    background-color: $blackMiddle;
-    // border: 1px solid $greyDeepDark;
-    border: 1px solid $mainColor;
-    border-radius: $middleBorderRadius;
 
     > div.section-trade-strategy-list-heading {
-      // height: 100px;
-      // background-color: cadetblue;
-      border: 1px solid $mainColor;
-      border-radius: $middleBorderRadius;
-      background-color: $black;
-      // background-color: $black;
+      border-bottom: 0.05rem solid $greyDark;
 
       > div.section-trade-strategy-list-heading-content {
-        // margin: -0.7rem -0.7rem 0 -0.7rem;
-        // height: calc(100% + 0.7rem);
         height: 100px;
-        // background-color: $googleGreenDeepDark;
-        // border-radius: $middleBorderRadius $middleBorderRadius 0 0;
 
         > div.trade-strategy-calculating-set {
-          padding: 0.7rem;
           height: calc(100% - 1.4rem);
           // background-color: $blue;
 
           > span.trade-strategy-calculating-element {
             min-height: 100%;
-            // background-color: teal;
             color: $greyMiddle;
-            // color: $googleGreen;
           }
         }
       }
@@ -56,24 +37,29 @@ section.trade-strategy {
       display: grid;
 
       > li.section-trade-strategy-list-item {
+        // background-color: $blue;
+
         &:not(:last-child) {
-          border-bottom: 1px solid $mainColor;
+          border-bottom: 0.05rem solid $greyDark;
+          // border-bottom: 1px solid $mainColor;
         }
 
-        // &:first-child {
-        //   > div.section-trade-strategy-list-item-content {
-        //     align-items: flex-start;
+        /*
+        &:first-child {
+          > div.section-trade-strategy-list-item-content {
+            align-items: flex-start;
 
-        //     > div.trade-strategy-element-data-set {
-        //       > span.trade-strategy-element {
-        //         align-items: flex-start;
-        //         padding-top: 2.5px;
-        //         height: 27.5px;
-        //         // background-color: $googleBlueMiddleDark;
-        //       }
-        //     }
-        //   }
-        // }
+            > div.trade-strategy-element-data-set {
+              > span.trade-strategy-element {
+                align-items: flex-start;
+                padding-top: 2.5px;
+                height: 27.5px;
+                // background-color: $googleBlueMiddleDark;
+              }
+            }
+          }
+        }
+        */
 
         &:last-child {
           > div.section-trade-strategy-list-item-content {
@@ -82,8 +68,8 @@ section.trade-strategy {
             > div.trade-strategy-element-data-set {
               > span.trade-strategy-element {
                 align-items: flex-end;
-                padding-bottom: 2.5px;
-                height: 27.5px;
+                padding-bottom: 3px;
+                height: 27px;
                 // background-color: $googleBlueMiddleDark;
               }
             }
@@ -105,19 +91,18 @@ section.trade-strategy {
             > span.trade-strategy-element {
               display: flex;
               align-items: center;
+              padding-right: 10px;
               width: 100%;
               height: 40px;
-              color: $greyMiddle;
-              // color: $violetLight;
+              color: $greyLight;
 
-              padding-right: 10px;
-              // border-right: 0.05rem solid $mainColor;
+              > span.trade-strategy-element-value {
+                cursor: pointer;
+                user-select: none;
 
-              cursor: pointer;
-              user-select: none;
-
-              &.copied {
-                animation: copiedAnimation $ease03s;
+                &.copied {
+                  animation: copiedAnimation $ease03s;
+                }
               }
 
               &:not(:first-child) {
@@ -186,28 +171,8 @@ section.trade-strategy {
 
   @include media-screen-orientation('min', $tablet) {
     > div.section-content.trade-strategy {
-      // > div.section-trade-strategy-list-heading {
-      //   > div.section-trade-strategy-list-heading-content {
-      //     // margin: -1rem -1rem 0 -1rem;
-      //     // height: calc(100% + 1rem);
-      //     // background-color: $mainColor;
-      //   }
-      // }
-
       > ul.section-trade-strategy-list {
         > li.section-trade-strategy-list-item {
-          // &:first-child {
-          //   > div.section-trade-strategy-list-item-content {
-          //     align-items: flex-start;
-
-          //     > div.trade-strategy-element-data-set {
-          //       > span.trade-strategy-element {
-          //         height: 33px;
-          //       }
-          //     }
-          //   }
-          // }
-
           &:last-child {
             > div.section-trade-strategy-list-item-content {
               align-items: flex-end;
@@ -215,6 +180,7 @@ section.trade-strategy {
               > div.trade-strategy-element-data-set {
                 > span.trade-strategy-element {
                   height: 33px;
+                  padding-bottom: 2.5px;
                 }
               }
             }
@@ -237,12 +203,10 @@ section.trade-strategy {
 
 @keyframes copiedAnimation {
   0% {
-    color: $violetLight;
   }
   50% {
-    color: $white;
+    color: $violetLight;
   }
   100% {
-    color: $violetLight;
   }
 }
