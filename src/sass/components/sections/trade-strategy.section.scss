@@ -23,6 +23,8 @@ section.trade-strategy {
         height: 100px;
 
         > div.trade-strategy-calculating-set {
+          display: flex;
+          gap: 1rem;
           height: calc(100% - 1.4rem);
           // background-color: $blue;
 
@@ -98,6 +100,12 @@ section.trade-strategy {
 
           &.selected {
             background-color: $greyDeepDarkPlus;
+
+            > div.trade-strategy-element-data-set {
+              > span.trade-strategy-element {
+                opacity: 1;
+              }
+            }
           }
 
           > div.trade-strategy-element-data-set {
@@ -113,7 +121,7 @@ section.trade-strategy {
               width: 100%;
               height: 40px;
               color: $greyLight;
-              opacity: 0.8;
+              opacity: 0.7;
 
               > span.trade-strategy-element-value {
                 cursor: pointer;

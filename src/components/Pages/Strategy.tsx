@@ -1,7 +1,7 @@
 'use client';
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import useFetchAllUserStrategyOrders from '@/src/hooks/order/useFetchAllUserStrategyOrders';
@@ -103,7 +103,7 @@ const Strategy = () => {
 
   // ---
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const takeProfit = localStorage.getItem(c.lsTakeProfitKey) === 'true';
     setIsTakeProfit(takeProfit);
   }, []);

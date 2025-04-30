@@ -30,10 +30,17 @@ type OrderContentProps = {
   copiedField: CopiedField | null;
 };
 
+const c = {
+  dividerTitle: 'Take Profit on Binance',
+};
+
 const TradeStrategySection = ({ token, orderData }: Props) => {
   const [selectedOrders, setSelectedOrders] = useState<Set<string>>(new Set());
   const [copiedField, setCopiedField] = useState<CopiedField | null>(null);
   const [orders, setOrders] = useState<Order[] | null>(null);
+  const [isSelectedAllOrders, seIsSelectedAllOrders] = useState(false);
+  const [totalSelectedAmount, setTotalSelectedAmount] = useState<number>(0);
+  // const [totalProfit, setTotalProfit] = useState<number>(0);
 
   useEffect(() => {
     if (orderData) {
@@ -49,6 +56,21 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
     }
   }, [orderData]);
 
+  // Calculate the total amount of selected orders
+  useEffect(() => {
+    if (orders) {
+      const totalAmount = orders.reduce((total, order) => {
+        if (selectedOrders.has(order.id.toString())) {
+          return total + order.amount;
+        }
+        return total;
+      }, 0);
+      setTotalSelectedAmount(totalAmount);
+    }
+  }, [selectedOrders, orders]);
+
+  // ---
+
   const handleToggleSelect = (id: string) => {
     setSelectedOrders((prevSelected) => {
       const updatedSelected = new Set(prevSelected);
@@ -58,6 +80,19 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
         updatedSelected.add(id);
       }
       return updatedSelected;
+    });
+  };
+
+  const handleSelectAllOrders = () => {
+    seIsSelectedAllOrders((prev) => {
+      const newState = !prev;
+      if (newState && orders) {
+        const allOrderIds = orders.map((order) => order.id.toString());
+        setSelectedOrders(new Set(allOrderIds));
+      } else {
+        setSelectedOrders(new Set());
+      }
+      return newState;
     });
   };
 
@@ -80,6 +115,8 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
     copiedField,
   }: OrderContentProps) => {
     const isCopied = copiedField?.id === id;
+
+    // ---
 
     const selectedStyle = isSelected ? 'selected' : '';
     const contentStyle = `section-trade-strategy-list-item-content ${selectedStyle}`;
@@ -139,9 +176,11 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
         <div className="section-trade-strategy-list-heading-content">
           <div className="trade-strategy-calculating-set">
             <span className="trade-strategy-calculating-element">
-              {uniNumberFormatter(80000)}
+              {uniNumberFormatter(totalSelectedAmount)}
+              {/* {uniNumberFormatter(80000)} */}
             </span>
             <span className="trade-strategy-calculating-element">
+              {/* {uniNumberFormatter(totalProfit)} */}
               {uniNumberFormatter(80000)}
             </span>
             <span className="trade-strategy-calculating-element">
@@ -183,7 +222,10 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
     <>
       <MainDividerSection
         className="order-list-devider"
-        title={'Binance trading'}
+        title={c.dividerTitle}
+        isSwitchButton
+        isDisabled={!isSelectedAllOrders}
+        setIsDisabled={handleSelectAllOrders}
         /*
         subTitle={calculateStrategyPercent()}
         */
