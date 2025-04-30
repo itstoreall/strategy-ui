@@ -2,6 +2,7 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
 import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
@@ -37,6 +38,7 @@ const Dashboard = () => {
   const { userOrders } = useFetchAllUserOrders(currentUser, ordersParam);
   const { RenderModal, openModal, ModalContentEnum } = useModal();
   const { updatedTokens, users } = useGlobalState();
+  const path = useParams();
 
   const currentUserId = currentUser ? currentUser : (userId as string);
 
@@ -55,6 +57,7 @@ const Dashboard = () => {
   }, [currentUser]);
 
   useEffect(() => {
+    if (!userOrders) return;
     if (userOrders?.buy.length) {
       let totalDeposit = 0;
       const assets = userOrders.buy.map((order: Order) => {
@@ -69,7 +72,7 @@ const Dashboard = () => {
       setUsingTokens(0);
       setCurrentProfit(0);
     }
-  }, [userOrders]);
+  }, [userOrders, path]);
 
   useEffect(() => {
     if (!userOrders || !updatedTokens) return;
