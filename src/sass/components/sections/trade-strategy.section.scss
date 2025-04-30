@@ -7,6 +7,7 @@ $mainColor: $greyDeepDark;
 section.section.trade-strategy {
   // background-color: transparent;
   min-height: 1rem;
+  background-color: $greyDeepDarkPlus;
 }
 
 // Custom
@@ -16,6 +17,8 @@ section.trade-strategy {
     flex-direction: column;
 
     > div.section-trade-strategy-list-heading {
+      // background-color: $greyDeepDarkPlus;
+
       > div.section-trade-strategy-list-heading-content {
         height: 100px;
 
@@ -43,6 +46,13 @@ section.trade-strategy {
 
         &:not(:last-child) {
           border-bottom: 0.1rem solid $black;
+        }
+
+        &:last-child {
+          > div.section-trade-strategy-list-item-content {
+            border-radius: 0 0 $middleBorderRadius $middleBorderRadius;
+            // background-color: red;
+          }
         }
 
         /*
@@ -84,6 +94,11 @@ section.trade-strategy {
           justify-content: space-between;
           align-items: center;
           // background-color: teal;
+          background-color: $greyDeepDark;
+
+          &.selected {
+            background-color: $greyDeepDarkPlus;
+          }
 
           > div.trade-strategy-element-data-set {
             display: flex;

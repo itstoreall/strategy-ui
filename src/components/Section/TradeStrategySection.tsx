@@ -81,8 +81,12 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
   }: OrderContentProps) => {
     const isCopied = copiedField?.id === id;
 
+    const selectedStyle = isSelected ? 'selected' : '';
+    const contentStyle = `section-trade-strategy-list-item-content ${selectedStyle}`;
+    const buttonIconStyle = `trade-strategy-content-button-icon ${selectedStyle}`;
+
     return (
-      <div className="section-trade-strategy-list-item-content">
+      <div className={contentStyle}>
         <div className="trade-strategy-element-data-set">
           <span className="trade-strategy-element">
             <span
@@ -122,11 +126,7 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
             className="section-trade-strategy-list-item-content-button"
             clickContent={() => onToggleSelect(id.toString())}
           >
-            <span
-              className={`trade-strategy-content-button-icon ${
-                isSelected ? 'selected' : ''
-              }`}
-            />
+            <span className={buttonIconStyle} />
           </Button>
         </div>
       </div>
@@ -152,12 +152,6 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
       </div>
 
       <ul className="section-trade-strategy-list">
-        {/* <li key={0} className="section-trade-strategy-list-item-heading">
-        <div className="section-trade-strategy-list-item-heading-content">
-        222
-        </div>
-        </li> */}
-
         {orderSet.map((order) => {
           const { id, amount, price, fiat } = order;
 
