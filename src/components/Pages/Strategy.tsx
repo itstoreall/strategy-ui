@@ -13,8 +13,10 @@ import useGlobalState from '@/src/hooks/useGlobalState';
 import useModal from '@/src/hooks/useModal';
 import * as enm from '@/src/enums';
 import * as t from '@/src/types';
+import * as u from '@/src/utils';
 import StrategyOrderListSection from '@/src/components/Section/StrategyOrderListSection';
 import StrategySnapshotSection from '@/src/components/Section/StrategySnapshotSection';
+import TradeStrategySection from '@/src/components/Section/TradeStrategySection';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import PageContainer, { Label } from '@/src/components/Container/Page';
@@ -22,7 +24,6 @@ import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import MainLoader from '@/src/components/MainLoader';
 import DotsLoader from '@/src/components/DotsLoader';
-import TradeStrategySection from '../Section/TradeStrategySection';
 /*
 import Button from '@/src/components/Button/Button';
 // */
@@ -134,20 +135,20 @@ const Strategy = () => {
   };
 
   const handleAVG = (orders: t.Order[]) => {
-    const averagePrice = calculateAveragePrice(orders);
+    const averagePrice = u.calculateAVGPrice(orders);
     setAvgBuyPrice(averagePrice);
   };
 
-  const calculateAveragePrice = (orders: t.Order[]) => {
-    if (!orders?.length) return 0;
-    const totalPrice = orders.reduce((acc, order) => {
-      return acc + order.price * order.amount;
-    }, 0);
-    const totalAmount = orders.reduce((acc, order) => {
-      return acc + order.amount;
-    }, 0);
-    return totalAmount ? totalPrice / totalAmount : 0;
-  };
+  // const calculateAveragePrice = (orders: t.Order[]) => {
+  //   if (!orders?.length) return 0;
+  //   const totalPrice = orders.reduce((acc, order) => {
+  //     return acc + order.price * order.amount;
+  //   }, 0);
+  //   const totalAmount = orders.reduce((acc, order) => {
+  //     return acc + order.amount;
+  //   }, 0);
+  //   return totalAmount ? totalPrice / totalAmount : 0;
+  // };
 
   const classifyOrder = (percent: number, strategy: t.Strategy) => {
     if (userOrderData && percent >= userOrderData.strategy.target)

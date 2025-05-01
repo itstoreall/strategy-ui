@@ -1,3 +1,5 @@
+import { Order } from '@/src/types';
+
 type TrimAddress = (address: string, start: number, end: number) => string;
 
 type Format = 'DD-MM-YY' | 'MM-YY' | 'YY' | 'MM' | 'DD;' | 'DD-MM-YY HH:mm:ss';
@@ -126,4 +128,15 @@ export const uniNumberFormatter = (value: number): string => {
     return `0.0{${leadingZeros}}${significantDigits.slice(0, 2)}`;
   }
   return value.toFixed(2);
+};
+
+export const calculateAVGPrice = (orders: Order[]) => {
+  if (!orders?.length) return 0;
+  const totalPrice = orders.reduce((acc, order) => {
+    return acc + order.price * order.amount;
+  }, 0);
+  const totalAmount = orders.reduce((acc, order) => {
+    return acc + order.amount;
+  }, 0);
+  return totalAmount ? totalPrice / totalAmount : 0;
 };

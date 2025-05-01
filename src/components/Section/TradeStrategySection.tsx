@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { ExchangeEnum } from '@/src/enums';
 import { Order, OrderStrategyData, Token } from '@/src/types';
-import { copyToClipboard, uniNumberFormatter } from '@/src/utils';
+import * as u from '@/src/utils';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
 import Button from '@/src/components/Button/Button';
 
@@ -39,8 +39,11 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
   const [copiedField, setCopiedField] = useState<CopiedField | null>(null);
   const [orders, setOrders] = useState<Order[] | null>(null);
   const [isSelectedAllOrders, seIsSelectedAllOrders] = useState(false);
-  const [totalSelectedAmount, setTotalSelectedAmount] = useState<number>(0);
-  // const [totalProfit, setTotalProfit] = useState<number>(0);
+  const [totalSelectedAmount, setTotalSelectedAmount] = useState(0);
+  const [totalSelectedInvested, setTotalSelectedInvested] = useState(0);
+  const [avgSelectedBuyPrice, setAvgSelectedBuyPrice] = useState(0);
+  const [totalSelectedUnrealized, setTotalSelectedUnrealized] = useState(0);
+  const [totalSelectedProfit, setTotalSelectedProfit] = useState(0);
 
   useEffect(() => {
     if (orderData) {
@@ -56,26 +59,56 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
     }
   }, [orderData]);
 
-  // Calculate the total amount of selected orders
   useEffect(() => {
     if (orders) {
+      const selectedOrderList = orders.filter((order) =>
+        selectedOrders.has(order.id.toString())
+      );
+
+      // Update selection state
       if (orders?.length === selectedOrders.size) {
         seIsSelectedAllOrders(true);
       } else if (isSelectedAllOrders && !selectedOrders.size) {
         seIsSelectedAllOrders(false);
       }
 
-      const totalAmount = orders.reduce((total, order) => {
-        if (selectedOrders.has(order.id.toString())) {
-          return total + order.amount;
-        }
-        return total;
-      }, 0);
+      // Calculate totals
+      const { totalAmount, totalUnrealized, totalInvested } = orders.reduce(
+        (acc, order) => {
+          if (selectedOrders.has(order.id.toString())) {
+            acc.totalAmount += order.amount;
+            acc.totalUnrealized += order.amount * token.price;
+            acc.totalInvested += order.fiat;
+          }
+          return acc;
+        },
+        { totalAmount: 0, totalUnrealized: 0, totalInvested: 0 }
+        // { totalAmount: 0, totalUnrealized: 0, totalInvested: 0 }
+      );
+
       setTotalSelectedAmount(totalAmount);
+      setTotalSelectedInvested(totalInvested);
+      setTotalSelectedUnrealized(totalUnrealized);
+      setTotalSelectedProfit(totalUnrealized - totalInvested);
+
+      // Calculate AVG Buy Price
+      const avgPrice = u.calculateAVGPrice(selectedOrderList);
+      setAvgSelectedBuyPrice(avgPrice);
     }
-  }, [selectedOrders, orders]);
+  }, [selectedOrders, orders, token]);
 
   // ---
+
+  // const calculateAveragePrice = (orders: Order[]) => {
+  //   if (!orders?.length) return 0;
+  //   const totalPrice = orders.reduce((acc, order) => {
+  //     return acc + order.price * order.amount;
+  //   }, 0);
+  //   const totalAmount = orders.reduce((acc, order) => {
+  //     return acc + order.amount;
+  //   }, 0);
+  //   return totalAmount ? totalPrice / totalAmount : 0;
+  // };
 
   const handleToggleSelect = (id: string) => {
     setSelectedOrders((prevSelected) => {
@@ -105,7 +138,7 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
   const handleCopyValue = (id: number, key: string, val: number) => {
     if (copiedField) return;
     setCopiedField({ id, key });
-    copyToClipboard(val.toString());
+    u.copyToClipboard(val.toString());
     setTimeout(() => setCopiedField(null), 500);
   };
 
@@ -138,7 +171,7 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
               }`}
               onClick={() => onCopy(id, 'amount', amount)}
             >
-              {uniNumberFormatter(amount)}
+              {u.uniNumberFormatter(amount)}
             </span>
           </span>
           <span className="trade-strategy-element">
@@ -148,7 +181,7 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
               }`}
               onClick={() => onCopy(id, 'invested', invested)}
             >
-              {uniNumberFormatter(invested)}
+              {u.uniNumberFormatter(invested)}
             </span>
           </span>
           <span className="trade-strategy-element">
@@ -158,7 +191,7 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
               }`}
               onClick={() => onCopy(id, 'total', total)}
             >
-              {uniNumberFormatter(total)}
+              {u.uniNumberFormatter(total)}
               {/* {uniNumberFormatter(8000000)} */}
             </span>
           </span>
@@ -182,15 +215,24 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
         <div className="section-trade-strategy-list-heading-content">
           <div className="trade-strategy-calculating-set">
             <span className="trade-strategy-calculating-element">
-              {uniNumberFormatter(totalSelectedAmount)}
+              {u.uniNumberFormatter(totalSelectedAmount)}
               {/* {uniNumberFormatter(80000)} */}
             </span>
             <span className="trade-strategy-calculating-element">
-              {/* {uniNumberFormatter(totalProfit)} */}
-              {uniNumberFormatter(80000)}
+              {u.uniNumberFormatter(totalSelectedInvested)}
+              {/* {uniNumberFormatter(80000)} */}
             </span>
             <span className="trade-strategy-calculating-element">
-              {uniNumberFormatter(80000)}
+              {u.uniNumberFormatter(totalSelectedUnrealized)}
+              {/* {uniNumberFormatter(80000)} */}
+            </span>
+            <span className="trade-strategy-calculating-element">
+              {u.uniNumberFormatter(totalSelectedProfit)}
+              {/* {uniNumberFormatter(80000)} */}
+            </span>
+            <span className="trade-strategy-calculating-element">
+              {u.uniNumberFormatter(avgSelectedBuyPrice)}
+              {/* {uniNumberFormatter(80000)} */}
             </span>
           </div>
         </div>
