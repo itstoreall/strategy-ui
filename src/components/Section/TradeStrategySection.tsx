@@ -59,6 +59,12 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
   // Calculate the total amount of selected orders
   useEffect(() => {
     if (orders) {
+      if (orders?.length === selectedOrders.size) {
+        seIsSelectedAllOrders(true);
+      } else if (isSelectedAllOrders && !selectedOrders.size) {
+        seIsSelectedAllOrders(false);
+      }
+
       const totalAmount = orders.reduce((total, order) => {
         if (selectedOrders.has(order.id.toString())) {
           return total + order.amount;
