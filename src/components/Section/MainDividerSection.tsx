@@ -87,7 +87,8 @@ const MainDividerSection = (props: Props) => {
 
   const subTitleColor = !subTitle?.includes('-') ? 'color-green' : 'color-blue';
   const subTitleStyle = `main-divider-section-subtitle ${subTitleColor}`;
-  const avgColor = currentPrice >= avgBuyPrice ? 'color-green' : 'color-grey';
+  const isPrices = currentPrice && avgBuyPrice;
+  const avgColor = isPrices && currentPrice >= avgBuyPrice ? 'color-green' : '';
   const avgStyle = `main-divider-section-average-price-button ${avgColor}`;
 
   return (

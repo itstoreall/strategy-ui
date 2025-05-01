@@ -176,17 +176,20 @@ button.uni-button {
     font-size: 0.7rem;
     background-color: transparent;
     border-radius: $smallBorderRadius;
-    // transition: $ease03s;
+    color: $greyDark;
+    border: 0.08rem solid $greyDark;
 
     &.color-green {
       color: $googleGreen;
-      border: 0.08rem solid $googleGreen;
+      border-color: $googleGreen;
     }
 
+    /*
     &.color-grey {
       color: $greyDark;
       border: 0.08rem solid $greyDark;
     }
+    */
   }
 
   &.main-divider-section-sort-toggle-button {
