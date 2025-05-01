@@ -1,6 +1,6 @@
-import { formatMillionAmount } from '@/src/utils';
-import DotsLoader from '../DotsLoader';
 import useGlobalState from '@/src/hooks/useGlobalState';
+import { formatMillionAmount } from '@/src/utils';
+import DotsLoader from '@/src/components/DotsLoader';
 
 type Props = {
   tokenAmount: number;

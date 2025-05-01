@@ -37,7 +37,7 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
   });
 
   const { updateData } = useInvalidateQueries();
-  const { unrealized, handleUnrealized } = useGlobalState();
+  const { handleUnrealized } = useGlobalState();
 
   useEffect(() => {
     localStorage.setItem(currentLsKey, JSON.stringify(isExpanded));
@@ -114,7 +114,7 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
   });
 
   useEffect(() => {
-    if (aggregatedData && aggregatedData.length > 0 && !unrealized) {
+    if (aggregatedData && aggregatedData.length > 0) {
       let unrealizedValue: number = 0;
       aggregatedData.forEach((item) => {
         if (item.unrealized) {

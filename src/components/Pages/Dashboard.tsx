@@ -91,6 +91,23 @@ const Dashboard = () => {
     setIsProcess(false);
   }, [updatedTokens, userOrders]);
 
+  // useEffect(() => {
+  //   console.log(1);
+  //   if (aggregatedData && aggregatedData.length > 0 && !unrealized) {
+  //     console.log(2);
+  //     let unrealizedValue: number = 0;
+  //     aggregatedData.forEach((item) => {
+  //       if (item.unrealized) {
+  //         unrealizedValue += item.unrealized;
+  //       }
+  //     });
+  //     if (unrealizedValue) {
+  //       console.log(3);
+  //       handleUnrealized(+unrealizedValue.toFixed());
+  //     }
+  //   }
+  // }, [aggregatedData]);
+
   const toggleUser = (currentUser: string) => {
     if (!users) return;
     for (let i = 0; i < users.length; i++) {
