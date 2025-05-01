@@ -83,10 +83,11 @@ const Dashboard = () => {
       if (token) {
         const unrealizedProfit = (token.price - order.price) * order.amount;
         if (!unrealizedProfit.toString().includes('-')) {
-          totalProfit += +unrealizedProfit.toFixed();
+          // console.log('->:', token.symbol, totalProfit, unrealizedProfit);
+          totalProfit += unrealizedProfit;
         }
       }
-      setCurrentProfit(totalProfit);
+      setCurrentProfit(+totalProfit.toFixed());
     }
     setIsProcess(false);
   }, [updatedTokens, userOrders]);

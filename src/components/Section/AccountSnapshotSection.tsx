@@ -32,6 +32,8 @@ const AccountSnapshotSection = (props: Props) => {
     alert(`Unrealized: $${unrealized}`);
   };
 
+  console.log('profitAmount:', profitAmount);
+
   return (
     <section className="section account-snapshot">
       <ul className="section-content snapshot-list">
