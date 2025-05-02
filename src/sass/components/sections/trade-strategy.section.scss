@@ -7,7 +7,8 @@ $mainColor: $greyDeepDark;
 section.section.trade-strategy {
   // background-color: transparent;
   min-height: 1rem;
-  background-color: $greyDeepDarkPlus;
+  // background-color: $greyDeepDarkPlus;
+  background-color: $blackMiddle;
 }
 
 // Custom
@@ -16,26 +17,41 @@ section.trade-strategy {
     display: flex;
     flex-direction: column;
 
+    // Heading
     > div.section-trade-strategy-list-heading {
-      // background-color: $greyDeepDarkPlus;
+      padding-bottom: 0.7rem;
 
       > div.section-trade-strategy-list-heading-content {
-        height: 100px;
-
         > div.trade-strategy-calculating-set {
           display: flex;
-          gap: 1rem;
-          height: calc(100% - 1.4rem);
-          // background-color: $blue;
+          justify-content: space-between;
 
-          > span.trade-strategy-calculating-element {
-            min-height: 100%;
-            color: $greyMiddle;
+          > div.trade-strategy-calculating-element-block {
+            width: 100%;
+            min-width: 80px;
+
+            > span.trade-strategy-calculating-element {
+              display: flex;
+              flex-direction: column;
+              gap: 0.5rem;
+              width: 100%;
+
+              > span.trade-strategy-calculating-element-title {
+                font-size: 0.7rem;
+                text-transform: capitalize;
+                color: $violetLight;
+              }
+
+              > span.trade-strategy-calculating-element-value {
+                color: $greyLight;
+              }
+            }
           }
         }
       }
     }
 
+    // Orders
     > ul.section-trade-strategy-list {
       display: grid;
       margin: 0 -0.7rem -0.7rem;
@@ -57,55 +73,22 @@ section.trade-strategy {
           }
         }
 
-        /*
-        &:first-child {
-          > div.section-trade-strategy-list-item-content {
-            align-items: flex-start;
-
-            > div.trade-strategy-element-data-set {
-              > span.trade-strategy-element {
-                align-items: flex-start;
-                padding-top: 2.5px;
-                height: 27.5px;
-                // background-color: $googleBlueMiddleDark;
-              }
-            }
-          }
-        }
-        */
-
-        /*
-        &:last-child {
-          > div.section-trade-strategy-list-item-content {
-            align-items: flex-end;
-
-            > div.trade-strategy-element-data-set {
-              > span.trade-strategy-element {
-                align-items: flex-end;
-                padding-bottom: 3px;
-                height: 27px;
-                // background-color: $googleBlueMiddleDark;
-              }
-            }
-          }
-        }
-        */
-
         > div.section-trade-strategy-list-item-content {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          // background-color: teal;
           background-color: $greyDeepDark;
 
           &.selected {
             background-color: $greyDeepDarkPlus;
 
+            /*
             > div.trade-strategy-element-data-set {
               > span.trade-strategy-element {
-                opacity: 1;
+                // opacity: 1;
               }
             }
+            */
           }
 
           > div.trade-strategy-element-data-set {
@@ -155,13 +138,60 @@ section.trade-strategy {
     }
   }
 
-  /*
   @include media-screen-orientation('max', $mobile + 199.9) {
+    > div.section-content.trade-strategy {
+      > div.section-trade-strategy-list-heading {
+        > div.section-trade-strategy-list-heading-content {
+          > div.trade-strategy-calculating-set {
+            > div.trade-strategy-calculating-element-block {
+              display: flex;
+              flex-direction: column;
+              gap: 0.7rem;
+
+              &:not(:first-child) {
+                border-left: 0.05rem solid $greyDark;
+
+                > span.trade-strategy-calculating-element {
+                  padding-left: 0.7rem;
+                }
+              }
+
+              &:last-child {
+                > span.trade-strategy-calculating-element {
+                  width: calc(100% - 0.7rem);
+                }
+              }
+
+              > span.trade-strategy-calculating-element {
+                &:first-child {
+                  padding-bottom: 0.7rem;
+                  border-bottom: 0.05rem solid $greyDark;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
-  */
+  // */
 
   @include media-screen-orientation('max', $tablet - 0.1) {
     > div.section-content.trade-strategy {
+      > div.section-trade-strategy-list-heading {
+        > div.section-trade-strategy-list-heading-content {
+          > div.trade-strategy-calculating-set {
+            > div.trade-strategy-calculating-element-block {
+              > span.trade-strategy-calculating-element {
+                > span.trade-strategy-calculating-element-value {
+                  font-size: 0.9rem;
+                }
+              }
+            }
+          }
+        }
+      }
+
       > ul.section-trade-strategy-list {
         > li.section-trade-strategy-list-item {
           > div.section-trade-strategy-list-item-content {
@@ -176,8 +206,55 @@ section.trade-strategy {
     }
   }
 
+  /*
+  @include media-screen-orientation('min', $mobile) {
+    > div.section-content.trade-strategy {
+      > div.section-trade-strategy-list-heading {
+        > div.section-trade-strategy-list-heading-content {
+          > div.trade-strategy-calculating-set {
+            gap: 1rem;
+          }
+        }
+      }
+    }
+  }
+  */
+
   @include media-screen-orientation('min', $mobile + 200) {
     > div.section-content.trade-strategy {
+      > div.section-trade-strategy-list-heading {
+        > div.section-trade-strategy-list-heading-content {
+          > div.trade-strategy-calculating-set {
+            display: flex;
+            gap: 1rem;
+
+            > div.trade-strategy-calculating-element-block {
+              display: flex;
+              gap: 1rem;
+
+              &:first-child {
+                > span.trade-strategy-calculating-element {
+                  &:first-child {
+                    padding-left: 0;
+                    border: none;
+                  }
+                }
+              }
+
+              > span.trade-strategy-calculating-element {
+                padding-left: 0.7rem;
+                border-left: 0.05rem solid $greyDark;
+
+                /*
+                > span.trade-strategy-calculating-element-title {}
+                > span.trade-strategy-calculating-element-value {}
+                */
+              }
+            }
+          }
+        }
+      }
+
       > ul.section-trade-strategy-list {
         > li.section-trade-strategy-list-item {
           > div.section-trade-strategy-list-item-content {
@@ -205,6 +282,18 @@ section.trade-strategy {
 
   @include media-screen-orientation('min', $tablet) {
     > div.section-content.trade-strategy {
+      > div.section-trade-strategy-list-heading {
+        padding-bottom: 1rem;
+
+        > div.section-trade-strategy-list-heading-content {
+          > div.trade-strategy-calculating-set {
+            > div.trade-strategy-calculating-element-block {
+              display: flex;
+            }
+          }
+        }
+      }
+
       > ul.section-trade-strategy-list {
         margin: 0 -1rem -1rem;
 
@@ -216,21 +305,6 @@ section.trade-strategy {
           &:not(:last-child) {
             border-bottom: 0.2rem solid $black;
           }
-
-          /*
-          &:last-child {
-            > div.section-trade-strategy-list-item-content {
-              align-items: flex-end;
-
-              > div.trade-strategy-element-data-set {
-                > span.trade-strategy-element {
-                  height: 33px;
-                  padding-bottom: 2.5px;
-                }
-              }
-            }
-          }
-          */
 
           > div.section-trade-strategy-list-item-content {
             > div.trade-strategy-element-data-set {

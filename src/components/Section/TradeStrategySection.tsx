@@ -214,26 +214,57 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
       <div className="section-trade-strategy-list-heading">
         <div className="section-trade-strategy-list-heading-content">
           <div className="trade-strategy-calculating-set">
-            <span className="trade-strategy-calculating-element">
-              {u.uniNumberFormatter(totalSelectedAmount)}
-              {/* {uniNumberFormatter(80000)} */}
-            </span>
-            <span className="trade-strategy-calculating-element">
-              {u.uniNumberFormatter(totalSelectedInvested)}
-              {/* {uniNumberFormatter(80000)} */}
-            </span>
-            <span className="trade-strategy-calculating-element">
-              {u.uniNumberFormatter(totalSelectedUnrealized)}
-              {/* {uniNumberFormatter(80000)} */}
-            </span>
-            <span className="trade-strategy-calculating-element">
-              {u.uniNumberFormatter(totalSelectedProfit)}
-              {/* {uniNumberFormatter(80000)} */}
-            </span>
-            <span className="trade-strategy-calculating-element">
-              {u.uniNumberFormatter(avgSelectedBuyPrice)}
-              {/* {uniNumberFormatter(80000)} */}
-            </span>
+            <div className="trade-strategy-calculating-element-block">
+              <span className="trade-strategy-calculating-element">
+                <span className="trade-strategy-calculating-element-title">
+                  {'amount'}
+                </span>
+                <span className="trade-strategy-calculating-element-value">
+                  {u.uniNumberFormatter(totalSelectedAmount)}
+                  {/* {u.uniNumberFormatter(800000000)} */}
+                </span>
+              </span>
+              <span className="trade-strategy-calculating-element">
+                <span className="trade-strategy-calculating-element-title">
+                  {'AVG'}
+                </span>
+                <span className="trade-strategy-calculating-element-value">
+                  {u.uniNumberFormatter(avgSelectedBuyPrice)}
+                  {/* {u.uniNumberFormatter(800000000)} */}
+                </span>
+              </span>
+            </div>
+            <div className="trade-strategy-calculating-element-block">
+              <span className="trade-strategy-calculating-element">
+                <span className="trade-strategy-calculating-element-title">
+                  {'invested'}
+                </span>
+                <span className="trade-strategy-calculating-element-value">
+                  {u.uniNumberFormatter(totalSelectedInvested)}
+                  {/* {u.uniNumberFormatter(80000)} */}
+                </span>
+              </span>
+              <span className="trade-strategy-calculating-element">
+                <span className="trade-strategy-calculating-element-title">
+                  {'unrealized'}
+                </span>
+                <span className="trade-strategy-calculating-element-value">
+                  {u.uniNumberFormatter(totalSelectedUnrealized)}
+                  {/* {u.uniNumberFormatter(80000)} */}
+                </span>
+              </span>
+            </div>
+            <div className="trade-strategy-calculating-element-block">
+              <span className="trade-strategy-calculating-element">
+                <span className="trade-strategy-calculating-element-title">
+                  {'profit'}
+                </span>
+                <span className="trade-strategy-calculating-element-value">
+                  {u.uniNumberFormatter(totalSelectedProfit)}
+                  {/* {u.uniNumberFormatter(80000)} */}
+                </span>
+              </span>
+            </div>
           </div>
         </div>
       </div>
