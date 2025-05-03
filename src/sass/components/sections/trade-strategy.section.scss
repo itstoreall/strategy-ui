@@ -83,6 +83,12 @@ section.trade-strategy {
           }
         }
 
+        &.single-element {
+          > div.section-trade-strategy-list-item-content {
+            border-radius: $middleBorderRadius;
+          }
+        }
+
         > div.section-trade-strategy-list-item-content {
           display: flex;
           justify-content: space-between;

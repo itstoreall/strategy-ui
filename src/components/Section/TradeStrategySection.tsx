@@ -197,93 +197,98 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
     );
   };
 
-  const OrderList = ({ token, orderSet }: ListProps) => (
-    <>
-      <div className="section-trade-strategy-list-heading">
-        <div className="section-trade-strategy-list-heading-content">
-          <div className="trade-strategy-calculating-set">
-            <div className="trade-strategy-calculating-element-block">
-              <span className="trade-strategy-calculating-element">
-                <span className="trade-strategy-calculating-element-title">
-                  {'amount'}
+  const OrderList = ({ token, orderSet }: ListProps) => {
+    const singleItemStyle = orderSet.length < 2 ? 'single-element' : '';
+    const itemStyle = `section-trade-strategy-list-item ${singleItemStyle}`;
+
+    return (
+      <>
+        <div className="section-trade-strategy-list-heading">
+          <div className="section-trade-strategy-list-heading-content">
+            <div className="trade-strategy-calculating-set">
+              <div className="trade-strategy-calculating-element-block">
+                <span className="trade-strategy-calculating-element">
+                  <span className="trade-strategy-calculating-element-title">
+                    {'amount'}
+                  </span>
+                  <span className="trade-strategy-calculating-element-value">
+                    {u.uniNumberFormatter(totalSelectedAmount)}
+                    {/* {u.uniNumberFormatter(800000000)} */}
+                  </span>
                 </span>
-                <span className="trade-strategy-calculating-element-value">
-                  {u.uniNumberFormatter(totalSelectedAmount)}
-                  {/* {u.uniNumberFormatter(800000000)} */}
+                <span className="trade-strategy-calculating-element">
+                  <span className="trade-strategy-calculating-element-title">
+                    {'AVG'}
+                  </span>
+                  <span className="trade-strategy-calculating-element-value">
+                    {u.uniNumberFormatter(avgSelectedBuyPrice)}
+                    {/* {u.uniNumberFormatter(800000000)} */}
+                  </span>
                 </span>
-              </span>
-              <span className="trade-strategy-calculating-element">
-                <span className="trade-strategy-calculating-element-title">
-                  {'AVG'}
+              </div>
+              <div className="trade-strategy-calculating-element-block">
+                <span className="trade-strategy-calculating-element">
+                  <span className="trade-strategy-calculating-element-title">
+                    {'invested'}
+                  </span>
+                  <span className="trade-strategy-calculating-element-value">
+                    {u.uniNumberFormatter(totalSelectedInvested)}
+                    {/* {u.uniNumberFormatter(80000)} */}
+                  </span>
                 </span>
-                <span className="trade-strategy-calculating-element-value">
-                  {u.uniNumberFormatter(avgSelectedBuyPrice)}
-                  {/* {u.uniNumberFormatter(800000000)} */}
+                <span className="trade-strategy-calculating-element">
+                  <span className="trade-strategy-calculating-element-title">
+                    {'unrealized'}
+                  </span>
+                  <span className="trade-strategy-calculating-element-value">
+                    {u.uniNumberFormatter(totalSelectedUnrealized)}
+                    {/* {u.uniNumberFormatter(80000)} */}
+                  </span>
                 </span>
-              </span>
-            </div>
-            <div className="trade-strategy-calculating-element-block">
-              <span className="trade-strategy-calculating-element">
-                <span className="trade-strategy-calculating-element-title">
-                  {'invested'}
+              </div>
+              <div className="trade-strategy-calculating-element-block">
+                <span className="trade-strategy-calculating-element">
+                  <span className="trade-strategy-calculating-element-title">
+                    {'profit'}
+                  </span>
+                  <span className="trade-strategy-calculating-element-value">
+                    {u.uniNumberFormatter(totalSelectedProfit)}
+                    {/* {u.uniNumberFormatter(80000)} */}
+                  </span>
                 </span>
-                <span className="trade-strategy-calculating-element-value">
-                  {u.uniNumberFormatter(totalSelectedInvested)}
-                  {/* {u.uniNumberFormatter(80000)} */}
-                </span>
-              </span>
-              <span className="trade-strategy-calculating-element">
-                <span className="trade-strategy-calculating-element-title">
-                  {'unrealized'}
-                </span>
-                <span className="trade-strategy-calculating-element-value">
-                  {u.uniNumberFormatter(totalSelectedUnrealized)}
-                  {/* {u.uniNumberFormatter(80000)} */}
-                </span>
-              </span>
-            </div>
-            <div className="trade-strategy-calculating-element-block">
-              <span className="trade-strategy-calculating-element">
-                <span className="trade-strategy-calculating-element-title">
-                  {'profit'}
-                </span>
-                <span className="trade-strategy-calculating-element-value">
-                  {u.uniNumberFormatter(totalSelectedProfit)}
-                  {/* {u.uniNumberFormatter(80000)} */}
-                </span>
-              </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <ul className="section-trade-strategy-list">
-        {orderSet.map((order) => {
-          const { id, amount, price, fiat } = order;
+        <ul className="section-trade-strategy-list">
+          {orderSet.map((order) => {
+            const { id, amount, price, fiat } = order;
 
-          const currentPrice = token.price;
-          const total = amount * currentPrice;
-          const percent = ((currentPrice - price) / price) * 100;
+            const currentPrice = token.price;
+            const total = amount * currentPrice;
+            const percent = ((currentPrice - price) / price) * 100;
 
-          return percent > 0 ? (
-            <li key={id} className="section-trade-strategy-list-item">
-              <OrderContent
-                id={id}
-                amount={amount}
-                invested={fiat}
-                total={total}
-                percent={percent}
-                isSelected={selectedOrders.has(id.toString())}
-                onToggleSelect={handleToggleSelect}
-                onCopy={handleCopyValue}
-                copiedField={copiedField}
-              />
-            </li>
-          ) : null;
-        })}
-      </ul>
-    </>
-  );
+            return percent > 0 ? (
+              <li key={id} className={itemStyle}>
+                <OrderContent
+                  id={id}
+                  amount={amount}
+                  invested={fiat}
+                  total={total}
+                  percent={percent}
+                  isSelected={selectedOrders.has(id.toString())}
+                  onToggleSelect={handleToggleSelect}
+                  onCopy={handleCopyValue}
+                  copiedField={copiedField}
+                />
+              </li>
+            ) : null;
+          })}
+        </ul>
+      </>
+    );
+  };
 
   return orders && orders.length ? (
     <>
