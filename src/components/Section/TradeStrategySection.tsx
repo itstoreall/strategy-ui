@@ -65,10 +65,10 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
         selectedOrders.has(order.id.toString())
       );
 
-      // Update selection state
+      // Update selection state (Toggle)
       if (orders?.length === selectedOrders.size) {
         seIsSelectedAllOrders(true);
-      } else if (isSelectedAllOrders && !selectedOrders.size) {
+      } else if (isSelectedAllOrders && orders?.length > selectedOrders.size) {
         seIsSelectedAllOrders(false);
       }
 
@@ -83,7 +83,6 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
           return acc;
         },
         { totalAmount: 0, totalUnrealized: 0, totalInvested: 0 }
-        // { totalAmount: 0, totalUnrealized: 0, totalInvested: 0 }
       );
 
       setTotalSelectedAmount(totalAmount);
@@ -98,17 +97,6 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
   }, [selectedOrders, orders, token]);
 
   // ---
-
-  // const calculateAveragePrice = (orders: Order[]) => {
-  //   if (!orders?.length) return 0;
-  //   const totalPrice = orders.reduce((acc, order) => {
-  //     return acc + order.price * order.amount;
-  //   }, 0);
-  //   const totalAmount = orders.reduce((acc, order) => {
-  //     return acc + order.amount;
-  //   }, 0);
-  //   return totalAmount ? totalPrice / totalAmount : 0;
-  // };
 
   const handleToggleSelect = (id: string) => {
     setSelectedOrders((prevSelected) => {

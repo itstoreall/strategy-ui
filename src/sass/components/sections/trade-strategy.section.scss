@@ -5,10 +5,11 @@ $mainColor: $greyDeepDark;
 
 // General
 section.section.trade-strategy {
-  // background-color: transparent;
-  min-height: 1rem;
+  background-color: transparent;
+  // min-height: 1rem;
   // background-color: $greyDeepDarkPlus;
-  background-color: $blackMiddle;
+  // background-color: $blackMiddle;
+  // background-color: teal;
 }
 
 // Custom
@@ -16,10 +17,15 @@ section.trade-strategy {
   > div.section-content.trade-strategy {
     display: flex;
     flex-direction: column;
+    gap: 1rem;
 
     // Heading
     > div.section-trade-strategy-list-heading {
-      padding-bottom: 0.7rem;
+      padding: 0.7rem;
+      margin: -0.7rem -0.7rem 0;
+      background-color: $blackMiddle;
+      border: 0.05rem solid $greyDark;
+      border-radius: $middleBorderRadius;
 
       > div.section-trade-strategy-list-heading-content {
         > div.trade-strategy-calculating-set {
@@ -59,7 +65,11 @@ section.trade-strategy {
 
       > li.section-trade-strategy-list-item {
         &:first-child {
-          border-top: 0.1rem solid $black;
+          // border-top: 0.1rem solid red;
+
+          > div.section-trade-strategy-list-item-content {
+            border-radius: $middleBorderRadius $middleBorderRadius 0 0;
+          }
         }
 
         &:not(:last-child) {
@@ -78,6 +88,7 @@ section.trade-strategy {
           justify-content: space-between;
           align-items: center;
           background-color: $greyDeepDark;
+          // border-radius: $middleBorderRadius;
 
           &.selected {
             background-color: $greyDeepDarkPlus;
@@ -283,7 +294,8 @@ section.trade-strategy {
   @include media-screen-orientation('min', $tablet) {
     > div.section-content.trade-strategy {
       > div.section-trade-strategy-list-heading {
-        padding-bottom: 1rem;
+        padding: 1rem;
+        margin: -1rem -1rem 0;
 
         > div.section-trade-strategy-list-heading-content {
           > div.trade-strategy-calculating-set {
