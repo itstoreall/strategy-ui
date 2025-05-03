@@ -1,5 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
+import { GoClock } from 'react-icons/go';
+import { GoGear } from 'react-icons/go';
 import { ExchangeEnum } from '@/src/enums';
 import { Order, OrderStrategyData, Token } from '@/src/types';
 import * as u from '@/src/utils';
@@ -254,6 +256,25 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
                   <span className="trade-strategy-calculating-element-value">
                     {u.uniNumberFormatter(totalSelectedProfit)}
                     {/* {u.uniNumberFormatter(80000)} */}
+                  </span>
+                </span>
+                <span className="trade-strategy-calculating-element">
+                  {/* <span className="trade-strategy-calculating-element-title">
+                    {'strategy'}
+                  </span> */}
+                  <span className="trade-strategy-calculating-element-button-block">
+                    <Button className="trade-strategy-calculating-element-button">
+                      <GoClock
+                        className="trade-strategy-calculating-element-button-icon"
+                        size={20}
+                      />
+                    </Button>
+                    <Button className="trade-strategy-calculating-element-button">
+                      <GoGear
+                        className="trade-strategy-calculating-element-button-icon"
+                        size={20}
+                      />
+                    </Button>
                   </span>
                 </span>
               </div>

@@ -127,6 +127,32 @@ button.uni-button {
     }
   }
 
+  &.trade-strategy-calculating-element-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    width: 100%;
+    height: 33px;
+    font-size: 0.9rem;
+    font-weight: 400;
+    background-color: $greyDeepDarkPlus;
+    // background-color: transparent;
+    transition: $ease03s;
+
+    > svg.trade-strategy-calculating-element-button-icon {
+      transition: $ease03s;
+      fill: $greyDark;
+    }
+
+    &:hover {
+      background-color: $greyDeepDark;
+      > svg.trade-strategy-calculating-element-button-icon {
+        fill: $greyMiddle;
+      }
+    }
+  }
+
   &.section-trade-strategy-list-item-content-button {
     position: relative;
     display: flex;

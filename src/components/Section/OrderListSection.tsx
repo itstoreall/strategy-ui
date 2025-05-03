@@ -146,9 +146,9 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
     <>
       <MainDividerSection
         className="order-list-devider"
-        // title={isBull ? config.assets : config.buyTargets}
+        title={!isBull ? config.buyTargets : ''}
         filterSymbol={filterSymbol}
-        handleFilterChange={handleFilterChange}
+        handleFilterChange={isBull ? handleFilterChange : null}
         resetFilter={resetFilter}
         sortField={sortField}
         handleSortToggle={handleSortToggle}

@@ -21,7 +21,7 @@ type Props = {
   avgBuyPrice?: number;
   currentPrice?: number;
   ordersNumber?: number;
-  handleFilterChange?: (event: InputEvent) => void;
+  handleFilterChange?: ((event: InputEvent) => void) | null;
   handleFilterExchange?: (val: ExchangeEnum) => void;
   resetFilter?: () => void;
   sortField?: SortEnum;

@@ -33,6 +33,7 @@ section.trade-strategy {
           justify-content: space-between;
 
           > div.trade-strategy-calculating-element-block {
+            display: flex;
             width: 100%;
             min-width: 80px;
 
@@ -50,6 +51,17 @@ section.trade-strategy {
 
               > span.trade-strategy-calculating-element-value {
                 color: $greyLight;
+              }
+
+              > span.trade-strategy-calculating-element-button-block {
+                display: flex;
+                // justify-content: space-around;
+                // justify-content: center;
+                align-items: center;
+                gap: 0.7rem;
+                height: 100%;
+                min-height: 32px;
+                // background-color: tomato;
               }
             }
           }
@@ -307,6 +319,13 @@ section.trade-strategy {
           > div.trade-strategy-calculating-set {
             > div.trade-strategy-calculating-element-block {
               display: flex;
+
+              > span.trade-strategy-calculating-element {
+                > span.trade-strategy-calculating-element-button-block {
+                  gap: 1rem;
+                  padding-left: 0.3rem;
+                }
+              }
             }
           }
         }
