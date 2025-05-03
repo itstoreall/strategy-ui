@@ -5,6 +5,14 @@
 section.section.add-token {
   background-color: transparent;
   padding-top: 0.5rem;
+
+  > div.add-token-section-content {
+    padding: 0.7rem 0.7rem 1rem;
+
+    @include media-screen-orientation('min', $tablet) {
+      padding: 1rem;
+    }
+  }
 }
 
 // Custom
@@ -30,10 +38,15 @@ section.add-token {
       }
     }
 
-    > div.add-token-section-button-block {
-      @include media-screen-orientation('max', $mobile + 199.9) {
-        padding-top: 1rem;
-        border-top: 0.05rem solid $greyDark;
+    @include media-screen-orientation('max', $mobile + 199.9) {
+      > ul.add-token-section-list {
+        order: 2;
+      }
+
+      > div.add-token-section-button-block {
+        order: 1;
+        padding-bottom: 1rem;
+        border-bottom: 0.05rem solid $greyDark;
       }
     }
   }
