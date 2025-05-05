@@ -16,8 +16,8 @@ type Props = {
   title?: string;
   subTitle?: string | null;
   filterSymbol?: string;
-  exchanges?: ExchangeEnum[];
-  filterExchange?: string;
+  exchanges?: ExchangeEnum[] | null;
+  filterExchange?: ExchangeEnum | null;
   avgBuyPrice?: number;
   currentPrice?: number;
   ordersNumber?: number;
@@ -59,6 +59,8 @@ const MainDividerSection = (props: Props) => {
     isSwitchButton = false,
   } = props;
 
+  // console.log('exchanges:', exchanges, !!handleFilterExchange);
+
   const { openDropdownId, toggleDropdown } = useSelectMulti();
 
   const displayAvgBuyPrice = () => {
@@ -85,6 +87,14 @@ const MainDividerSection = (props: Props) => {
 
   // ---
 
+  const tradeLimitValue = 1;
+  const ordersLimitValue = 2;
+  const exsLimitLength = exchanges?.includes(ExchangeEnum.All)
+    ? ordersLimitValue
+    : tradeLimitValue;
+
+  const isTradeSelect = exsLimitLength === tradeLimitValue;
+
   const subTitleColor = !subTitle?.includes('-') ? 'color-green' : 'color-blue';
   const subTitleStyle = `main-divider-section-subtitle ${subTitleColor}`;
   const isPrices = currentPrice && avgBuyPrice;
@@ -102,18 +112,22 @@ const MainDividerSection = (props: Props) => {
         </Button>
       )}
 
-      {handleFilterExchange && exchanges && exchanges?.length > 2 && (
-        <SelectMulti
-          className="main-divider-section-filter-select"
-          options={exchanges.filter((opt) => opt !== filterExchange)}
-          placeholder={c.placeholderExchange}
-          onSelect={(value) => handleSelectChange(c.selectFieldExchange, value)}
-          initialOption={exchanges[0]}
-          isOpen={openDropdownId === filterExchange}
-          onToggle={() => toggleDropdown(filterExchange ?? '')}
-          // isDisable={isBuyTarget}
-        />
-      )}
+      {handleFilterExchange &&
+        exchanges &&
+        exchanges?.length > exsLimitLength && (
+          <SelectMulti
+            className="main-divider-section-filter-select"
+            options={exchanges.filter((opt) => opt !== filterExchange)}
+            placeholder={c.placeholderExchange}
+            onSelect={(value) =>
+              handleSelectChange(c.selectFieldExchange, value)
+            }
+            initialOption={isTradeSelect ? filterExchange : exchanges[0]}
+            isOpen={openDropdownId === filterExchange}
+            onToggle={() => toggleDropdown(filterExchange ?? '')}
+            // isDisable={isBuyTarget}
+          />
+        )}
 
       {handleFilterChange && (
         <div className="main-divider-section-filter-input-block">

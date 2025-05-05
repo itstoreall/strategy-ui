@@ -11,6 +11,7 @@ import Button from '@/src/components/Button/Button';
 type Props = {
   token: Token;
   orderData: OrderStrategyData;
+  exchanges: ExchangeEnum[];
 };
 
 type ListProps = { token: Token; orderSet: Order[] };
@@ -33,14 +34,17 @@ type OrderContentProps = {
 };
 
 const c = {
-  dividerTitle: 'Take Profit on Binance',
+  initExchange: ExchangeEnum.Binance,
+  dividerTitle: 'Take Profit',
 };
 
-const TradeStrategySection = ({ token, orderData }: Props) => {
+const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
   const [selectedOrders, setSelectedOrders] = useState<Set<string>>(new Set());
   const [copiedField, setCopiedField] = useState<CopiedField | null>(null);
   const [orders, setOrders] = useState<Order[] | null>(null);
   const [isSelectedAllOrders, seIsSelectedAllOrders] = useState(false);
+  const [exs, setExs] = useState<ExchangeEnum[] | null>(null);
+  const [selectedEx, setSelectedEx] = useState<ExchangeEnum | null>(null);
   const [totalSelectedAmount, setTotalSelectedAmount] = useState(0);
   const [totalSelectedInvested, setTotalSelectedInvested] = useState(0);
   const [avgSelectedBuyPrice, setAvgSelectedBuyPrice] = useState(0);
@@ -48,18 +52,65 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
   const [totalSelectedProfit, setTotalSelectedProfit] = useState(0);
 
   useEffect(() => {
-    if (orderData) {
-      const binanceOrders = orderData.orders.filter((order) => {
+    const _exs = exchanges.filter((ex) => {
+      const isProfitable = orderData.orders?.find((order) => {
         const currentPrice = token.price;
         const percent = ((currentPrice - order.price) / order.price) * 100;
-        return order.exchange === ExchangeEnum.Binance && percent > 0;
+        return percent > 0 && order.exchange === ex;
       });
+      return ex !== ExchangeEnum.All && !!isProfitable;
+    });
 
-      if (binanceOrders) {
-        setOrders(binanceOrders);
+    if (_exs) {
+      const ex = _exs.includes(c.initExchange) ? c.initExchange : _exs[0];
+      if (!selectedEx) {
+        // console.log('- 2 ex:', ex);
+        setSelectedEx(ex);
+      } else {
+        if (!_exs.includes(selectedEx)) {
+          if (ex && ex?.length) {
+            // console.log('3 ex:', ex);
+            setSelectedEx(ex);
+          } else {
+            // console.log('4 ex:', ex);
+            setExs(null);
+            return;
+          }
+        }
       }
+      setExs(_exs);
     }
-  }, [orderData]);
+  }, [exchanges]);
+
+  useEffect(() => {
+    if (orderData && selectedEx) {
+      handleSelectedOrders();
+    }
+  }, [exs]);
+
+  useEffect(() => {
+    if (orderData && selectedEx) {
+      handleSelectedOrders();
+      setSelectedOrders(new Set());
+    }
+  }, [selectedEx]);
+
+  const handleSelectedOrders = () => {
+    const selectedOrders = orderData.orders.filter((order) => {
+      const currentPrice = token.price;
+      const percent = ((currentPrice - order.price) / order.price) * 100;
+      return order.exchange === selectedEx && percent > 0;
+    });
+    if (selectedOrders) {
+      setOrders(selectedOrders);
+    }
+  };
+
+  /*
+  useEffect(() => {
+    console.log('selectedOrders:', selectedOrders);
+  }, [selectedOrders]);
+  */
 
   useEffect(() => {
     if (orders) {
@@ -99,6 +150,10 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
   }, [selectedOrders, orders, token]);
 
   // ---
+
+  const handleFilterExchange = (val: ExchangeEnum) => {
+    setSelectedEx(val);
+  };
 
   const handleToggleSelect = (id: string) => {
     setSelectedOrders((prevSelected) => {
@@ -311,13 +366,22 @@ const TradeStrategySection = ({ token, orderData }: Props) => {
     );
   };
 
+  // const handleExs = () => {
+  //   console.log('orders:', orders);
+  //   return exchanges;
+  // };
+  // const exs = exchanges.filter((ex) => ex !== ExchangeEnum.All);
+
   return orders && orders.length ? (
     <>
       <MainDividerSection
         className="order-list-devider"
         title={c.dividerTitle}
+        exchanges={exs}
+        filterExchange={selectedEx}
         isSwitchButton
         isDisabled={!isSelectedAllOrders}
+        handleFilterExchange={handleFilterExchange}
         setIsDisabled={handleSelectAllOrders}
         /*
         subTitle={calculateStrategyPercent()}

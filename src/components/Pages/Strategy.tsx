@@ -283,7 +283,11 @@ const Strategy = () => {
               />
 
               {isTakeProfit && token && userOrderData && (
-                <TradeStrategySection token={token} orderData={userOrderData} />
+                <TradeStrategySection
+                  token={token}
+                  orderData={userOrderData}
+                  exchanges={exchanges}
+                />
               )}
 
               {updatedTokens ? (
