@@ -139,17 +139,6 @@ const Strategy = () => {
     setAvgBuyPrice(averagePrice);
   };
 
-  // const calculateAveragePrice = (orders: t.Order[]) => {
-  //   if (!orders?.length) return 0;
-  //   const totalPrice = orders.reduce((acc, order) => {
-  //     return acc + order.price * order.amount;
-  //   }, 0);
-  //   const totalAmount = orders.reduce((acc, order) => {
-  //     return acc + order.amount;
-  //   }, 0);
-  //   return totalAmount ? totalPrice / totalAmount : 0;
-  // };
-
   const classifyOrder = (percent: number, strategy: t.Strategy) => {
     if (userOrderData && percent >= userOrderData.strategy.target)
       return { priority: 0 };

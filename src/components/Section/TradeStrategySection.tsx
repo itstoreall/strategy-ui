@@ -16,6 +16,17 @@ type Props = {
 
 type ListProps = { token: Token; orderSet: Order[] };
 
+type TradeStrategy = {
+  symbol: string;
+  exchange: ExchangeEnum;
+  amount: string;
+  avg: string;
+  invested: string;
+  unrealized: string;
+  profit: string;
+  orders: string;
+};
+
 type CopiedField = {
   id: number;
   key: string;
@@ -183,35 +194,56 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
   const handleTemporaryStorage = () => {
     if (selectedEx && totalSelectedAmount) {
       const tradeStrategyKey = 'tradeStrategy';
-      const tradeStrategy = localStorage.getItem(tradeStrategyKey);
-      const newOrders = Array.from(selectedOrders).join(', ');
-      const newData = {
+      const storedTradeStrategyData = localStorage.getItem(tradeStrategyKey);
+
+      // console.log('storedTradeStrategyData:', !!storedTradeStrategyData);
+
+      const newTradeStrategy: TradeStrategy = {
+        symbol: token.symbol,
         exchange: selectedEx,
         amount: u.uniNumberFormatter(totalSelectedAmount),
         avg: u.uniNumberFormatter(avgSelectedBuyPrice),
         invested: u.uniNumberFormatter(totalSelectedInvested),
         unrealized: u.uniNumberFormatter(totalSelectedUnrealized),
         profit: u.uniNumberFormatter(totalSelectedProfit),
-        orders: newOrders,
+        orders: Array.from(selectedOrders).join(', '),
       };
 
-      if (tradeStrategy) {
-        const storedData = JSON.parse(tradeStrategy);
-        if (
-          confirm(`${storedData.exchange} TradingStrategy will be replaced!
+      const updateLocalStorage = (data: TradeStrategy[]) => {
+        localStorage.setItem(tradeStrategyKey, JSON.stringify(data));
+      };
+
+      if (storedTradeStrategyData) {
+        const storedData: TradeStrategy[] = JSON.parse(storedTradeStrategyData);
+        const storedTradeStrategy = storedData.find(
+          (el) => el.exchange === selectedEx
+        );
+
+        // console.log('-->', storedTradeStrategy);
+
+        if (storedTradeStrategy) {
+          if (
+            confirm(`${storedTradeStrategy.exchange} (${token.symbol}) strategy will be replaced!
             
-          amount: ${storedData.amount}
-          avg: ${storedData.avg}
-          invested: ${storedData.invested}
-          unrealized: ${storedData.unrealized}
-          profit: ${storedData.profit}
-          orders: ${storedData.orders}
-          `)
-        ) {
-          localStorage.setItem(tradeStrategyKey, JSON.stringify(newData));
+            amount: ${storedTradeStrategy.amount}
+            avg: ${storedTradeStrategy.avg}
+            invested: ${storedTradeStrategy.invested}
+            unrealized: ${storedTradeStrategy.unrealized}
+            profit: ${storedTradeStrategy.profit}
+            orders: ${storedTradeStrategy.orders}
+            `)
+          ) {
+            const newData = storedData.map((el) => {
+              return el.symbol === token.symbol ? newTradeStrategy : el;
+            });
+            updateLocalStorage(newData);
+          }
+        } else {
+          updateLocalStorage([...storedData, newTradeStrategy]);
         }
       } else {
-        localStorage.setItem(tradeStrategyKey, JSON.stringify(newData));
+        // console.log('==>', newTradeStrategy);
+        updateLocalStorage([newTradeStrategy]);
       }
     }
   };
