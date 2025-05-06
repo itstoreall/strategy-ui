@@ -46,8 +46,8 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
   const [exs, setExs] = useState<ExchangeEnum[] | null>(null);
   const [selectedEx, setSelectedEx] = useState<ExchangeEnum | null>(null);
   const [totalSelectedAmount, setTotalSelectedAmount] = useState(0);
-  const [totalSelectedInvested, setTotalSelectedInvested] = useState(0);
   const [avgSelectedBuyPrice, setAvgSelectedBuyPrice] = useState(0);
+  const [totalSelectedInvested, setTotalSelectedInvested] = useState(0);
   const [totalSelectedUnrealized, setTotalSelectedUnrealized] = useState(0);
   const [totalSelectedProfit, setTotalSelectedProfit] = useState(0);
 
@@ -178,6 +178,40 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
       }
       return newState;
     });
+  };
+
+  const handleTemporaryStorage = () => {
+    if (selectedEx && totalSelectedAmount) {
+      const tradeStrategyKey = 'tradeStrategy';
+      const tradeStrategy = localStorage.getItem(tradeStrategyKey);
+
+      if (tradeStrategy) {
+        const storedData = JSON.parse(tradeStrategy);
+        if (
+          confirm(`${storedData.exchange} TradingStrategy will be replaced!
+
+          amount: ${storedData.amount}
+          avg: ${storedData.avg}
+          invested: ${storedData.invested}
+          unrealized: ${storedData.unrealized}
+          profit: ${storedData.profit}
+          orders: ${storedData.orders}
+          `)
+        ) {
+          const newOrders = Array.from(selectedOrders).join(', ');
+          const newData = {
+            exchange: selectedEx,
+            amount: u.uniNumberFormatter(totalSelectedAmount),
+            avg: u.uniNumberFormatter(avgSelectedBuyPrice),
+            invested: u.uniNumberFormatter(totalSelectedInvested),
+            unrealized: u.uniNumberFormatter(totalSelectedUnrealized),
+            profit: u.uniNumberFormatter(totalSelectedProfit),
+            orders: newOrders,
+          };
+          localStorage.setItem(tradeStrategyKey, JSON.stringify(newData));
+        }
+      }
+    }
   };
 
   const handleCopyValue = (id: number, key: string, val: number) => {
@@ -318,7 +352,10 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
                     {'strategy'}
                   </span> */}
                   <span className="trade-strategy-calculating-element-button-block">
-                    <Button className="trade-strategy-calculating-element-button">
+                    <Button
+                      className="trade-strategy-calculating-element-button"
+                      clickContent={handleTemporaryStorage}
+                    >
                       <GoClock
                         className="trade-strategy-calculating-element-button-icon"
                         size={20}
