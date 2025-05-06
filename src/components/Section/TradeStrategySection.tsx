@@ -184,12 +184,22 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
     if (selectedEx && totalSelectedAmount) {
       const tradeStrategyKey = 'tradeStrategy';
       const tradeStrategy = localStorage.getItem(tradeStrategyKey);
+      const newOrders = Array.from(selectedOrders).join(', ');
+      const newData = {
+        exchange: selectedEx,
+        amount: u.uniNumberFormatter(totalSelectedAmount),
+        avg: u.uniNumberFormatter(avgSelectedBuyPrice),
+        invested: u.uniNumberFormatter(totalSelectedInvested),
+        unrealized: u.uniNumberFormatter(totalSelectedUnrealized),
+        profit: u.uniNumberFormatter(totalSelectedProfit),
+        orders: newOrders,
+      };
 
       if (tradeStrategy) {
         const storedData = JSON.parse(tradeStrategy);
         if (
           confirm(`${storedData.exchange} TradingStrategy will be replaced!
-
+            
           amount: ${storedData.amount}
           avg: ${storedData.avg}
           invested: ${storedData.invested}
@@ -198,18 +208,10 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
           orders: ${storedData.orders}
           `)
         ) {
-          const newOrders = Array.from(selectedOrders).join(', ');
-          const newData = {
-            exchange: selectedEx,
-            amount: u.uniNumberFormatter(totalSelectedAmount),
-            avg: u.uniNumberFormatter(avgSelectedBuyPrice),
-            invested: u.uniNumberFormatter(totalSelectedInvested),
-            unrealized: u.uniNumberFormatter(totalSelectedUnrealized),
-            profit: u.uniNumberFormatter(totalSelectedProfit),
-            orders: newOrders,
-          };
           localStorage.setItem(tradeStrategyKey, JSON.stringify(newData));
         }
+      } else {
+        localStorage.setItem(tradeStrategyKey, JSON.stringify(newData));
       }
     }
   };
