@@ -13,6 +13,7 @@ const initContext: ModalContextProps = {
   ModalContentEnum: ModalContentEnum,
   RenderModal: () => <></>,
   isFormModal: false,
+  isStrategyModal: false,
 };
 
 const ModalContext = createContext<ModalContextProps>(initContext);
@@ -22,6 +23,7 @@ export const ModalProvider = ({ children }: ChildrenProps) => {
   const [isClosing, setIsClosing] = useState(false);
 
   const isFormModal = modal === ModalContentEnum.Form;
+  const isStrategyModal = modal === ModalContentEnum.Strategy;
 
   // ---
 
@@ -44,6 +46,7 @@ export const ModalProvider = ({ children }: ChildrenProps) => {
       ModalContentEnum,
       RenderModal,
       isFormModal,
+      isStrategyModal,
     };
   }, [modal, isClosing]);
 

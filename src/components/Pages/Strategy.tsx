@@ -73,7 +73,8 @@ const Strategy = () => {
   const symbol = path.split('-')[1];
   const token = updatedTokens?.find((token) => token?.symbol === symbol);
 
-  const { RenderModal, openModal, ModalContentEnum } = useModal();
+  const { RenderModal, openModal, ModalContentEnum, isFormModal } = useModal();
+
   const { userOrderData } = useFetchAllUserStrategyOrders(
     userId,
     type,
@@ -317,7 +318,7 @@ const Strategy = () => {
           <MainLoader />
         )}
 
-        {updatedTokens && (
+        {updatedTokens && isFormModal && (
           <RenderModal>
             <AddOrderForm
               tokens={updatedTokens}

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { GoClock } from 'react-icons/go';
 import { GoGear } from 'react-icons/go';
 import { ExchangeEnum } from '@/src/enums';
+import useModal from '@/src/hooks/useModal';
 import { Order, OrderStrategyData, Token } from '@/src/types';
 import * as u from '@/src/utils';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
@@ -61,6 +62,13 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
   const [totalSelectedInvested, setTotalSelectedInvested] = useState(0);
   const [totalSelectedUnrealized, setTotalSelectedUnrealized] = useState(0);
   const [totalSelectedProfit, setTotalSelectedProfit] = useState(0);
+
+  const { RenderModal, openModal, ModalContentEnum, isStrategyModal } =
+    useModal();
+
+  const tradeStrategyKey = 'tradeStrategy';
+
+  // ---
 
   useEffect(() => {
     const _exs = exchanges.filter((ex) => {
@@ -191,10 +199,25 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
     });
   };
 
+  const getTradeStrategy = () => {
+    const storedTradeStrategyData = localStorage.getItem(tradeStrategyKey);
+    let storedTradeStrategy = null;
+    let storedData: TradeStrategy[] | null = null;
+    if (storedTradeStrategyData) {
+      storedData = JSON.parse(storedTradeStrategyData) ?? null;
+      if (storedData) {
+        storedTradeStrategy = storedData.find(
+          (el) => el.exchange === selectedEx
+        );
+      }
+    }
+    return { storedData, storedTradeStrategy };
+  };
+
   const handleTemporaryStorage = () => {
     if (selectedEx && totalSelectedAmount) {
-      const tradeStrategyKey = 'tradeStrategy';
-      const storedTradeStrategyData = localStorage.getItem(tradeStrategyKey);
+      // const tradeStrategyKey = 'tradeStrategy';
+      // const storedTradeStrategyData = localStorage.getItem(tradeStrategyKey);
 
       // console.log('storedTradeStrategyData:', !!storedTradeStrategyData);
 
@@ -213,11 +236,13 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
         localStorage.setItem(tradeStrategyKey, JSON.stringify(data));
       };
 
-      if (storedTradeStrategyData) {
-        const storedData: TradeStrategy[] = JSON.parse(storedTradeStrategyData);
-        const storedTradeStrategy = storedData.find(
-          (el) => el.exchange === selectedEx
-        );
+      const { storedData, storedTradeStrategy } = getTradeStrategy();
+
+      if (storedData) {
+        // const storedData: TradeStrategy[] = JSON.parse(storedTradeStrategyData);
+        // const storedTradeStrategy = storedData.find(
+        //   (el) => el.exchange === selectedEx
+        // );
 
         // console.log('-->', storedTradeStrategy);
 
@@ -246,6 +271,10 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
         updateLocalStorage([newTradeStrategy]);
       }
     }
+  };
+
+  const handleUpdateStrategy = () => {
+    openModal(ModalContentEnum.Strategy);
   };
 
   const handleCopyValue = (id: number, key: string, val: number) => {
@@ -395,7 +424,10 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
                         size={20}
                       />
                     </Button>
-                    <Button className="trade-strategy-calculating-element-button">
+                    <Button
+                      className="trade-strategy-calculating-element-button"
+                      clickContent={handleUpdateStrategy}
+                    >
                       <GoGear
                         className="trade-strategy-calculating-element-button-icon"
                         size={20}
@@ -443,6 +475,8 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
   // };
   // const exs = exchanges.filter((ex) => ex !== ExchangeEnum.All);
 
+  const { storedTradeStrategy } = getTradeStrategy();
+
   return orders && orders.length ? (
     <>
       <MainDividerSection
@@ -463,6 +497,45 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
           <OrderList token={token} orderSet={orders} />
         </div>
       </section>
+
+      {isStrategyModal && storedTradeStrategy && (
+        <RenderModal>
+          <div className="trade-strategy-modal-data">
+            <span className="trade-strategy-modal-data-element">
+              <span>{'Symbol:'}</span>
+              <span>{storedTradeStrategy.symbol}</span>
+            </span>
+            <span className="trade-strategy-modal-data-element">
+              <span>{'Exchange:'}</span>
+              <span>{storedTradeStrategy.exchange}</span>
+            </span>
+            <span className="trade-strategy-modal-data-element">
+              <span>{'Amount:'}</span>
+              <span>{storedTradeStrategy.amount}</span>
+            </span>
+            <span className="trade-strategy-modal-data-element">
+              <span>{'AVG:'}</span>
+              <span>{storedTradeStrategy.avg}</span>
+            </span>
+            <span className="trade-strategy-modal-data-element">
+              <span>{'Invested:'}</span>
+              <span>{storedTradeStrategy.invested}</span>
+            </span>
+            <span className="trade-strategy-modal-data-element">
+              <span>{'Profit:'}</span>
+              <span>{storedTradeStrategy.profit}</span>
+            </span>
+            <span className="trade-strategy-modal-data-element">
+              <span>{'Unrealized:'}</span>
+              <span>{storedTradeStrategy.unrealized}</span>
+            </span>
+            <span className="trade-strategy-modal-data-element">
+              <span>{'Orders:'}</span>
+              <span>{storedTradeStrategy.orders}</span>
+            </span>
+          </div>
+        </RenderModal>
+      )}
     </>
   ) : null;
 };

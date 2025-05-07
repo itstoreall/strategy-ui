@@ -1,13 +1,16 @@
 import useModal from '@/src/hooks/useModal';
 import { ChildrenProps } from '@/src/types';
-import SettingsModal from '@/src/components/Modal/FormModal';
+import FormModal from '@/src/components/Modal/FormModal';
+import StrategyModal from '@/src/components/Modal/StrategyModal';
 
 const RenderModal = ({ children }: ChildrenProps) => {
-  const { isFormModal } = useModal();
+  const { isFormModal, isStrategyModal } = useModal();
 
   switch (true) {
     case isFormModal:
-      return <SettingsModal>{children}</SettingsModal>;
+      return <FormModal>{children}</FormModal>;
+    case isStrategyModal:
+      return <StrategyModal>{children}</StrategyModal>;
     default:
       return <></>;
   }

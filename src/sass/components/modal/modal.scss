@@ -29,6 +29,38 @@
     }
   }
 
+  &.STRATEGY {
+    > div.modal {
+      max-width: 300px;
+      // max-width: $tablet;
+
+      // Trade-Strategy-Modal:
+      > div.trade-strategy-modal-content {
+        @extend %extends-hide-scrollbar;
+        position: relative;
+        padding: 1rem;
+        width: 100%;
+
+        @include media-screen-height('max', 400px) {
+          height: 100svh;
+          overflow-y: scroll;
+        }
+
+        > div.trade-strategy-modal-data {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          // background-color: teal;
+
+          > span.trade-strategy-modal-data-element {
+            display: flex;
+            gap: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+
   // --- Add new custom modal here:
 }
 
