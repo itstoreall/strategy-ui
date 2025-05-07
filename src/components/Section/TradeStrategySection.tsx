@@ -475,7 +475,7 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
   // };
   // const exs = exchanges.filter((ex) => ex !== ExchangeEnum.All);
 
-  const { storedTradeStrategy } = getTradeStrategy();
+  // const { storedTradeStrategy } = getTradeStrategy();
 
   return orders && orders.length ? (
     <>
@@ -498,9 +498,10 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
         </div>
       </section>
 
-      {isStrategyModal && storedTradeStrategy && (
+      {isStrategyModal && (
         <RenderModal>
-          <div className="trade-strategy-modal-data">
+          <div>isStrategyModal</div>
+          {/* <div className="trade-strategy-modal-data">
             <span className="trade-strategy-modal-data-element">
               <span>{'Symbol:'}</span>
               <span>{storedTradeStrategy.symbol}</span>
@@ -533,7 +534,7 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
               <span>{'Orders:'}</span>
               <span>{storedTradeStrategy.orders}</span>
             </span>
-          </div>
+          </div> */}
         </RenderModal>
       )}
     </>
