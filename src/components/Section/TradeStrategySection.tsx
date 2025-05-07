@@ -487,6 +487,11 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
       {isStrategyModal && (
         <RenderModal>
           <div>isStrategyModal</div>
+          <Button
+            clickContent={() => localStorage.removeItem(c.tradeStrategyKey)}
+          >
+            Reset
+          </Button>
           {/* <div className="trade-strategy-modal-data">
             <span className="trade-strategy-modal-data-element">
               <span>{'Symbol:'}</span>
