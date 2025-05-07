@@ -48,6 +48,7 @@ type OrderContentProps = {
 const c = {
   initExchange: ExchangeEnum.Binance,
   dividerTitle: 'Take Profit',
+  tradeStrategyKey: 'tradeStrategy',
 };
 
 const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
@@ -66,7 +67,7 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
   const { RenderModal, openModal, ModalContentEnum, isStrategyModal } =
     useModal();
 
-  const tradeStrategyKey = 'tradeStrategy';
+  // const tradeStrategyKey = 'tradeStrategy';
 
   // ---
 
@@ -199,25 +200,10 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
     });
   };
 
-  const getTradeStrategy = () => {
-    const storedTradeStrategyData = localStorage.getItem(tradeStrategyKey);
-    let storedTradeStrategy = null;
-    let storedData: TradeStrategy[] | null = null;
-    if (storedTradeStrategyData) {
-      storedData = JSON.parse(storedTradeStrategyData) ?? null;
-      if (storedData) {
-        storedTradeStrategy = storedData.find(
-          (el) => el.exchange === selectedEx
-        );
-      }
-    }
-    return { storedData, storedTradeStrategy };
-  };
-
   const handleTemporaryStorage = () => {
     if (selectedEx && totalSelectedAmount) {
       // const tradeStrategyKey = 'tradeStrategy';
-      // const storedTradeStrategyData = localStorage.getItem(tradeStrategyKey);
+      const storedTradeStrategyData = localStorage.getItem(c.tradeStrategyKey);
 
       // console.log('storedTradeStrategyData:', !!storedTradeStrategyData);
 
@@ -233,16 +219,16 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
       };
 
       const updateLocalStorage = (data: TradeStrategy[]) => {
-        localStorage.setItem(tradeStrategyKey, JSON.stringify(data));
+        localStorage.setItem(c.tradeStrategyKey, JSON.stringify(data));
       };
 
-      const { storedData, storedTradeStrategy } = getTradeStrategy();
+      // const { storedData, storedTradeStrategy } = getTradeStrategy();
 
-      if (storedData) {
-        // const storedData: TradeStrategy[] = JSON.parse(storedTradeStrategyData);
-        // const storedTradeStrategy = storedData.find(
-        //   (el) => el.exchange === selectedEx
-        // );
+      if (storedTradeStrategyData) {
+        const storedData: TradeStrategy[] = JSON.parse(storedTradeStrategyData);
+        const storedTradeStrategy = storedData.find(
+          (el) => el.exchange === selectedEx
+        );
 
         // console.log('-->', storedTradeStrategy);
 
