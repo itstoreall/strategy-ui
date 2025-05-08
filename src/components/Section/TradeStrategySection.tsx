@@ -218,11 +218,11 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
 
   const resetTradeStrategy = () => {
     if (!storedData) return;
-    console.log('4 storedData:', storedData);
+    // console.log('4 storedData:', storedData);
     const dataWithoutCurrentToken = storedData.filter((el) => {
       return el.symbol !== token.symbol;
     });
-    console.log('4 dataWithoutCurrentToken:', dataWithoutCurrentToken);
+    // console.log('4 dataWithoutCurrentToken:', dataWithoutCurrentToken);
     updateLocalStorage(dataWithoutCurrentToken);
     // localStorage.removeItem(c.tradeStrategyKey);
   };
