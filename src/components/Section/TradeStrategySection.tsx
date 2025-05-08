@@ -15,8 +15,6 @@ type Props = {
   exchanges: ExchangeEnum[];
 };
 
-type ListProps = { token: Token; orderSet: Order[] };
-
 type TradeStrategy = {
   symbol: string;
   exchange: ExchangeEnum;
@@ -27,6 +25,8 @@ type TradeStrategy = {
   profit: string;
   orders: string;
 };
+
+type ListProps = { token: Token; orderSet: Order[] };
 
 type CopiedField = {
   id: number;
@@ -53,6 +53,7 @@ const c = {
 
 const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
   const [selectedOrders, setSelectedOrders] = useState<Set<string>>(new Set());
+  const [storedData, setStoredData] = useState<TradeStrategy[] | null>(null);
   const [copiedField, setCopiedField] = useState<CopiedField | null>(null);
   const [orders, setOrders] = useState<Order[] | null>(null);
   const [isSelectedAllOrders, seIsSelectedAllOrders] = useState(false);
@@ -70,6 +71,14 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
   // const tradeStrategyKey = 'tradeStrategy';
 
   // ---
+
+  useEffect(() => {
+    const storedTradeStrategyData = localStorage.getItem(c.tradeStrategyKey);
+    if (storedTradeStrategyData) {
+      const _storedData: TradeStrategy[] = JSON.parse(storedTradeStrategyData);
+      setStoredData(_storedData);
+    }
+  }, []);
 
   useEffect(() => {
     const _exs = exchanges.filter((ex) => {
@@ -200,12 +209,27 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
     });
   };
 
+  // --- StoredData:
+
+  const updateLocalStorage = (data: TradeStrategy[]) => {
+    setStoredData(data);
+    localStorage.setItem(c.tradeStrategyKey, JSON.stringify(data));
+  };
+
+  const resetTradeStrategy = () => {
+    if (!storedData) return;
+    console.log('4 storedData:', storedData);
+    const dataWithoutCurrentToken = storedData.filter((el) => {
+      return el.symbol !== token.symbol;
+    });
+    console.log('4 dataWithoutCurrentToken:', dataWithoutCurrentToken);
+    updateLocalStorage(dataWithoutCurrentToken);
+    // localStorage.removeItem(c.tradeStrategyKey);
+  };
+
   const handleTemporaryStorage = () => {
     if (selectedEx && totalSelectedAmount) {
-      // const tradeStrategyKey = 'tradeStrategy';
-      const storedTradeStrategyData = localStorage.getItem(c.tradeStrategyKey);
-
-      // console.log('storedTradeStrategyData:', !!storedTradeStrategyData);
+      // console.log('storedData:', storedData);
 
       const newTradeStrategy: TradeStrategy = {
         symbol: token.symbol,
@@ -218,17 +242,11 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
         orders: Array.from(selectedOrders).join(', '),
       };
 
-      const updateLocalStorage = (data: TradeStrategy[]) => {
-        localStorage.setItem(c.tradeStrategyKey, JSON.stringify(data));
-      };
-
-      // const { storedData, storedTradeStrategy } = getTradeStrategy();
-
-      if (storedTradeStrategyData) {
-        const storedData: TradeStrategy[] = JSON.parse(storedTradeStrategyData);
-        const storedTradeStrategy = storedData.find(
-          (el) => el.exchange === selectedEx
-        );
+      if (storedData) {
+        const storedTradeStrategy = storedData.find((el) => {
+          // return el.exchange === selectedEx && el.symbol === token.symbol;
+          return el.symbol === token.symbol;
+        });
 
         // console.log('-->', storedTradeStrategy);
 
@@ -247,14 +265,21 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
             const newData = storedData.map((el) => {
               return el.symbol === token.symbol ? newTradeStrategy : el;
             });
+            // console.log('2:', newData);
+            // setStoredData(newData);
             updateLocalStorage(newData);
           }
         } else {
-          updateLocalStorage([...storedData, newTradeStrategy]);
+          const newData = [...storedData, newTradeStrategy];
+          // console.log('3:', newData);
+          // setStoredData(newData);
+          updateLocalStorage(newData);
         }
       } else {
-        // console.log('==>', newTradeStrategy);
-        updateLocalStorage([newTradeStrategy]);
+        const newData = [newTradeStrategy];
+        // console.log('==>', newData);
+        // setStoredData(newData);
+        updateLocalStorage(newData);
       }
     }
   };
@@ -487,11 +512,7 @@ const TradeStrategySection = ({ token, orderData, exchanges }: Props) => {
       {isStrategyModal && (
         <RenderModal>
           <div>isStrategyModal</div>
-          <Button
-            clickContent={() => localStorage.removeItem(c.tradeStrategyKey)}
-          >
-            Reset
-          </Button>
+          <Button clickContent={resetTradeStrategy}>Reset</Button>
           {/* <div className="trade-strategy-modal-data">
             <span className="trade-strategy-modal-data-element">
               <span>{'Symbol:'}</span>
