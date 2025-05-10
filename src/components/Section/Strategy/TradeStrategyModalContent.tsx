@@ -3,14 +3,16 @@ import { TradeStrategyProps } from '@/src/components/Section/Strategy/TradeStrat
 import Button from '@/src/components/Button/Button';
 
 type Props = Pick<TradeStrategyProps, 'token'> & {
-  getLocalStorage: () => TradeStrategy[] | null;
+  getLocalStorageData: () => TradeStrategy[] | null;
+  saveTradeStrategy: () => void;
   resetTradeStrategy: () => void;
 };
 
 const TradeStrategyModalContent = (props: Props) => {
-  const { token, getLocalStorage, resetTradeStrategy } = props;
+  const { token, getLocalStorageData, saveTradeStrategy, resetTradeStrategy } =
+    props;
 
-  const storedData = getLocalStorage();
+  const storedData = getLocalStorageData();
   const storedStrategy = storedData
     ? storedData.find((storedStrategy: TradeStrategy) => {
         return storedStrategy.symbol === token.symbol;
@@ -60,6 +62,9 @@ const TradeStrategyModalContent = (props: Props) => {
         <div>No Trade Strategy</div>
       )}
 
+      <Button style={{ marginBottom: '1rem' }} clickContent={saveTradeStrategy}>
+        Save
+      </Button>
       <Button clickContent={resetTradeStrategy}>Reset</Button>
     </>
   );

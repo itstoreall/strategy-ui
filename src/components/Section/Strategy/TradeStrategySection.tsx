@@ -4,6 +4,7 @@ import useModal from '@/src/hooks/useModal';
 import { Order, OrderStrategyData, Token, TradeStrategy } from '@/src/types';
 import { ExchangeEnum } from '@/src/enums';
 import * as u from '@/src/utils';
+// import { strategyService } from '@/src/services/strategy.service';
 import TradeStrategyModalContent from '@/src/components/Section/Strategy/TradeStrategyModalContent';
 import TradeStrategyOrderList from '@/src/components/Section/Strategy/TradeStrategyOrderList';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
@@ -63,15 +64,12 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     if (_exs) {
       const ex = _exs.includes(c.initExchange) ? c.initExchange : _exs[0];
       if (!selectedEx) {
-        // console.log('- 2 ex:', ex);
         setSelectedEx(ex);
       } else {
         if (!_exs.includes(selectedEx)) {
           if (ex && ex?.length) {
-            // console.log('3 ex:', ex);
             setSelectedEx(ex);
           } else {
-            // console.log('4 ex:', ex);
             setExs(null);
             return;
           }
@@ -179,7 +177,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     localStorage.setItem(c.tradeStrategyKey, JSON.stringify(data));
   };
 
-  const getLocalStorage = () => {
+  const getLocalStorageData = () => {
     const storedTradeStrategyData = localStorage.getItem(c.tradeStrategyKey);
     if (storedTradeStrategyData) {
       return JSON.parse(storedTradeStrategyData) as TradeStrategy[];
@@ -201,9 +199,9 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   };
 
   const displayConfirmMessage = (storedTradeStrategy: TradeStrategy) => {
-    return `${storedTradeStrategy.exchange} (${token.symbol}) strategy will be replaced:
+    return `Will be replaced: ${token.symbol} (${storedTradeStrategy.exchange})
+
     amount: ${storedTradeStrategy.amount}
-    avg: ${storedTradeStrategy.avg}
     invested: ${storedTradeStrategy.invested}
     unrealized: ${storedTradeStrategy.unrealized}
     profit: ${storedTradeStrategy.profit}
@@ -211,28 +209,16 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     `;
   };
 
-  const resetTradeStrategy = () => {
-    const storedData = getLocalStorage();
-    if (!storedData) return;
-    const dataWithoutCurrentToken = storedData.filter((el: TradeStrategy) => {
-      return el.symbol !== token.symbol;
-    });
-    closeModal();
-    updateLocalStorage(dataWithoutCurrentToken);
-  };
-
   const handleTemporaryStorage = () => {
     if (!selectedEx || !totalSelectedAmount) return;
     const newTradeStrategy = createNewTradeStrategy(selectedEx);
-    const storedData = getLocalStorage();
-
+    const storedData = getLocalStorageData();
     if (storedData) {
       const storedStrategy = storedData.find(
         (storedStrategy: TradeStrategy) => {
           return storedStrategy.symbol === token.symbol;
         }
       );
-
       if (storedStrategy) {
         if (confirm(displayConfirmMessage(storedStrategy))) {
           const newData = storedData.map((storedStrategy: TradeStrategy) => {
@@ -244,14 +230,10 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
         }
       } else {
         const newData = [...storedData, newTradeStrategy];
-        // console.log('3:', newData);
-        // setStoredData(newData);
         updateLocalStorage(newData);
       }
     } else {
       const newData = [newTradeStrategy];
-      // console.log('==>', newData);
-      // setStoredData(newData);
       updateLocalStorage(newData);
     }
   };
@@ -259,6 +241,27 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   const handleUpdateStrategy = () => {
     handleTemporaryStorage();
     openModal(ModalContentEnum.Strategy);
+  };
+
+  const saveTradeStrategy = () => {
+    const storedData = getLocalStorageData();
+    const storedStrategy = storedData
+      ? storedData.find((storedStrategy: TradeStrategy) => {
+          return storedStrategy.symbol === token.symbol;
+        })
+      : null;
+    console.log('-->', storedStrategy);
+    // TODO: strategyService.updateStratedy(orderData.strategy.id, {});
+  };
+
+  const resetTradeStrategy = () => {
+    const storedData = getLocalStorageData();
+    if (!storedData) return;
+    const dataWithoutCurrentToken = storedData.filter((el: TradeStrategy) => {
+      return el.symbol !== token.symbol;
+    });
+    closeModal();
+    updateLocalStorage(dataWithoutCurrentToken);
   };
 
   const handleCopyValue = (id: number, key: string, val: number) => {
@@ -307,7 +310,8 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
         <RenderModal>
           <TradeStrategyModalContent
             token={token}
-            getLocalStorage={getLocalStorage}
+            getLocalStorageData={getLocalStorageData}
+            saveTradeStrategy={saveTradeStrategy}
             resetTradeStrategy={resetTradeStrategy}
           />
         </RenderModal>

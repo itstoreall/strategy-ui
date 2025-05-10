@@ -5,6 +5,21 @@ import { Order } from '@/src/types';
 import * as t from '@/src/components/Section/Strategy/TradeStrategySection';
 import Button from '@/src/components/Button/Button';
 
+type TradeStrategyOrderListProps = Pick<t.TradeStrategyProps, 'token'> & {
+  orderSet: Order[];
+  totalSelectedAmount: number;
+  avgSelectedBuyPrice: number;
+  totalSelectedInvested: number;
+  totalSelectedUnrealized: number;
+  totalSelectedProfit: number;
+  selectedOrders: Set<string>;
+  copiedField: t.CopiedField | null;
+  handleTemporaryStorage: () => void;
+  handleUpdateStrategy: () => void;
+  handleToggleSelect: (id: string) => void;
+  handleCopyValue: (id: number, key: string, val: number) => void;
+};
+
 type OrderContentProps = {
   id: number;
   amount: number;
@@ -84,36 +99,23 @@ const OrderContent = ({
   );
 };
 
-type ListProps = Pick<t.TradeStrategyProps, 'token'> & {
-  orderSet: Order[];
-  totalSelectedAmount: number;
-  avgSelectedBuyPrice: number;
-  totalSelectedInvested: number;
-  totalSelectedUnrealized: number;
-  totalSelectedProfit: number;
-  selectedOrders: Set<string>;
-  copiedField: t.CopiedField | null;
-  handleTemporaryStorage: () => void;
-  handleUpdateStrategy: () => void;
-  handleToggleSelect: (id: string) => void;
-  handleCopyValue: (id: number, key: string, val: number) => void;
-};
+const TradeStrategyOrderList = (props: TradeStrategyOrderListProps) => {
+  const {
+    token,
+    orderSet,
+    totalSelectedAmount,
+    avgSelectedBuyPrice,
+    totalSelectedInvested,
+    totalSelectedUnrealized,
+    totalSelectedProfit,
+    selectedOrders,
+    copiedField,
+    handleTemporaryStorage,
+    handleUpdateStrategy,
+    handleToggleSelect,
+    handleCopyValue,
+  } = props;
 
-const TradeStrategyOrderList = ({
-  token,
-  orderSet,
-  totalSelectedAmount,
-  avgSelectedBuyPrice,
-  totalSelectedInvested,
-  totalSelectedUnrealized,
-  totalSelectedProfit,
-  selectedOrders,
-  copiedField,
-  handleTemporaryStorage,
-  handleUpdateStrategy,
-  handleToggleSelect,
-  handleCopyValue,
-}: ListProps) => {
   const singleItemStyle = orderSet.length < 2 ? 'single-element' : '';
   const itemStyle = `section-trade-strategy-list-item ${singleItemStyle}`;
 
