@@ -114,3 +114,16 @@ export type AggregatedOrderListAcc = {
   unrealized: number | null;
   orderDate: string;
 };
+
+// --- Strategy
+
+export type TradeStrategy = {
+  symbol: string;
+  exchange: ExchangeEnum;
+  amount: string;
+  avg: string;
+  invested: string;
+  unrealized: string;
+  profit: string;
+  orders: string;
+};

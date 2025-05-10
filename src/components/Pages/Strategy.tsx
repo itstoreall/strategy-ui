@@ -16,7 +16,7 @@ import * as t from '@/src/types';
 import * as u from '@/src/utils';
 import StrategyOrderListSection from '@/src/components/Section/StrategyOrderListSection';
 import StrategySnapshotSection from '@/src/components/Section/StrategySnapshotSection';
-import TradeStrategySection from '@/src/components/Section/TradeStrategySection';
+import TradeStrategySection from '@/src/components/Section/Strategy/TradeStrategySection';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import PageContainer, { Label } from '@/src/components/Container/Page';
