@@ -20,6 +20,8 @@ export type CopiedField = {
   key: string;
 };
 
+export type History = TradeStrategy[] | null;
+
 const c = {
   initExchange: ExchangeEnum.Binance,
   dividerTitle: 'Take Profit',
@@ -33,6 +35,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   const [isSelectedAllOrders, seIsSelectedAllOrders] = useState(false);
   const [exs, setExs] = useState<ExchangeEnum[] | null>(null);
   const [selectedEx, setSelectedEx] = useState<ExchangeEnum | null>(null);
+  const [strategyHistory, setStrategyHistory] = useState<History>(null);
   const [totalSelectedAmount, setTotalSelectedAmount] = useState(0);
   const [avgSelectedBuyPrice, setAvgSelectedBuyPrice] = useState(0);
   const [totalSelectedInvested, setTotalSelectedInvested] = useState(0);
@@ -54,8 +57,26 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   // ---
 
   useEffect(() => {
-    console.log('orderData strategy:', orderData.strategy);
+    if (orderData.strategy && orderData.strategy?.data) {
+      // console.log('orderData.strategy:', typeof orderData.strategy.data);
+      const _strategyHistory =
+        typeof orderData.strategy.data === 'string'
+          ? JSON.parse(orderData.strategy.data)
+          : typeof orderData.strategy.data === 'object'
+          ? [orderData.strategy.data]
+          : orderData.strategy.data;
+
+      // console.log('_strategyHistory:', typeof _strategyHistory);
+
+      setStrategyHistory(_strategyHistory);
+    }
   }, [orderData]);
+
+  /*
+  useEffect(() => {
+    console.log('strategyHistory:', strategyHistory);
+  }, [strategyHistory]);
+  // */
 
   useEffect(() => {
     const _exs = exchanges.filter((ex) => {
@@ -257,11 +278,12 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
         })
       : null;
     if (storedStrategy && orderData.strategy) {
+      const newData = strategyHistory
+        ? [...strategyHistory, storedStrategy]
+        : [storedStrategy];
       updateStrategy({
         strategyId: orderData.strategy.id,
-        params: {
-          data: storedStrategy,
-        },
+        params: { data: JSON.stringify(newData) },
       });
     }
   };
@@ -274,6 +296,14 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     });
     closeModal();
     updateLocalStorage(dataWithoutCurrentToken);
+  };
+
+  const deleteHystory = () => {
+    updateStrategy({
+      strategyId: orderData.strategy.id,
+      params: { data: null },
+    });
+    setStrategyHistory(null);
   };
 
   const handleCopyValue = (id: number, key: string, val: number) => {
@@ -325,6 +355,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
             getLocalStorageData={getLocalStorageData}
             saveTradeStrategy={saveTradeStrategy}
             resetTradeStrategy={resetTradeStrategy}
+            deleteHystory={deleteHystory}
           />
         </RenderModal>
       )}

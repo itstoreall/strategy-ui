@@ -102,7 +102,7 @@ export type Strategy = {
   createdAt: Date;
   updatedAt: Date;
   target: number;
-  data: JSON; // TradeStrategy
+  data: string; // TradeStrategy
 };
 
 export type StrategyOrders = {

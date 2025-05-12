@@ -272,7 +272,7 @@ const Strategy = () => {
                 profitAmount={snapshot.profit}
               />
 
-              {isTakeProfit && token && userOrderData && (
+              {userId && isTakeProfit && token && userOrderData && (
                 <TradeStrategySection
                   token={token}
                   orderData={userOrderData}

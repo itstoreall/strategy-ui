@@ -1,13 +1,11 @@
 import apiClient from '@/src/lib/api/client';
-import { TradeStrategy } from '@/src/types';
 
 export type UpdateStrategyParams = {
-  data: TradeStrategy;
+  data: string | null;
 };
 
 class StrategyService {
-  async updateStratedy(strategyId: number, params: string) {
-    console.log('params:', params);
+  async updateStratedy(strategyId: number, params: UpdateStrategyParams) {
     try {
       const url = `/strategies/id/${strategyId}`;
       const res = await apiClient.put(url, params);

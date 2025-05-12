@@ -6,11 +6,17 @@ type Props = Pick<TradeStrategyProps, 'token'> & {
   getLocalStorageData: () => TradeStrategy[] | null;
   saveTradeStrategy: () => void;
   resetTradeStrategy: () => void;
+  deleteHystory: () => void;
 };
 
 const TradeStrategyModalContent = (props: Props) => {
-  const { token, getLocalStorageData, saveTradeStrategy, resetTradeStrategy } =
-    props;
+  const {
+    token,
+    getLocalStorageData,
+    saveTradeStrategy,
+    resetTradeStrategy,
+    deleteHystory,
+  } = props;
 
   const storedData = getLocalStorageData();
   const storedStrategy = storedData
@@ -65,7 +71,13 @@ const TradeStrategyModalContent = (props: Props) => {
       <Button style={{ marginBottom: '1rem' }} clickContent={saveTradeStrategy}>
         Save
       </Button>
-      <Button clickContent={resetTradeStrategy}>Reset</Button>
+      <Button
+        style={{ marginBottom: '1rem' }}
+        clickContent={resetTradeStrategy}
+      >
+        Clear Storage
+      </Button>
+      <Button clickContent={deleteHystory}>Delete Hystory</Button>
     </>
   );
 };
