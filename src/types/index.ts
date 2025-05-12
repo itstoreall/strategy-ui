@@ -51,6 +51,19 @@ export type TokensRes = {
   data: TokenData;
 };
 
+// --- Strategy
+
+export type TradeStrategy = {
+  symbol: string;
+  exchange: ExchangeEnum;
+  amount: string;
+  avg: string;
+  invested: string;
+  unrealized: string;
+  profit: string;
+  orders: string;
+};
+
 // --- Orders:
 
 export type Order = {
@@ -64,7 +77,7 @@ export type Order = {
   userId: string;
   strategy: {
     target: number;
-    data: JSON;
+    data: JSON; // TradeStrategy
   };
   exchange: ExchangeEnum;
   createdAt: Date;
@@ -89,7 +102,7 @@ export type Strategy = {
   createdAt: Date;
   updatedAt: Date;
   target: number;
-  data: JSON;
+  data: JSON; // TradeStrategy
 };
 
 export type StrategyOrders = {
@@ -113,17 +126,4 @@ export type AggregatedOrderListAcc = {
   percent: number;
   unrealized: number | null;
   orderDate: string;
-};
-
-// --- Strategy
-
-export type TradeStrategy = {
-  symbol: string;
-  exchange: ExchangeEnum;
-  amount: string;
-  avg: string;
-  invested: string;
-  unrealized: string;
-  profit: string;
-  orders: string;
 };

@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from 'react';
 import useModal from '@/src/hooks/useModal';
+import useUpdateStrategy from '@/src/hooks/strategy/useUpdateStrategy';
 import { Order, OrderStrategyData, Token, TradeStrategy } from '@/src/types';
 import { ExchangeEnum } from '@/src/enums';
 import * as u from '@/src/utils';
-// import { strategyService } from '@/src/services/strategy.service';
 import TradeStrategyModalContent from '@/src/components/Section/Strategy/TradeStrategyModalContent';
 import TradeStrategyOrderList from '@/src/components/Section/Strategy/TradeStrategyOrderList';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
@@ -41,6 +41,8 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
 
   const { token, orderData, exchanges } = props;
 
+  const { mutate: updateStrategy } = useUpdateStrategy();
+
   const {
     RenderModal,
     openModal,
@@ -50,6 +52,10 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   } = useModal();
 
   // ---
+
+  useEffect(() => {
+    console.log('orderData:', orderData.strategy.data);
+  }, [orderData]);
 
   useEffect(() => {
     const _exs = exchanges.filter((ex) => {
@@ -250,8 +256,14 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
           return storedStrategy.symbol === token.symbol;
         })
       : null;
-    console.log('-->', storedStrategy);
-    // TODO: strategyService.updateStratedy(orderData.strategy.id, {});
+    if (storedStrategy) {
+      updateStrategy({
+        strategyId: orderData.strategy.id,
+        params: {
+          data: storedStrategy,
+        },
+      });
+    }
   };
 
   const resetTradeStrategy = () => {
