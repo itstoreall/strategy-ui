@@ -6,7 +6,7 @@ export type UpdateStrategyParams = {
 };
 
 class StrategyService {
-  async updateStratedy(strategyId: number, params: UpdateStrategyParams) {
+  async updateStratedy(strategyId: number, params: string) {
     console.log('params:', params);
     try {
       const url = `/strategies/id/${strategyId}`;

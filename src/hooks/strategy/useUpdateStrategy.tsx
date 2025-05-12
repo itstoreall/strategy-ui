@@ -19,7 +19,8 @@ const useUpdateStrategy = () => {
   return useMutation({
     mutationKey: [MutationKeyEnum.UpdateStrategy],
     mutationFn: async ({ strategyId, params }: UseMutationOptions) => {
-      return service.strategyService.updateStratedy(strategyId, params);
+      const payload = JSON.stringify(params);
+      return service.strategyService.updateStratedy(strategyId, payload);
     },
     onSuccess: (data) => {
       if (data) {

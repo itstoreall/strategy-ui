@@ -54,7 +54,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   // ---
 
   useEffect(() => {
-    console.log('orderData:', orderData.strategy.data);
+    console.log('orderData strategy:', orderData.strategy);
   }, [orderData]);
 
   useEffect(() => {
@@ -256,7 +256,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
           return storedStrategy.symbol === token.symbol;
         })
       : null;
-    if (storedStrategy) {
+    if (storedStrategy && orderData.strategy) {
       updateStrategy({
         strategyId: orderData.strategy.id,
         params: {
