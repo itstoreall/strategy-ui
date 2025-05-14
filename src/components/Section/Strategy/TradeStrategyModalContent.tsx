@@ -64,8 +64,8 @@ const TradeStrategyModalContent = (props: Props) => {
             <span>{storedStrategy.amount}</span>
           </span>
           <span className="trade-strategy-modal-data-element">
-            <span>{'AVG:'}</span>
-            <span>{storedStrategy.avg}</span>
+            <span>{'Price:'}</span>
+            <span>{storedStrategy.price}</span>
           </span>
           <span className="trade-strategy-modal-data-element">
             <span>{'Invested:'}</span>
@@ -76,8 +76,8 @@ const TradeStrategyModalContent = (props: Props) => {
             <span>{storedStrategy.profit}</span>
           </span>
           <span className="trade-strategy-modal-data-element">
-            <span>{'Unrealized:'}</span>
-            <span>{storedStrategy.unrealized}</span>
+            <span>{'Total:'}</span>
+            <span>{storedStrategy.total}</span>
           </span>
           <span className="trade-strategy-modal-data-element">
             <span>{'Orders:'}</span>

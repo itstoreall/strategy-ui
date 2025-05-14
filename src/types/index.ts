@@ -57,9 +57,9 @@ export type TradeStrategy = {
   symbol: string;
   exchange: ExchangeEnum;
   amount: string;
-  avg: string;
+  price: string;
   invested: string;
-  unrealized: string;
+  total: string;
   profit: string;
   orders: string;
 };

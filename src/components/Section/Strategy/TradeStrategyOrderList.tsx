@@ -156,7 +156,7 @@ const TradeStrategyOrderList = (props: TradeStrategyOrderListProps) => {
               </span>
               <span className="trade-strategy-calculating-element">
                 <span className="trade-strategy-calculating-element-title">
-                  {'unrealized'}
+                  {'total'}
                 </span>
                 <span className="trade-strategy-calculating-element-value">
                   {u.uniNumberFormatter(totalSelectedUnrealized)}

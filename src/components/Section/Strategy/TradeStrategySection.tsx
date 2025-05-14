@@ -228,9 +228,9 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
       symbol: token.symbol,
       exchange: ex,
       amount: u.uniNumberFormatter(totalSelectedAmount),
-      avg: u.uniNumberFormatter(avgSelectedBuyPrice),
+      price: u.uniNumberFormatter(token.price),
       invested: u.uniNumberFormatter(totalSelectedInvested),
-      unrealized: u.uniNumberFormatter(totalSelectedUnrealized),
+      total: u.uniNumberFormatter(totalSelectedUnrealized),
       profit: u.uniNumberFormatter(totalSelectedProfit),
       orders: Array.from(selectedOrders).join(', '),
     };
@@ -242,7 +242,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
 
     amount: ${storedTradeStrategy.amount}
     invested: ${storedTradeStrategy.invested}
-    unrealized: ${storedTradeStrategy.unrealized}
+    total: ${storedTradeStrategy.total}
     profit: ${storedTradeStrategy.profit}
     orders: ${storedTradeStrategy.orders}
     `;
