@@ -1,11 +1,12 @@
 import { useMutation } from '@tanstack/react-query';
 import useInvalidateQueries from '@/src/hooks/useInvalidateQueries';
-import * as service from '@/src/services/strategy.service';
 import { MutationKeyEnum, QueryKeyEnum } from '@/src/enums';
+import { updateStrategyData } from '@/src/lib/api/updateStrategyDataServerAction';
+import { TradeStrategy } from '@/src/types';
 
 type UseMutationOptions = {
   strategyId: number;
-  params: service.UpdateStrategyParams;
+  params: TradeStrategy[] | null;
 };
 
 const c = {
@@ -19,7 +20,8 @@ const useUpdateStrategy = () => {
   return useMutation({
     mutationKey: [MutationKeyEnum.UpdateStrategy],
     mutationFn: async ({ strategyId, params }: UseMutationOptions) => {
-      return service.strategyService.updateStratedy(strategyId, params);
+      const data = JSON.stringify(params);
+      return updateStrategyData(strategyId, data);
     },
     onSuccess: (data) => {
       if (data) {

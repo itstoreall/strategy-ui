@@ -21,6 +21,7 @@ export type CopiedField = {
 };
 
 export type History = TradeStrategy[] | null;
+export type Strategy = TradeStrategy | null;
 
 const c = {
   initExchange: ExchangeEnum.Binance,
@@ -36,6 +37,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   const [exs, setExs] = useState<ExchangeEnum[] | null>(null);
   const [selectedEx, setSelectedEx] = useState<ExchangeEnum | null>(null);
   const [strategyHistory, setStrategyHistory] = useState<History>(null);
+  const [storedStrategy, setStoredStrategy] = useState<Strategy>(null);
   const [totalSelectedAmount, setTotalSelectedAmount] = useState(0);
   const [avgSelectedBuyPrice, setAvgSelectedBuyPrice] = useState(0);
   const [totalSelectedInvested, setTotalSelectedInvested] = useState(0);
@@ -44,7 +46,8 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
 
   const { token, orderData, exchanges } = props;
 
-  const { mutate: updateStrategy } = useUpdateStrategy();
+  const { mutate: updateStrategy, isSuccess: isSuccessUpdateStrategy } =
+    useUpdateStrategy();
 
   const {
     RenderModal,
@@ -71,6 +74,15 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
       setStrategyHistory(_strategyHistory);
     }
   }, [orderData]);
+
+  // /*
+  useEffect(() => {
+    if (isSuccessUpdateStrategy) {
+      // console.log('isSuccessUpdateStrategy:', isSuccessUpdateStrategy);
+      resetTradeStrategy(false);
+    }
+  }, [isSuccessUpdateStrategy]);
+  // */
 
   /*
   useEffect(() => {
@@ -254,19 +266,22 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
               : storedStrategy;
           });
           updateLocalStorage(newData);
+          setStoredStrategy(newTradeStrategy);
         }
       } else {
         const newData = [...storedData, newTradeStrategy];
         updateLocalStorage(newData);
+        setStoredStrategy(newTradeStrategy);
       }
     } else {
       const newData = [newTradeStrategy];
       updateLocalStorage(newData);
+      setStoredStrategy(newTradeStrategy);
     }
   };
 
   const handleUpdateStrategy = () => {
-    handleTemporaryStorage();
+    // handleTemporaryStorage();
     openModal(ModalContentEnum.Strategy);
   };
 
@@ -281,27 +296,35 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
       const newData = strategyHistory
         ? [...strategyHistory, storedStrategy]
         : [storedStrategy];
+
+      // console.log('newData:', newData);
+
       updateStrategy({
-        strategyId: orderData.strategy.id,
-        params: { data: JSON.stringify(newData) },
+        strategyId: +orderData.strategy.id,
+        params: newData,
       });
     }
   };
 
-  const resetTradeStrategy = () => {
+  const resetTradeStrategy = (isClose: boolean) => {
     const storedData = getLocalStorageData();
     if (!storedData) return;
     const dataWithoutCurrentToken = storedData.filter((el: TradeStrategy) => {
       return el.symbol !== token.symbol;
     });
-    closeModal();
-    updateLocalStorage(dataWithoutCurrentToken);
+    if (storedData.length > dataWithoutCurrentToken.length) {
+      updateLocalStorage(dataWithoutCurrentToken);
+      setStoredStrategy(null);
+      if (isClose) {
+        closeModal();
+      }
+    }
   };
 
   const deleteHystory = () => {
     updateStrategy({
       strategyId: orderData.strategy.id,
-      params: { data: null },
+      params: null,
     });
     setStrategyHistory(null);
   };
@@ -351,8 +374,8 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
       {isStrategyModal && (
         <RenderModal>
           <TradeStrategyModalContent
-            token={token}
-            getLocalStorageData={getLocalStorageData}
+            strategyHistory={strategyHistory}
+            storedStrategy={storedStrategy}
             saveTradeStrategy={saveTradeStrategy}
             resetTradeStrategy={resetTradeStrategy}
             deleteHystory={deleteHystory}
