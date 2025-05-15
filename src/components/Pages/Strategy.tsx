@@ -152,38 +152,38 @@ const Strategy = () => {
 
   const classifiedOrders = userOrderData?.orders?.map((order) => {
     const percent = ((currentPrice - order.price) / order.price) * 100;
-    snapshot.deposit += order.fiat;
-
     if (!exchanges.includes(order.exchange)) {
       exchanges.push(order.exchange);
     }
 
-    if (order.exchange === filterExchange) {
+    const calculateSnapshotValues = (order: t.Order, percent: number) => {
       snapshot.totalAmount += order.amount;
-    } else if (filterExchange === ExchangeEnum.All) {
-      snapshot.totalAmount += order.amount;
-    }
-
-    if (!percent.toString().includes('-')) {
-      if (snapshot.profit === null) {
-        snapshot.profit = 0 + order.amount * currentPrice;
-      } else {
-        snapshot.profit += order.amount * currentPrice;
-      }
-
-      if (percent >= userOrderData.strategy.target) {
-        if (snapshot.successOrders === null) {
-          snapshot.successOrders = 1;
+      snapshot.deposit += order.fiat;
+      if (!percent.toString().includes('-')) {
+        if (snapshot.profit === null) {
+          snapshot.profit = 0 + order.amount * currentPrice;
         } else {
-          snapshot.successOrders += 1;
+          snapshot.profit += order.amount * currentPrice;
+        }
+        if (percent >= userOrderData.strategy.target) {
+          if (snapshot.successOrders === null) {
+            snapshot.successOrders = 1;
+          } else {
+            snapshot.successOrders += 1;
+          }
+        }
+        if (snapshot.positiveOrders === null) {
+          snapshot.positiveOrders = 1;
+        } else {
+          snapshot.positiveOrders += 1;
         }
       }
+    };
 
-      if (snapshot.positiveOrders === null) {
-        snapshot.positiveOrders = 1;
-      } else {
-        snapshot.positiveOrders += 1;
-      }
+    if (order.exchange === filterExchange) {
+      calculateSnapshotValues(order, percent);
+    } else if (filterExchange === ExchangeEnum.All) {
+      calculateSnapshotValues(order, percent);
     }
 
     const { priority } = classifyOrder(percent, userOrderData.strategy);
