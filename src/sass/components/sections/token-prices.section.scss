@@ -40,6 +40,10 @@ section.token-prices {
               font-weight: 500;
             }
           }
+
+          > span.custom-price-input-wrapper {
+            position: relative;
+          }
         }
 
         > span.section-token-price-list-item-content:first-child {
@@ -69,6 +73,12 @@ section.token-prices {
         &:last-child {
           > li.section-token-price-list-item:last-child {
             height: 0.9rem;
+
+            > span.section-token-price-list-item-content {
+              > span.custom-price-input-wrapper {
+                width: 70px;
+              }
+            }
           }
         }
       }
@@ -139,6 +149,10 @@ section.token-prices {
           > span.section-token-price-list-item-content {
             display: flex;
             justify-content: space-between;
+
+            > span.custom-price-input-wrapper {
+              width: 50px;
+            }
           }
         }
 
@@ -156,6 +170,15 @@ section.token-prices {
       > ul.section-token-price-list {
         > li.section-token-price-list-item {
           height: 1.7rem;
+
+          > span.section-token-price-list-item-content {
+            display: flex;
+            justify-content: space-between;
+
+            > span.custom-price-input-wrapper {
+              width: 70px;
+            }
+          }
         }
       }
     }

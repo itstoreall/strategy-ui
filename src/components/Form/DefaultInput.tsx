@@ -4,6 +4,7 @@ type Props = {
   placeholder?: string;
   value: string;
   handleChange: (str: string) => void;
+  handleFocus?: () => void;
   disabled?: boolean;
   error?: string;
 };
@@ -15,6 +16,7 @@ const DefaultInput = (props: Props) => {
     placeholder,
     value,
     handleChange,
+    handleFocus,
     disabled = false,
     error,
   } = props;
@@ -27,6 +29,7 @@ const DefaultInput = (props: Props) => {
         placeholder={placeholder}
         value={value}
         onChange={(e) => handleChange(e.target.value)}
+        onFocus={handleFocus}
         disabled={disabled}
       />
     </div>

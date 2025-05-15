@@ -1,4 +1,5 @@
 @use '@/src/sass/base/vars' as *;
+@use '@/src/sass/mixins' as *;
 
 input {
   background-color: unset;
@@ -38,32 +39,67 @@ input.default-input {
   */
 
   /*
-  
+  &:focus {
+    color: vars.$middleDarkGray;
+    border-color: vars.$middleDarkGray;
+
+    &::placeholder {
+      color: vars.$middleDarkGray;
+    }
+  }
+
+  &.error {
+    color: vars.$red;
+    border-color: vars.$red;
+
+    &::placeholder {
+      color: vars.$red;
+    }
+
     &:focus {
       color: vars.$middleDarkGray;
       border-color: vars.$middleDarkGray;
-  
+
       &::placeholder {
-        color: vars.$middleDarkGray;
+        color: vars.$middleLightGray;
       }
     }
-  
-    &.error {
-      color: vars.$red;
-      border-color: vars.$red;
-  
+  }
+  */
+
+  &.custom-token-price-input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 0 10.6px 0;
+    width: 70px;
+    height: 0.9rem;
+    font-size: 0.9rem;
+    color: $googleBlue;
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+
+    &::placeholder {
+      color: $blue;
+    }
+
+    &:focus {
       &::placeholder {
-        color: vars.$red;
-      }
-  
-      &:focus {
-        color: vars.$middleDarkGray;
-        border-color: vars.$middleDarkGray;
-  
-        &::placeholder {
-          color: vars.$middleLightGray;
-        }
+        color: transparent;
       }
     }
-    */
+
+    @include media-screen-orientation('min', $tablet) {
+      font-size: 1rem;
+    }
+
+    @include media-screen-orientation('min', $mobile + 200) {
+      width: 50px;
+    }
+
+    @include media-screen-orientation('min', $tablet) {
+      width: 70px;
+    }
+  }
 }
