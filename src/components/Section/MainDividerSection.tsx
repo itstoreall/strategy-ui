@@ -122,9 +122,11 @@ const MainDividerSection = (props: Props) => {
             onSelect={(value) =>
               handleSelectChange(c.selectFieldExchange, value)
             }
-            initialOption={isTradeSelect ? filterExchange : exchanges[0]}
+            initialOption={isTradeSelect ? filterExchange : ExchangeEnum.All}
+            // initialOption={isTradeSelect ? filterExchange : exchanges[0]}
             isOpen={openDropdownId === filterExchange}
             onToggle={() => toggleDropdown(filterExchange ?? '')}
+            isReset={!isTradeSelect && filterExchange === ExchangeEnum.All}
             // isDisable={isBuyTarget}
           />
         )}

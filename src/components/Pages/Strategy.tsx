@@ -306,6 +306,7 @@ const Strategy = () => {
                       filterExchange={filterExchange}
                       currentPrice={currentPrice}
                       isEditMenu={isEditMenu}
+                      handleFilterExchange={handleFilterExchange}
                     />
                   </div>
                 </>

@@ -1,6 +1,8 @@
-import * as u from '@/src/utils';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from 'react';
 import { Order, Strategy } from '@/src/types';
 import { ExchangeEnum } from '@/src/enums';
+import * as u from '@/src/utils';
 import StrategyOrderEditMenuSection from '@/src/components/Section/StrategyOrderEditMenuSection';
 
 type Props = {
@@ -9,6 +11,7 @@ type Props = {
   filterExchange: string;
   currentPrice: number;
   isEditMenu: boolean;
+  handleFilterExchange: (val: ExchangeEnum) => void;
 };
 
 const c = {
@@ -28,8 +31,31 @@ const c = {
 };
 
 const StrategyOrderListSection = (props: Props) => {
-  const { sortedOrders, strategy, filterExchange, currentPrice, isEditMenu } =
-    props;
+  const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
+
+  const {
+    sortedOrders,
+    strategy,
+    filterExchange,
+    currentPrice,
+    isEditMenu,
+    handleFilterExchange,
+  } = props;
+
+  useEffect(() => {
+    const filteredOrders = filterExchange
+      ? filterExchange !== ExchangeEnum.All
+        ? sortedOrders.filter(
+            (order: Order) => order.exchange === filterExchange
+          )
+        : sortedOrders
+      : sortedOrders;
+    if (filteredOrders?.length === 0 && sortedOrders?.length) {
+      handleFilterExchange(ExchangeEnum.All);
+    } else {
+      setFilteredOrders(filteredOrders);
+    }
+  }, [sortedOrders]);
 
   const showDetails = (order: Order) => {
     if (isEditMenu) {
@@ -52,16 +78,10 @@ const StrategyOrderListSection = (props: Props) => {
       `);
   };
 
-  const filteredOrders = filterExchange
-    ? filterExchange !== ExchangeEnum.All
-      ? sortedOrders.filter((order: Order) => order.exchange === filterExchange)
-      : sortedOrders
-    : sortedOrders;
-
   return (
     <section className="section strategy-order-list">
       <div className={'section-content strategy-order-list'}>
-        {filteredOrders.length ? (
+        {sortedOrders?.length && filteredOrders.length ? (
           <ul className="section-strategy-order-list">
             {filteredOrders.map((order: Order) => {
               const { id, price, amount } = order;
