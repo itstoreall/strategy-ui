@@ -14,8 +14,7 @@ div.form-wrapper-container {
     width: 100%;
   }
 
-  &.create-order-form-wrapper,
-  &.custom-price-form-wrapper {
+  &.create-order-form-wrapper {
     // @extend %extends-hide-scrollbar;
     // max-height: 100svh;
     overflow-y: scroll;
@@ -24,6 +23,10 @@ div.form-wrapper-container {
 
     // background-color: pink;
     // height: 480px;
+  }
+
+  &.custom-price-form-wrapper {
+    padding: 0.25rem 0;
   }
 
   &.edit-username-form-wrapper {

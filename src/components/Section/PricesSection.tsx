@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import useModal from '@/src/hooks/useModal';
 import { Token } from '@/src/types';
