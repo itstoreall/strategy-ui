@@ -11,6 +11,7 @@ export type ModalContextProps = {
   RenderModal: ({ children }: ChildrenProps) => JSX.Element;
   isFormModal: boolean;
   isStrategyModal: boolean;
+  isCustomPriceModal: boolean;
 };
 
 export type CloseButtonProps = { closeModal: () => void };

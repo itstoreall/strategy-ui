@@ -36,7 +36,7 @@ const Dashboard = () => {
   const ordersParam = { enabled: !!userId };
 
   const { userOrders } = useFetchAllUserOrders(currentUser, ordersParam);
-  const { RenderModal, openModal, ModalContentEnum } = useModal();
+  const { RenderModal, openModal, isFormModal, ModalContentEnum } = useModal();
   const { updatedTokens, users } = useGlobalState();
   const path = useParams();
 
@@ -181,7 +181,7 @@ const Dashboard = () => {
           <MainLoader />
         )}
 
-        {updatedTokens && (
+        {isFormModal && updatedTokens && (
           <RenderModal>
             <AddOrderForm
               tokens={updatedTokens}

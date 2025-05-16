@@ -9,11 +9,13 @@ div.form-wrapper-container {
   text-align: center;
 
   &.auth-form-wrapper,
-  &.create-order-form-wrapper {
+  &.create-order-form-wrapper,
+  &.custom-price-form-wrapper {
     width: 100%;
   }
 
-  &.create-order-form-wrapper {
+  &.create-order-form-wrapper,
+  &.custom-price-form-wrapper {
     // @extend %extends-hide-scrollbar;
     // max-height: 100svh;
     overflow-y: scroll;

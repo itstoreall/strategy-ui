@@ -93,6 +93,7 @@ export enum ChartIntervalEnum {
 export enum ModalContentEnum {
   Form = 'FORM',
   Strategy = 'STRATEGY',
+  CustomPrice = 'CUSTOM_PRICE',
 }
 
 // ------ :
