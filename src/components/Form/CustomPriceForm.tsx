@@ -51,10 +51,10 @@ const CustomPriceForm = ({ tokens }: Props) => {
 
         {tokens && (
           <FormContentContainer>
-            {/* <span className="custom-price-modal-price-value">
-            <span>{c.usd}</span>
-            {customPrice}
-          </span> */}
+            <span className="custom-price-modal-price-value">
+              <span>{c.usd}</span>
+              {'customPrice'}
+            </span>
             <DefaultInput value={'username'} handleChange={() => 'v'} />
             {/* <Button clickContent={update}>{config.buttonText}</Button> */}
           </FormContentContainer>
