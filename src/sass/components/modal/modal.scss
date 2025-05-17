@@ -68,11 +68,11 @@
     // align-items: flex-end;
 
     > div.modal {
-      position: absolute;
+      position: fixed;
       bottom: 0;
       // bottom: 50%;
       padding: 1rem;
-      padding-bottom: calc(50svh - 130px);
+      padding-bottom: 10svh;
       max-width: calc($mobile - 140px);
       // height: 100svh;
       // height: 400px;
