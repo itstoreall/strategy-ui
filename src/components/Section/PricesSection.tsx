@@ -1,21 +1,22 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 import useModal from '@/src/hooks/useModal';
 import { Token } from '@/src/types';
 import { uniNumberFormatter } from '@/src/utils';
-import FormWrapper from '@/src/components/Container/FormWrapper';
-import FormBackdropContainer from '@/src/components/Container/FormBackdrop';
-import DefaultInput from '@/src/components/Form/DefaultInput';
-import Title from '@/src/components/Layout/Title';
+// import FormWrapper from '@/src/components/Container/FormWrapper';
+// import FormBackdropContainer from '@/src/components/Container/FormBackdrop';
+// import DefaultInput from '@/src/components/Form/DefaultInput';
+// import Title from '@/src/components/Layout/Title';
+import CustomPriceForm from '../Form/CustomPriceForm';
 
 type Props = {
   tokens: Token[] | null;
 };
 
-const c = {
-  usd: '$',
-  inputPlaceholder: 'Symbol',
-};
+// const c = {
+//   usd: '$',
+//   inputPlaceholder: 'Symbol',
+// };
 
 const set1 = [{ symbols: ['BTC', 'ETH'] }, { symbols: ['SOL', 'DOGE'] }];
 const set2 = [{ symbols: ['XRP', 'SUI'] }, { symbols: ['ONDO', 'ALGO'] }];
@@ -25,8 +26,8 @@ const set5 = [{ symbols: ['UNI', 'FIL'] }, { symbols: ['ORDI', 'VIRTUAL'] }];
 // const set6 = [{ symbols: ['NEAR', 'LINK'] }, { symbols: ['DOT', 'WLD'] }];
 
 const PricesSection = ({ tokens }: Props) => {
-  const [customSymbol, setCustomSymbol] = useState('');
-  const [customPrice, setCustomPrice] = useState<number>(0);
+  // const [customSymbol, setCustomSymbol] = useState('');
+  // const [customPrice, setCustomPrice] = useState<number>(0);
 
   const m = useModal();
 
@@ -34,17 +35,17 @@ const PricesSection = ({ tokens }: Props) => {
 
   const handleModal = () => m.openModal(m.ModalContentEnum.CustomPrice);
 
-  const handleInputValue = (val: string) => {
-    setCustomSymbol(val.toUpperCase());
-    if (!val) {
-      setCustomPrice(0);
-    }
-  };
+  // const handleInputValue = (val: string) => {
+  //   setCustomSymbol(val.toUpperCase());
+  //   if (!val) {
+  //     setCustomPrice(0);
+  //   }
+  // };
 
-  const handleFocus = () => {
-    setCustomPrice(0);
-    setCustomSymbol('');
-  };
+  // const handleFocus = () => {
+  //   setCustomPrice(0);
+  //   setCustomSymbol('');
+  // };
 
   const handlePriceDisplay = (symbol: string, price: number | null) => {
     const isFixedZero = symbol === 'BTC' || symbol === 'ETH';
@@ -59,14 +60,14 @@ const PricesSection = ({ tokens }: Props) => {
   // ---
 
   const ItemContent = ({ symbol }: { symbol: string }) => {
-    useEffect(() => {
-      if (customSymbol) {
-        const token = tokens?.find(
-          (token) => token.symbol === customSymbol.toUpperCase()
-        );
-        setCustomPrice(token ? token.price : 0);
-      }
-    }, [customSymbol]);
+    // useEffect(() => {
+    //   if (customSymbol) {
+    //     const token = tokens?.find(
+    //       (token) => token.symbol === customSymbol.toUpperCase()
+    //     );
+    //     setCustomPrice(token ? token.price : 0);
+    //   }
+    // }, [customSymbol]);
 
     const tokenPrice = tokens
       ? tokens.find((token) => token.symbol === symbol)?.price ?? 0
@@ -106,7 +107,8 @@ const PricesSection = ({ tokens }: Props) => {
 
       {m.isCustomPriceModal && (
         <m.RenderModal>
-          <FormWrapper className="custom-price-form-wrapper">
+          <CustomPriceForm />
+          {/* <FormWrapper className="custom-price-form-wrapper">
             <FormBackdropContainer className="custom-price-form-backdrop-container">
               <Title tag={'h3'} className="form-title" text={'Price'} />
 
@@ -125,7 +127,7 @@ const PricesSection = ({ tokens }: Props) => {
                 />
               </div>
             </FormBackdropContainer>
-          </FormWrapper>
+          </FormWrapper> */}
         </m.RenderModal>
       )}
     </section>
