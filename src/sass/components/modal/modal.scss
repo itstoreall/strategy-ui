@@ -62,7 +62,7 @@
   }
 
   &.CUSTOM_PRICE {
-    display: fixed;
+    // display: fixed;
     // bottom: 0;
     // justify-content: center;
     // align-items: center;
@@ -71,7 +71,8 @@
       padding: 1rem;
       max-width: calc($mobile - 140px);
       // min-height: 100%;
-      // height: 300px;
+      height: 400px;
+      background-color: teal;
       // background-color: red;
 
       // background-color: teal;
@@ -128,7 +129,6 @@ div.modal-backdrop {
     justify-content: center;
     align-items: center;
     width: 100%;
-    background-color: teal;
   }
 
   @extend .customModals;
