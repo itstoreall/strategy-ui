@@ -45,6 +45,24 @@ const CustomPriceForm = ({ tokens }: Props) => {
   };
 
   return (
+    <FormWrapper className="edit-username-form-wrapper">
+      <FormBackdropContainer>
+        <Title tag={'h3'} className="form-title" text={c.formTitle} />
+
+        <FormContentContainer>
+          {/* <span className="custom-price-modal-price-value">
+            <span>{c.usd}</span>
+            {customPrice}
+          </span> */}
+          <DefaultInput value={'username'} handleChange={() => 'v'} />
+          {/* <Button clickContent={update}>{config.buttonText}</Button> */}
+        </FormContentContainer>
+      </FormBackdropContainer>
+    </FormWrapper>
+  );
+
+  /*
+  return (
     <FormWrapper className="custom-price-form-wrapper">
       <FormBackdropContainer>
         <Title tag={'h3'} className="form-title" text={c.formTitle} />
@@ -68,6 +86,7 @@ const CustomPriceForm = ({ tokens }: Props) => {
       </FormBackdropContainer>
     </FormWrapper>
   );
+  */
 };
 
 export default CustomPriceForm;
