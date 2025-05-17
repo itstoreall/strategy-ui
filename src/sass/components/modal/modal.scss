@@ -65,11 +65,17 @@
     > div.modal {
       padding: 1rem;
       max-width: calc($mobile - 140px);
+      // min-height: 100%;
       // height: 300px;
       // background-color: red;
 
       // Custom-Price-Modal:
       > div.custom-price-modal-content {
+        display: flex;
+        align-items: center;
+        min-height: 100svh;
+        background-color: red;
+
         div.custom-price-calculation-block {
           > span.custom-price-modal-price-value {
             display: flex;

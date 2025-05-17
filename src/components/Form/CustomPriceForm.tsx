@@ -45,7 +45,7 @@ const CustomPriceForm = ({ tokens }: Props) => {
   };
 
   return (
-    <FormWrapper className="edit-username-form-wrapper">
+    <FormWrapper className="custom-price-form-wrapper">
       <FormBackdropContainer>
         <Title tag={'h3'} className="form-title" text={c.formTitle} />
 
