@@ -62,36 +62,12 @@
   }
 
   &.CUSTOM_PRICE {
-    // display: fixed;
-    // bottom: 0;
-    // justify-content: center;
-    // align-items: flex-end;
-
     > div.modal {
-      position: fixed;
-      bottom: 0;
-      // bottom: 50%;
       padding: 1rem;
-      padding-bottom: 10svh;
       max-width: calc($mobile - 140px);
-      // height: 100svh;
-      // height: 400px;
-      background-color: teal;
-      // background-color: red;
-
-      // transform: translateY(50%);
-
-      // translate: 0 -50%;
-
-      // background-color: teal;
 
       // Custom-Price-Modal:
       > div.custom-price-modal-content {
-        // display: flex;
-        // align-items: center;
-        // min-height: 100svh;
-        // background-color: red;
-
         div.custom-price-calculation-block {
           > span.custom-price-modal-price-value {
             display: flex;
@@ -99,7 +75,6 @@
             font-size: 1.5rem;
             color: $violetDark;
             border-top: 1px solid $greyDeepDark;
-            // width: 100%;
 
             > span {
               margin-right: 0.1rem;

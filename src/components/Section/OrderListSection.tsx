@@ -209,9 +209,15 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
                   >
                     <ul className="section-order-list-item-row-list">
                       <li className="row-list-item order-symbol">
-                        <span>
+                        <span className="row-list-item-token-symbol">
                           {symbol}
                           {/* {'WERTFGR'} */}
+                          {currentBuyTargetPrice && (
+                            <span className="row-list-item-token-price">
+                              {u.uniNumberFormatter(currentBuyTargetPrice)}
+                              {/* {'WERTFGR'} */}
+                            </span>
+                          )}
                         </span>
                       </li>
 

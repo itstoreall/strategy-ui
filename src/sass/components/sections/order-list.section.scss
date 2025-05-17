@@ -80,6 +80,24 @@ section.order-list {
               &.order-symbol {
                 min-width: 4.6rem;
                 max-width: 5rem;
+
+                > span.row-list-item-token-symbol {
+                  position: relative;
+
+                  > span.row-list-item-token-price {
+                    position: absolute;
+                    margin-left: 3px;
+                    font-size: 0.6rem;
+                    color: $greyMiddle;
+                    opacity: 0.8;
+
+                    @include media-screen-orientation('min', $mobile + 200) {
+                      margin-left: 7px;
+                      font-size: 0.7rem;
+                      // color: red;
+                    }
+                  }
+                }
               }
 
               &.uni-value-field {
