@@ -86,10 +86,10 @@ section.order-list {
 
                   > span.row-list-item-token-price {
                     position: absolute;
-                    margin-left: 3px;
+                    margin-left: 4px;
                     font-size: 0.6rem;
                     color: $greyMiddle;
-                    opacity: 0.8;
+                    opacity: 0.5;
 
                     @include media-screen-orientation('min', $mobile + 200) {
                       margin-left: 7px;
