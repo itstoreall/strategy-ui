@@ -46,8 +46,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
 
   const { token, orderData, exchanges } = props;
 
-  const { mutate: updateStrategy, isSuccess: isSuccessUpdateStrategy } =
-    useUpdateStrategy();
+  const { mutate: updateStrategy } = useUpdateStrategy(); // isSuccess: isSuccessUpdateStrategy
 
   const {
     RenderModal,
@@ -68,27 +67,24 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
 
   useEffect(() => {
     if (orderData.strategy && orderData.strategy?.data) {
-      // console.log('orderData.strategy:', typeof orderData.strategy.data);
       const _strategyHistory =
         typeof orderData.strategy.data === 'string'
           ? JSON.parse(orderData.strategy.data)
           : typeof orderData.strategy.data === 'object'
           ? [orderData.strategy.data]
           : orderData.strategy.data;
-
-      // console.log('_strategyHistory:', typeof _strategyHistory);
-
       setStrategyHistory(_strategyHistory);
     }
   }, [orderData]);
 
+  /*
   useEffect(() => {
     if (isSuccessUpdateStrategy) {
+      console.log('isSuccess:', orderData.strategy.data);
       resetTradeStrategy(false);
     }
   }, [isSuccessUpdateStrategy]);
 
-  /*
   useEffect(() => {
     console.log('strategyHistory:', strategyHistory);
   }, [strategyHistory]);
@@ -308,14 +304,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     openModal(ModalContentEnum.Strategy);
   };
 
-  const saveTradeStrategy = () => {
-    // const storedData = getLSData();
-    // const storedStrategy = storedData
-    // ? storedData.find((storedStrategy: TradeStrategy) => {
-    //   return storedStrategy.symbol === token.symbol;
-    // })
-    // : null;
-
+  const updateStrategyHistory = () => {
     const storedStrategy = getLSCurrentStrategy(token.symbol);
     if (storedStrategy && orderData.strategy) {
       const newData = strategyHistory
@@ -331,6 +320,14 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     }
   };
 
+  const deleteHystory = () => {
+    updateStrategy({
+      strategyId: orderData.strategy.id,
+      params: null,
+    });
+    setStrategyHistory(null);
+  };
+
   const resetTradeStrategy = (isClose: boolean) => {
     const storedData = getLSData();
     if (!storedData) return;
@@ -344,14 +341,6 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
         closeModal();
       }
     }
-  };
-
-  const deleteHystory = () => {
-    updateStrategy({
-      strategyId: orderData.strategy.id,
-      params: null,
-    });
-    setStrategyHistory(null);
   };
 
   const handleCopyValue = (id: number, key: string, val: number) => {
@@ -402,7 +391,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
           <TradeStrategyModalContent
             strategyHistory={strategyHistory}
             storedStrategy={storedStrategy}
-            saveTradeStrategy={saveTradeStrategy}
+            updateStrategyHistory={updateStrategyHistory}
             resetTradeStrategy={resetTradeStrategy}
             deleteHystory={deleteHystory}
           />

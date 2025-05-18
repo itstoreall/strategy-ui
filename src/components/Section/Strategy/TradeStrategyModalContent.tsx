@@ -9,7 +9,7 @@ import Button from '@/src/components/Button/Button';
 type Props = {
   strategyHistory: History;
   storedStrategy: Strategy;
-  saveTradeStrategy: () => void;
+  updateStrategyHistory: () => void;
   resetTradeStrategy: (isClose: boolean) => void;
   deleteHystory: () => void;
 };
@@ -20,7 +20,7 @@ const TradeStrategyModalContent = (props: Props) => {
   const {
     strategyHistory,
     storedStrategy,
-    saveTradeStrategy,
+    updateStrategyHistory,
     resetTradeStrategy,
     deleteHystory,
   } = props;
@@ -88,7 +88,10 @@ const TradeStrategyModalContent = (props: Props) => {
         <div>No Trade Strategy</div>
       )}
 
-      <Button style={{ marginBottom: '1rem' }} clickContent={saveTradeStrategy}>
+      <Button
+        style={{ marginBottom: '1rem' }}
+        clickContent={updateStrategyHistory}
+      >
         Save
       </Button>
       <Button

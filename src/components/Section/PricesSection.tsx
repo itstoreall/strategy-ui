@@ -10,7 +10,7 @@ const set1 = [{ symbols: ['BTC', 'ETH'] }, { symbols: ['SOL', 'DOGE'] }];
 const set2 = [{ symbols: ['XRP', 'SUI'] }, { symbols: ['ONDO', 'ALGO'] }];
 const set3 = [{ symbols: ['ENA', 'IOTA'] }, { symbols: ['TON', 'W'] }];
 const set4 = [{ symbols: ['APT', 'OP'] }, { symbols: ['ARB', 'STRK'] }];
-const set5 = [{ symbols: ['UNI', 'FIL'] }, { symbols: ['ORDI', 'VIRTUAL'] }];
+const set5 = [{ symbols: ['UNI', 'FIL'] }, { symbols: ['LINK', 'ORDI'] }];
 // const set6 = [{ symbols: ['NEAR', 'LINK'] }, { symbols: ['DOT', 'WLD'] }];
 
 const PricesSection = ({ tokens }: Props) => {
