@@ -45,7 +45,6 @@ section.order-list {
         display: flex;
         align-items: center;
         height: 40px;
-        // background-color: teal;
 
         @include media-screen-orientation('min', $tablet) {
           height: 48px;
@@ -94,7 +93,6 @@ section.order-list {
                     @include media-screen-orientation('min', $mobile + 200) {
                       margin-left: 7px;
                       font-size: 0.7rem;
-                      // color: red;
                     }
                   }
                 }
@@ -127,13 +125,11 @@ section.order-list {
               &.uni-order-amount-and-turget-buy-price {
                 text-align: end;
                 min-width: 4.2rem;
-                // background-color: palevioletred;
               }
 
               &.order-percent {
                 text-align: end;
                 max-width: 12rem;
-                // background-color: palevioletred;
 
                 &.color-green {
                   > span {
@@ -163,7 +159,6 @@ section.order-list {
       display: flex;
       justify-content: center;
       height: 40px;
-      // background-color: teal;
 
       > button.toggle-button {
         background-color: transparent;

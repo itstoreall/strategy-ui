@@ -1,7 +1,6 @@
 // import useModal from '@/src/hooks/useModal';
 import { Token } from '@/src/types';
 import { uniNumberFormatter } from '@/src/utils';
-// import CustomPriceForm from '@/src/components/Form/CustomPriceForm';
 
 type Props = {
   tokens: Token[] | null;
@@ -15,14 +14,6 @@ const set5 = [{ symbols: ['UNI', 'FIL'] }, { symbols: ['ORDI', 'VIRTUAL'] }];
 // const set6 = [{ symbols: ['NEAR', 'LINK'] }, { symbols: ['DOT', 'WLD'] }];
 
 const PricesSection = ({ tokens }: Props) => {
-  /*
-  const m = useModal();
-
-  // ---
-  */
-
-  // const handleModal = () => m.openModal(m.ModalContentEnum.CustomPrice);
-
   const handlePriceDisplay = (symbol: string, price: number | null) => {
     const isFixedZero = symbol === 'BTC' || symbol === 'ETH';
     const tokenPriceValue = price
@@ -71,12 +62,6 @@ const PricesSection = ({ tokens }: Props) => {
         <PriceList tokenSet={set5} />
         {/* <PriceList tokenSet={set6} /> */}
       </div>
-
-      {/* {m.isCustomPriceModal && tokens && (
-        <m.RenderModal>
-          <CustomPriceForm tokens={tokens} />
-        </m.RenderModal>
-      )} */}
     </section>
   );
 };

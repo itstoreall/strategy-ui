@@ -66,42 +66,4 @@ input.default-input {
     }
   }
   */
-
-  /*
-  &.custom-token-price-input {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 0 0 10.6px 0;
-    width: 70px;
-    height: 0.9rem;
-    font-size: 0.9rem;
-    color: $googleBlue;
-    background-color: transparent;
-    border: none;
-    border-radius: 0;
-
-    &::placeholder {
-      color: $blue;
-    }
-
-    &:focus {
-      &::placeholder {
-        color: transparent;
-      }
-    }
-
-    @include media-screen-orientation('min', $tablet) {
-      font-size: 1rem;
-    }
-
-    @include media-screen-orientation('min', $mobile + 200) {
-      width: 50px;
-    }
-
-    @include media-screen-orientation('min', $tablet) {
-      width: 70px;
-    }
-  }
-  */
 }

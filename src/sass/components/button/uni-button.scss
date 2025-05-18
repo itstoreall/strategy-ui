@@ -118,7 +118,7 @@ button.uni-button {
     background-color: transparent;
 
     &.disabled {
-      color: red;
+      color: $googleRed;
 
       &:hover {
         background-color: transparent;
@@ -149,6 +149,14 @@ button.uni-button {
       background-color: $greyDeepDark;
       > svg.trade-strategy-calculating-element-button-icon {
         fill: $greyMiddle;
+      }
+    }
+
+    &.trade-strategy-calculating-element-button {
+      &:first-child.is-stored-strategy {
+        > svg.trade-strategy-calculating-element-button-icon {
+          fill: $googleYellow;
+        }
       }
     }
   }

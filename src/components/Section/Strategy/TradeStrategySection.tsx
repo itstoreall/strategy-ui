@@ -60,6 +60,13 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   // ---
 
   useEffect(() => {
+    const lsData = getLSCurrentStrategy(token.symbol);
+    if (lsData) {
+      setStoredStrategy(lsData);
+    }
+  }, []);
+
+  useEffect(() => {
     if (orderData.strategy && orderData.strategy?.data) {
       // console.log('orderData.strategy:', typeof orderData.strategy.data);
       const _strategyHistory =
@@ -75,14 +82,11 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     }
   }, [orderData]);
 
-  // /*
   useEffect(() => {
     if (isSuccessUpdateStrategy) {
-      // console.log('isSuccessUpdateStrategy:', isSuccessUpdateStrategy);
       resetTradeStrategy(false);
     }
   }, [isSuccessUpdateStrategy]);
-  // */
 
   /*
   useEffect(() => {
@@ -212,15 +216,32 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
 
   // --- StoredData:
 
-  const updateLocalStorage = (data: TradeStrategy[]) => {
-    localStorage.setItem(c.tradeStrategyKey, JSON.stringify(data));
-  };
-
-  const getLocalStorageData = () => {
+  const getLSData = () => {
     const storedTradeStrategyData = localStorage.getItem(c.tradeStrategyKey);
     if (storedTradeStrategyData) {
       return JSON.parse(storedTradeStrategyData) as TradeStrategy[];
     } else return null;
+  };
+
+  const getLSCurrentStrategy = (_symbol: string): TradeStrategy | null => {
+    const lsData = getLSData();
+    const lsStrategy = lsData
+      ? lsData.find((storedStrategy: TradeStrategy) => {
+          return storedStrategy.symbol === _symbol;
+        })
+      : null;
+    return lsStrategy ? lsStrategy : null;
+
+    // if (lsData) {
+    //   const lsStrategy = lsData.find((storedStrategy: TradeStrategy) => {
+    //     return storedStrategy.symbol === _symbol;
+    //   });
+    //   return lsStrategy ? lsStrategy : null;
+    // } else return null;
+  };
+
+  const updateLocalStorage = (data: TradeStrategy[]) => {
+    localStorage.setItem(c.tradeStrategyKey, JSON.stringify(data));
   };
 
   const createNewTradeStrategy = (ex: ExchangeEnum) => {
@@ -237,6 +258,8 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     return newTradeStrategy;
   };
 
+  // ---
+
   const displayConfirmMessage = (storedTradeStrategy: TradeStrategy) => {
     return `Will be replaced: ${token.symbol} (${storedTradeStrategy.exchange})
 
@@ -251,7 +274,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   const handleTemporaryStorage = () => {
     if (!selectedEx || !totalSelectedAmount) return;
     const newTradeStrategy = createNewTradeStrategy(selectedEx);
-    const storedData = getLocalStorageData();
+    const storedData = getLSData();
     if (storedData) {
       const storedStrategy = storedData.find(
         (storedStrategy: TradeStrategy) => {
@@ -286,12 +309,14 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   };
 
   const saveTradeStrategy = () => {
-    const storedData = getLocalStorageData();
-    const storedStrategy = storedData
-      ? storedData.find((storedStrategy: TradeStrategy) => {
-          return storedStrategy.symbol === token.symbol;
-        })
-      : null;
+    // const storedData = getLSData();
+    // const storedStrategy = storedData
+    // ? storedData.find((storedStrategy: TradeStrategy) => {
+    //   return storedStrategy.symbol === token.symbol;
+    // })
+    // : null;
+
+    const storedStrategy = getLSCurrentStrategy(token.symbol);
     if (storedStrategy && orderData.strategy) {
       const newData = strategyHistory
         ? [...strategyHistory, storedStrategy]
@@ -307,7 +332,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   };
 
   const resetTradeStrategy = (isClose: boolean) => {
-    const storedData = getLocalStorageData();
+    const storedData = getLSData();
     if (!storedData) return;
     const dataWithoutCurrentToken = storedData.filter((el: TradeStrategy) => {
       return el.symbol !== token.symbol;
@@ -362,6 +387,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
             totalSelectedUnrealized={totalSelectedUnrealized}
             totalSelectedProfit={totalSelectedProfit}
             selectedOrders={selectedOrders}
+            storedStrategy={storedStrategy}
             copiedField={copiedField}
             handleTemporaryStorage={handleTemporaryStorage}
             handleUpdateStrategy={handleUpdateStrategy}

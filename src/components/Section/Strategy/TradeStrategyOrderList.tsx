@@ -13,6 +13,7 @@ type TradeStrategyOrderListProps = Pick<t.TradeStrategyProps, 'token'> & {
   totalSelectedUnrealized: number;
   totalSelectedProfit: number;
   selectedOrders: Set<string>;
+  storedStrategy: t.Strategy;
   copiedField: t.CopiedField | null;
   handleTemporaryStorage: () => void;
   handleUpdateStrategy: () => void;
@@ -26,10 +27,10 @@ type OrderContentProps = {
   invested: number;
   total: number;
   percent: number;
+  copiedField: t.CopiedField | null;
   isSelected: boolean;
   onToggleSelect: (id: string) => void;
   onCopy: (id: number, key: string, val: number) => void;
-  copiedField: t.CopiedField | null;
 };
 
 const OrderContent = ({
@@ -38,10 +39,10 @@ const OrderContent = ({
   invested,
   total,
   // percent,
+  copiedField,
   isSelected,
   onToggleSelect,
   onCopy,
-  copiedField,
 }: OrderContentProps) => {
   const isCopied = copiedField?.id === id;
 
@@ -109,6 +110,7 @@ const TradeStrategyOrderList = (props: TradeStrategyOrderListProps) => {
     totalSelectedUnrealized,
     totalSelectedProfit,
     selectedOrders,
+    storedStrategy,
     copiedField,
     handleTemporaryStorage,
     handleUpdateStrategy,
@@ -118,6 +120,8 @@ const TradeStrategyOrderList = (props: TradeStrategyOrderListProps) => {
 
   const singleItemStyle = orderSet.length < 2 ? 'single-element' : '';
   const itemStyle = `section-trade-strategy-list-item ${singleItemStyle}`;
+  const isStoredStrategy = storedStrategy ? 'is-stored-strategy' : '';
+  const calcBtnStyle = `trade-strategy-calculating-element-button ${isStoredStrategy}`;
 
   return (
     <>
@@ -175,12 +179,9 @@ const TradeStrategyOrderList = (props: TradeStrategyOrderListProps) => {
                 </span>
               </span>
               <span className="trade-strategy-calculating-element">
-                {/* <span className="trade-strategy-calculating-element-title">
-                    {'strategy'}
-                  </span> */}
                 <span className="trade-strategy-calculating-element-button-block">
                   <Button
-                    className="trade-strategy-calculating-element-button"
+                    className={calcBtnStyle}
                     clickContent={handleTemporaryStorage}
                   >
                     <GoClock
