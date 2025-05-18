@@ -177,6 +177,7 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
                 (token) => token.symbol === order.symbol
               )?.price;
 
+              /*
               const formatedBuyTargetPrice = currentBuyTargetPrice
                 ? order.symbol === 'BTC' || order.symbol === 'ETH'
                   ? Number(
@@ -184,12 +185,13 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
                     ).toFixed()
                   : u.uniNumberFormatter(currentBuyTargetPrice)
                 : config.wait;
+              */
 
               const isReachedTarget = percentValue > 0;
 
               const currentBuyTargetValue = isReachedTarget
                 ? config.buy
-                : formatedBuyTargetPrice;
+                : config.wait; // : formatedBuyTargetPrice
 
               // --- Styles
 
