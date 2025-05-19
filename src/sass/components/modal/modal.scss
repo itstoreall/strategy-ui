@@ -46,15 +46,25 @@
           overflow-y: scroll;
         }
 
-        > div.trade-strategy-modal-data {
-          display: flex;
-          flex-direction: column;
-          gap: 0.5rem;
-          // background-color: teal;
+        >div.trade-strategy-modal-new-history-entry-block{
 
-          > span.trade-strategy-modal-data-element {
+          > ul.new-history-entry-list {
             display: flex;
+            flex-direction: column;
             gap: 0.5rem;
+            // background-color: teal;
+  
+            > li.new-history-entry-list-item {
+              display: flex;
+              gap: 0.5rem;
+            }
+          }
+        }
+
+
+        > ul.trade-strategy-modal-history-list {
+          > li.trade-strategy-modal-history-list-item {
+            background-color: teal;
           }
         }
       }

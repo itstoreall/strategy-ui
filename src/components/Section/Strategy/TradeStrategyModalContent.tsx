@@ -1,13 +1,11 @@
-import {
-  History,
-  Strategy,
-} from '@/src/components/Section/Strategy/TradeStrategySection';
-import Button from '@/src/components/Button/Button';
+import { TradeStrategy } from '@/src/types';
 import { uniNumberFormatter } from '@/src/utils';
+import * as sec from '@/src/components/Section/Strategy/TradeStrategySection';
+import Button from '@/src/components/Button/Button';
 
 type Props = {
-  strategyHistory: History;
-  storedStrategy: Strategy;
+  strategyHistory: sec.History;
+  storedStrategy: sec.Strategy;
   updateStrategyHistory: () => void;
   resetTradeStrategy: (isClose: boolean) => void;
   deleteHystory: () => void;
@@ -22,72 +20,39 @@ const TradeStrategyModalContent = (props: Props) => {
     deleteHystory,
   } = props;
 
-  /*
-  useEffect(() => {
-    const storedData = getLocalStorageData();
-    const _storedStrategy = storedData
-      ? storedData.find((storedStrategy: TradeStrategy) => {
-          return storedStrategy.symbol === token.symbol;
-        })
-      : null;
-    setStoredStrategy(_storedStrategy ?? null);
-  }, []);
-  
-  useEffect(() => {
-    if (isSuccessUpdateStrategy) {
-      console.log('isSuccessUpdateStrategy:', isSuccessUpdateStrategy);
-      resetTradeStrategy(false);
-      setStoredStrategy(null);
-    }
-  }, [isSuccessUpdateStrategy]);
- 
-  updateStratedy(strategyId: number, params: UpdateStrategyParams)
-  */
+  const NewEntry = ({ strategy }: { strategy: TradeStrategy }) => {
+    const newEntry = [
+      { name: 'symbol', value: strategy.symbol },
+      { name: 'exchange', value: strategy.exchange },
+      { name: 'amount', value: strategy.amount },
+      { name: 'buy price (AVG)', value: strategy.avgBuyPrice },
+      { name: 'sell price', value: strategy.sellPrice },
+      { name: 'invested', value: strategy.invested },
+      { name: 'profit', value: strategy.profit },
+      { name: 'total', value: strategy.total },
+      { name: 'orders', value: strategy.orders },
+    ];
+
+    return storedStrategy ? (
+      <ul className="new-history-entry-list">
+        {newEntry.map((el, idx) => (
+          <li key={idx} className="new-history-entry-list-item">
+            <span>{`${el.name}:`}</span>
+            <span>
+              {el.name === 'profit' ? uniNumberFormatter(+el.value) : el.value}
+            </span>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <div>No Trade Strategy</div>
+    );
+  };
 
   return (
     <>
-      {storedStrategy ? (
-        <div className="trade-strategy-modal-data">
-          <span className="trade-strategy-modal-data-element">
-            <span>{'Symbol:'}</span>
-            <span>{storedStrategy.symbol}</span>
-          </span>
-          <span className="trade-strategy-modal-data-element">
-            <span>{'Exchange:'}</span>
-            <span>{storedStrategy.exchange}</span>
-          </span>
-          <span className="trade-strategy-modal-data-element">
-            <span>{'Amount:'}</span>
-            <span>{storedStrategy.amount}</span>
-          </span>
-          <span className="trade-strategy-modal-data-element">
-            <span>{'Buy Price (AVG):'}</span>
-            <span>{storedStrategy.avgBuyPrice}</span>
-          </span>
-          <span className="trade-strategy-modal-data-element">
-            <span>{'Sell Price:'}</span>
-            <span>{storedStrategy.sellPrice}</span>
-          </span>
-          <span className="trade-strategy-modal-data-element">
-            <span>{'Invested:'}</span>
-            <span>{storedStrategy.invested}</span>
-          </span>
-          <span className="trade-strategy-modal-data-element">
-            <span>{'Profit:'}</span>
-            <span>{uniNumberFormatter(storedStrategy.profit)}</span>
-          </span>
-          <span className="trade-strategy-modal-data-element">
-            <span>{'Total:'}</span>
-            <span>{uniNumberFormatter(storedStrategy.total)}</span>
-          </span>
-          <span className="trade-strategy-modal-data-element">
-            <span>{'Orders:'}</span>
-            <span>{storedStrategy.orders}</span>
-          </span>
-        </div>
-      ) : (
-        <div>No Trade Strategy</div>
-      )}
+      <div className="trade-strategy-modal-new-history-entry-block"></div>
+      {storedStrategy && <NewEntry strategy={storedStrategy} />}
 
       <Button
         style={{ marginBottom: '1rem' }}
@@ -104,7 +69,16 @@ const TradeStrategyModalContent = (props: Props) => {
       <Button clickContent={deleteHystory}>Delete Hystory</Button>
 
       {strategyHistory ? (
-        strategyHistory.map((el, idx) => <div key={idx}>{el.a}</div>)
+        <ul className="trade-strategy-modal-history-list">
+          {strategyHistory.map((el, idx) => (
+            <li key={idx} className="trade-strategy-modal-history-list-item">
+              <span>{el.d}</span>
+              <span>{el.a}</span>
+              <span>{el.b}</span>
+              <span>{el.s}</span>
+            </li>
+          ))}
+        </ul>
       ) : (
         <div>No History</div>
       )}
