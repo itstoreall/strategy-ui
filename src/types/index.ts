@@ -56,13 +56,32 @@ export type TokensRes = {
 export type TradeStrategy = {
   symbol: string;
   exchange: ExchangeEnum;
-  amount: string;
-  price: string;
-  invested: string;
-  total: string;
-  profit: string;
+  amount: number;
+  avgBuyPrice: number;
+  sellPrice: number;
+  invested: number;
+  total: number;
+  profit: number;
   orders: string;
 };
+
+export type HistoryEntry = {
+  d: number; // Date of the creation of the Entry
+  a: number; // amount
+  b: number; // Buy Price
+  s: number; // Sell Price
+};
+
+// export type TradeStrategy = {
+//   symbol: string;
+//   exchange: ExchangeEnum;
+//   amount: string;
+//   price: string;
+//   invested: string;
+//   total: string;
+//   profit: string;
+//   orders: string;
+// };
 
 // --- Orders:
 

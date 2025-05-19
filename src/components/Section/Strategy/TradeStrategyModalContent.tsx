@@ -3,8 +3,7 @@ import {
   Strategy,
 } from '@/src/components/Section/Strategy/TradeStrategySection';
 import Button from '@/src/components/Button/Button';
-
-// type Strategy = TradeStrategy | null;
+import { uniNumberFormatter } from '@/src/utils';
 
 type Props = {
   strategyHistory: History;
@@ -15,8 +14,6 @@ type Props = {
 };
 
 const TradeStrategyModalContent = (props: Props) => {
-  // const [storedStrategy, setStoredStrategy] = useState<Strategy>(null);
-
   const {
     strategyHistory,
     storedStrategy,
@@ -35,17 +32,17 @@ const TradeStrategyModalContent = (props: Props) => {
       : null;
     setStoredStrategy(_storedStrategy ?? null);
   }, []);
+  
+  useEffect(() => {
+    if (isSuccessUpdateStrategy) {
+      console.log('isSuccessUpdateStrategy:', isSuccessUpdateStrategy);
+      resetTradeStrategy(false);
+      setStoredStrategy(null);
+    }
+  }, [isSuccessUpdateStrategy]);
+ 
+  updateStratedy(strategyId: number, params: UpdateStrategyParams)
   */
-
-  // useEffect(() => {
-  //   if (isSuccessUpdateStrategy) {
-  //     console.log('isSuccessUpdateStrategy:', isSuccessUpdateStrategy);
-  //     resetTradeStrategy(false);
-  //     setStoredStrategy(null);
-  //   }
-  // }, [isSuccessUpdateStrategy]);
-
-  // updateStratedy(strategyId: number, params: UpdateStrategyParams)
 
   return (
     <>
@@ -64,8 +61,12 @@ const TradeStrategyModalContent = (props: Props) => {
             <span>{storedStrategy.amount}</span>
           </span>
           <span className="trade-strategy-modal-data-element">
-            <span>{'Price:'}</span>
-            <span>{storedStrategy.price}</span>
+            <span>{'Buy Price (AVG):'}</span>
+            <span>{storedStrategy.avgBuyPrice}</span>
+          </span>
+          <span className="trade-strategy-modal-data-element">
+            <span>{'Sell Price:'}</span>
+            <span>{storedStrategy.sellPrice}</span>
           </span>
           <span className="trade-strategy-modal-data-element">
             <span>{'Invested:'}</span>
@@ -73,11 +74,11 @@ const TradeStrategyModalContent = (props: Props) => {
           </span>
           <span className="trade-strategy-modal-data-element">
             <span>{'Profit:'}</span>
-            <span>{storedStrategy.profit}</span>
+            <span>{uniNumberFormatter(storedStrategy.profit)}</span>
           </span>
           <span className="trade-strategy-modal-data-element">
             <span>{'Total:'}</span>
-            <span>{storedStrategy.total}</span>
+            <span>{uniNumberFormatter(storedStrategy.total)}</span>
           </span>
           <span className="trade-strategy-modal-data-element">
             <span>{'Orders:'}</span>
@@ -103,7 +104,7 @@ const TradeStrategyModalContent = (props: Props) => {
       <Button clickContent={deleteHystory}>Delete Hystory</Button>
 
       {strategyHistory ? (
-        strategyHistory.map((el, idx) => <div key={idx}>{el.amount}</div>)
+        strategyHistory.map((el, idx) => <div key={idx}>{el.a}</div>)
       ) : (
         <div>No History</div>
       )}

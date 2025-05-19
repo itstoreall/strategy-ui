@@ -1,12 +1,12 @@
 import { useMutation } from '@tanstack/react-query';
 import useInvalidateQueries from '@/src/hooks/useInvalidateQueries';
-import { MutationKeyEnum, QueryKeyEnum } from '@/src/enums';
 import { updateStrategyData } from '@/src/lib/api/updateStrategyDataServerAction';
-import { TradeStrategy } from '@/src/types';
+import { MutationKeyEnum, QueryKeyEnum } from '@/src/enums';
+import { HistoryEntry } from '@/src/types';
 
 type UseMutationOptions = {
   strategyId: number;
-  params: TradeStrategy[] | null;
+  params: HistoryEntry[] | null;
 };
 
 const c = {

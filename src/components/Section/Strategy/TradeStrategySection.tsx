@@ -2,7 +2,13 @@
 import { useState, useEffect } from 'react';
 import useModal from '@/src/hooks/useModal';
 import useUpdateStrategy from '@/src/hooks/strategy/useUpdateStrategy';
-import { Order, OrderStrategyData, Token, TradeStrategy } from '@/src/types';
+import {
+  HistoryEntry,
+  Order,
+  OrderStrategyData,
+  Token,
+  TradeStrategy,
+} from '@/src/types';
 import { ExchangeEnum } from '@/src/enums';
 import * as u from '@/src/utils';
 import TradeStrategyModalContent from '@/src/components/Section/Strategy/TradeStrategyModalContent';
@@ -20,7 +26,7 @@ export type CopiedField = {
   key: string;
 };
 
-export type History = TradeStrategy[] | null;
+export type History = HistoryEntry[] | null;
 export type Strategy = TradeStrategy | null;
 
 const c = {
@@ -49,11 +55,13 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   const { mutate: updateStrategy } = useUpdateStrategy(); // isSuccess: isSuccessUpdateStrategy
 
   const {
+    isStrategyModal,
+    ModalContentEnum,
     RenderModal,
     openModal,
+    /*
     closeModal,
-    ModalContentEnum,
-    isStrategyModal,
+    */
   } = useModal();
 
   // ---
@@ -244,11 +252,12 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     const newTradeStrategy: TradeStrategy = {
       symbol: token.symbol,
       exchange: ex,
-      amount: u.uniNumberFormatter(totalSelectedAmount),
-      price: u.uniNumberFormatter(token.price),
-      invested: u.uniNumberFormatter(totalSelectedInvested),
-      total: u.uniNumberFormatter(totalSelectedUnrealized),
-      profit: u.uniNumberFormatter(totalSelectedProfit),
+      amount: totalSelectedAmount,
+      avgBuyPrice: avgSelectedBuyPrice,
+      sellPrice: token.price,
+      invested: totalSelectedInvested,
+      total: totalSelectedUnrealized,
+      profit: totalSelectedProfit,
       orders: Array.from(selectedOrders).join(', '),
     };
     return newTradeStrategy;
@@ -256,13 +265,21 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
 
   // ---
 
+  const handleDisplayBuyPrice = (strategy: TradeStrategy) => {
+    const isAVGPrice = strategy.orders.split(', ').length > 1;
+    const buyPrice = isAVGPrice
+      ? u.uniNumberFormatter(strategy.avgBuyPrice)
+      : strategy.avgBuyPrice;
+    return buyPrice;
+  };
+
   const displayConfirmMessage = (storedTradeStrategy: TradeStrategy) => {
     return `Will be replaced: ${token.symbol} (${storedTradeStrategy.exchange})
 
     amount: ${storedTradeStrategy.amount}
     invested: ${storedTradeStrategy.invested}
     total: ${storedTradeStrategy.total}
-    profit: ${storedTradeStrategy.profit}
+    profit: ${u.uniNumberFormatter(storedTradeStrategy.profit)}
     orders: ${storedTradeStrategy.orders}
     `;
   };
@@ -307,9 +324,24 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   const updateStrategyHistory = () => {
     const storedStrategy = getLSCurrentStrategy(token.symbol);
     if (storedStrategy && orderData.strategy) {
+      // const isAVGPrice = storedStrategy.orders.split(', ').length > 1;
+      // const buyPrice = isAVGPrice
+      // ? u.uniNumberFormatter(storedStrategy.avgBuyPrice)
+      // : storedStrategy.avgBuyPrice;
+      const buyPrice = handleDisplayBuyPrice(storedStrategy);
+      // console.log(buyPrice);
+      const newHistoryEntry: HistoryEntry = {
+        d: Date.now(),
+        a: storedStrategy.amount,
+        b: +buyPrice,
+        s: storedStrategy.sellPrice,
+        // o: storedStrategy.orders,
+      };
+      // console.log('newHistoryEntry:', newHistoryEntry);
+      if (!confirm('New History entry will be created!')) return;
       const newData = strategyHistory
-        ? [...strategyHistory, storedStrategy]
-        : [storedStrategy];
+        ? [...strategyHistory, newHistoryEntry]
+        : [newHistoryEntry];
 
       // console.log('newData:', newData);
 
@@ -321,6 +353,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   };
 
   const deleteHystory = () => {
+    if (!confirm('All History will be deleted!')) return;
     updateStrategy({
       strategyId: orderData.strategy.id,
       params: null,
@@ -330,7 +363,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
 
   const resetTradeStrategy = (isClose: boolean) => {
     const storedData = getLSData();
-    if (!storedData) return;
+    if (!confirm('Local Storage will be cleaned out!') || !storedData) return;
     const dataWithoutCurrentToken = storedData.filter((el: TradeStrategy) => {
       return el.symbol !== token.symbol;
     });
@@ -338,7 +371,10 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
       updateLocalStorage(dataWithoutCurrentToken);
       setStoredStrategy(null);
       if (isClose) {
+        /*
         closeModal();
+        */
+        return;
       }
     }
   };
