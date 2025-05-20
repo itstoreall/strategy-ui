@@ -272,7 +272,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
 
     amount: ${storedTradeStrategy.amount}
     invested: ${storedTradeStrategy.invested}
-    total: ${storedTradeStrategy.total}
+    total: ${u.uniNumberFormatter(storedTradeStrategy.total)}
     profit: ${u.uniNumberFormatter(storedTradeStrategy.profit)}
     orders: ${storedTradeStrategy.orders}
     `;

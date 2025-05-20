@@ -21,15 +21,21 @@ const TradeStrategyModalContent = (props: Props) => {
   } = props;
 
   const NewEntry = ({ strategy }: { strategy: TradeStrategy }) => {
+    const isAVGPrice = strategy.orders.split(', ').length > 1;
+
+    const buyPrice = isAVGPrice
+      ? uniNumberFormatter(strategy.avgBuyPrice)
+      : strategy.avgBuyPrice;
+
     const newEntry = [
       { name: 'symbol', value: strategy.symbol },
       { name: 'exchange', value: strategy.exchange },
       { name: 'amount', value: strategy.amount },
-      { name: 'buy price (AVG)', value: strategy.avgBuyPrice },
+      { name: 'buy price (AVG)', value: buyPrice },
       { name: 'sell price', value: strategy.sellPrice },
       { name: 'invested', value: strategy.invested },
       { name: 'profit', value: strategy.profit },
-      { name: 'total', value: strategy.total },
+      { name: 'total', value: uniNumberFormatter(strategy.total) },
       { name: 'orders', value: strategy.orders },
     ];
 

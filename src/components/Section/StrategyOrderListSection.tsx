@@ -136,6 +136,7 @@ const StrategyOrderListSection = (props: Props) => {
                       {isEditMenu ? (
                         <StrategyOrderEditMenuSection
                           id={order.id}
+                          symbol={sortedOrders[0].symbol}
                           orderNumber={sortedOrders.length}
                         />
                       ) : (

@@ -139,15 +139,18 @@ const PageHeading = ({
         )}
       </div>
 
-      {/* <Button className={'calcBtnStyle'} clickContent={'handleTemporaryStorage'}>
-        <GoClock
-          className="trade-strategy-calculating-element-button-icon"
-          size={20}
-        />
-      </Button> */}
-
       <div className="main-heading-right-side-block">
         {role && <span className="user-role">{role}</span>}
+
+        {/* <Button
+          className={'main-heading-ls-trade-strategy-button'}
+          clickContent={'handleTemporaryStorage'}
+        >
+          <GoClock
+            className="trade-strategy-calculating-element-button-icon"
+            size={20}
+          />
+        </Button> */}
 
         {isButton && !isBear && (
           <Button

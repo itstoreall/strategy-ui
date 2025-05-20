@@ -32,7 +32,9 @@ main.main {
     position: relative;
     display: flex;
     justify-content: space-between;
+    height: 16px;
     user-select: none;
+    // background-color: tomato;
 
     > div.main-heading-left-side-block {
       > span.main-heading-title-block {
@@ -89,6 +91,14 @@ main.main {
 
     > div.main-heading-right-side-block {
       display: flex;
+      justify-content: flex-end;
+      position: absolute;
+      top: -9px;
+      right: 0;
+
+      width: 300px;
+      height: 34px;
+      // background-color: teal;
 
       > span.user-role {
         display: flex;

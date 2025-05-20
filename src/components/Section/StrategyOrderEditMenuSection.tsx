@@ -5,12 +5,14 @@ import { FiTrash2 } from 'react-icons/fi';
 import { deleteOrder } from '@/src/lib/api/deleteOrderServerAction';
 import useInvalidateQueries from '@/src/hooks/useInvalidateQueries';
 import useRedirect from '@/src/hooks/useRedirect';
+import { TradeStrategy } from '@/src/types';
 import { QueryKeyEnum } from '@/src/enums';
+import * as u from '@/src/utils';
 import Button from '@/src/components/Button/Button';
 
-type Props = { id: number; orderNumber: number };
+type Props = { id: number; symbol: string; orderNumber: number };
 
-const StrategyOrderEditMenuSection = ({ id, orderNumber }: Props) => {
+const StrategyOrderEditMenuSection = ({ id, symbol, orderNumber }: Props) => {
   const { updateData } = useInvalidateQueries();
 
   const redirectTo = useRedirect();
@@ -21,6 +23,14 @@ const StrategyOrderEditMenuSection = ({ id, orderNumber }: Props) => {
     if (isDeleted) {
       updateData([QueryKeyEnum.UserOrders, QueryKeyEnum.UserStrategyOrders]);
       if (orderNumber === 1) {
+        const lsTradeStrategyData = u.getLSTradeStrategyData();
+        if (lsTradeStrategyData) {
+          const dataWithoutCurrentToken = lsTradeStrategyData.filter(
+            (el: TradeStrategy) => el.symbol !== symbol
+          );
+          u.updateLSTradeStrategyData(dataWithoutCurrentToken);
+        }
+
         redirectTo('/dashboard');
       }
     }
