@@ -244,7 +244,7 @@ const Strategy = () => {
         <PageHeading
           title={symbol}
           assetPrice={currentPrice}
-          buttonText={
+          mainButtonText={
             type === OrderTypeEnum.Buy
               ? heading.headingConfig.addAsset
               : heading.headingConfig.addTarget

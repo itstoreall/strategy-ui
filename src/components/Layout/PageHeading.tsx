@@ -22,7 +22,7 @@ type Props = {
 
   // Right side:
   role?: Role;
-  buttonText?: string;
+  mainButtonText?: string;
   isButtonDisabled?: boolean;
   handleModal?: () => void;
 };
@@ -47,7 +47,7 @@ const PageHeading = ({
   adminButtonFn,
 
   // Right side:
-  buttonText,
+  mainButtonText,
   role = '',
   isButtonDisabled,
   handleModal,
@@ -61,7 +61,7 @@ const PageHeading = ({
   const isDashboard = path === '/dashboard';
   const isStrategy = path.includes('/strategy/');
   const isBear = path.includes(`/strategy/${OrderTypeEnum.Sell}-`);
-  const isButton = buttonText && (isDashboard || isStrategy);
+  const isButton = mainButtonText && (isDashboard || isStrategy);
 
   const price = assetPrice ? `$${assetPrice}` : null;
 
@@ -88,65 +88,77 @@ const PageHeading = ({
 
   // ---
 
+  const pageStyle = isStrategy ? 'strategy-page' : '';
+  const titleBlockStyle = `${'main-heading-title-block'} ${pageStyle}`;
+
   return (
     <div className="main-heading">
-      <span
-        className={`${'main-heading-title-block'} ${
-          isStrategy ? 'strategy-page' : ''
-        }`}
-      >
-        {isStrategy && (
+      <div className={'main-heading-left-side-block'}>
+        <span className={titleBlockStyle}>
+          {isStrategy && (
+            <Button
+              className="main-heading-return-button"
+              clickContent={returnFn}
+              disabled={isAdminButtonDisabled}
+            >
+              <IoArrowUndoSharp size={26} />
+            </Button>
+          )}
+
+          <Title tag={'h2'} text={title} />
+
+          {isChart && fearAndGreed > 0 && (
+            <span
+              className={`main-heading-fear-and-greed-index ${
+                fearAndGreed <= 50 ? 'fear' : 'greed'
+              }`}
+            >
+              {`${fearAndGreed < 50 ? 'Fear' : 'Greed'}: ${fearAndGreed}`}
+            </span>
+          )}
+
+          <span className={'main-heading-price'}>{price}</span>
+        </span>
+
+        {/* {role && <span className="user-role">{role}</span>} */}
+
+        {isAdminButton && (
+          <div className="admin-heading-button-block">
+            <Button
+              className="admin-heading-button"
+              clickContent={adminButtonFn}
+              disabled={isAdminButtonDisabled}
+            >
+              <GoPeople size={22} />
+            </Button>
+
+            <span className={'admin-heading-button-userId'}>
+              {adminButtonText}
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* <Button className={'calcBtnStyle'} clickContent={'handleTemporaryStorage'}>
+        <GoClock
+          className="trade-strategy-calculating-element-button-icon"
+          size={20}
+        />
+      </Button> */}
+
+      <div className="main-heading-right-side-block">
+        {role && <span className="user-role">{role}</span>}
+
+        {isButton && !isBear && (
           <Button
-            className="main-heading-return-button"
-            clickContent={returnFn}
-            disabled={isAdminButtonDisabled}
+            className="main-heading-main-button"
+            clickContent={handleModal}
+            disabled={isButtonDisabled}
           >
-            <IoArrowUndoSharp size={26} />
+            {mainButtonText}
           </Button>
         )}
-
-        <Title tag={'h2'} text={title} />
-
-        {isChart && fearAndGreed > 0 && (
-          <span
-            className={`main-heading-fear-and-greed-index ${
-              fearAndGreed <= 50 ? 'fear' : 'greed'
-            }`}
-          >
-            {`${fearAndGreed < 50 ? 'Fear' : 'Greed'}: ${fearAndGreed}`}
-          </span>
-        )}
-
-        <span className={'main-heading-price'}>{price}</span>
-      </span>
-
-      {role && <span className="user-role">{role}</span>}
-
-      {isAdminButton && (
-        <div className="admin-heading-button-block">
-          <Button
-            className="admin-heading-button"
-            clickContent={adminButtonFn}
-            disabled={isAdminButtonDisabled}
-          >
-            <GoPeople size={22} />
-          </Button>
-
-          <span className={'admin-heading-button-userId'}>
-            {adminButtonText}
-          </span>
-        </div>
-      )}
-
-      {isButton && !isBear && (
-        <Button
-          className="main-heading-button"
-          clickContent={handleModal}
-          disabled={isButtonDisabled}
-        >
-          {buttonText}
-        </Button>
-      )}
+      </div>
     </div>
   );
 };

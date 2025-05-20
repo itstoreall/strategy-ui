@@ -1,8 +1,12 @@
-import { Order } from '@/src/types';
+import { Order, TradeStrategy } from '@/src/types';
 
 type TrimAddress = (address: string, start: number, end: number) => string;
 
 type Format = 'DD-MM-YY' | 'MM-YY' | 'YY' | 'MM' | 'DD;' | 'DD-MM-YY HH:mm:ss';
+
+export const c = {
+  tradeStrategyKey: 'tradeStrategy',
+};
 
 export const normalizeISODate = (date: Date, format?: Format) => {
   if (!date) return date;
@@ -139,4 +143,17 @@ export const calculateAVGPrice = (orders: Order[]) => {
     return acc + order.amount;
   }, 0);
   return totalAmount ? totalPrice / totalAmount : 0;
+};
+
+// --- TradeStrategyData (localStorage)
+
+export const getLSTradeStrategyData = () => {
+  const storedTradeStrategyData = localStorage.getItem(c.tradeStrategyKey);
+  if (storedTradeStrategyData) {
+    return JSON.parse(storedTradeStrategyData) as TradeStrategy[];
+  } else return null;
+};
+
+export const updateLSTradeStrategyData = (data: TradeStrategy[]) => {
+  localStorage.setItem(c.tradeStrategyKey, JSON.stringify(data));
 };

@@ -18,6 +18,7 @@ import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import SectionsContainer from '@/src/components/Container/Sections';
 import PricesSection from '@/src/components/Section/PricesSection';
 import MainLoader from '@/src/components/MainLoader';
+// import { getLSTradeStrategyData } from '@/src/utils';
 
 const c = {
   dashboardTitle: 'Dashboard',
@@ -41,6 +42,11 @@ const Dashboard = () => {
   const path = useParams();
 
   const currentUserId = currentUser ? currentUser : (userId as string);
+
+  useEffect(() => {
+    // const lsTradeStrategyData = getLSTradeStrategyData();
+    // console.log('lsTradeStrategyData:', lsTradeStrategyData);
+  }, []);
 
   useEffect(() => {
     if (userId) {
@@ -137,7 +143,7 @@ const Dashboard = () => {
           isAdminButton={isAdmin && !!users && !!userId}
           adminButtonText={currentUserId ? currentUserId.slice(-4) : ''}
           adminButtonFn={() => toggleUser(currentUserId)}
-          buttonText={heading.headingConfig.create}
+          mainButtonText={heading.headingConfig.create}
           handleModal={() => openModal(ModalContentEnum.Form)}
           isButtonDisabled={!updatedTokens}
         />

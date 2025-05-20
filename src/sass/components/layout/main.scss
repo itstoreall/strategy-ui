@@ -34,66 +34,71 @@ main.main {
     justify-content: space-between;
     user-select: none;
 
-    > span.main-heading-title-block {
-      display: flex;
-      gap: 0.5rem;
-      font-weight: 500;
+    > div.main-heading-left-side-block {
+      > span.main-heading-title-block {
+        display: flex;
+        gap: 0.5rem;
+        font-weight: 500;
 
-      > span.main-heading-fear-and-greed-index {
+        > span.main-heading-fear-and-greed-index {
+          display: flex;
+          align-items: center;
+          padding: 0 0.2rem;
+          font-size: 0.6rem;
+          border-radius: $smallBorderRadius;
+
+          &.fear {
+            color: $googleRed;
+            border: 0.08rem solid $googleRed;
+          }
+
+          &.greed {
+            color: $googleGreen;
+            border: 0.08rem solid $googleGreen;
+          }
+        }
+
+        > span.main-heading-price {
+          font-size: 1rem;
+          color: $colorAccent;
+        }
+      }
+
+      > div.admin-heading-button-block {
+        position: absolute;
+        top: -11px;
+        left: 85px;
+        display: flex;
+        // gap: 0.1rem;
+        align-items: center;
+        // background-color: teal;
+
+        /*
+        > button.admin-heading-button > svg {}
+        */
+
+        > span.admin-heading-button-userId {
+          position: absolute;
+          top: 10px;
+          left: 35px;
+          font-size: 0.6rem;
+          color: $colorAccent;
+        }
+      }
+    }
+
+    > div.main-heading-right-side-block {
+      display: flex;
+
+      > span.user-role {
         display: flex;
         align-items: center;
         padding: 0 0.2rem;
         font-size: 0.6rem;
+        color: $colorAccent;
+        border: 0.08rem solid $colorAccent;
         border-radius: $smallBorderRadius;
-
-        &.fear {
-          color: $googleRed;
-          border: 0.08rem solid $googleRed;
-        }
-
-        &.greed {
-          color: $googleGreen;
-          border: 0.08rem solid $googleGreen;
-        }
       }
-
-      > span.main-heading-price {
-        font-size: 1rem;
-        color: $colorAccent;
-      }
-    }
-    // }
-
-    > div.admin-heading-button-block {
-      position: absolute;
-      top: -11px;
-      left: 85px;
-      display: flex;
-      // gap: 0.1rem;
-      align-items: center;
-      // background-color: teal;
-
-      /*
-      > button.admin-heading-button > svg {}
-      */
-
-      > span.admin-heading-button-userId {
-        position: absolute;
-        top: 10px;
-        left: 35px;
-        font-size: 0.6rem;
-        color: $colorAccent;
-      }
-    }
-
-    > span.user-role {
-      display: flex;
-      align-items: center;
-      padding: 0 0.2rem;
-      font-size: 0.6rem;
-      color: $colorAccent;
-      border: 0.08rem solid $colorAccent;
-      border-radius: $smallBorderRadius;
     }
   }
 
