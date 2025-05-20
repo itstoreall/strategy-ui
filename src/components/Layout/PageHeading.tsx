@@ -1,9 +1,10 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { IoArrowUndoSharp } from 'react-icons/io5';
-import { GoPeople } from 'react-icons/go';
+import { GoClock, GoPeople } from 'react-icons/go';
 import useGlobalState from '@/src/hooks/useGlobalState';
 import { OrderTypeEnum } from '@/src/enums';
 import { Role } from '@/src/types';
+import { StoredData } from '@/src/components/Pages/Dashboard';
 import Button from '@/src/components/Button/Button';
 import Title from '@/src/components/Layout/Title';
 
@@ -21,8 +22,9 @@ type Props = {
   adminButtonFn?: () => void;
 
   // Right side:
-  role?: Role;
+  storedStrategyData?: StoredData;
   mainButtonText?: string;
+  role?: Role;
   isButtonDisabled?: boolean;
   handleModal?: () => void;
 };
@@ -47,6 +49,7 @@ const PageHeading = ({
   adminButtonFn,
 
   // Right side:
+  storedStrategyData,
   mainButtonText,
   role = '',
   isButtonDisabled,
@@ -142,15 +145,17 @@ const PageHeading = ({
       <div className="main-heading-right-side-block">
         {role && <span className="user-role">{role}</span>}
 
-        {/* <Button
-          className={'main-heading-ls-trade-strategy-button'}
-          clickContent={'handleTemporaryStorage'}
-        >
-          <GoClock
-            className="trade-strategy-calculating-element-button-icon"
-            size={20}
-          />
-        </Button> */}
+        {isDashboard && !!storedStrategyData && (
+          <Button
+            className={'main-heading-ls-trade-strategy-button'}
+            clickContent={() => console.log('ls data')}
+          >
+            <GoClock
+              className="trade-strategy-calculating-element-button-icon"
+              size={20}
+            />
+          </Button>
+        )}
 
         {isButton && !isBear && (
           <Button

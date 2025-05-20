@@ -30,7 +30,6 @@ const StrategyOrderEditMenuSection = ({ id, symbol, orderNumber }: Props) => {
           );
           u.updateLSTradeStrategyData(dataWithoutCurrentToken);
         }
-
         redirectTo('/dashboard');
       }
     }

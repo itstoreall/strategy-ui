@@ -8,7 +8,8 @@ import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
 import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import useGlobalState from '@/src/hooks/useGlobalState';
 import useModal from '@/src/hooks/useModal';
-import { Order } from '@/src/types';
+import { Order, TradeStrategy } from '@/src/types';
+import { getLSTradeStrategyData } from '@/src/utils';
 import { AuthRoleEnum, QueryKeyEnum } from '@/src/enums';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
@@ -18,7 +19,8 @@ import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import SectionsContainer from '@/src/components/Container/Sections';
 import PricesSection from '@/src/components/Section/PricesSection';
 import MainLoader from '@/src/components/MainLoader';
-// import { getLSTradeStrategyData } from '@/src/utils';
+
+export type StoredData = TradeStrategy[] | null;
 
 const c = {
   dashboardTitle: 'Dashboard',
@@ -26,6 +28,7 @@ const c = {
 
 const Dashboard = () => {
   const [currentProfit, setCurrentProfit] = useState<number | null>(null);
+  const [LSStrategyData, setLSStrategyData] = useState<StoredData>(null);
   const [usingDeposit, setUsingDeposit] = useState<number>(0);
   const [currentUser, setCurrentUser] = useState<string>('');
   const [usingTokens, setUsingTokens] = useState<number>(0);
@@ -44,8 +47,11 @@ const Dashboard = () => {
   const currentUserId = currentUser ? currentUser : (userId as string);
 
   useEffect(() => {
-    // const lsTradeStrategyData = getLSTradeStrategyData();
-    // console.log('lsTradeStrategyData:', lsTradeStrategyData);
+    const lsTradeStrategyData = getLSTradeStrategyData();
+    if (lsTradeStrategyData) {
+      console.log('lsTradeStrategyData:', lsTradeStrategyData.length);
+      setLSStrategyData(lsTradeStrategyData);
+    }
   }, []);
 
   useEffect(() => {
@@ -143,6 +149,7 @@ const Dashboard = () => {
           isAdminButton={isAdmin && !!users && !!userId}
           adminButtonText={currentUserId ? currentUserId.slice(-4) : ''}
           adminButtonFn={() => toggleUser(currentUserId)}
+          storedStrategyData={LSStrategyData}
           mainButtonText={heading.headingConfig.create}
           handleModal={() => openModal(ModalContentEnum.Form)}
           isButtonDisabled={!updatedTokens}

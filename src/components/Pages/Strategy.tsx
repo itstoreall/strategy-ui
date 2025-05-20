@@ -238,17 +238,20 @@ const Strategy = () => {
     );
   };
 
+  // ---
+
+  const mainButtonText =
+    type === OrderTypeEnum.Buy
+      ? heading.headingConfig.addAsset
+      : heading.headingConfig.addTarget;
+
   return (
     <PageContainer label={Label.Main}>
       <main className="main">
         <PageHeading
           title={symbol}
           assetPrice={currentPrice}
-          mainButtonText={
-            type === OrderTypeEnum.Buy
-              ? heading.headingConfig.addAsset
-              : heading.headingConfig.addTarget
-          }
+          mainButtonText={mainButtonText}
           handleModal={handleModal}
           isButtonDisabled={!updatedTokens}
         />

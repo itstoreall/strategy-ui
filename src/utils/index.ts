@@ -107,7 +107,9 @@ export const formatOneHundredThousandAmount = (amount: string): string => {
   return `${(Number(amount) / 1_000).toFixed()}K`;
 };
 
-export const uniNumberFormatter = (value: number): string => {
+export const uniNumberFormatter = (_value: number): string => {
+  const value = typeof _value === 'string' ? +_value : _value;
+  if (Number.isNaN(value)) return 'ERROR';
   if (value >= 1 || value <= -1) {
     // --- Handle non-small numbers normally:
     const _value = value.toString().split('.')[0];
@@ -156,4 +158,8 @@ export const getLSTradeStrategyData = () => {
 
 export const updateLSTradeStrategyData = (data: TradeStrategy[]) => {
   localStorage.setItem(c.tradeStrategyKey, JSON.stringify(data));
+};
+
+export const deleteLSTradeStrategyData = () => {
+  localStorage.removeItem(c.tradeStrategyKey);
 };

@@ -358,15 +358,21 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     const dataWithoutCurrentToken = storedData.filter((el: t.TradeStrategy) => {
       return el.symbol !== token.symbol;
     });
-    if (storedData.length > dataWithoutCurrentToken.length) {
-      u.updateLSTradeStrategyData(dataWithoutCurrentToken);
-      setStoredStrategy(null);
-      if (isClose) {
-        /*
+    // console.log('-->', dataWithoutCurrentToken.length);
+    if (dataWithoutCurrentToken.length) {
+      if (storedData.length > dataWithoutCurrentToken.length) {
+        u.updateLSTradeStrategyData(dataWithoutCurrentToken);
+        setStoredStrategy(null);
+        if (isClose) {
+          /*
         closeModal();
         */
-        return;
+          return;
+        }
       }
+    } else {
+      u.deleteLSTradeStrategyData();
+      setStoredStrategy(null);
     }
   };
 

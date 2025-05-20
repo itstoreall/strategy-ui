@@ -85,7 +85,26 @@ button.uni-button {
   }
 
   &.main-heading-ls-trade-strategy-button {
-    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    width: 34px;
+    background-color: transparent;
+
+    > svg {
+      fill: $googleYellow;
+      opacity: 0.8;
+    }
+
+    &:hover {
+      background-color: $greyDeepDark;
+
+      > svg {
+        fill: $googleYellow;
+        opacity: 1;
+      }
+    }
   }
 
   &.main-heading-main-button {

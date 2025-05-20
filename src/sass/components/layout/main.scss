@@ -90,15 +90,14 @@ main.main {
     }
 
     > div.main-heading-right-side-block {
-      display: flex;
-      justify-content: flex-end;
       position: absolute;
       top: -9px;
       right: 0;
-
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
       width: 300px;
       height: 34px;
-      // background-color: teal;
 
       > span.user-role {
         display: flex;
