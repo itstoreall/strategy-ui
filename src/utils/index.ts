@@ -8,7 +8,7 @@ export const c = {
   tradeStrategyKey: 'tradeStrategy',
 };
 
-export const normalizeISODate = (date: Date, format?: Format) => {
+export const normalizeISODate = (date: number | Date, format?: Format) => {
   if (!date) return date;
   const newDate = new Date(date);
   const isoString = newDate.toISOString();
@@ -25,7 +25,7 @@ export const normalizeISODate = (date: Date, format?: Format) => {
     : newDate.toISOString();
 };
 
-export const normalizeKyivDate = (date: Date, format?: Format) => {
+export const normalizeKyivDate = (date: number | Date, format?: Format) => {
   if (!date) return date;
 
   const kyivFormatter = new Intl.DateTimeFormat('en-GB', {

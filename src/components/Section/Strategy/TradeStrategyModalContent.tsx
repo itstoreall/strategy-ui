@@ -1,5 +1,5 @@
 import { TradeStrategy } from '@/src/types';
-import { uniNumberFormatter } from '@/src/utils';
+import { uniNumberFormatter, normalizeKyivDate } from '@/src/utils';
 import * as sec from '@/src/components/Section/Strategy/TradeStrategySection';
 import Button from '@/src/components/Button/Button';
 
@@ -28,6 +28,7 @@ const TradeStrategyModalContent = (props: Props) => {
       : strategy.avgBuyPrice;
 
     const newEntry = [
+      { name: 'date', value: normalizeKyivDate(strategy.date) },
       { name: 'symbol', value: strategy.symbol },
       { name: 'exchange', value: strategy.exchange },
       { name: 'amount', value: strategy.amount },
@@ -78,7 +79,7 @@ const TradeStrategyModalContent = (props: Props) => {
         <ul className="trade-strategy-modal-history-list">
           {strategyHistory.map((el, idx) => (
             <li key={idx} className="trade-strategy-modal-history-list-item">
-              <span>{el.d}</span>
+              <span>{normalizeKyivDate(el.d, 'DD-MM-YY')}</span>
               <span>{el.a}</span>
               <span>{el.b}</span>
               <span>{el.s}</span>

@@ -93,7 +93,7 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
         // acc[order.symbol].percent = +higherPercent.toFixed();
         acc[order.symbol].percent = higherPercent;
         acc[order.symbol].unrealized = unrealized;
-        acc[order.symbol].orderDate = orderDate;
+        acc[order.symbol].orderDate = orderDate as string;
       }
       return acc;
     }, {} as Record<string, AggregatedOrderListAcc>)

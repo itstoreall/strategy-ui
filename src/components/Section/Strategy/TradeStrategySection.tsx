@@ -244,6 +244,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
 
   const createNewTradeStrategy = (ex: ExchangeEnum) => {
     const newTradeStrategy: t.TradeStrategy = {
+      date: Date.now(),
       symbol: token.symbol,
       exchange: ex,
       amount: totalSelectedAmount,
@@ -322,7 +323,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     if (storedStrategy && orderData.strategy) {
       const buyPrice = handleDisplayBuyPrice(storedStrategy);
       const newHistoryEntry: t.HistoryEntry = {
-        d: Date.now(),
+        d: storedStrategy.date,
         a: storedStrategy.amount,
         b: +buyPrice,
         s: storedStrategy.sellPrice,

@@ -54,6 +54,7 @@ export type TokensRes = {
 // --- Strategy
 
 export type TradeStrategy = {
+  date: number;
   symbol: string;
   exchange: ExchangeEnum;
   amount: number;
