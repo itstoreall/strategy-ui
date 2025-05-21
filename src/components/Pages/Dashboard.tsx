@@ -9,8 +9,9 @@ import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import useGlobalState from '@/src/hooks/useGlobalState';
 import useModal from '@/src/hooks/useModal';
 import { Order, TradeStrategy } from '@/src/types';
-import { getLSTradeStrategyData } from '@/src/utils';
 import { AuthRoleEnum, QueryKeyEnum } from '@/src/enums';
+import { getLSTradeStrategyData, deleteLSTradeStrategyData } from '@/src/utils';
+import LSTradeStrategyModalSection from '@/src/components/Section/LSTradeStrategyModalSection';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import OrderListSection from '@/src/components/Section/OrderListSection';
@@ -48,6 +49,7 @@ const Dashboard = () => {
     openModal,
     isFormModal,
     isLSStrategyDataModal,
+    closeModal,
     // ModalContentEnum,
   } = useModal();
 
@@ -56,7 +58,12 @@ const Dashboard = () => {
   useEffect(() => {
     const lsTradeStrategyData = getLSTradeStrategyData();
     if (lsTradeStrategyData) {
-      setLSStrategyData(lsTradeStrategyData);
+      if (lsTradeStrategyData.length) {
+        setLSStrategyData(lsTradeStrategyData);
+        // console.log('lsTradeStrategyData:', lsTradeStrategyData);
+      } else {
+        deleteLSTradeStrategyData();
+      }
     }
   }, []);
 
@@ -127,6 +134,10 @@ const Dashboard = () => {
   //   }
   // }, [aggregatedData]);
 
+  const handleLSStrategyData = (data: TradeStrategy[] | null) => {
+    setLSStrategyData(data);
+  };
+
   const toggleUser = (currentUser: string) => {
     if (!users) return;
     for (let i = 0; i < users.length; i++) {
@@ -156,7 +167,7 @@ const Dashboard = () => {
           adminButtonText={currentUserId ? currentUserId.slice(-4) : ''}
           adminButtonFn={() => toggleUser(currentUserId)}
           storedStrategyData={LSStrategyData}
-          mainButtonText={heading.headingConfig.create}
+          mainButtonText={heading.c.create}
           // handleModal={() => openModal(ModalContentEnum.Form)}
           handleModal={(cont) => openModal(cont)}
           isButtonDisabled={!updatedTokens}
@@ -214,9 +225,20 @@ const Dashboard = () => {
           </RenderModal>
         )}
 
-        {isLSStrategyDataModal && (
+        {isLSStrategyDataModal && LSStrategyData && (
           <RenderModal>
-            <div>LSTradeStrategyDataModal</div>
+            <LSTradeStrategyModalSection
+              data={LSStrategyData}
+              resetState={() => handleLSStrategyData(null)}
+              closeModal={closeModal}
+            />
+            {/* <div>
+              <ul>
+                {LSStrategyData.map((strategy, idx) => {
+                  return <li key={idx}>{strategy.symbol}</li>;
+                })}
+              </ul>
+            </div> */}
           </RenderModal>
         )}
       </main>

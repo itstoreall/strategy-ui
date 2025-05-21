@@ -30,10 +30,15 @@ type Props = {
   // handleModal?: () => void;
 };
 
-export const headingConfig = {
+export const c = {
   create: 'Create',
   addAsset: 'Add Asset',
   addTarget: 'Add Target',
+  chart: '/chart',
+  dashboard: '/dashboard',
+  strategy: '/strategy',
+  form: 'form',
+  ls: 'ls',
 };
 
 const PageHeading = ({
@@ -61,34 +66,28 @@ const PageHeading = ({
   const path = usePathname();
   const router = useRouter();
 
-  const isChart = path === '/chart';
-  const isDashboard = path === '/dashboard';
-  const isStrategy = path.includes('/strategy/');
-  const isBear = path.includes(`/strategy/${OrderTypeEnum.Sell}-`);
+  const isChart = path === c.chart;
+  const isDashboard = path === c.dashboard;
+  const isStrategy = path.includes(`${c.strategy}/`);
+  const isBear = path.includes(`${c.strategy}/${OrderTypeEnum.Sell}-`);
   const isButton = mainButtonText && (isDashboard || isStrategy);
 
   const price = assetPrice ? `$${assetPrice}` : null;
 
-  const returnFn = () => {
-    router.push('/dashboard');
-  };
-
-  /*
-  const updatePrice = () => {
-    const key = 'lastFetchPriceTime';
-    const now = Date.now();
-    const lastFetchPriceTime = localStorage.getItem(key);
-    const lastFetchTime = lastFetchPriceTime
-      ? parseInt(lastFetchPriceTime, 10)
-      : 0;
-    if (now - lastFetchTime >= 60000) {
-      localStorage.setItem(key, now.toString());
-      if (fetchTokens) {
-        fetchTokens();
-      }
+  const openModal = (content: string) => {
+    if (handleModal) {
+      handleModal(
+        content === c.ls
+          ? ModalContentEnum.LSStrategyData
+          : ModalContentEnum.Form
+      );
     }
   };
-  */
+
+  const returnFn = () => {
+    console.log(111);
+    router.push(c.dashboard);
+  };
 
   // ---
 
@@ -146,10 +145,10 @@ const PageHeading = ({
       <div className="main-heading-right-side-block">
         {role && <span className="user-role">{role}</span>}
 
-        {isDashboard && !!storedStrategyData && handleModal && (
+        {isDashboard && !!storedStrategyData && (
           <Button
             className={'main-heading-ls-trade-strategy-button'}
-            clickContent={() => handleModal(ModalContentEnum.LSStrategyData)}
+            clickContent={() => openModal(c.ls)}
           >
             <GoClock
               className="trade-strategy-calculating-element-button-icon"
@@ -158,10 +157,10 @@ const PageHeading = ({
           </Button>
         )}
 
-        {isButton && !isBear && handleModal && (
+        {isButton && !isBear && (
           <Button
             className="main-heading-main-button"
-            clickContent={() => handleModal(ModalContentEnum.Form)}
+            clickContent={() => openModal(c.form)}
             disabled={isButtonDisabled}
           >
             {mainButtonText}

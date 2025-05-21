@@ -69,30 +69,15 @@
     }
   }
 
-  &.CUSTOM_PRICE {
+  /*
+  &.LS_STRATEGY_DATA {
     > div.modal {
-      padding: 1rem;
-      max-width: calc($mobile - 140px);
-
-      // Custom-Price-Modal:
-      > div.custom-price-modal-content {
-        div.custom-price-calculation-block {
-          > span.custom-price-modal-price-value {
-            display: flex;
-            padding: 1.5rem 0;
-            font-size: 1.5rem;
-            color: $violetDark;
-            border-top: 1px solid $greyDeepDark;
-
-            > span {
-              margin-right: 0.1rem;
-              color: $greyDark;
-            }
-          }
-        }
+      > div.ls-trade-strategy-modal-content {
+        // --- LSTradeStrategyModalSection is here!
       }
     }
   }
+  // */
 
   // --- Add new custom modal here:
 }

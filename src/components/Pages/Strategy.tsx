@@ -241,9 +241,7 @@ const Strategy = () => {
   // ---
 
   const mainButtonText =
-    type === OrderTypeEnum.Buy
-      ? heading.headingConfig.addAsset
-      : heading.headingConfig.addTarget;
+    type === OrderTypeEnum.Buy ? heading.c.addAsset : heading.c.addTarget;
 
   return (
     <PageContainer label={Label.Main}>
