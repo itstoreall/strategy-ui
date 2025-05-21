@@ -232,13 +232,6 @@ const Dashboard = () => {
               resetState={() => handleLSStrategyData(null)}
               closeModal={closeModal}
             />
-            {/* <div>
-              <ul>
-                {LSStrategyData.map((strategy, idx) => {
-                  return <li key={idx}>{strategy.symbol}</li>;
-                })}
-              </ul>
-            </div> */}
           </RenderModal>
         )}
       </main>
