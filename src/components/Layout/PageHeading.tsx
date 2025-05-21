@@ -2,7 +2,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { IoArrowUndoSharp } from 'react-icons/io5';
 import { GoClock, GoPeople } from 'react-icons/go';
 import useGlobalState from '@/src/hooks/useGlobalState';
-import { OrderTypeEnum } from '@/src/enums';
+import { ModalContentEnum, OrderTypeEnum } from '@/src/enums';
 import { Role } from '@/src/types';
 import { StoredData } from '@/src/components/Pages/Dashboard';
 import Button from '@/src/components/Button/Button';
@@ -26,7 +26,8 @@ type Props = {
   mainButtonText?: string;
   role?: Role;
   isButtonDisabled?: boolean;
-  handleModal?: () => void;
+  handleModal?: (cont: ModalContentEnum) => void;
+  // handleModal?: () => void;
 };
 
 export const headingConfig = {
@@ -145,10 +146,10 @@ const PageHeading = ({
       <div className="main-heading-right-side-block">
         {role && <span className="user-role">{role}</span>}
 
-        {isDashboard && !!storedStrategyData && (
+        {isDashboard && !!storedStrategyData && handleModal && (
           <Button
             className={'main-heading-ls-trade-strategy-button'}
-            clickContent={() => console.log('ls data')}
+            clickContent={() => handleModal(ModalContentEnum.LSStrategyData)}
           >
             <GoClock
               className="trade-strategy-calculating-element-button-icon"
@@ -157,10 +158,10 @@ const PageHeading = ({
           </Button>
         )}
 
-        {isButton && !isBear && (
+        {isButton && !isBear && handleModal && (
           <Button
             className="main-heading-main-button"
-            clickContent={handleModal}
+            clickContent={() => handleModal(ModalContentEnum.Form)}
             disabled={isButtonDisabled}
           >
             {mainButtonText}

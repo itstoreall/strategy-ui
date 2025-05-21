@@ -40,16 +40,22 @@ const Dashboard = () => {
   const ordersParam = { enabled: !!userId };
 
   const { userOrders } = useFetchAllUserOrders(currentUser, ordersParam);
-  const { RenderModal, openModal, isFormModal, ModalContentEnum } = useModal();
   const { updatedTokens, users } = useGlobalState();
   const path = useParams();
+
+  const {
+    RenderModal,
+    openModal,
+    isFormModal,
+    isLSStrategyDataModal,
+    // ModalContentEnum,
+  } = useModal();
 
   const currentUserId = currentUser ? currentUser : (userId as string);
 
   useEffect(() => {
     const lsTradeStrategyData = getLSTradeStrategyData();
     if (lsTradeStrategyData) {
-      console.log('lsTradeStrategyData:', lsTradeStrategyData.length);
       setLSStrategyData(lsTradeStrategyData);
     }
   }, []);
@@ -151,7 +157,8 @@ const Dashboard = () => {
           adminButtonFn={() => toggleUser(currentUserId)}
           storedStrategyData={LSStrategyData}
           mainButtonText={heading.headingConfig.create}
-          handleModal={() => openModal(ModalContentEnum.Form)}
+          // handleModal={() => openModal(ModalContentEnum.Form)}
+          handleModal={(cont) => openModal(cont)}
           isButtonDisabled={!updatedTokens}
         />
 
@@ -204,6 +211,12 @@ const Dashboard = () => {
               ]}
               buyTargets={userOrders?.sell}
             />
+          </RenderModal>
+        )}
+
+        {isLSStrategyDataModal && (
+          <RenderModal>
+            <div>LSTradeStrategyDataModal</div>
           </RenderModal>
         )}
       </main>

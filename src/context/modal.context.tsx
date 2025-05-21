@@ -14,6 +14,7 @@ const initContext: ModalContextProps = {
   RenderModal: () => <></>,
   isFormModal: false,
   isStrategyModal: false,
+  isLSStrategyDataModal: false,
 };
 
 const ModalContext = createContext<ModalContextProps>(initContext);
@@ -24,6 +25,7 @@ export const ModalProvider = ({ children }: ChildrenProps) => {
 
   const isFormModal = modal === ModalContentEnum.Form;
   const isStrategyModal = modal === ModalContentEnum.Strategy;
+  const isLSStrategyDataModal = modal === ModalContentEnum.LSStrategyData;
 
   // ---
 
@@ -47,6 +49,7 @@ export const ModalProvider = ({ children }: ChildrenProps) => {
       RenderModal,
       isFormModal,
       isStrategyModal,
+      isLSStrategyDataModal,
     };
   }, [modal, isClosing]);
 
