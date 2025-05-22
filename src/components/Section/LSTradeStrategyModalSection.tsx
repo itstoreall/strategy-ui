@@ -18,6 +18,7 @@ const c = {
   three: 'threeElements',
   four: 'fourElements',
   fromSeven: 'fromSevenElements',
+  resetConfirmMsg: 'All stored Trade Strategies will be deleted!',
   resetDelay: 2000,
 };
 
@@ -25,6 +26,7 @@ const LSTradeStrategyModalSection = (props: Props) => {
   const { data, resetState, closeModal } = props;
 
   const resetAllLSData = () => {
+    if (!confirm(c.resetConfirmMsg)) return;
     deleteLSTradeStrategyData();
     resetState();
     closeModal();
