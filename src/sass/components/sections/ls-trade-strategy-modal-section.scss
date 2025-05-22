@@ -8,6 +8,8 @@ section.section.ls-trade-strategy-modal {
 
 // Custom
 section.ls-trade-strategy-modal {
+  position: relative;
+
   > ul.ls-trade-strategy-modal-section-list {
     display: grid;
     gap: 10px;
@@ -88,20 +90,28 @@ section.ls-trade-strategy-modal {
       }
     }
 
-    &.fromFiveElements {
-      grid-template-columns: repeat(2, 1fr);
+    &.fromSevenElements {
+      grid-template-columns: repeat(3, 1fr);
 
-      @include media-screen-orientation('min', $tablet) {
-        grid-template-columns: repeat(3, 1fr);
-      }
+      // @include media-screen-orientation('min', $tablet) {
+      //   grid-template-columns: repeat(3, 1fr);
+      // }
 
       > li.ls-trade-strategy-modal-section-list-item {
-        width: 100px;
+        width: 80px;
 
         @include media-screen-orientation('min', $mobile) {
-          width: 140px;
+          width: 90px;
+        }
+
+        @include media-screen-orientation('min', $tablet) {
+          width: 100px;
         }
       }
     }
   }
+
+  // > svg {
+  //   position: absolute;
+  // }
 }

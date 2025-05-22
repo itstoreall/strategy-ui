@@ -1,8 +1,12 @@
-import { TradeStrategy } from '@/src/types';
 import Link from 'next/link';
+import { IoMdTrash } from 'react-icons/io';
+import { TradeStrategy } from '@/src/types';
+import { deleteLSTradeStrategyData } from '@/src/utils';
+import Button from '@/src/components/Button/Button';
 
 type Props = {
   data: TradeStrategy[];
+  // data: { symbol: string }[];
   closeModal: () => void;
   resetState: () => void;
 };
@@ -13,22 +17,20 @@ const c = {
   two: 'twoElements',
   three: 'threeElements',
   four: 'fourElements',
-  more: 'fromFiveElements',
+  fromSeven: 'fromSevenElements',
   resetDelay: 2000,
 };
 
 const LSTradeStrategyModalSection = (props: Props) => {
   const { data, resetState, closeModal } = props;
 
-  /*
-  const d = [
-    { symbol: '1' },
-    { symbol: '2' },
-    { symbol: '3' },
-    { symbol: '4' },
-    { symbol: '5' },
-  ];
-  */
+  const resetAllLSData = () => {
+    deleteLSTradeStrategyData();
+    resetState();
+    closeModal();
+  };
+
+  // ---
 
   const rowStyle =
     data.length === 1
@@ -39,7 +41,9 @@ const LSTradeStrategyModalSection = (props: Props) => {
       ? c.three
       : data.length === 4
       ? c.four
-      : c.more;
+      : data.length > 6 && data.length < 10
+      ? c.fromSeven
+      : '';
 
   const listStyle = `ls-trade-strategy-modal-section-list ${rowStyle}`;
 
@@ -70,6 +74,13 @@ const LSTradeStrategyModalSection = (props: Props) => {
           );
         })}
       </ul>
+
+      <Button
+        className="ls-trade-strategy-modal-section-reset-button"
+        clickContent={resetAllLSData}
+      >
+        <IoMdTrash size={24} fill="black" />
+      </Button>
     </section>
   );
 };

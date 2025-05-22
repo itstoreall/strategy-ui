@@ -23,6 +23,7 @@ type Props = {
 
   // Right side:
   storedStrategyData?: StoredData;
+  // storedStrategyData?: { symbol: string }[] | null;
   mainButtonText?: string;
   role?: Role;
   isButtonDisabled?: boolean;
@@ -85,7 +86,6 @@ const PageHeading = ({
   };
 
   const returnFn = () => {
-    console.log(111);
     router.push(c.dashboard);
   };
 

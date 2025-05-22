@@ -158,6 +158,22 @@ const Dashboard = () => {
   // console.log('userOrders:', userOrders);
   // console.log('updatedTokens:', updatedTokens);
 
+  /*
+  const d = [
+    { symbol: 'VIRTUAL' },
+    { symbol: 'VIRTUAL' },
+    { symbol: 'VIRTUAL' },
+    { symbol: 'VIRTUAL' },
+    { symbol: 'VIRTUAL' },
+    { symbol: 'VIRTUAL' },
+    { symbol: 'VIRTUAL' },
+    { symbol: 'VIRTUAL' },
+    { symbol: 'VIRTUAL' },
+    { symbol: 'VIRTUAL' },
+    { symbol: 'VIRTUAL' },
+  ];
+  // */
+
   return (
     <PageContainer label={Label.Main}>
       <main className="main">
@@ -166,6 +182,7 @@ const Dashboard = () => {
           isAdminButton={isAdmin && !!users && !!userId}
           adminButtonText={currentUserId ? currentUserId.slice(-4) : ''}
           adminButtonFn={() => toggleUser(currentUserId)}
+          // storedStrategyData={d}
           storedStrategyData={LSStrategyData}
           mainButtonText={heading.c.create}
           // handleModal={() => openModal(ModalContentEnum.Form)}
@@ -225,10 +242,12 @@ const Dashboard = () => {
           </RenderModal>
         )}
 
+        {/* {isLSStrategyDataModal && d && ( */}
         {isLSStrategyDataModal && LSStrategyData && (
           <RenderModal>
             <LSTradeStrategyModalSection
-              data={LSStrategyData}
+              // data={d.slice(0, 9)}
+              data={LSStrategyData.slice(0, 9)}
               resetState={() => handleLSStrategyData(null)}
               closeModal={closeModal}
             />

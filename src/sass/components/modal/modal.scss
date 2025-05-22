@@ -69,15 +69,17 @@
     }
   }
 
-  /*
   &.LS_STRATEGY_DATA {
     > div.modal {
+      width: auto;
+
+      /*
       > div.ls-trade-strategy-modal-content {
         // --- LSTradeStrategyModalSection is here!
       }
+      // */
     }
   }
-  // */
 
   // --- Add new custom modal here:
 }

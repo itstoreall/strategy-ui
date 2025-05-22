@@ -131,6 +131,27 @@ button.uni-button {
     }
   }
 
+  &.ls-trade-strategy-modal-section-reset-button {
+    position: absolute;
+    left: 50%;
+    bottom: -80px;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    width: 40px;
+    height: 40px;
+    background-color: $googleYellow;
+    border-radius: 50%;
+    opacity: 0.8;
+    transition: opacity $ease03s;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
   &.admin-heading-button {
     display: flex;
     justify-content: center;
