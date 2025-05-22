@@ -6,6 +6,7 @@ type Props = {
   tokenAmount: number;
   assetAmount: number;
   depositAmount: number;
+  currentDeposit: number;
   profitAmount: number | null;
   isProcess: boolean;
 };
@@ -18,8 +19,14 @@ const config = {
 };
 
 const AccountSnapshotSection = (props: Props) => {
-  const { tokenAmount, assetAmount, depositAmount, profitAmount, isProcess } =
-    props;
+  const {
+    tokenAmount,
+    assetAmount,
+    depositAmount,
+    currentDeposit,
+    profitAmount,
+    isProcess,
+  } = props;
 
   const { unrealized } = useGlobalState();
 
@@ -27,6 +34,14 @@ const AccountSnapshotSection = (props: Props) => {
   // console.log('assetAmount:', assetAmount);
   // console.log('depositAmount:', depositAmount);
   // console.log('profitAmount:', profitAmount);
+
+  const handleClickDeposit = () => {
+    const losses = (depositAmount - currentDeposit).toFixed();
+    alert(`
+    Actual: $${currentDeposit} 
+    Losses: $${+losses > 0 ? losses : 0}
+    `);
+  };
 
   const handleClickProfit = () => {
     alert(`Unrealized: $${unrealized}`);
@@ -50,7 +65,10 @@ const AccountSnapshotSection = (props: Props) => {
         </li>
 
         <li className="snapshot-item">
-          <div className="item-content">
+          <div
+            className="item-content available-click"
+            onClick={handleClickDeposit}
+          >
             <span className="content-name">{config.deposit}</span>
             <span
               className="content-value"

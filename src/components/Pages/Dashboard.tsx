@@ -30,6 +30,7 @@ const c = {
 const Dashboard = () => {
   const [currentProfit, setCurrentProfit] = useState<number | null>(null);
   const [LSStrategyData, setLSStrategyData] = useState<StoredData>(null);
+  const [currentDeposit, setCurrentDeposit] = useState<number>(0);
   const [usingDeposit, setUsingDeposit] = useState<number>(0);
   const [currentUser, setCurrentUser] = useState<string>('');
   const [usingTokens, setUsingTokens] = useState<number>(0);
@@ -102,37 +103,24 @@ const Dashboard = () => {
   useEffect(() => {
     if (!userOrders || !updatedTokens) return;
     let totalProfit = 0;
+    let currentDeposit = 0;
     for (let i = 0; i < userOrders.buy.length; i++) {
       const order = userOrders.buy[i];
       const token = updatedTokens.find((t) => t.symbol === order.symbol);
       if (token) {
+        currentDeposit = order.amount * token.price + currentDeposit;
         const unrealizedProfit = (token.price - order.price) * order.amount;
         if (!unrealizedProfit.toString().includes('-')) {
           // console.log('->:', token.symbol, totalProfit, unrealizedProfit);
           totalProfit += unrealizedProfit;
         }
       }
-      setCurrentProfit(+totalProfit.toFixed());
     }
+    // console.log('currentDeposit:', currentDeposit);
+    setCurrentDeposit(+currentDeposit.toFixed());
+    setCurrentProfit(+totalProfit.toFixed());
     setIsProcess(false);
   }, [updatedTokens, userOrders]);
-
-  // useEffect(() => {
-  //   console.log(1);
-  //   if (aggregatedData && aggregatedData.length > 0 && !unrealized) {
-  //     console.log(2);
-  //     let unrealizedValue: number = 0;
-  //     aggregatedData.forEach((item) => {
-  //       if (item.unrealized) {
-  //         unrealizedValue += item.unrealized;
-  //       }
-  //     });
-  //     if (unrealizedValue) {
-  //       console.log(3);
-  //       handleUnrealized(+unrealizedValue.toFixed());
-  //     }
-  //   }
-  // }, [aggregatedData]);
 
   const handleLSStrategyData = (data: TradeStrategy[] | null) => {
     setLSStrategyData(data);
@@ -154,9 +142,6 @@ const Dashboard = () => {
       }
     }
   };
-
-  // console.log('userOrders:', userOrders);
-  // console.log('updatedTokens:', updatedTokens);
 
   /*
   const d = [
@@ -185,7 +170,6 @@ const Dashboard = () => {
           // storedStrategyData={d}
           storedStrategyData={LSStrategyData}
           mainButtonText={heading.c.create}
-          // handleModal={() => openModal(ModalContentEnum.Form)}
           handleModal={(cont) => openModal(cont)}
           isButtonDisabled={!updatedTokens}
         />
@@ -197,6 +181,7 @@ const Dashboard = () => {
                 tokenAmount={usingTokens}
                 assetAmount={userOrders?.buy.length}
                 depositAmount={usingDeposit}
+                currentDeposit={currentDeposit}
                 profitAmount={currentProfit}
                 isProcess={isProcess}
               />
