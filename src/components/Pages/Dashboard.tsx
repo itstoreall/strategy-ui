@@ -167,8 +167,8 @@ const Dashboard = () => {
           isAdminButton={isAdmin && !!users && !!userId}
           adminButtonText={currentUserId ? currentUserId.slice(-4) : ''}
           adminButtonFn={() => toggleUser(currentUserId)}
-          // storedStrategyData={d}
           storedStrategyData={LSStrategyData}
+          // storedStrategyData={d}
           mainButtonText={heading.c.create}
           handleModal={(cont) => openModal(cont)}
           isButtonDisabled={!updatedTokens}
@@ -231,8 +231,8 @@ const Dashboard = () => {
         {isLSStrategyDataModal && LSStrategyData && (
           <RenderModal>
             <LSTradeStrategyModalSection
-              // data={d.slice(0, 9)}
               data={LSStrategyData.slice(0, 9)}
+              // data={d.slice(0, 9)}
               resetState={() => handleLSStrategyData(null)}
               closeModal={closeModal}
             />

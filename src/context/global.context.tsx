@@ -10,7 +10,7 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const config = {
-  appVersion: 'v1.4.68',
+  appVersion: 'v1.4.69',
   dashboardPath: '/dashboard',
   strategyPath: '/strategy/',
   fetchTokens: 'Fetch was successful:',

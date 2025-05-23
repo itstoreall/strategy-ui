@@ -17,6 +17,7 @@ const c = {
   two: 'twoElements',
   three: 'threeElements',
   four: 'fourElements',
+  fromFive: 'fromFiveElements',
   fromSeven: 'fromSevenElements',
   resetConfirmMsg: 'All stored Trade Strategies will be deleted!',
   resetDelay: 2000,
@@ -43,7 +44,9 @@ const LSTradeStrategyModalSection = (props: Props) => {
       ? c.three
       : data.length === 4
       ? c.four
-      : data.length > 6 && data.length < 10
+      : data.length >= 5 && data.length <= 6
+      ? c.fromFive
+      : data.length >= 7 && data.length < 10
       ? c.fromSeven
       : '';
 
