@@ -131,7 +131,6 @@ const PageHeading = ({
               disabled={isAdminButtonDisabled}
             >
               <GoPeople size={22} />
-              {null}
             </Button>
 
             <span className={'admin-heading-button-userId'}>

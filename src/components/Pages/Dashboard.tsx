@@ -127,6 +127,7 @@ const Dashboard = () => {
   };
 
   const toggleUser = (currentUser: string) => {
+    console.log('users:', users);
     if (!users) return;
     for (let i = 0; i < users.length; i++) {
       const element = users[i];
