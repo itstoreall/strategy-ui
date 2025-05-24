@@ -123,13 +123,11 @@ const PageHeading = ({
           <span className={'main-heading-price'}>{price}</span>
         </span>
 
-        {/* {role && <span className="user-role">{role}</span>} */}
-
         {isAdminButton && (
-          <div className="admin-heading-button-block">
+          <div className="admin-heading-button-block" onClick={adminButtonFn}>
             <Button
               className="admin-heading-button"
-              clickContent={adminButtonFn}
+              // clickContent={adminButtonFn}
               disabled={isAdminButtonDisabled}
             >
               <GoPeople size={22} />
@@ -143,8 +141,6 @@ const PageHeading = ({
       </div>
 
       <div className="main-heading-right-side-block">
-        {role && <span className="user-role">{role}</span>}
-
         {isDashboard && !!storedStrategyData && (
           <Button
             className={'main-heading-ls-trade-strategy-button'}
@@ -166,6 +162,8 @@ const PageHeading = ({
             {mainButtonText}
           </Button>
         )}
+
+        {role && <span className="user-role">{role}</span>}
       </div>
     </div>
   );
