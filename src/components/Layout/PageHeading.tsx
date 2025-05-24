@@ -1,6 +1,6 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { IoArrowUndoSharp } from 'react-icons/io5';
-import { GoClock } from 'react-icons/go';
+import { GoClock, GoPeople } from 'react-icons/go';
 import useGlobalState from '@/src/hooks/useGlobalState';
 import { ModalContentEnum, OrderTypeEnum } from '@/src/enums';
 import { Role } from '@/src/types';
@@ -130,7 +130,7 @@ const PageHeading = ({
               clickContent={adminButtonFn}
               disabled={isAdminButtonDisabled}
             >
-              {/* <GoPeople size={22} /> */}
+              <GoPeople size={22} />
               {null}
             </Button>
 
