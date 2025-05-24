@@ -2,8 +2,8 @@
 import { useState, useEffect } from 'react';
 import useModal from '@/src/hooks/useModal';
 import useUpdateStrategy from '@/src/hooks/strategy/useUpdateStrategy';
-import * as t from '@/src/types';
 import { ExchangeEnum } from '@/src/enums';
+import * as t from '@/src/types';
 import * as u from '@/src/utils';
 import TradeStrategyModalContent from '@/src/components/Section/Strategy/TradeStrategyModalContent';
 import TradeStrategyOrderList from '@/src/components/Section/Strategy/TradeStrategyOrderList';
@@ -12,7 +12,7 @@ import MainDividerSection from '@/src/components/Section/MainDividerSection';
 export type TradeStrategyProps = {
   token: t.Token;
   orderData: t.OrderStrategyData;
-  exchanges: ExchangeEnum[];
+  filterExchange: ExchangeEnum;
 };
 
 export type CopiedField = {
@@ -23,19 +23,13 @@ export type CopiedField = {
 export type History = t.HistoryEntry[] | null;
 export type Strategy = t.TradeStrategy | null;
 
-const c = {
-  initExchange: ExchangeEnum.Binance,
-  dividerTitle: 'Take Profit',
-  // tradeStrategyKey: 'tradeStrategy',
-};
+// const c = {};
 
 const TradeStrategySection = (props: TradeStrategyProps) => {
   const [selectedOrders, setSelectedOrders] = useState<Set<string>>(new Set());
   const [copiedField, setCopiedField] = useState<CopiedField | null>(null);
   const [orders, setOrders] = useState<t.Order[] | null>(null);
   const [isSelectedAllOrders, seIsSelectedAllOrders] = useState(false);
-  const [exs, setExs] = useState<ExchangeEnum[] | null>(null);
-  const [selectedEx, setSelectedEx] = useState<ExchangeEnum | null>(null);
   const [strategyHistory, setStrategyHistory] = useState<History>(null);
   const [storedStrategy, setStoredStrategy] = useState<Strategy>(null);
   const [totalSelectedAmount, setTotalSelectedAmount] = useState(0);
@@ -44,7 +38,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   const [totalSelectedUnrealized, setTotalSelectedUnrealized] = useState(0);
   const [totalSelectedProfit, setTotalSelectedProfit] = useState(0);
 
-  const { token, orderData, exchanges } = props;
+  const { token, orderData, filterExchange } = props;
 
   const { mutate: updateStrategy } = useUpdateStrategy(); // isSuccess: isSuccessUpdateStrategy
 
@@ -79,59 +73,10 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     }
   }, [orderData]);
 
-  /*
   useEffect(() => {
-    if (isSuccessUpdateStrategy) {
-      console.log('isSuccess:', orderData.strategy.data);
-      resetTradeStrategy(false);
-    }
-  }, [isSuccessUpdateStrategy]);
-
-  useEffect(() => {
-    console.log('strategyHistory:', strategyHistory);
-  }, [strategyHistory]);
-  // */
-
-  useEffect(() => {
-    const _exs = exchanges.filter((ex) => {
-      const isProfitable = orderData.orders?.find((order) => {
-        const currentPrice = token.price;
-        const percent = ((currentPrice - order.price) / order.price) * 100;
-        return percent > 0 && order.exchange === ex;
-      });
-      return ex !== ExchangeEnum.All && !!isProfitable;
-    });
-
-    if (_exs) {
-      const ex = _exs.includes(c.initExchange) ? c.initExchange : _exs[0];
-      if (!selectedEx) {
-        setSelectedEx(ex);
-      } else {
-        if (!_exs.includes(selectedEx)) {
-          if (ex && ex?.length) {
-            setSelectedEx(ex);
-          } else {
-            setExs(null);
-            return;
-          }
-        }
-      }
-      setExs(_exs);
-    }
-  }, [exchanges]);
-
-  useEffect(() => {
-    if (orderData && selectedEx) {
-      handleSelectedOrders();
-    }
-  }, [exs]);
-
-  useEffect(() => {
-    if (orderData && selectedEx) {
-      handleSelectedOrders();
-      setSelectedOrders(new Set());
-    }
-  }, [selectedEx]);
+    setSelectedOrders(new Set());
+    handleSelectedOrders();
+  }, [filterExchange]);
 
   useEffect(() => {
     if (orders) {
@@ -176,15 +121,12 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     const selectedOrders = orderData.orders.filter((order) => {
       const currentPrice = token.price;
       const percent = ((currentPrice - order.price) / order.price) * 100;
-      return order.exchange === selectedEx && percent > 0;
+      return order.exchange === filterExchange && percent > 0;
+      // return order.exchange === selectedEx && percent > 0;
     });
     if (selectedOrders) {
       setOrders(selectedOrders);
     }
-  };
-
-  const handleFilterExchange = (val: ExchangeEnum) => {
-    setSelectedEx(val);
   };
 
   const handleToggleSelect = (id: string) => {
@@ -214,13 +156,6 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
 
   // --- StoredData:
 
-  // const getLSData = () => {
-  //   const storedTradeStrategyData = localStorage.getItem(c.tradeStrategyKey);
-  //   if (storedTradeStrategyData) {
-  //     return JSON.parse(storedTradeStrategyData) as t.TradeStrategy[];
-  //   } else return null;
-  // };
-
   const getLSCurrentStrategy = (_symbol: string): t.TradeStrategy | null => {
     const lsData = u.getLSTradeStrategyData();
     const lsStrategy = lsData
@@ -229,18 +164,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
         })
       : null;
     return lsStrategy ? lsStrategy : null;
-
-    // if (lsData) {
-    //   const lsStrategy = lsData.find((storedStrategy: TradeStrategy) => {
-    //     return storedStrategy.symbol === _symbol;
-    //   });
-    //   return lsStrategy ? lsStrategy : null;
-    // } else return null;
   };
-
-  // const updateLocalStorage = (data: t.TradeStrategy[]) => {
-  //   localStorage.setItem(c.tradeStrategyKey, JSON.stringify(data));
-  // };
 
   const createNewTradeStrategy = (ex: ExchangeEnum) => {
     const newTradeStrategy: t.TradeStrategy = {
@@ -280,8 +204,8 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   };
 
   const handleTemporaryStorage = () => {
-    if (!selectedEx || !totalSelectedAmount) return;
-    const newTradeStrategy = createNewTradeStrategy(selectedEx);
+    if (!filterExchange || !totalSelectedAmount) return;
+    const newTradeStrategy = createNewTradeStrategy(filterExchange);
     const storedData = u.getLSTradeStrategyData();
     if (storedData) {
       const storedStrategy = storedData.find(
@@ -324,19 +248,17 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
       const buyPrice = handleDisplayBuyPrice(storedStrategy);
       const newHistoryEntry: t.HistoryEntry = {
         d: storedStrategy.date,
+        // e: storedStrategy.exchange,
         a: storedStrategy.amount,
         b: +buyPrice,
         s: storedStrategy.sellPrice,
         // o: storedStrategy.orders,
       };
-      // console.log('newHistoryEntry:', newHistoryEntry);
+
       if (!confirm('New History entry will be created!')) return;
       const newData = strategyHistory
         ? [...strategyHistory, newHistoryEntry]
         : [newHistoryEntry];
-
-      // console.log('newData:', newData);
-
       updateStrategy({
         strategyId: +orderData.strategy.id,
         params: newData,
@@ -359,7 +281,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     const dataWithoutCurrentToken = storedData.filter((el: t.TradeStrategy) => {
       return el.symbol !== token.symbol;
     });
-    // console.log('-->', dataWithoutCurrentToken.length);
+
     if (dataWithoutCurrentToken.length) {
       if (storedData.length > dataWithoutCurrentToken.length) {
         u.updateLSTradeStrategyData(dataWithoutCurrentToken);
@@ -388,12 +310,10 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     <>
       <MainDividerSection
         className="order-list-devider"
-        title={c.dividerTitle}
-        exchanges={exs}
-        filterExchange={selectedEx}
+        title={filterExchange}
+        filterExchange={filterExchange}
         isSwitchButton
         isDisabled={!isSelectedAllOrders}
-        handleFilterExchange={handleFilterExchange}
         setIsDisabled={handleSelectAllOrders}
         /*
         subTitle={calculateStrategyPercent()}

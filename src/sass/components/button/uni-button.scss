@@ -161,14 +161,18 @@ button.uni-button {
     width: 40px;
     height: 40px;
     background-color: transparent;
+    background-color: $blackMiddle;
 
     &.disabled {
       color: $googleRed;
 
       &:hover {
         background-color: transparent;
-        // color: $colorButtonDisabled;
       }
+    }
+
+    > svg {
+      pointer-events: none;
     }
   }
 

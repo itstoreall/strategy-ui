@@ -68,6 +68,7 @@ export type TradeStrategy = {
 
 export type HistoryEntry = {
   d: number; // Date of the creation of the Entry
+  // e: string; // exchange
   a: number; // amount
   b: number; // Buy Price
   s: number; // Sell Price

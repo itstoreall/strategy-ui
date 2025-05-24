@@ -15,7 +15,7 @@ const useUpdatePrices = () => {
   return useMutation({
     mutationKey: [MutationKeyEnum.UpdatePrices],
     mutationFn: (params: UpdatePricesParams) => updatePrices(params),
-    // retry: 3,
+    retry: 2,
     onSuccess: (data) => {
       if (data) {
         updateData([QueryKeyEnum.Tokens]);

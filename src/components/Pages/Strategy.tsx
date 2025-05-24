@@ -200,27 +200,6 @@ const Strategy = () => {
 
   const handleModal = () => openModal(ModalContentEnum.Form);
 
-  /*
-  const handleUpdateStrategy = async () => {
-    if (!userOrderData?.strategy.id) return;
-    txn(() =>
-      updateStrategy({
-        strategyId: userOrderData?.strategy.id,
-        params: { data: { value: 'a-17' } },
-      })
-    );
-  };
-  // */
-
-  /*
-  const calculateStrategyPercent = () => {
-    const { deposit, profit } = snapshot;
-    const percent = profit ? ((profit - deposit) / deposit) * 100 : -100;
-    const signPlus = !percent.toString().includes('-') ? '+' : '';
-    return `${signPlus}${percent.toFixed()}%`;
-  };
-  */
-
   const ListLoader = () => {
     return (
       <span
@@ -277,7 +256,8 @@ const Strategy = () => {
                 <TradeStrategySection
                   token={token}
                   orderData={userOrderData}
-                  exchanges={exchanges}
+                  filterExchange={filterExchange}
+                  // exchanges={exchanges}
                 />
               )}
 

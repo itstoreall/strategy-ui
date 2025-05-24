@@ -59,8 +59,6 @@ const MainDividerSection = (props: Props) => {
     isSwitchButton = false,
   } = props;
 
-  // console.log('exchanges:', exchanges, !!handleFilterExchange);
-
   const { openDropdownId, toggleDropdown } = useSelectMulti();
 
   const displayAvgBuyPrice = () => {
@@ -87,14 +85,6 @@ const MainDividerSection = (props: Props) => {
 
   // ---
 
-  const tradeLimitValue = 1;
-  const ordersLimitValue = 2;
-  const exsLimitLength = exchanges?.includes(ExchangeEnum.All)
-    ? ordersLimitValue
-    : tradeLimitValue;
-
-  const isTradeSelect = exsLimitLength === tradeLimitValue;
-
   const subTitleColor = !subTitle?.includes('-') ? 'color-green' : 'color-blue';
   const subTitleStyle = `main-divider-section-subtitle ${subTitleColor}`;
   const isPrices = currentPrice && avgBuyPrice;
@@ -112,24 +102,18 @@ const MainDividerSection = (props: Props) => {
         </Button>
       )}
 
-      {handleFilterExchange &&
-        exchanges &&
-        exchanges?.length > exsLimitLength && (
-          <SelectMulti
-            className="main-divider-section-filter-select"
-            options={exchanges.filter((opt) => opt !== filterExchange)}
-            placeholder={c.placeholderExchange}
-            onSelect={(value) =>
-              handleSelectChange(c.selectFieldExchange, value)
-            }
-            initialOption={isTradeSelect ? filterExchange : ExchangeEnum.All}
-            // initialOption={isTradeSelect ? filterExchange : exchanges[0]}
-            isOpen={openDropdownId === filterExchange}
-            onToggle={() => toggleDropdown(filterExchange ?? '')}
-            isReset={!isTradeSelect && filterExchange === ExchangeEnum.All}
-            // isDisable={isBuyTarget}
-          />
-        )}
+      {handleFilterExchange && exchanges && (
+        <SelectMulti
+          className="main-divider-section-filter-select"
+          options={exchanges.filter((opt) => opt !== filterExchange)}
+          placeholder={c.placeholderExchange}
+          onSelect={(value) => handleSelectChange(c.selectFieldExchange, value)}
+          initialOption={ExchangeEnum.All}
+          isOpen={openDropdownId === filterExchange}
+          onToggle={() => toggleDropdown(filterExchange ?? '')}
+          isReset={filterExchange === ExchangeEnum.All}
+        />
+      )}
 
       {handleFilterChange && (
         <div className="main-divider-section-filter-input-block">
