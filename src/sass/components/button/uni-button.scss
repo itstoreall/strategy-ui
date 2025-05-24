@@ -163,6 +163,7 @@ button.uni-button {
     width: 40px;
     height: 40px;
     background-color: transparent;
+    background-color: $blackMiddle;
 
     &.disabled {
       color: $googleRed;
@@ -172,9 +173,9 @@ button.uni-button {
       }
     }
 
-    > svg {
-      pointer-events: none;
-    }
+    // > svg {
+    //   pointer-events: none;
+    // }
   }
 
   &.trade-strategy-calculating-element-button {
