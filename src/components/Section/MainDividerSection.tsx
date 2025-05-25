@@ -102,7 +102,7 @@ const MainDividerSection = (props: Props) => {
         </Button>
       )}
 
-      {handleFilterExchange && exchanges && (
+      {handleFilterExchange && exchanges && exchanges.length > 2 && (
         <SelectMulti
           className="main-divider-section-filter-select"
           options={exchanges.filter((opt) => opt !== filterExchange)}

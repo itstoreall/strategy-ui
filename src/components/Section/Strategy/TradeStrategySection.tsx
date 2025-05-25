@@ -13,6 +13,7 @@ export type TradeStrategyProps = {
   token: t.Token;
   orderData: t.OrderStrategyData;
   filterExchange: ExchangeEnum;
+  handleFilterExchange?: (val: ExchangeEnum) => void;
 };
 
 export type CopiedField = {
@@ -38,7 +39,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   const [totalSelectedUnrealized, setTotalSelectedUnrealized] = useState(0);
   const [totalSelectedProfit, setTotalSelectedProfit] = useState(0);
 
-  const { token, orderData, filterExchange } = props;
+  const { token, orderData, filterExchange, handleFilterExchange } = props;
 
   const { mutate: updateStrategy } = useUpdateStrategy(); // isSuccess: isSuccessUpdateStrategy
 
@@ -62,6 +63,21 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   }, []);
 
   useEffect(() => {
+    // Take Profit
+    if (orderData.orders && handleFilterExchange) {
+      const exs = new Set<ExchangeEnum>();
+      orderData.orders.forEach((order) => {
+        if (exs.has(order.exchange)) return;
+        exs.add(order.exchange);
+      });
+      if (exs.size === 1) {
+        handleFilterExchange(Array.from(exs)[0]);
+      } else if (exs.size > 1) {
+        handleFilterExchange(ExchangeEnum.All);
+      }
+    }
+
+    // History
     if (orderData.strategy && orderData.strategy?.data) {
       const _strategyHistory =
         typeof orderData.strategy.data === 'string'
@@ -305,6 +321,8 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     u.copyToClipboard(val.toString());
     setTimeout(() => setCopiedField(null), 500);
   };
+
+  // console.log('--->', Boolean(orders && orders.length), orders, orders?.length);
 
   return orders && orders.length ? (
     <>

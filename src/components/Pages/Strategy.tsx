@@ -257,6 +257,7 @@ const Strategy = () => {
                   token={token}
                   orderData={userOrderData}
                   filterExchange={filterExchange}
+                  handleFilterExchange={handleFilterExchange}
                   // exchanges={exchanges}
                 />
               )}
