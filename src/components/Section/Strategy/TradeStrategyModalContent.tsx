@@ -7,6 +7,7 @@ type Props = {
   strategyHistory: sec.History;
   storedStrategy: sec.Strategy;
   updateStrategyHistory: () => void;
+  createNewBuyTarget: () => void;
   resetTradeStrategy: (isClose: boolean) => void;
   deleteHystory: () => void;
 };
@@ -16,6 +17,7 @@ const TradeStrategyModalContent = (props: Props) => {
     strategyHistory,
     storedStrategy,
     updateStrategyHistory,
+    createNewBuyTarget,
     resetTradeStrategy,
     deleteHystory,
   } = props;
@@ -66,6 +68,12 @@ const TradeStrategyModalContent = (props: Props) => {
         clickContent={updateStrategyHistory}
       >
         Save
+      </Button>
+      <Button
+        style={{ marginBottom: '1rem' }}
+        clickContent={createNewBuyTarget}
+      >
+        Create Target
       </Button>
       <Button
         style={{ marginBottom: '1rem' }}

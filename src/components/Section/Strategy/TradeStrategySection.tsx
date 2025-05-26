@@ -2,14 +2,17 @@
 import { useState, useEffect } from 'react';
 import useModal from '@/src/hooks/useModal';
 import useUpdateStrategy from '@/src/hooks/strategy/useUpdateStrategy';
-import { ExchangeEnum } from '@/src/enums';
+import { ExchangeEnum, OrderTypeEnum, QueryKeyEnum } from '@/src/enums';
 import * as t from '@/src/types';
 import * as u from '@/src/utils';
 import TradeStrategyModalContent from '@/src/components/Section/Strategy/TradeStrategyModalContent';
 import TradeStrategyOrderList from '@/src/components/Section/Strategy/TradeStrategyOrderList';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
+import useCreateOrder from '@/src/hooks/order/useCreateOrder';
+import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 
 export type TradeStrategyProps = {
+  userId: string;
   token: t.Token;
   orderData: t.OrderStrategyData;
   filterExchange: ExchangeEnum;
@@ -24,7 +27,9 @@ export type CopiedField = {
 export type History = t.HistoryEntry[] | null;
 export type Strategy = t.TradeStrategy | null;
 
-// const c = {};
+const c = {
+  deleteLSStrategy: 'LS Strategy will be deleted!',
+};
 
 const TradeStrategySection = (props: TradeStrategyProps) => {
   const [selectedOrders, setSelectedOrders] = useState<Set<string>>(new Set());
@@ -39,9 +44,24 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   const [totalSelectedUnrealized, setTotalSelectedUnrealized] = useState(0);
   const [totalSelectedProfit, setTotalSelectedProfit] = useState(0);
 
-  const { token, orderData, filterExchange, handleFilterExchange } = props;
+  const { userId, token, orderData, filterExchange, handleFilterExchange } =
+    props;
 
-  const { mutate: updateStrategy } = useUpdateStrategy(); // isSuccess: isSuccessUpdateStrategy
+  const { userOrders } = useFetchAllUserOrders(userId, { enabled: !!userId });
+
+  const { mutate: updateStrategy, isSuccess: isSuccessUpdateStrategy } =
+    useUpdateStrategy(); // isSuccess: isSuccessUpdateStrategy
+
+  const invalidateQuery = [
+    QueryKeyEnum.UserOrders,
+    QueryKeyEnum.UserStrategyOrders,
+  ];
+
+  const {
+    mutate: createOrder,
+    // isSuccess,
+    // isError,
+  } = useCreateOrder(invalidateQuery);
 
   const {
     isStrategyModal,
@@ -61,6 +81,13 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
       setStoredStrategy(lsData);
     }
   }, []);
+
+  useEffect(() => {
+    if (isSuccessUpdateStrategy) {
+      // console.log(isSuccessUpdateStrategy);
+      resetTradeStrategy(false);
+    }
+  }, [isSuccessUpdateStrategy]);
 
   useEffect(() => {
     // Take Profit
@@ -258,6 +285,34 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     openModal(ModalContentEnum.Strategy);
   };
 
+  const createNewBuyTarget = () => {
+    if (userOrders) {
+      const existingTarget = userOrders.sell.find(
+        (order) => order.symbol === token.symbol
+      );
+      if (!!existingTarget) {
+        alert(`${token.symbol} Target already exists!`);
+        return;
+      }
+
+      // /*
+      if (!storedStrategy) return;
+      const payload = {
+        type: OrderTypeEnum.Sell,
+        symbol: token.symbol,
+        exchange: ExchangeEnum.Binance,
+        amount: storedStrategy.amount,
+        price: storedStrategy.avgBuyPrice,
+        userId: userId,
+      };
+
+      console.log('payload:', payload);
+
+      createOrder(payload);
+      // */
+    }
+  };
+
   const updateStrategyHistory = () => {
     const storedStrategy = getLSCurrentStrategy(token.symbol);
     if (storedStrategy && orderData.strategy) {
@@ -293,7 +348,8 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
 
   const resetTradeStrategy = (isClose: boolean) => {
     const storedData = u.getLSTradeStrategyData();
-    if (!confirm('Local Storage will be cleaned out!') || !storedData) return;
+    const confirmMsg = `${token.symbol} ${c.deleteLSStrategy}`;
+    if (!confirm(confirmMsg) || !storedData) return;
     const dataWithoutCurrentToken = storedData.filter((el: t.TradeStrategy) => {
       return el.symbol !== token.symbol;
     });
@@ -364,6 +420,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
             strategyHistory={strategyHistory}
             storedStrategy={storedStrategy}
             updateStrategyHistory={updateStrategyHistory}
+            createNewBuyTarget={createNewBuyTarget}
             resetTradeStrategy={resetTradeStrategy}
             deleteHystory={deleteHystory}
           />

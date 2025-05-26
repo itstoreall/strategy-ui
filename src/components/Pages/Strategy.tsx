@@ -254,6 +254,7 @@ const Strategy = () => {
 
               {userId && isTakeProfit && token && userOrderData && (
                 <TradeStrategySection
+                  userId={userId}
                   token={token}
                   orderData={userOrderData}
                   filterExchange={filterExchange}
