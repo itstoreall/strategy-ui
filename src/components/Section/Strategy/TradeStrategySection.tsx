@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect } from 'react';
 import useModal from '@/src/hooks/useModal';
 import useUpdateStrategy from '@/src/hooks/strategy/useUpdateStrategy';
 import { ExchangeEnum, OrderTypeEnum, QueryKeyEnum } from '@/src/enums';
@@ -50,7 +50,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   const { userOrders } = useFetchAllUserOrders(userId, { enabled: !!userId });
 
   const { mutate: updateStrategy, isSuccess: isSuccessUpdateStrategy } =
-    useUpdateStrategy(); // isSuccess: isSuccessUpdateStrategy
+    useUpdateStrategy();
 
   const invalidateQuery = [
     QueryKeyEnum.UserOrders,
@@ -84,19 +84,14 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
 
   useEffect(() => {
     if (isSuccessUpdateStrategy) {
-      // console.log(isSuccessUpdateStrategy);
       resetTradeStrategy(false);
     }
   }, [isSuccessUpdateStrategy]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Take Profit
     if (orderData.orders && handleFilterExchange) {
-      const exs = new Set<ExchangeEnum>();
-      orderData.orders.forEach((order) => {
-        if (exs.has(order.exchange)) return;
-        exs.add(order.exchange);
-      });
+      const exs = getCurrentExchanges(orderData.orders);
       if (exs.size === 1) {
         handleFilterExchange(Array.from(exs)[0]);
       } else if (exs.size > 1) {
@@ -116,10 +111,16 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     }
   }, [orderData]);
 
-  useEffect(() => {
-    setSelectedOrders(new Set());
-    handleSelectedOrders();
-  }, [filterExchange]);
+  useLayoutEffect(() => {
+    const exs = getCurrentExchanges(orderData.orders);
+    // setSelectedOrders(new Set());
+    if (exs.size && handleFilterExchange) {
+      if (filterExchange === ExchangeEnum.All && exs.size === 1) {
+        handleFilterExchange(Array.from(exs)[0]);
+      }
+      handleSelectedOrders();
+    }
+  }, [filterExchange, orderData]);
 
   useEffect(() => {
     if (orders) {
@@ -159,6 +160,15 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   }, [selectedOrders, orders, token]);
 
   // ---
+
+  const getCurrentExchanges = (data: t.Order[]) => {
+    const exs = new Set<ExchangeEnum>();
+    data.forEach((order) => {
+      if (exs.has(order.exchange)) return;
+      exs.add(order.exchange);
+    });
+    return exs;
+  };
 
   const handleSelectedOrders = () => {
     const selectedOrders = orderData.orders.filter((order) => {
@@ -380,7 +390,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
 
   // console.log('--->', Boolean(orders && orders.length), orders, orders?.length);
 
-  return orders && orders.length ? (
+  return orders?.length ? (
     <>
       <MainDividerSection
         className="order-list-devider"

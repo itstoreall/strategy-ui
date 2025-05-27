@@ -48,7 +48,7 @@ const StrategySnapshotSection = (props: Props) => {
     : loaderValue;
 
   const profitValue = isProfit ? (
-    profitAmount.toFixed()
+    profitAmount
   ) : isAllNegative ? (
     0
   ) : (
@@ -77,9 +77,9 @@ const StrategySnapshotSection = (props: Props) => {
             <span className="content-name">Deposit</span>
             <span
               className="content-value"
-              title={`$${depositAmount?.toFixed(2)}`}
+              title={`$${depositAmount.toFixed(2)}`}
             >
-              {formatMillionAmount(depositAmount.toFixed())}
+              {formatMillionAmount(depositAmount.toFixed(1))}
             </span>
           </div>
         </li>
@@ -90,7 +90,7 @@ const StrategySnapshotSection = (props: Props) => {
               className="content-value"
               title={`$${(+profitValue).toFixed(2)}`}
             >
-              {profitValue}
+              {profitValue ? (+profitValue).toFixed(1) : 0}
             </span>
           </div>
         </li>
