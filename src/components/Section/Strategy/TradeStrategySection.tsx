@@ -1,7 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useLayoutEffect } from 'react';
-import useModal from '@/src/hooks/useModal';
+import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
+import useTakeProfitOrders from '@/src/hooks/strategy/useTakeProfitOrders';
 import useUpdateStrategy from '@/src/hooks/strategy/useUpdateStrategy';
+import useModal from '@/src/hooks/useModal';
 import { ExchangeEnum, OrderTypeEnum, QueryKeyEnum } from '@/src/enums';
 import * as t from '@/src/types';
 import * as u from '@/src/utils';
@@ -9,7 +11,6 @@ import TradeStrategyModalContent from '@/src/components/Section/Strategy/TradeSt
 import TradeStrategyOrderList from '@/src/components/Section/Strategy/TradeStrategyOrderList';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
 import useCreateOrder from '@/src/hooks/order/useCreateOrder';
-import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 
 export type TradeStrategyProps = {
   userId: string;
@@ -32,20 +33,38 @@ const c = {
 };
 
 const TradeStrategySection = (props: TradeStrategyProps) => {
-  const [selectedOrders, setSelectedOrders] = useState<Set<string>>(new Set());
+  // const [selectedOrders, setSelectedOrders] = useState<Set<string>>(new Set());
   const [copiedField, setCopiedField] = useState<CopiedField | null>(null);
   const [orders, setOrders] = useState<t.Order[] | null>(null);
-  const [isSelectedAllOrders, seIsSelectedAllOrders] = useState(false);
+  // const [isSelectedAllOrders, setIsSelectedAllOrders] = useState(false);
   const [strategyHistory, setStrategyHistory] = useState<History>(null);
   const [storedStrategy, setStoredStrategy] = useState<Strategy>(null);
-  const [totalSelectedAmount, setTotalSelectedAmount] = useState(0);
-  const [avgSelectedBuyPrice, setAvgSelectedBuyPrice] = useState(0);
-  const [totalSelectedInvested, setTotalSelectedInvested] = useState(0);
-  const [totalSelectedUnrealized, setTotalSelectedUnrealized] = useState(0);
-  const [totalSelectedProfit, setTotalSelectedProfit] = useState(0);
+  // const [totalSelectedAmount, setTotalSelectedAmount] = useState(0);
+  // const [avgSelectedBuyPrice, setAvgSelectedBuyPrice] = useState(0);
+  // const [totalSelectedInvested, setTotalSelectedInvested] = useState(0);
+  // const [totalSelectedUnrealized, setTotalSelectedUnrealized] = useState(0);
+  // const [totalSelectedProfit, setTotalSelectedProfit] = useState(0);
 
   const { userId, token, orderData, filterExchange, handleFilterExchange } =
     props;
+
+  const {
+    selectedOrders,
+    isSelectedAllOrders,
+    totalSelectedAmount,
+    avgSelectedBuyPrice,
+    totalSelectedInvested,
+    totalSelectedUnrealized,
+    totalSelectedProfit,
+    setIsSelectedAllOrders,
+    handleAmount,
+    handleBuyPrice,
+    handleInvested,
+    handleUnrealized,
+    handleProfit,
+    handleToggleSelect,
+    handleSelectAllOrders,
+  } = useTakeProfitOrders({ orders });
 
   const { userOrders } = useFetchAllUserOrders(userId, { enabled: !!userId });
 
@@ -130,9 +149,11 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
 
       // Update selection state (Toggle)
       if (orders?.length === selectedOrders.size) {
-        seIsSelectedAllOrders(true);
+        if (orders.length) {
+          setIsSelectedAllOrders(true);
+        }
       } else if (isSelectedAllOrders && orders?.length > selectedOrders.size) {
-        seIsSelectedAllOrders(false);
+        setIsSelectedAllOrders(false);
       }
 
       // Calculate totals
@@ -148,16 +169,18 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
         { totalAmount: 0, totalUnrealized: 0, totalInvested: 0 }
       );
 
-      setTotalSelectedAmount(totalAmount);
-      setTotalSelectedInvested(totalInvested);
-      setTotalSelectedUnrealized(totalUnrealized);
-      setTotalSelectedProfit(totalUnrealized - totalInvested);
+      handleAmount(totalAmount);
+      handleInvested(totalInvested);
+      handleUnrealized(totalUnrealized);
+      handleProfit(totalUnrealized - totalInvested);
 
       // Calculate AVG Buy Price
       const avgPrice = u.calculateAVGPrice(selectedOrderList);
-      setAvgSelectedBuyPrice(avgPrice);
+      handleBuyPrice(avgPrice);
     }
   }, [selectedOrders, orders, token]);
+
+  // console.log('isSelectedAllOrders', isSelectedAllOrders);
 
   // ---
 
@@ -182,30 +205,36 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     }
   };
 
-  const handleToggleSelect = (id: string) => {
-    setSelectedOrders((prevSelected) => {
-      const updatedSelected = new Set(prevSelected);
-      if (updatedSelected.has(id)) {
-        updatedSelected.delete(id);
-      } else {
-        updatedSelected.add(id);
-      }
-      return updatedSelected;
-    });
-  };
+  // const chooseOrder = (val: ExchangeEnum) => {
+  //   if (handleFilterExchange) {
+  //     handleFilterExchange(val);
+  //   }
+  // };
 
-  const handleSelectAllOrders = () => {
-    seIsSelectedAllOrders((prev) => {
-      const newState = !prev;
-      if (newState && orders) {
-        const allOrderIds = orders.map((order) => order.id.toString());
-        setSelectedOrders(new Set(allOrderIds));
-      } else {
-        setSelectedOrders(new Set());
-      }
-      return newState;
-    });
-  };
+  // const handleToggleSelect = (id: string) => {
+  //   setSelectedOrders((prevSelected) => {
+  //     const updatedSelected = new Set(prevSelected);
+  //     if (updatedSelected.has(id)) {
+  //       updatedSelected.delete(id);
+  //     } else {
+  //       updatedSelected.add(id);
+  //     }
+  //     return updatedSelected;
+  //   });
+  // };
+
+  // const handleSelectAllOrders = () => {
+  //   setIsSelectedAllOrders((prev: boolean) => {
+  //     const newState = !prev;
+  //     if (newState && orders) {
+  //       const allOrderIds = orders.map((order) => order.id.toString());
+  //       setSelectedOrders(new Set(allOrderIds));
+  //     } else {
+  //       setSelectedOrders(new Set());
+  //     }
+  //     return newState;
+  //   });
+  // };
 
   // --- StoredData:
 
@@ -387,8 +416,6 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     u.copyToClipboard(val.toString());
     setTimeout(() => setCopiedField(null), 500);
   };
-
-  // console.log('--->', Boolean(orders && orders.length), orders, orders?.length);
 
   return orders?.length ? (
     <>

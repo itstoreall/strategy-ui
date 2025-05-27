@@ -144,7 +144,7 @@ const MainDividerSection = (props: Props) => {
 
       {isSwitchButton && (
         <Button className="switch-button" clickContent={toggleSwitch}>
-          <SwitchIcon isDisabled={isDisabled ?? false} />
+          <SwitchIcon isDisabled={isDisabled ?? true} />
         </Button>
       )}
     </section>
