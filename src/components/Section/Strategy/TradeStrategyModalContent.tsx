@@ -66,22 +66,27 @@ const TradeStrategyModalContent = (props: Props) => {
       <Button
         style={{ marginBottom: '1rem' }}
         clickContent={updateStrategyHistory}
+        disabled={!storedStrategy}
       >
         Save
       </Button>
       <Button
         style={{ marginBottom: '1rem' }}
         clickContent={createNewBuyTarget}
+        disabled={!storedStrategy}
       >
         Create Target
       </Button>
       <Button
         style={{ marginBottom: '1rem' }}
         clickContent={() => resetTradeStrategy(true)}
+        disabled={!storedStrategy}
       >
         Clear Storage
       </Button>
-      <Button clickContent={deleteHystory}>Delete Hystory</Button>
+      <Button clickContent={deleteHystory} disabled={!strategyHistory}>
+        Delete Hystory
+      </Button>
 
       {strategyHistory ? (
         <ul className="trade-strategy-modal-history-list">

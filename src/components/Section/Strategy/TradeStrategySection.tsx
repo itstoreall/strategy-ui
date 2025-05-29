@@ -333,7 +333,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
         alert(`${token.symbol} Target already exists!`);
         return;
       }
-
+      if (!confirm(`${token.symbol} Targer will be created!`)) return;
       // /*
       if (!storedStrategy) return;
       const payload = {
@@ -344,9 +344,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
         price: storedStrategy.avgBuyPrice,
         userId: userId,
       };
-
       console.log('payload:', payload);
-
       createOrder(payload);
       // */
     }
