@@ -11,7 +11,7 @@ type Props = {
   isProcess: boolean;
 };
 
-const config = {
+const c = {
   assets: 'Assets',
   orders: 'Orders',
   deposit: 'Deposit',
@@ -52,14 +52,14 @@ const AccountSnapshotSection = (props: Props) => {
       <ul className="section-content snapshot-list">
         <li className="snapshot-item">
           <div className="item-content">
-            <span className="content-name">{config.assets}</span>
+            <span className="content-name">{c.assets}</span>
             <span className="content-value">{tokenAmount}</span>
           </div>
         </li>
 
         <li className="snapshot-item">
           <div className="item-content">
-            <span className="content-name">{config.orders}</span>
+            <span className="content-name">{c.orders}</span>
             <span className="content-value">{assetAmount}</span>
           </div>
         </li>
@@ -69,7 +69,7 @@ const AccountSnapshotSection = (props: Props) => {
             className="item-content available-click"
             onClick={handleClickDeposit}
           >
-            <span className="content-name">{config.deposit}</span>
+            <span className="content-name">{c.deposit}</span>
             <span
               className="content-value"
               title={`$${depositAmount.toFixed(2)}`}
@@ -84,7 +84,7 @@ const AccountSnapshotSection = (props: Props) => {
             className="item-content available-click"
             onClick={handleClickProfit}
           >
-            <span className="content-name">{config.profit}</span>
+            <span className="content-name">{c.profit}</span>
             <span
               className="content-value"
               title={`$${profitAmount?.toFixed(2)}`}

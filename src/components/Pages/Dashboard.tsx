@@ -116,9 +116,9 @@ const Dashboard = () => {
         }
       }
     }
-    // console.log('currentDeposit:', currentDeposit);
+    // console.log('totalProfit:', totalProfit);
     setCurrentDeposit(+currentDeposit.toFixed());
-    setCurrentProfit(+totalProfit.toFixed());
+    setCurrentProfit(+totalProfit.toFixed(1));
     setIsProcess(false);
   }, [updatedTokens, userOrders]);
 

@@ -167,7 +167,7 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
               const percentValue = percent < 0 && percent > -1 ? 0 : percent;
               const signPlus = percent.toString().includes('-')
                 ? ''
-                : percent >= 1
+                : percent > 0
                 ? '+'
                 : '';
 
@@ -201,6 +201,17 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
               const percentStyle = `row-list-item order-percent ${percentColor}`;
               const reachedTarget = isReachedTarget ? 'color-green' : '';
               const uniValueStyle = `uni-value ${!isBull ? reachedTarget : ''}`;
+
+              const handleDisplayPercentValue = () => {
+                const _percentValue = percentValue.toFixed();
+                const percentValueToDisplay = _percentValue.includes('-')
+                  ? _percentValue.split('-')[1]
+                  : _percentValue;
+                const isZero = percentValue === 0;
+                const isBig = percentValueToDisplay.length > 2;
+                const fixNumber = isZero || isBig ? 0 : 1;
+                return `${signPlus}${percentValue.toFixed(fixNumber)}%`;
+              };
 
               return (
                 <li key={idx} className="section-order-list-item">
@@ -249,9 +260,8 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
                       </li>
 
                       <li className={percentStyle}>
-                        <span
-                          title={percent.toFixed(2)}
-                        >{`${signPlus}${percentValue.toFixed()}%`}</span>
+                        <span>{handleDisplayPercentValue()}</span>
+                        {/* >{`${signPlus}${percentValue.toFixed()}%`}</span> */}
                       </li>
                     </ul>
                   </Link>
