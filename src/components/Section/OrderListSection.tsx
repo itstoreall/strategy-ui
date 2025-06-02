@@ -164,10 +164,10 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
               const { symbol, price, orders, totalAmount, percent } = order;
 
               const strategyPath = `/strategy/${strategy}-${symbol}`;
-              const percentValue = percent < 0 && percent > -1 ? 0 : percent;
+              const percentValue = percent < 0 && percent > -0.09 ? 0 : percent;
               const signPlus = percent.toString().includes('-')
                 ? ''
-                : percent > 0
+                : percent >= 0.1
                 ? '+'
                 : '';
 
@@ -207,7 +207,8 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
                 const percentValueToDisplay = _percentValue.includes('-')
                   ? _percentValue.split('-')[1]
                   : _percentValue;
-                const isZero = percentValue === 0;
+                const isZeroRange = percentValue > 0 && percentValue < 0.1;
+                const isZero = isZeroRange || percentValue === 0;
                 const isBig = percentValueToDisplay.length > 2;
                 const fixNumber = isZero || isBig ? 0 : 1;
                 return `${signPlus}${percentValue.toFixed(fixNumber)}%`;
@@ -260,7 +261,9 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
                       </li>
 
                       <li className={percentStyle}>
-                        <span>{handleDisplayPercentValue()}</span>
+                        <span title={percentValue.toString()}>
+                          {handleDisplayPercentValue()}
+                        </span>
                         {/* >{`${signPlus}${percentValue.toFixed()}%`}</span> */}
                       </li>
                     </ul>
