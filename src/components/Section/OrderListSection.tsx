@@ -165,11 +165,11 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
 
               const strategyPath = `/strategy/${strategy}-${symbol}`;
               const percentValue = percent < 0 && percent > -0.09 ? 0 : percent;
-              const signPlus = percent.toString().includes('-')
-                ? ''
-                : percent >= 0.1
-                ? '+'
-                : '';
+              // const signPlus = percent.toString().includes('-')
+              //   ? ''
+              //   : percent >= 0.1
+              //   ? '+'
+              //   : '';
 
               // --- Uni Value (Buy Target)
 
@@ -211,6 +211,11 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
                 const isZero = isZeroRange || percentValue === 0;
                 const isBig = percentValueToDisplay.length > 2;
                 const fixNumber = isZero || isBig ? 0 : 1;
+                const signPlus = percent.toString().includes('-')
+                  ? ''
+                  : percent >= 0.1
+                  ? '+'
+                  : '';
                 return `${signPlus}${percentValue.toFixed(fixNumber)}%`;
               };
 

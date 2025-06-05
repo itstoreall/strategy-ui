@@ -87,15 +87,46 @@ const StrategyOrderListSection = (props: Props) => {
               const { id, price, amount } = order;
               const { target } = strategy;
               const percent = ((currentPrice - price) / price) * 100;
-              const fixedPercent = Number(percent.toFixed());
-              const isMinus = percent.toString().includes('-');
-              const isPlus = !isMinus && fixedPercent !== 0;
-              const percentDisplay = `${isPlus ? '+' : ''}${fixedPercent}%`;
+              // const fixedPercent = Number(percent.toFixed());
+              // const isMinus = percent.toString().includes('-');
+              // const isPlus = !isMinus && fixedPercent !== 0;
+              // const percentDisplay = `${isPlus ? '+' : ''}${fixedPercent}%`;
 
-              const isSuccess = fixedPercent >= target;
-              const isPositive = fixedPercent >= 0 && fixedPercent < target;
-              const isNegative = fixedPercent <= 0 && fixedPercent > -50;
-              const isFailed = fixedPercent <= -50;
+              const percentValue = percent < 0 && percent > -0.09 ? 0 : percent;
+              // const signPlus = percent.toString().includes('-')
+              //   ? ''
+              //   : percent >= 0.1
+              //   ? '+'
+              //   : '';
+
+              // const isSuccess = fixedPercent >= target;
+              // const isPositive = fixedPercent >= 0 && fixedPercent < target;
+              // const isNegative = fixedPercent <= 0 && fixedPercent > -50;
+              // const isFailed = fixedPercent <= -50;
+
+              const isSuccess = percentValue >= target;
+              const isPositive = percentValue >= 0 && percentValue < target;
+              const isNegative = percentValue <= 0 && percentValue > -50;
+              const isFailed = percentValue <= -50;
+
+              const handleDisplayPercentValue = () => {
+                const _percentValue = percentValue.toFixed();
+                const percentValueToDisplay = _percentValue.includes('-')
+                  ? _percentValue.split('-')[1]
+                  : _percentValue;
+                const isZeroRange = percentValue > 0 && percentValue < 0.1;
+                const isZero = isZeroRange || percentValue === 0;
+                const isBig = percentValueToDisplay.length > 2;
+                const fixNumber = isZero || isBig ? 0 : 1;
+                const signPlus = percent.toString().includes('-')
+                  ? ''
+                  : percent >= 0.1
+                  ? '+'
+                  : '';
+                return `${signPlus}${percentValue.toFixed(fixNumber)}%`;
+                // return `${isPlus ? '+' : ''}${fixedPercent}%`;
+                // return `${signPlus}${fixedPercent.toFixed(fixNumber)}%`;
+              };
 
               // ---
 
@@ -140,7 +171,9 @@ const StrategyOrderListSection = (props: Props) => {
                           orderNumber={sortedOrders.length}
                         />
                       ) : (
-                        <span>{percentDisplay}</span>
+                        <span>{handleDisplayPercentValue()}</span>
+                        // <span>{percentValue}</span>
+                        // <span>{percentDisplay}</span>
                       )}
                     </li>
                   </ul>
