@@ -136,6 +136,38 @@ export const uniNumberFormatter = (_value: number): string => {
   return value.toFixed(2);
 };
 
+export const numberCutter = (val: string | number, cut: number = 2) => {
+  const str = typeof val === 'string' ? val : val.toString();
+  const parts = str.split('.');
+  if (parts.length === 2) {
+    const match = str.match(/\.(0+)(\d+)$/);
+    if (match?.length === 3) {
+      const number = `${parts[0]}.${match[1]}${match[2].slice(0, cut)}`;
+      const leadingZeros = match[1].length;
+      if (leadingZeros <= 2) {
+        return number;
+      } else {
+        const significantDigits = match[2].slice(0, cut);
+        return `${parts[0]}.0{${leadingZeros}}${significantDigits}`;
+      }
+    } else {
+      const parts = str.split('.');
+      const convertedNumber =
+        parts[1].length === 1
+          ? `${parts[1]}0`
+          : parts[1].length === 2
+          ? `${parts[1]}`
+          : `${parts[1].slice(0, cut)}`;
+      const value = `${parts[0]}.${convertedNumber}`;
+      return value;
+    }
+  } else {
+    return `${str}.00`;
+  }
+};
+
+// ---
+
 export const calculateAVGPrice = (orders: Order[]) => {
   if (!orders?.length) return 0;
   const totalPrice = orders.reduce((acc, order) => {

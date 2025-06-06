@@ -158,7 +158,9 @@ const StrategyOrderListSection = (props: Props) => {
 
                     <li className="row-strategy-list-item order-price">
                       {/* <span>{formatMillionAmount('234567035')}</span> */}
-                      <span>{u.uniNumberFormatter(price)}</span>
+                      {/* <span>{u.uniNumberFormatter(price)}</span> */}
+                      <span>{u.numberCutter(price, 3)}</span>
+                      {/* <span>{price}</span> */}
                     </li>
 
                     <li className="row-strategy-list-item order-percent">
