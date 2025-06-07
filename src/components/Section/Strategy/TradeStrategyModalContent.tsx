@@ -1,10 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TradeStrategy } from '@/src/types';
 import { uniNumberFormatter, normalizeKyivDate } from '@/src/utils';
 import * as sec from '@/src/components/Section/Strategy/TradeStrategySection';
-import DefaultInput from '@/src/components/Form/DefaultInput';
 import Button from '@/src/components/Button/Button';
+import { IoMdTrash } from 'react-icons/io';
 
 type Props = {
   strategyHistory: sec.History;
@@ -15,12 +15,15 @@ type Props = {
   deleteHystory: () => void;
 };
 
+/*
 type StringState = Dispatch<SetStateAction<string>>;
+*/
 
 const c = {
   amount: 'amount',
   buy: 'buy',
   sell: 'sell',
+  targetButtonText: 'Create Target -10%',
 };
 
 const TradeStrategyModalContent = (props: Props) => {
@@ -63,6 +66,7 @@ const TradeStrategyModalContent = (props: Props) => {
     }
   }, [sellPrice]);
 
+  /*
   const handleNumericInput = (val: string, state: StringState | null) => {
     if (!state) return;
     let value = val.replace(/,/g, '.');
@@ -75,6 +79,7 @@ const TradeStrategyModalContent = (props: Props) => {
       state(value.slice(0, -1));
     }
   };
+  */
 
   const NewEntry = ({ strategy }: { strategy: TradeStrategy }) => {
     const isAVGPrice = strategy.orders.split(', ').length > 1;
@@ -121,7 +126,24 @@ const TradeStrategyModalContent = (props: Props) => {
       <div className="trade-strategy-modal-new-history-entry-block"></div>
       {storedStrategy && <NewEntry strategy={storedStrategy} />}
 
-      <div>
+      <Button
+        style={{ marginBottom: '1rem' }}
+        clickContent={createNewBuyTarget}
+        disabled={!storedStrategy}
+      >
+        {c.targetButtonText}
+      </Button>
+
+      {storedStrategy && (
+        <Button
+          className="ls-trade-strategy-modal-section-reset-button"
+          clickContent={() => resetTradeStrategy(true)}
+        >
+          <IoMdTrash size={24} fill="black" />
+        </Button>
+      )}
+
+      {/* <div>
         <DefaultInput
           value={amount}
           handleChange={(val) => handleNumericInput(val, setAmount)}
@@ -136,32 +158,18 @@ const TradeStrategyModalContent = (props: Props) => {
         />
       </div>
 
-      {/* <Button
+      <Button
         style={{ marginBottom: '1rem' }}
         clickContent={updateStrategyHistory}
         disabled={!storedStrategy}
       >
         Save
-      </Button> */}
-      <Button
-        style={{ marginBottom: '1rem' }}
-        clickContent={createNewBuyTarget}
-        disabled={!storedStrategy}
-      >
-        Create Target
       </Button>
-      <Button
-        style={{ marginBottom: '1rem' }}
-        clickContent={() => resetTradeStrategy(true)}
-        disabled={!storedStrategy}
-      >
-        Clear Storage
-      </Button>
-      {/* <Button clickContent={deleteHystory} disabled={!strategyHistory}>
+      <Button clickContent={deleteHystory} disabled={!strategyHistory}>
         Delete Hystory
-      </Button> */}
+      </Button>
 
-      {/* {strategyHistory ? (
+      {strategyHistory ? (
         <ul className="trade-strategy-modal-history-list">
           {strategyHistory.map((el, idx) => (
             <li key={idx} className="trade-strategy-modal-history-list-item">

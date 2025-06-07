@@ -33,17 +33,10 @@ const c = {
 };
 
 const TradeStrategySection = (props: TradeStrategyProps) => {
-  // const [selectedOrders, setSelectedOrders] = useState<Set<string>>(new Set());
   const [copiedField, setCopiedField] = useState<CopiedField | null>(null);
   const [orders, setOrders] = useState<t.Order[] | null>(null);
-  // const [isSelectedAllOrders, setIsSelectedAllOrders] = useState(false);
   const [strategyHistory, setStrategyHistory] = useState<History>(null);
   const [storedStrategy, setStoredStrategy] = useState<Strategy>(null);
-  // const [totalSelectedAmount, setTotalSelectedAmount] = useState(0);
-  // const [avgSelectedBuyPrice, setAvgSelectedBuyPrice] = useState(0);
-  // const [totalSelectedInvested, setTotalSelectedInvested] = useState(0);
-  // const [totalSelectedUnrealized, setTotalSelectedUnrealized] = useState(0);
-  // const [totalSelectedProfit, setTotalSelectedProfit] = useState(0);
 
   const { userId, token, orderData, filterExchange, handleFilterExchange } =
     props;
@@ -87,9 +80,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     ModalContentEnum,
     RenderModal,
     openModal,
-    /*
     closeModal,
-    */
   } = useModal();
 
   // ---
@@ -205,37 +196,6 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     }
   };
 
-  // const chooseOrder = (val: ExchangeEnum) => {
-  //   if (handleFilterExchange) {
-  //     handleFilterExchange(val);
-  //   }
-  // };
-
-  // const handleToggleSelect = (id: string) => {
-  //   setSelectedOrders((prevSelected) => {
-  //     const updatedSelected = new Set(prevSelected);
-  //     if (updatedSelected.has(id)) {
-  //       updatedSelected.delete(id);
-  //     } else {
-  //       updatedSelected.add(id);
-  //     }
-  //     return updatedSelected;
-  //   });
-  // };
-
-  // const handleSelectAllOrders = () => {
-  //   setIsSelectedAllOrders((prev: boolean) => {
-  //     const newState = !prev;
-  //     if (newState && orders) {
-  //       const allOrderIds = orders.map((order) => order.id.toString());
-  //       setSelectedOrders(new Set(allOrderIds));
-  //     } else {
-  //       setSelectedOrders(new Set());
-  //     }
-  //     return newState;
-  //   });
-  // };
-
   // --- StoredData:
 
   const getLSCurrentStrategy = (_symbol: string): t.TradeStrategy | null => {
@@ -321,7 +281,9 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     /*
     handleTemporaryStorage();
     */
-    openModal(ModalContentEnum.Strategy);
+    if (storedStrategy) {
+      openModal(ModalContentEnum.Strategy);
+    }
   };
 
   const createNewBuyTarget = () => {
@@ -333,7 +295,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
         alert(`${token.symbol} Target already exists!`);
         return;
       }
-      if (!confirm(`${token.symbol} Targer will be created!`)) return;
+      if (!confirm(`${token.symbol} (-10%) Targer will be created!`)) return;
       // /*
       if (!storedStrategy) return;
       const payload = {
@@ -341,7 +303,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
         symbol: token.symbol,
         exchange: ExchangeEnum.Binance,
         amount: storedStrategy.amount,
-        price: storedStrategy.avgBuyPrice,
+        price: token.price * (1 - 0.1),
         userId: userId,
       };
       console.log('payload:', payload);
@@ -396,9 +358,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
         u.updateLSTradeStrategyData(dataWithoutCurrentToken);
         setStoredStrategy(null);
         if (isClose) {
-          /*
-        closeModal();
-        */
+          closeModal();
           return;
         }
       }
