@@ -179,6 +179,18 @@ export const calculateAVGPrice = (orders: Order[]) => {
   return totalAmount ? totalPrice / totalAmount : 0;
 };
 
+// --- %
+
+type Percent = 1 | 0.1;
+
+export const plusPercent = (val: number, percent: Percent = 1) => {
+  return val * (1 + percent);
+};
+
+export const minusPercent = (val: number, percent: Percent = 1) => {
+  return val * (1 - percent);
+};
+
 // --- TradeStrategyData (localStorage)
 
 export const getLSTradeStrategyData = () => {

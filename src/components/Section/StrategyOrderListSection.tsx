@@ -57,6 +57,7 @@ const StrategyOrderListSection = (props: Props) => {
     }
   }, [sortedOrders]);
 
+  // --- Details
   const showDetails = (order: Order) => {
     if (isEditMenu) {
       return;
@@ -69,7 +70,7 @@ const StrategyOrderListSection = (props: Props) => {
 
     alert(`
       ${c.id}: ${order.id}
-      ${c.price}: $${order.price}
+      ${c.price}: $${order.price} (+10% = ${u.plusPercent(order.price, 0.1)})
       ${c.amount}: ${order.amount}
       ${c.invested}: $${order.fiat}
       ${isProfit ? c.profit : c.losses}: ${profitValue}

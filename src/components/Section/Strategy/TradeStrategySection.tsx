@@ -303,7 +303,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
         symbol: token.symbol,
         exchange: ExchangeEnum.Binance,
         amount: storedStrategy.amount,
-        price: token.price * (1 - 0.1),
+        price: u.minusPercent(token.price, 0.1),
         userId: userId,
       };
       console.log('payload:', payload);
