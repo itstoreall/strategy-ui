@@ -68,9 +68,11 @@ const StrategyOrderListSection = (props: Props) => {
       ? `$${calculatedProfit.toFixed(2)}`
       : `${calculatedProfit.toFixed(2)} ($)`;
 
+    const LimitOrderPrice = u.plusPercent(order.price, 0.1);
+
     alert(`
       ${c.id}: ${order.id}
-      ${c.price}: $${order.price} (+10% = ${u.plusPercent(order.price, 0.1)})
+      ${c.price}: $${order.price} (+10% = ${u.numberCutter(LimitOrderPrice, 3)})
       ${c.amount}: ${order.amount}
       ${c.invested}: $${order.fiat}
       ${isProfit ? c.profit : c.losses}: ${profitValue}

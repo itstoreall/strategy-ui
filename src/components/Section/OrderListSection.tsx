@@ -233,8 +233,7 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
                           {/* {'WERTFGR'} */}
                           {currentBuyTargetPrice && (
                             <span className="row-list-item-token-price">
-                              {u.uniNumberFormatter(currentBuyTargetPrice)}
-                              {/* {'WERTFGR'} */}
+                              {u.numberCutter(currentBuyTargetPrice, 3)}
                             </span>
                           )}
                         </span>
@@ -260,7 +259,7 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
                             ? u.formatMillionAmount(
                                 parseFloat(totalAmount.toFixed(6)).toString()
                               )
-                            : u.uniNumberFormatter(price)}
+                            : u.numberCutter(price, 3)}
                           {/* {38564326} */}
                         </span>
                       </li>
@@ -269,7 +268,6 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
                         <span title={percentValue.toString()}>
                           {handleDisplayPercentValue()}
                         </span>
-                        {/* >{`${signPlus}${percentValue.toFixed()}%`}</span> */}
                       </li>
                     </ul>
                   </Link>
