@@ -1,0 +1,35 @@
+@use '@/src/sass/base/vars' as *;
+
+.gradient-progress-loader-block {
+  position: fixed;
+  height: 0;
+  width: 100%;
+  z-index: 30;
+  background-color: transparent;
+
+  > svg {
+    width: 100%;
+  }
+
+  .border {
+    width: 100%;
+    height: 0;
+    fill: transparent;
+  }
+
+  .filling {
+    width: 100%;
+    height: 1px;
+    // fill: $violetDark;
+    animation: fillBar 66s ease-in-out 0s normal 1 forwards;
+  }
+
+  @keyframes fillBar {
+    0% {
+      width: 0%;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+}

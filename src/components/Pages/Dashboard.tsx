@@ -13,6 +13,7 @@ import { AuthRoleEnum, QueryKeyEnum } from '@/src/enums';
 import { getLSTradeStrategyData, deleteLSTradeStrategyData } from '@/src/utils';
 import LSTradeStrategyModalSection from '@/src/components/Section/LSTradeStrategyModalSection';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
+import GradientProgressLoader from '@/src/assets/animation/GradientProgressLoader';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import OrderListSection from '@/src/components/Section/OrderListSection';
 import PageContainer, { Label } from '@/src/components/Container/Page';
@@ -162,6 +163,14 @@ const Dashboard = () => {
 
   return (
     <PageContainer label={Label.Main}>
+      {updatedTokens && (
+        <GradientProgressLoader
+          trigger={
+            updatedTokens.find((token) => token.symbol === 'BTC')?.price ?? 0
+          }
+        />
+      )}
+
       <main className="main">
         <PageHeading
           title={c.dashboardTitle}
