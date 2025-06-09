@@ -24,6 +24,7 @@ import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import MainLoader from '@/src/components/MainLoader';
 import DotsLoader from '@/src/components/DotsLoader';
+import GradientProgressLoader from '@/src/assets/animation/GradientProgressLoader';
 /*
 import Button from '@/src/components/Button/Button';
 // */
@@ -224,6 +225,14 @@ const Strategy = () => {
 
   return (
     <PageContainer label={Label.Main}>
+      {updatedTokens && (
+        <GradientProgressLoader
+          trigger={
+            updatedTokens.find((token) => token.symbol === 'BTC')?.price ?? 0
+          }
+        />
+      )}
+
       <main className="main">
         <PageHeading
           title={symbol}
