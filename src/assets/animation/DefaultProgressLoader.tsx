@@ -1,7 +1,7 @@
-const ProgressLoader = () => (
+const DefaultProgressLoader = () => (
   <div className={'default-progress-loader-block'}>
     <span className="default-progress-loader-filling" />
   </div>
 );
 
-export default ProgressLoader;
+export default DefaultProgressLoader;

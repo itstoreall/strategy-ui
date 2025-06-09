@@ -2,12 +2,12 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { deleteOrder } from '@/src/lib/api/deleteOrderServerAction';
-import useGlobalState from '@/src/hooks/useGlobalState';
 import useFilterAndSortOrderList from '@/src/hooks/order/useFilterAndSortOrderList';
 import useInvalidateQueries from '@/src/hooks/useInvalidateQueries';
-import { AggregatedOrderListAcc, Order, Token } from '@/src/types';
-import { OrderTypeEnum, QueryKeyEnum } from '@/src/enums';
+import useGlobalState from '@/src/hooks/useGlobalState';
 import * as u from '@/src/utils';
+import { OrderTypeEnum, QueryKeyEnum } from '@/src/enums';
+import { AggregatedOrderListAcc, Order, Token } from '@/src/types';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
 
 type Props = {

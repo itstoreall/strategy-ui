@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { SessionContextValue } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import useGlobalState from '@/src/hooks/useGlobalState';
-import ProgressLoader from '@/src/assets/animation/ProgressLoader';
+import DefaultProgressLoader from '@/src/assets/animation/DefaultProgressLoader';
 import Logo from '@/src/components/Layout/Logo';
 
 type Props = { session: SessionContextValue };
@@ -27,7 +27,7 @@ const Home = ({ session }: Props) => {
   return (
     <div className="home-page">
       <Logo className="home-page-logo" iconSize={'104px'} />
-      <ProgressLoader />
+      <DefaultProgressLoader />
       <span className="home-page-version">{app.version}</span>
     </div>
   );

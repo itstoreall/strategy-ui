@@ -4,13 +4,14 @@ import { usePathname } from 'next/navigation';
 import useCreateOrderForm from '@/src/hooks/order/useAddOrderForm';
 import useSelectMulti from '@/src/hooks/useSelectMulti';
 import useModal from '@/src/hooks/useModal';
-import { FormEvent, Order, Token } from '@/src/types';
 import {
   ExchangeEnum,
   OrderTypeDisplayEnum,
   OrderTypeEnum,
   QueryKeyEnum,
 } from '@/src/enums';
+import { numberCutter } from '@/src/utils';
+import { FormEvent, Order, Token } from '@/src/types';
 import FormWrapper from '@/src/components/Container/FormWrapper';
 import FormBackdropContainer from '@/src/components/Container/FormBackdrop';
 import FormContentContainer from '@/src/components/Container/FormContent';
@@ -19,7 +20,6 @@ import TextInput from '@/src/components/Form/TextInput';
 import Button from '@/src/components/Button/Button';
 import Title from '@/src/components/Layout/Title';
 import Form from '@/src/components/Form/Form';
-import { uniNumberFormatter } from '@/src/utils';
 
 type Props = {
   tokens: Token[];
@@ -146,7 +146,7 @@ const AddOrderForm = ({
       Exchange: ${exchange || '--'}
       Amount: ${amount || '--'}
       Price: ${price || '--'}
-      Invested: $${price && amount ? uniNumberFormatter(price * amount) : '--'}
+      Invested: $${price && amount ? numberCutter(price * amount) : '--'}
     `
       : `
       ${type || '--'}: ${symbol || '--'} - ${price || '--'}

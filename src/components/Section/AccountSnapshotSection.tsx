@@ -30,11 +30,6 @@ const AccountSnapshotSection = (props: Props) => {
 
   const { unrealized } = useGlobalState();
 
-  // console.log('tokenAmount:', tokenAmount);
-  // console.log('assetAmount:', assetAmount);
-  // console.log('depositAmount:', depositAmount);
-  // console.log('profitAmount:', profitAmount);
-
   const handleClickDeposit = () => {
     const losses = (depositAmount - currentDeposit).toFixed();
     alert(`
