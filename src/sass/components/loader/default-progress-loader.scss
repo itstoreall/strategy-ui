@@ -1,0 +1,39 @@
+@use '@/src/sass/base/vars' as *;
+
+.default-progress-loader-block {
+  width: 9rem;
+  height: 1px;
+  position: relative;
+  background-color: $greyDeepDarkPlus;
+
+  .default-progress-loader-filling {
+    display: block;
+    height: 100%;
+    background-color: $violetDark;
+    animation: fillDefaultBar 3s ease-in-out 0s normal 1 forwards;
+  }
+
+  @keyframes fillDefaultBar {
+    0% {
+      width: 0.1rem;
+    }
+    30% {
+      width: 3rem;
+    }
+    70% {
+      width: 6rem;
+    }
+    85% {
+      width: 7rem;
+    }
+    90% {
+      width: 8rem;
+    }
+    95% {
+      width: 8.5rem;
+    }
+    100% {
+      width: 9rem;
+    }
+  }
+}

@@ -3,17 +3,6 @@ type Props = {
 };
 
 const GradientProgressLoader: React.FC<Props> = ({ trigger }) => {
-  /*
-  return trigger ? (
-    <div className={`gradient-progress-loader-block`} key={trigger}>
-      <svg role="alert" aria-live="assertive">
-        <rect className="border" />
-        <rect className="filling" />
-      </svg>
-    </div>
-  ) : null;
-  */
-
   return trigger ? (
     <div className="gradient-progress-loader-block" key={trigger}>
       <span

@@ -27,7 +27,7 @@ const Home = ({ session }: Props) => {
   return (
     <div className="home-page">
       <Logo className="home-page-logo" iconSize={'104px'} />
-      <ProgressLoader duration={3000} />
+      <ProgressLoader />
       <span className="home-page-version">{app.version}</span>
     </div>
   );
