@@ -33,17 +33,27 @@ type OrderContentProps = {
   onCopy: (id: number, key: string, val: number) => void;
 };
 
-const OrderContent = ({
-  id,
-  amount,
-  invested,
-  total,
-  // percent,
-  copiedField,
-  isSelected,
-  onToggleSelect,
-  onCopy,
-}: OrderContentProps) => {
+const c = {
+  keyAmount: 'amount',
+  keyAVG: 'AVG',
+  keyInvested: 'invested',
+  keyTotal: 'total',
+  keyProfit: 'profit',
+};
+
+const OrderContent = (props: OrderContentProps) => {
+  const {
+    id,
+    amount,
+    invested,
+    total,
+    // percent,
+    copiedField,
+    isSelected,
+    onToggleSelect,
+    onCopy,
+  } = props;
+
   const isCopied = copiedField?.id === id;
 
   // ---
@@ -58,31 +68,31 @@ const OrderContent = ({
         <span className="trade-strategy-element">
           <span
             className={`trade-strategy-element-value ${
-              isCopied && copiedField.key === 'amount' ? 'copied' : ''
+              isCopied && copiedField.key === c.keyAmount ? 'copied' : ''
             }`}
-            onClick={() => onCopy(id, 'amount', amount)}
+            onClick={() => onCopy(id, c.keyAmount, amount)}
           >
-            {u.uniNumberFormatter(amount)}
+            {u.numberCutter(amount, 3)}
           </span>
         </span>
         <span className="trade-strategy-element">
           <span
             className={`trade-strategy-element-value ${
-              isCopied && copiedField.key === 'invested' ? 'copied' : ''
+              isCopied && copiedField.key === c.keyInvested ? 'copied' : ''
             }`}
-            onClick={() => onCopy(id, 'invested', invested)}
+            onClick={() => onCopy(id, c.keyInvested, invested)}
           >
-            {u.uniNumberFormatter(invested)}
+            {u.numberCutter(invested)}
           </span>
         </span>
         <span className="trade-strategy-element">
           <span
             className={`trade-strategy-element-value ${
-              isCopied && copiedField.key === 'total' ? 'copied' : ''
+              isCopied && copiedField.key === c.keyTotal ? 'copied' : ''
             }`}
-            onClick={() => onCopy(id, 'total', total)}
+            onClick={() => onCopy(id, c.keyTotal, total)}
           >
-            {u.uniNumberFormatter(total)}
+            {u.numberCutter(total)}
             {/* {uniNumberFormatter(8000000)} */}
           </span>
         </span>
@@ -131,19 +141,19 @@ const TradeStrategyOrderList = (props: TradeStrategyOrderListProps) => {
             <div className="trade-strategy-calculating-element-block">
               <span className="trade-strategy-calculating-element">
                 <span className="trade-strategy-calculating-element-title">
-                  {'amount'}
+                  {c.keyAmount}
                 </span>
                 <span className="trade-strategy-calculating-element-value">
-                  {u.uniNumberFormatter(totalSelectedAmount)}
+                  {u.numberCutter(totalSelectedAmount, 3)}
                   {/* {u.uniNumberFormatter(800000000)} */}
                 </span>
               </span>
               <span className="trade-strategy-calculating-element">
                 <span className="trade-strategy-calculating-element-title">
-                  {'AVG'}
+                  {c.keyAVG}
                 </span>
                 <span className="trade-strategy-calculating-element-value">
-                  {u.uniNumberFormatter(avgSelectedBuyPrice)}
+                  {u.numberCutter(avgSelectedBuyPrice, 3)}
                   {/* {u.uniNumberFormatter(800000000)} */}
                 </span>
               </span>
@@ -151,19 +161,19 @@ const TradeStrategyOrderList = (props: TradeStrategyOrderListProps) => {
             <div className="trade-strategy-calculating-element-block">
               <span className="trade-strategy-calculating-element">
                 <span className="trade-strategy-calculating-element-title">
-                  {'invested'}
+                  {c.keyInvested}
                 </span>
                 <span className="trade-strategy-calculating-element-value">
-                  {u.uniNumberFormatter(totalSelectedInvested)}
+                  {u.numberCutter(totalSelectedInvested)}
                   {/* {u.uniNumberFormatter(80000)} */}
                 </span>
               </span>
               <span className="trade-strategy-calculating-element">
                 <span className="trade-strategy-calculating-element-title">
-                  {'total'}
+                  {c.keyTotal}
                 </span>
                 <span className="trade-strategy-calculating-element-value">
-                  {u.uniNumberFormatter(totalSelectedUnrealized)}
+                  {u.numberCutter(totalSelectedUnrealized)}
                   {/* {u.uniNumberFormatter(80000)} */}
                 </span>
               </span>
@@ -171,10 +181,10 @@ const TradeStrategyOrderList = (props: TradeStrategyOrderListProps) => {
             <div className="trade-strategy-calculating-element-block">
               <span className="trade-strategy-calculating-element">
                 <span className="trade-strategy-calculating-element-title">
-                  {'profit'}
+                  {c.keyProfit}
                 </span>
                 <span className="trade-strategy-calculating-element-value">
-                  {u.uniNumberFormatter(totalSelectedProfit)}
+                  {u.numberCutter(totalSelectedProfit)}
                   {/* {u.uniNumberFormatter(80000)} */}
                 </span>
               </span>
