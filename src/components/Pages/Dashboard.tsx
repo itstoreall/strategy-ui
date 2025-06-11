@@ -46,6 +46,8 @@ const Dashboard = () => {
   const { updatedTokens, users } = useGlobalState();
   const path = useParams();
 
+  // console.log('updatedTokens:', updatedTokens);
+
   const {
     RenderModal,
     openModal,
