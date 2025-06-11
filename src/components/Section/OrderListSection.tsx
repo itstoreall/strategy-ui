@@ -14,18 +14,20 @@ type Props = {
   data: Order[];
   tokens: Token[] | null;
   userId: string | null;
+  isCustom?: boolean;
 };
 
 const config = {
   lsOrderLimitKey: 'orderListLimited',
   lsBuyTargetLimitKey: 'buyTargetListLimited',
   confirmDeletion: 'Buy Target will be deleted!',
-  buyTargets: 'Buy Targets',
+  buyTargets: 'Targets',
   buy: 'Buy',
   wait: 'Wait',
+  sell: 'Sell',
 };
 
-const OrderListSection = ({ data, tokens, userId }: Props) => {
+const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
   const isBull = data[0].type === OrderTypeEnum.Buy;
   const currentLsKey = isBull
     ? config.lsOrderLimitKey
@@ -109,6 +111,7 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
   } = useFilterAndSortOrderList({
     label: isBull ? OrderTypeEnum.Buy : OrderTypeEnum.Sell,
     aggregatedData,
+    isCustom,
     isExpanded,
     itemLimit,
   });
@@ -146,13 +149,13 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
     <>
       <MainDividerSection
         className="order-list-devider"
-        title={!isBull ? config.buyTargets : ''}
-        filterSymbol={filterSymbol}
-        handleFilterChange={isBull ? handleFilterChange : null}
+        title={!isBull ? config.buyTargets : isCustom ? 'Trading' : ''}
+        filterSymbol={!isCustom ? filterSymbol : ''}
+        handleFilterChange={isBull && !isCustom ? handleFilterChange : null}
         resetFilter={resetFilter}
         sortField={sortField}
         handleSortToggle={handleSortToggle}
-        isSwitchButton={isToggle}
+        isSwitchButton={isToggle && !isCustom}
         isDisabled={!isExpanded}
         setIsDisabled={toggleList}
       />
@@ -165,11 +168,6 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
 
               const strategyPath = `/strategy/${strategy}-${symbol}`;
               const percentValue = percent < 0 && percent > -0.09 ? 0 : percent;
-              // const signPlus = percent.toString().includes('-')
-              //   ? ''
-              //   : percent >= 0.1
-              //   ? '+'
-              //   : '';
 
               // --- Uni Value (Buy Target)
 
@@ -177,21 +175,11 @@ const OrderListSection = ({ data, tokens, userId }: Props) => {
                 (token) => token.symbol === order.symbol
               )?.price;
 
-              /*
-              const formatedBuyTargetPrice = currentBuyTargetPrice
-                ? order.symbol === 'BTC' || order.symbol === 'ETH'
-                  ? Number(
-                      u.uniNumberFormatter(currentBuyTargetPrice)
-                    ).toFixed()
-                  : u.uniNumberFormatter(currentBuyTargetPrice)
-                : config.wait;
-              */
-
               const isReachedTarget = percentValue > 0;
 
               const currentBuyTargetValue = isReachedTarget
                 ? config.buy
-                : config.wait; // : formatedBuyTargetPrice
+                : config.wait;
 
               // --- Styles
 

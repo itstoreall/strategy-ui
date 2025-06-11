@@ -2,27 +2,40 @@ import { useQuery } from '@tanstack/react-query';
 import { orderService } from '@/src/services/order.service';
 import { OrderTypeEnum, QueryKeyEnum } from '@/src/enums';
 import { OrderData, StrategyOrders } from '@/src/types';
-// import { useSession } from 'next-auth/react';
-// import { Session } from 'next-auth';
-
-// export type Orders = {
-//   buy: Order[];
-//   sell: Order[];
-// };
+import { customTokens } from '@/src/config';
+/*
+import { useSession } from 'next-auth/react';
+import { Session } from 'next-auth';
+*/
 
 const useFetchAllUserOrders = (
   userId: string | null,
   options: { enabled: boolean }
 ) => {
-  // const session = useSession();
+  /*
+  const session = useSession();
+  if (!session.data) return [];
+  */
 
-  // if (!session.data) return [];
+  const modifyData = (data: OrderData) => {
+    const categorized = data.data.reduce<StrategyOrders>(
+      (acc, item) => {
+        if (item.type === OrderTypeEnum.Buy) {
+          if (customTokens.includes(item.symbol)) {
+            acc.custom.push(item);
+          } else {
+            acc.buy.push(item);
+          }
+        } else if (item.type === OrderTypeEnum.Sell) acc.sell.push(item);
+        return acc;
+      },
+      { custom: [], buy: [], sell: [] }
+    );
 
-  // console.log(
-  //   'session:',
-  //   (session.data as Session & { currentToken: string }).currentToken
-  // );
+    return categorized;
+  };
 
+  /*
   const modifyData = (data: OrderData) => {
     const categorized = data.data.reduce<StrategyOrders>(
       (acc, item) => {
@@ -30,11 +43,12 @@ const useFetchAllUserOrders = (
         else if (item.type === OrderTypeEnum.Sell) acc.sell.push(item);
         return acc;
       },
-      { buy: [], sell: [] }
+      { custom: [], buy: [], sell: [] }
     );
 
     return categorized;
   };
+  */
 
   const {
     data: userOrders,

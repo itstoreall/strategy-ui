@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { Order, Strategy } from '@/src/types';
+import { customTokens } from '@/src/config';
 import { ExchangeEnum } from '@/src/enums';
 import * as u from '@/src/utils';
 import StrategyOrderEditMenuSection from '@/src/components/Section/StrategyOrderEditMenuSection';
@@ -31,17 +32,6 @@ const c = {
   created: 'Created',
   noOrders: 'No orders!',
 };
-
-const customTokens = [
-  'SOL',
-  'XRP',
-  'LINK',
-  'QNT',
-  'COMP',
-  'UNI',
-  'DOGE',
-  'FIL',
-];
 
 const StrategyOrderListSection = (props: Props) => {
   const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);

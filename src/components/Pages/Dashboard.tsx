@@ -205,6 +205,15 @@ const Dashboard = () => {
 
               <PricesSection tokens={updatedTokens} />
 
+              {userOrders.custom.length ? (
+                <OrderListSection
+                  data={userOrders.custom}
+                  tokens={updatedTokens}
+                  userId={userId}
+                  isCustom={true}
+                />
+              ) : null}
+
               {userOrders.buy.length ? (
                 <OrderListSection
                   data={userOrders.buy}

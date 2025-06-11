@@ -127,6 +127,7 @@ export type Strategy = {
 };
 
 export type StrategyOrders = {
+  custom: Order[];
   buy: Order[];
   sell: Order[];
 };

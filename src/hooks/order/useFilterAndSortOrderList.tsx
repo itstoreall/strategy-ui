@@ -6,11 +6,20 @@ type Props = {
   label: OrderTypeEnum;
   aggregatedData: AggregatedOrderListAcc[];
   isExpanded: boolean;
+  isCustom?: boolean;
   itemLimit: number;
 };
 
+const lsCustomListSortKey = 'customOrders';
 const lsOrderListSortKey = 'sortOrders';
 const lsBuyTargetListSortKey = 'sortBuyTargets';
+
+const initCustom = () => {
+  const savedCustomListSort = localStorage.getItem(lsCustomListSortKey);
+  return savedCustomListSort
+    ? (JSON.parse(savedCustomListSort) as SortEnum)
+    : SortEnum.Percent;
+};
 
 const initOrder = () => {
   const savedOrderListSort = localStorage.getItem(lsOrderListSortKey);
@@ -27,17 +36,27 @@ const initTarget = () => {
 };
 
 const useFilterAndSortOrderList = (props: Props) => {
-  const { label, aggregatedData, isExpanded, itemLimit } = props;
+  const { label, aggregatedData, isExpanded, isCustom, itemLimit } = props;
 
+  const [customListSort, setCustomListSort] = useState(initCustom);
   const [orderListSort, setOrderListSort] = useState(initOrder);
   const [buyTargetListSort, setBuyTargetListSort] = useState(initTarget);
   const [filterSymbol, setFilterSymbol] = useState('');
 
   const isBull = label === OrderTypeEnum.Buy;
-  const sortField = isBull ? orderListSort : buyTargetListSort;
+  const sortField =
+    isBull && isCustom
+      ? customListSort
+      : isBull && !isCustom
+      ? orderListSort
+      : buyTargetListSort;
   const isSortByPercent = sortField === SortEnum.Percent;
   const isSortBySymbol = sortField === SortEnum.Symbol;
   const isSortByDate = sortField === SortEnum.Date;
+
+  useEffect(() => {
+    localStorage.setItem(lsCustomListSortKey, JSON.stringify(customListSort));
+  }, [customListSort]);
 
   useEffect(() => {
     localStorage.setItem(lsOrderListSortKey, JSON.stringify(orderListSort));
@@ -58,7 +77,11 @@ const useFilterAndSortOrderList = (props: Props) => {
       : SortEnum.Percent;
 
     if (isBull) {
-      setOrderListSort(newSortField);
+      if (isCustom) {
+        setCustomListSort(newSortField);
+      } else {
+        setOrderListSort(newSortField);
+      }
     } else {
       setBuyTargetListSort(newSortField);
     }
@@ -88,7 +111,7 @@ const useFilterAndSortOrderList = (props: Props) => {
         return b.percent - a.percent;
       }
     })
-    .slice(0, isExpanded ? filteredData.length : itemLimit);
+    .slice(0, isExpanded || isCustom ? filteredData.length : itemLimit);
 
   return {
     displayedData,
