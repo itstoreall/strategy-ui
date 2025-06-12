@@ -169,27 +169,6 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
               const strategyPath = `/strategy/${strategy}-${symbol}`;
               const percentValue = percent < 0 && percent > -0.09 ? 0 : percent;
 
-              // --- Uni Value (Buy Target)
-
-              const currentBuyTargetPrice = tokens?.find(
-                (token) => token.symbol === order.symbol
-              )?.price;
-
-              const isReachedTarget = percentValue > 0;
-
-              const currentBuyTargetValue = isReachedTarget
-                ? config.buy
-                : config.wait;
-
-              // --- Styles
-
-              const bullColor = percent > 0 ? 'color-green' : 'color-blue';
-              const bearColor = percent > 0 ? 'color-green' : 'color-yellow';
-              const percentColor = isBull ? bullColor : bearColor;
-              const percentStyle = `row-list-item order-percent ${percentColor}`;
-              const reachedTarget = isReachedTarget ? 'color-green' : '';
-              const uniValueStyle = `uni-value ${!isBull ? reachedTarget : ''}`;
-
               const handleDisplayPercentValue = () => {
                 const _percentValue = percentValue.toFixed();
                 const percentValueToDisplay = _percentValue.includes('-')
@@ -207,6 +186,35 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
                 return `${signPlus}${percentValue.toFixed(fixNumber)}%`;
               };
 
+              // --- Uni Value (Buy Target)
+
+              const currentBuyTargetPrice = tokens?.find(
+                (token) => token.symbol === order.symbol
+              )?.price;
+
+              const isReachedTarget = percentValue > 0;
+
+              const currentBuyTargetValue = isReachedTarget
+                ? config.buy
+                : config.wait;
+
+              // --- Styles
+
+              const customStatus =
+                isCustom && percent >= 7
+                  ? 'custom-sell'
+                  : isCustom && percent <= -4
+                  ? 'custom-buy'
+                  : '';
+
+              const tokenPriceStyle = `row-list-item-token-price ${customStatus}`;
+              const bullColor = percent > 0 ? 'color-green' : 'color-blue';
+              const bearColor = percent > 0 ? 'color-green' : 'color-yellow';
+              const percentColor = isBull ? bullColor : bearColor;
+              const percentStyle = `row-list-item order-percent ${percentColor}`;
+              const reachedTarget = isReachedTarget ? 'color-green' : '';
+              const uniValueStyle = `uni-value ${!isBull ? reachedTarget : ''}`;
+
               return (
                 <li key={idx} className="section-order-list-item">
                   <Link
@@ -220,11 +228,15 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
                           {symbol}
                           {/* {'WERTFGR'} */}
                           {currentBuyTargetPrice && (
-                            <span className="row-list-item-token-price">
+                            <span className={tokenPriceStyle}>
                               {u.numberCutter(currentBuyTargetPrice, 3)}
                             </span>
                           )}
                         </span>
+
+                        {/* {isCustomStatus && (
+                          <span className={customStatusStyle} />
+                        )} */}
                       </li>
 
                       <li className="row-list-item uni-value-field">
