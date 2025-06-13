@@ -6,12 +6,11 @@ type Props = {
   tokens: Token[] | null;
 };
 
-const set1 = [{ symbols: ['BTC', 'ETH'] }, { symbols: ['SOL', 'DOGE'] }];
-const set2 = [{ symbols: ['XRP', 'SUI'] }, { symbols: ['ONDO', 'LINK'] }];
-const set3 = [{ symbols: ['UNI', 'ORDI'] }, { symbols: ['TON', 'W'] }];
-const set4 = [{ symbols: ['ARB', 'OP'] }, { symbols: ['APT', 'STRK'] }];
-// const set5 = [{ symbols: ['UNI', 'FIL'] }, { symbols: ['LINK', 'ORDI'] }];
-// const set6 = [{ symbols: ['NEAR', 'LINK'] }, { symbols: ['DOT', 'WLD'] }];
+const set1 = [{ symbols: ['BTC', 'ETH'] }, { symbols: ['SUI', 'ONDO'] }];
+const set2 = [{ symbols: ['OP', 'TON'] }, { symbols: ['W', 'CETUS'] }];
+/*
+const set3 = [{ symbols: ['ARB', 'OP'] }, { symbols: ['APT', 'STRK'] }];
+*/
 
 const PricesSection = ({ tokens }: Props) => {
   const handlePriceDisplay = (symbol: string, price: number | null) => {
@@ -57,10 +56,7 @@ const PricesSection = ({ tokens }: Props) => {
       <div className="section-content token-prices">
         <PriceList tokenSet={set1} />
         <PriceList tokenSet={set2} />
-        <PriceList tokenSet={set3} />
-        <PriceList tokenSet={set4} />
-        {/* <PriceList tokenSet={set5} /> */}
-        {/* <PriceList tokenSet={set6} /> */}
+        {/* <PriceList tokenSet={set3} /> */}
       </div>
     </section>
   );

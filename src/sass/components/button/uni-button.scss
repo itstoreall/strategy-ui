@@ -278,8 +278,8 @@ button.uni-button {
     justify-content: center;
     align-items: center;
     padding: 0;
-    min-width: 65px;
-    max-width: 65px;
+    min-width: 45px;
+    max-width: 45px;
     height: 20px;
     background-color: transparent;
     border: 0.08rem solid $greyDeepDark;
@@ -290,7 +290,7 @@ button.uni-button {
       > span:first-child {
         position: absolute;
         top: 0;
-        right: 75px;
+        right: 52px;
         padding: 4px 0 4px 0.6rem;
         font-size: 0.6rem;
         font-weight: 600;
@@ -304,6 +304,7 @@ button.uni-button {
         font-size: 0.6rem;
         color: $greyDark;
         transition: $ease03s;
+        text-transform: uppercase;
 
         @include media-screen-orientation('min', $mobile + 200) {
           padding-bottom: 1px;

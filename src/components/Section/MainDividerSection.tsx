@@ -36,6 +36,9 @@ const c = {
   placeholderExchange: 'Exchange',
   selectFieldExchange: 'exchange',
   filterPlaceholder: 'Filter...',
+  percent: 'perc',
+  date: 'date',
+  symbol: 'symb',
 };
 
 const MainDividerSection = (props: Props) => {
@@ -78,10 +81,10 @@ const MainDividerSection = (props: Props) => {
 
   const nextSortValue =
     sortField === SortEnum.Percent
-      ? SortEnum.Date
+      ? c.date
       : sortField === SortEnum.Date
-      ? SortEnum.Symbol
-      : SortEnum.Percent;
+      ? c.symbol
+      : c.percent;
 
   // ---
 
