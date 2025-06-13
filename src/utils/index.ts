@@ -2,7 +2,14 @@ import { Order, TradeStrategy } from '@/src/types';
 
 type TrimAddress = (address: string, start: number, end: number) => string;
 
-type Format = 'DD-MM-YY' | 'MM-YY' | 'YY' | 'MM' | 'DD;' | 'DD-MM-YY HH:mm:ss';
+type Format =
+  | 'DD-MM-YY'
+  | 'MM-YY'
+  | 'YY'
+  | 'MM'
+  | 'DD;'
+  | 'DD-MM-YY HH:mm'
+  | 'DD-MM-YY HH:mm:ss';
 
 export const c = {
   tradeStrategyKey: 'tradeStrategy',
@@ -15,13 +22,16 @@ export const normalizeISODate = (date: number | Date, format?: Format) => {
   const splitDate = isoString.split('T')[0];
   const [year, month, day] = splitDate.split('-');
   const time = isoString.split('T')[1].split('.')[0];
+  const timeParts = time.split(':');
 
   return format === 'DD-MM-YY'
     ? `${day}-${month}-${year}`
     : format === 'MM-YY'
     ? `${month}-${year}`
+    : format === 'DD-MM-YY HH:mm'
+    ? `${day}-${month}-${year} (${timeParts[0]}:${timeParts[1]})`
     : format === 'DD-MM-YY HH:mm:ss'
-    ? `${day}-${month}-${year} ${time}`
+    ? `${day}-${month}-${year} (${time})`
     : newDate.toISOString();
 };
 
@@ -181,7 +191,7 @@ export const calculateAVGPrice = (orders: Order[]) => {
 
 // --- %
 
-type Percent = 1 | 0.1;
+type Percent = 1 | 0.1 | 0.04 | 0.07 | 0.08;
 
 export const plusPercent = (val: number, percent: Percent = 1) => {
   return val * (1 + percent);

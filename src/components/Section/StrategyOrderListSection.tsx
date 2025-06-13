@@ -16,8 +16,10 @@ type Props = {
 };
 
 const c = {
-  customBuyTargetPercent: 4,
-  customSuccessPercent: 7,
+  eightPercent: 8,
+  fourPercent: 4,
+  sevenPercent: 7,
+  tenPercent: 10,
   success: 'success',
   positiveValue: 'positiveValue',
   negativeValue: 'negativeValue',
@@ -45,6 +47,8 @@ const StrategyOrderListSection = (props: Props) => {
     handleFilterExchange,
   } = props;
 
+  const isCustomToken = customTokens.includes(filteredOrders[0]?.symbol);
+
   useEffect(() => {
     const filteredOrders = filterExchange
       ? filterExchange !== ExchangeEnum.All
@@ -71,18 +75,42 @@ const StrategyOrderListSection = (props: Props) => {
       ? `$${calculatedProfit.toFixed(2)}`
       : `${calculatedProfit.toFixed(2)} ($)`;
 
-    const LimitOrderPrice = u.plusPercent(order.price, 0.1);
+    // --- Plus Percent
+
+    const plusSevenPercentPrice = u.plusPercent(order.price, 0.07);
+    const plusSevenFormatted = u.numberCutter(plusSevenPercentPrice, 3);
+    const plusSevenPercent = `${c.sevenPercent}: ${plusSevenFormatted}`;
+
+    const plusTenPercentPrice = u.plusPercent(order.price, 0.1);
+    const pluseTenFormatted = u.numberCutter(plusTenPercentPrice, 3);
+    const plusTenPercent = `${c.tenPercent}: ${pluseTenFormatted}`;
+
+    // --- Minus Percent
+
+    const minusFourPercentPrice = u.minusPercent(order.price, 0.04);
+    const minusFourFormatted = u.numberCutter(minusFourPercentPrice, 3);
+    const minusFourPercent = `${c.fourPercent}: ${minusFourFormatted}`;
+
+    const minusEightPercentPrice = u.minusPercent(order.price, 0.08);
+    const minusEightFormatted = u.numberCutter(minusEightPercentPrice, 3);
+    const minusEightPercent = `${c.eightPercent}: ${minusEightFormatted}`;
+
+    const minusTenPercentPrice = u.minusPercent(order.price, 0.1);
+    const minusTenFormatted = u.numberCutter(minusTenPercentPrice, 3);
+    const minusTenPercent = `${c.tenPercent}: ${minusTenFormatted}`;
 
     alert(`
-      ${c.id}: ${order.id}
-      ${c.price}: $${order.price} (+10% = ${u.numberCutter(LimitOrderPrice, 3)})
-      ${c.amount}: ${order.amount}
-      ${c.invested}: $${order.fiat}
-      ${isProfit ? c.profit : c.losses}: ${profitValue}
-      ${c.exchange}: ${order.exchange}
-      ${c.created}: ${u.normalizeISODate(order.createdAt, 'DD-MM-YY')}
+      ${c.id}: ${order.id} - ${order.exchange}
+      ${c.amount}: ${order.amount} ${sortedOrders[0]?.symbol}
+      ${c.price}: $${order.price}
+      Total: $${order.fiat} ~ ${isProfit ? c.profit : c.losses}: ${profitValue}
+      Buy: [-${minusFourPercent}] [-${minusEightPercent}] [-${minusTenPercent}]
+      Sell: [+${plusSevenPercent}] [+${plusTenPercent}]
+      ${c.created}: ${u.normalizeISODate(order.createdAt, 'DD-MM-YY HH:mm')}
       `);
   };
+
+  // console.log('filteredOrders:', filteredOrders[0].symbol);
 
   return (
     <section className="section strategy-order-list">
@@ -92,12 +120,10 @@ const StrategyOrderListSection = (props: Props) => {
             {filteredOrders.map((order: Order) => {
               const { id, price, amount } = order;
 
-              const sellPercent = customTokens.includes(order.symbol)
-                ? c.customSuccessPercent
+              const sellPercent = isCustomToken
+                ? c.sevenPercent
                 : strategy.target;
-              const buyPercent = customTokens.includes(order.symbol)
-                ? -c.customBuyTargetPercent
-                : -50;
+              const buyPercent = isCustomToken ? -c.fourPercent : -50;
 
               const _percent = ((currentPrice - price) / price) * 100;
               const percent = _percent < 0 && _percent > -0.09 ? 0 : _percent;
@@ -171,7 +197,7 @@ const StrategyOrderListSection = (props: Props) => {
                     <li className="row-strategy-list-item order-amount">
                       {/* <span>{u.formatMillionAmount('234567035')}</span> */}
                       {/* <span>{u.formatMillionAmount(amount.toString())}</span> */}
-                      <span>{u.numberCutter(amount)}</span>
+                      <span>{u.numberCutter(amount, 3)}</span>
                     </li>
 
                     <li className="row-strategy-list-item order-price">
