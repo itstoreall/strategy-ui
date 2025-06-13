@@ -27,11 +27,13 @@ const c = {
   id: 'ID',
   price: 'Price',
   amount: 'Amount',
-  invested: 'Invested',
+  total: 'Total',
   profit: 'Profit',
   losses: 'Losses',
   exchange: 'Exchange',
   created: 'Created',
+  buy: 'Buy',
+  sell: 'Sell',
   noOrders: 'No orders!',
 };
 
@@ -65,12 +67,15 @@ const StrategyOrderListSection = (props: Props) => {
   }, [sortedOrders]);
 
   // --- Details
+
   const showDetails = (order: Order) => {
-    if (isEditMenu) {
-      return;
-    }
+    if (isEditMenu) return;
+
+    // --- Profit
+
     const calculatedProfit = currentPrice * order.amount - order.fiat;
     const isProfit = calculatedProfit > 0;
+    const profitLabel = isProfit ? c.profit : c.losses;
     const profitValue = isProfit
       ? `$${calculatedProfit.toFixed(2)}`
       : `${calculatedProfit.toFixed(2)} ($)`;
@@ -91,9 +96,11 @@ const StrategyOrderListSection = (props: Props) => {
     const minusFourFormatted = u.numberCutter(minusFourPercentPrice, 3);
     const minusFourPercent = `${c.fourPercent}: ${minusFourFormatted}`;
 
+    /*
     const minusEightPercentPrice = u.minusPercent(order.price, 0.08);
     const minusEightFormatted = u.numberCutter(minusEightPercentPrice, 3);
     const minusEightPercent = `${c.eightPercent}: ${minusEightFormatted}`;
+    */
 
     const minusTenPercentPrice = u.minusPercent(order.price, 0.1);
     const minusTenFormatted = u.numberCutter(minusTenPercentPrice, 3);
@@ -103,10 +110,11 @@ const StrategyOrderListSection = (props: Props) => {
       ${c.id}: ${order.id} - ${order.exchange}
       ${c.amount}: ${order.amount} ${sortedOrders[0]?.symbol}
       ${c.price}: $${order.price}
-      Total: $${order.fiat} ~ ${isProfit ? c.profit : c.losses}: ${profitValue}
-      Buy: [-${minusFourPercent}] [-${minusEightPercent}] [-${minusTenPercent}]
-      Sell: [+${plusSevenPercent}] [+${plusTenPercent}]
+      ${c.total}: $${order.fiat} ~ ${profitLabel}: ${profitValue}
       ${c.created}: ${u.normalizeISODate(order.createdAt, 'DD-MM-YY HH:mm')}
+
+      ${c.buy}: [-${minusFourPercent}] [-${minusTenPercent}]
+      ${c.sell}: [+${plusSevenPercent}] [+${plusTenPercent}]
       `);
   };
 
