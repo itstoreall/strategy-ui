@@ -10,7 +10,7 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const config = {
-  appVersion: 'v1.5.6',
+  appVersion: 'v1.5.7',
   dashboardPath: '/dashboard',
   strategyPath: '/strategy/',
   fetchTokens: 'Fetch was successful:',
@@ -76,7 +76,8 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
 
   useEffect(() => {
     const init = 5000;
-    const cron = 60000;
+    // const cron = 60000;
+    const cron = 120000;
     const delay = count < 3 ? init : cron;
     const timeoutId = setTimeout(() => {
       if (isDashboard || isStrategy) {
