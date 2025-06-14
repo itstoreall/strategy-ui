@@ -14,7 +14,9 @@ const InfoTextLinkBlock = (props: Props) => {
     <div className={`info-text-link-block ${className}`}>
       <p>
         {text ?? ''}
-        <Link href={url}>{linkTitle}</Link>
+        <Link href={url} prefetch={false}>
+          {linkTitle}
+        </Link>
       </p>
     </div>
   );

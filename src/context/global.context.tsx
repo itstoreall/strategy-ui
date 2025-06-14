@@ -10,7 +10,7 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const config = {
-  appVersion: 'v1.5.9',
+  appVersion: 'v1.5.10',
   dashboardPath: '/dashboard',
   strategyPath: '/strategy/',
   fetchTokens: 'Fetch was successful:',
@@ -76,7 +76,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
 
   useEffect(() => {
     if (window.location.hostname === 'localhost') return;
-    console.log('cron:', window.location.hostname, `(${count})`);
+    console.log('cron:', count);
 
     const init = 5000;
     // const cron = 60000;

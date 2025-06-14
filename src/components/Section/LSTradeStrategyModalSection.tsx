@@ -70,6 +70,7 @@ const LSTradeStrategyModalSection = (props: Props) => {
               <Link
                 className={'ls-trade-strategy-modal-section-list-item-link'}
                 href={strategyPath}
+                prefetch={false}
                 onClick={handleLinkClick}
               />
               <span className="ls-trade-strategy-modal-section-token-symbol">

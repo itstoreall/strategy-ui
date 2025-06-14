@@ -68,7 +68,12 @@ const Navigation: React.FC<Props> = ({ session, className }) => {
             {linkItem}
           </span>
         ) : (
-          <Link key={label} href={href} className={`link ${linkStyle}`}>
+          <Link
+            key={label}
+            href={href}
+            className={`link ${linkStyle}`}
+            prefetch={false}
+          >
             {linkItem}
           </Link>
         );

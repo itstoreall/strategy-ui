@@ -16,7 +16,7 @@ const Logo = ({ className, iconSize = '20.8px' }: Props) => {
   return (
     <div className={`logo-block ${className}`}>
       <IoIosPaw size={iconSize} />
-      <Link href={'/'}>
+      <Link href={'/'} prefetch={false}>
         <Title text="strategy" className={className} />
         {isHomePage && <span className="logo-pwa">PWA</span>}
       </Link>
