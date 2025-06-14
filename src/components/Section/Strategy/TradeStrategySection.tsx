@@ -7,8 +7,8 @@ import useModal from '@/src/hooks/useModal';
 import { ExchangeEnum, OrderTypeEnum, QueryKeyEnum } from '@/src/enums';
 import * as t from '@/src/types';
 import * as u from '@/src/utils';
-import TradeStrategyModalContent from '@/src/components/Section/Strategy/TradeStrategyModalContent';
-import TradeStrategyOrderList from '@/src/components/Section/Strategy/TradeStrategyOrderList';
+import TradeStrategyModalContentSection from '@/src/components/Section/Strategy/TradeStrategyModalContentSection';
+import TradeStrategyOrderListSection from '@/src/components/Section/Strategy/TradeStrategyOrderListSection';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
 import useCreateOrder from '@/src/hooks/order/useCreateOrder';
 
@@ -388,9 +388,10 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
         subTitle={calculateStrategyPercent()}
         */
       />
+
       <section className="section trade-strategy">
         <div className="section-content trade-strategy">
-          <TradeStrategyOrderList
+          <TradeStrategyOrderListSection
             token={token}
             orderSet={orders}
             totalSelectedAmount={totalSelectedAmount}
@@ -411,7 +412,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
 
       {isStrategyModal && (
         <RenderModal>
-          <TradeStrategyModalContent
+          <TradeStrategyModalContentSection
             strategyHistory={strategyHistory}
             storedStrategy={storedStrategy}
             updateStrategyHistory={updateStrategyHistory}

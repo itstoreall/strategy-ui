@@ -83,6 +83,19 @@
     }
   }
 
+  &.ORDER_DETAILS {
+    > div.modal {
+      width: auto;
+
+      // /*
+      > div.strategy-order-details-modal-content {
+        background-color: tomato;
+        // --- LSTradeStrategyModalSection is here!
+      }
+      // */
+    }
+  }
+
   // --- Add new custom modal here:
 }
 

@@ -12,6 +12,7 @@ export type ModalContextProps = {
   isFormModal: boolean;
   isStrategyModal: boolean;
   isLSStrategyDataModal: boolean;
+  isStrategyOrderDetails: boolean;
 };
 
 export type CloseButtonProps = { closeModal: () => void };

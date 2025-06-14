@@ -110,7 +110,7 @@ const OrderContent = (props: OrderContentProps) => {
   );
 };
 
-const TradeStrategyOrderList = (props: TradeStrategyOrderListProps) => {
+const TradeStrategyOrderListSection = (props: TradeStrategyOrderListProps) => {
   const {
     token,
     orderSet,
@@ -244,4 +244,4 @@ const TradeStrategyOrderList = (props: TradeStrategyOrderListProps) => {
   );
 };
 
-export default TradeStrategyOrderList;
+export default TradeStrategyOrderListSection;

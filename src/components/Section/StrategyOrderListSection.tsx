@@ -1,9 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
+/*
+import useModal from '@/src/hooks/useModal';
+// */
 import { Order, Strategy } from '@/src/types';
 import { customTokens } from '@/src/config';
 import { ExchangeEnum } from '@/src/enums';
 import * as u from '@/src/utils';
+/*
+import StrategyOrderDetailsSection from '@/src/components/Section/Strategy/StrategyOrderDetailsSection';
+// */
 import StrategyOrderEditMenuSection from '@/src/components/Section/StrategyOrderEditMenuSection';
 
 type Props = {
@@ -39,6 +45,9 @@ const c = {
 
 const StrategyOrderListSection = (props: Props) => {
   const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
+  /*
+  const [orderDetails, setOrderDetails] = useState<Order | null>(null);
+  */
 
   const {
     sortedOrders,
@@ -48,6 +57,11 @@ const StrategyOrderListSection = (props: Props) => {
     isEditMenu,
     handleFilterExchange,
   } = props;
+
+  /*
+  const { RenderModal, openModal, ModalContentEnum, isStrategyOrderDetails } =
+    useModal();
+  // */
 
   const isCustomToken = customTokens.includes(filteredOrders[0]?.symbol);
 
@@ -68,6 +82,15 @@ const StrategyOrderListSection = (props: Props) => {
 
   // --- Details
 
+  /*
+  const handleModal = (order: Order) => {
+    if (isEditMenu) return;
+    setOrderDetails(order);
+    openModal(ModalContentEnum.OrderDetails);
+  };
+  // */
+
+  // /*
   const showDetails = (order: Order) => {
     if (isEditMenu) return;
 
@@ -96,11 +119,9 @@ const StrategyOrderListSection = (props: Props) => {
     const minusFourFormatted = u.numberCutter(minusFourPercentPrice, 3);
     const minusFourPercent = `${c.fourPercent}: ${minusFourFormatted}`;
 
-    /*
-    const minusEightPercentPrice = u.minusPercent(order.price, 0.08);
-    const minusEightFormatted = u.numberCutter(minusEightPercentPrice, 3);
-    const minusEightPercent = `${c.eightPercent}: ${minusEightFormatted}`;
-    */
+    // const minusEightPercentPrice = u.minusPercent(order.price, 0.08);
+    // const minusEightFormatted = u.numberCutter(minusEightPercentPrice, 3);
+    // const minusEightPercent = `${c.eightPercent}: ${minusEightFormatted}`;
 
     const minusTenPercentPrice = u.minusPercent(order.price, 0.1);
     const minusTenFormatted = u.numberCutter(minusTenPercentPrice, 3);
@@ -117,6 +138,7 @@ const StrategyOrderListSection = (props: Props) => {
       ${c.sell}: [+${plusSevenPercent}] [+${plusTenPercent}]
       `);
   };
+  // */
 
   // console.log('filteredOrders:', filteredOrders[0].symbol);
 
@@ -200,6 +222,7 @@ const StrategyOrderListSection = (props: Props) => {
                   key={id}
                   className={`section-strategy-order-list-item  ${orderItemStyle}`}
                   onClick={() => showDetails(order)}
+                  // onClick={() => handleModal(order)}
                 >
                   <ul className="section-strategy-order-list-item-row-list">
                     <li className="row-strategy-list-item order-amount">
@@ -237,6 +260,16 @@ const StrategyOrderListSection = (props: Props) => {
           <span>{c.noOrders}</span>
         )}
       </div>
+
+      {/* {orderDetails && isStrategyOrderDetails && (
+        <RenderModal>
+          <StrategyOrderDetailsSection
+            order={orderDetails}
+            currentPrice={currentPrice}
+            c={c}
+          />
+        </RenderModal>
+      )} */}
     </section>
   );
 };

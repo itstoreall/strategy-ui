@@ -94,6 +94,7 @@ export enum ModalContentEnum {
   Form = 'FORM',
   Strategy = 'STRATEGY',
   LSStrategyData = 'LS_STRATEGY_DATA',
+  OrderDetails = 'ORDER_DETAILS',
 }
 
 // ------ :

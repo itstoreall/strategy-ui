@@ -14,6 +14,7 @@ import useModal from '@/src/hooks/useModal';
 import * as enm from '@/src/enums';
 import * as t from '@/src/types';
 import * as u from '@/src/utils';
+import GradientProgressLoader from '@/src/assets/animation/GradientProgressLoader';
 import StrategyOrderListSection from '@/src/components/Section/StrategyOrderListSection';
 import StrategySnapshotSection from '@/src/components/Section/StrategySnapshotSection';
 import TradeStrategySection from '@/src/components/Section/Strategy/TradeStrategySection';
@@ -24,7 +25,6 @@ import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import MainLoader from '@/src/components/MainLoader';
 import DotsLoader from '@/src/components/DotsLoader';
-import GradientProgressLoader from '@/src/assets/animation/GradientProgressLoader';
 /*
 import Button from '@/src/components/Button/Button';
 // */

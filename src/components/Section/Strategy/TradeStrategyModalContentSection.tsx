@@ -26,7 +26,7 @@ const c = {
   targetButtonText: 'Create Target -10%',
 };
 
-const TradeStrategyModalContent = (props: Props) => {
+const TradeStrategyModalContentSection = (props: Props) => {
   const [amount, setAmount] = useState('');
   const [buyPrice, setBuyPrice] = useState('');
   const [sellPrice, setSellPrice] = useState('');
@@ -187,4 +187,4 @@ const TradeStrategyModalContent = (props: Props) => {
   );
 };
 
-export default TradeStrategyModalContent;
+export default TradeStrategyModalContentSection;
