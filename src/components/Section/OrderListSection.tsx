@@ -220,6 +220,7 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
                   <Link
                     className={`${isAdmin ? 'admin-link' : ''}`}
                     href={isAdmin && isBull ? strategyPath : '/dashboard'}
+                    prefetch={false}
                     onClick={() => removeBuyTarget(order.symbol, order.id)}
                   >
                     <ul className="section-order-list-item-row-list">
