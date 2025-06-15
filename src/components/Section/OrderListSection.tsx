@@ -188,7 +188,7 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
 
               // --- Uni Value (Buy Target)
 
-              const currentBuyTargetPrice = tokens?.find(
+              const currentTargetPrice = tokens?.find(
                 (token) => token.symbol === order.symbol
               )?.price;
 
@@ -215,6 +215,24 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
               const reachedTarget = isReachedTarget ? 'color-green' : '';
               const uniValueStyle = `uni-value ${!isBull ? reachedTarget : ''}`;
 
+              // const handleTokenPrice = (
+              //   symbol: string,
+              //   price: number | string
+              // ) => {
+              //   const isFixedZero = symbol === 'BTC' || symbol === 'ETH';
+              //   const numericPrice =
+              //     typeof price === 'number' ? price : Number(price);
+
+              //   // console.log('numericPrice:', price, numericPrice);
+
+              //   const tokenPriceValue = price
+              //     ? isFixedZero
+              //       ? numericPrice.toFixed()
+              //       : u.numberCutter(numericPrice, 3)
+              //     : numericPrice;
+              //   return tokenPriceValue;
+              // };
+
               return (
                 <li key={idx} className="section-order-list-item">
                   <Link
@@ -228,9 +246,10 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
                         <span className="row-list-item-token-symbol">
                           {symbol}
                           {/* {'WERTFGR'} */}
-                          {currentBuyTargetPrice && (
+                          {currentTargetPrice && (
                             <span className={tokenPriceStyle}>
-                              {u.numberCutter(currentBuyTargetPrice, 3)}
+                              {u.handlePriceDisplay(symbol, currentTargetPrice)}
+                              {/* {u.numberCutter(currentBuyTargetPrice, 3)} */}
                             </span>
                           )}
                         </span>

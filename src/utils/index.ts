@@ -90,17 +90,6 @@ export const normalizeKyivDate = (date: number | Date, format?: Format) => {
   }
 };
 
-export const copyToClipboard = async (value: string = '') => {
-  await navigator.clipboard.writeText(value);
-};
-
-export const trimString: TrimAddress = (str, start, end) => {
-  if (!str || start < 0 || end < 0) return str;
-  return Math.min(start + end, str.length) < str.length
-    ? `${str.slice(0, start)}...${str.slice(-end)}`
-    : str;
-};
-
 export const formatBillionAmount = (amount: string): string => {
   if (Number(amount) < 1_000_000_000) return amount;
   // return `${(Number(amount) / 1_000_000).toFixed(3)}M`;
@@ -177,6 +166,28 @@ export const numberCutter = (val: string | number, cut: number = 2) => {
 };
 
 // ---
+
+export const handlePriceDisplay = (symbol: string, price: number | string) => {
+  const isFixedZero = symbol === 'BTC' || symbol === 'ETH';
+  const numericPrice = typeof price === 'number' ? price : Number(price);
+  const tokenPriceValue = price
+    ? isFixedZero
+      ? numericPrice.toFixed()
+      : numberCutter(numericPrice, 3)
+    : numericPrice;
+  return tokenPriceValue;
+};
+
+export const copyToClipboard = async (value: string = '') => {
+  await navigator.clipboard.writeText(value);
+};
+
+export const trimString: TrimAddress = (str, start, end) => {
+  if (!str || start < 0 || end < 0) return str;
+  return Math.min(start + end, str.length) < str.length
+    ? `${str.slice(0, start)}...${str.slice(-end)}`
+    : str;
+};
 
 export const calculateAVGPrice = (orders: Order[]) => {
   if (!orders?.length) return 0;

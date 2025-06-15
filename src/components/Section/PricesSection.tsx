@@ -1,6 +1,6 @@
 // import useModal from '@/src/hooks/useModal';
 import { Token } from '@/src/types';
-import { uniNumberFormatter } from '@/src/utils';
+import * as u from '@/src/utils';
 
 type Props = {
   tokens: Token[] | null;
@@ -11,18 +11,6 @@ const set2 = [{ symbols: ['ENA', 'ONDO'] }, { symbols: ['TON', 'SEI'] }];
 const set3 = [{ symbols: ['AXL', 'W'] }, { symbols: ['RAY', 'PEPE'] }];
 
 const PricesSection = ({ tokens }: Props) => {
-  const handlePriceDisplay = (symbol: string, price: number | null) => {
-    const isFixedZero = symbol === 'BTC' || symbol === 'ETH';
-    const tokenPriceValue = price
-      ? isFixedZero
-        ? Number(price).toFixed()
-        : uniNumberFormatter(price)
-      : price;
-    return tokenPriceValue;
-  };
-
-  // ---
-
   const ItemContent = ({ symbol }: { symbol: string }) => {
     const tokenPrice = tokens
       ? tokens.find((token) => token.symbol === symbol)?.price ?? 0
@@ -31,7 +19,7 @@ const PricesSection = ({ tokens }: Props) => {
     return (
       <span className="section-token-price-list-item-content">
         <span>{`${symbol}:`}</span>
-        <span>{handlePriceDisplay(symbol, tokenPrice)}</span>
+        <span>{u.handlePriceDisplay(symbol, tokenPrice)}</span>
       </span>
     );
   };

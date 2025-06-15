@@ -70,7 +70,11 @@ section.order-list {
 
             > li.row-list-item {
               width: 100%;
-              font-size: 0.9rem;
+              font-size: 0.8rem;
+
+              @include media-screen-orientation('min', $mobile) {
+                font-size: 0.9rem;
+              }
 
               @include media-screen-orientation('min', $tablet) {
                 font-size: 1rem;
