@@ -16,7 +16,7 @@ export const c = {
 };
 
 export const normalizeISODate = (date: number | Date, format?: Format) => {
-  if (!date) return date;
+  if (!date) return '';
   const newDate = new Date(date);
   const isoString = newDate.toISOString();
   const splitDate = isoString.split('T')[0];
@@ -29,9 +29,9 @@ export const normalizeISODate = (date: number | Date, format?: Format) => {
     : format === 'MM-YY'
     ? `${month}-${year}`
     : format === 'DD-MM-YY HH:mm'
-    ? `${day}-${month}-${year} (${timeParts[0]}:${timeParts[1]})`
+    ? `${day}-${month}-${year} ${timeParts[0]}:${timeParts[1]}`
     : format === 'DD-MM-YY HH:mm:ss'
-    ? `${day}-${month}-${year} (${time})`
+    ? `${day}-${month}-${year} ${time}`
     : newDate.toISOString();
 };
 

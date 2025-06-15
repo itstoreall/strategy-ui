@@ -85,12 +85,15 @@
 
   &.ORDER_DETAILS {
     > div.modal {
-      width: auto;
+      // width: auto;
 
       // /*
       > div.strategy-order-details-modal-content {
-        background-color: tomato;
-        // --- LSTradeStrategyModalSection is here!
+        width: 100%;
+        min-width: 240px;
+        max-width: 280px;
+        // background-color: tomato;
+        // --- StrategyOrderDetailsSection is here!
       }
       // */
     }

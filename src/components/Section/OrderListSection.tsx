@@ -17,11 +17,13 @@ type Props = {
   isCustom?: boolean;
 };
 
-const config = {
+const c = {
   lsOrderLimitKey: 'orderListLimited',
   lsBuyTargetLimitKey: 'buyTargetListLimited',
   confirmDeletion: 'Buy Target will be deleted!',
   buyTargets: 'Targets',
+  fourPercent: 4,
+  sevenPercent: 7,
   buy: 'Buy',
   wait: 'Wait',
   sell: 'Sell',
@@ -29,9 +31,7 @@ const config = {
 
 const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
   const isBull = data[0].type === OrderTypeEnum.Buy;
-  const currentLsKey = isBull
-    ? config.lsOrderLimitKey
-    : config.lsBuyTargetLimitKey;
+  const currentLsKey = isBull ? c.lsOrderLimitKey : c.lsBuyTargetLimitKey;
 
   const [isExpanded, setIsExpanded] = useState<boolean>(() => {
     const savedState = localStorage.getItem(currentLsKey);
@@ -136,7 +136,7 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
 
   const removeBuyTarget = async (symbol: string, id: number) => {
     if (isBull) return;
-    if (!confirm(`(${symbol}) ${config.confirmDeletion}`)) return;
+    if (!confirm(`(${symbol}) ${c.confirmDeletion}`)) return;
     const isDeleted = await deleteOrder(id);
     if (isDeleted) {
       updateData([QueryKeyEnum.UserOrders, QueryKeyEnum.UserStrategyOrders]);
@@ -168,12 +168,10 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
       return `${signPlus}${percentValue.toFixed(fixNumber)}%`;
     };
 
-    // --- Uni Value (Buy Target)
+    // --- Uni Value (BuyTarget)
 
     const isReachedTarget = percentValue > 0;
-
-    const currentBuyTargetValue = isReachedTarget ? config.buy : config.wait;
-
+    const currentBuyTargetValue = isReachedTarget ? c.buy : c.wait;
     const currentTargetPrice = tokens?.find(
       (token) => token.symbol === symbol
     )?.price;
@@ -181,9 +179,9 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
     // --- Styles
 
     const customStatus =
-      isCustom && order.percent >= 7
+      isCustom && order.percent >= c.sevenPercent
         ? 'custom-sell'
-        : isCustom && order.percent <= -4
+        : isCustom && order.percent <= -c.fourPercent
         ? 'custom-buy'
         : '';
 
@@ -256,7 +254,7 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
     <>
       <MainDividerSection
         className="order-list-devider"
-        title={!isBull ? config.buyTargets : isCustom ? 'Trading' : ''}
+        title={!isBull ? c.buyTargets : isCustom ? 'Trading' : ''}
         filterSymbol={!isCustom ? filterSymbol : ''}
         handleFilterChange={isBull && !isCustom ? handleFilterChange : null}
         resetFilter={resetFilter}

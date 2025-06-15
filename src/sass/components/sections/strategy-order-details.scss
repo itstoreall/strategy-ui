@@ -1,0 +1,67 @@
+@use '@/src/sass/base/vars' as *;
+@use '@/src/sass/mixins' as *;
+
+$mainColor: $greyDeepDark;
+
+// General
+section.section.strategy-order-details {
+  // width: 100%;
+  background-color: transparent;
+  // min-height: 1rem;
+  // background-color: $greyDeepDarkPlus;
+  // background-color: $blackMiddle;
+  // background-color: palevioletred;
+}
+
+// Custom
+section.strategy-order-details {
+  > div.section-content.strategy-order-details {
+    // background-color: teal;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+
+    > ul {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      &.strategy-order-details-info-list {
+        // margin: 0 -0.7rem -0.7rem;
+        // background-color: $smokeBlue;
+
+        > li.strategy-order-details-info-list-item {
+          display: flex;
+          justify-content: space-between;
+          // background-color: slateblue;
+
+          &:nth-child(1) {
+            margin-bottom: 1rem;
+          }
+        }
+      }
+
+      &.strategy-order-details-prices-list {
+        // display: grid;
+        // margin: 0 -0.7rem -0.7rem;
+
+        > li.strategy-order-details-prices-list-item {
+          display: flex;
+          justify-content: space-between;
+          // background-color: slateblue;
+
+          &:nth-child(2) {
+            margin-bottom: 1rem;
+          }
+        }
+      }
+    }
+  }
+
+  /*
+  @include media-screen-orientation('max', $mobile + 199.9) {}
+  @include media-screen-orientation('max', $tablet - 0.1) {}
+  @include media-screen-orientation('min', $mobile + 200) {}
+  @include media-screen-orientation('min', $tablet) {}
+  */
+}

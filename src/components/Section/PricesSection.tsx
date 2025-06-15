@@ -19,7 +19,7 @@ const PricesSection = ({ tokens }: Props) => {
     return (
       <span className="section-token-price-list-item-content">
         <span>{`${symbol}:`}</span>
-        <span>{u.handlePriceDisplay(symbol, tokenPrice, 3)}</span>
+        <span>{u.handlePriceDisplay(symbol, tokenPrice)}</span>
       </span>
     );
   };
