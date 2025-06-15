@@ -167,13 +167,17 @@ export const numberCutter = (val: string | number, cut: number = 2) => {
 
 // ---
 
-export const handlePriceDisplay = (symbol: string, price: number | string) => {
+export const handlePriceDisplay = (
+  symbol: string,
+  price: number | string,
+  cut: 2 | 3 = 2
+) => {
   const isFixedZero = symbol === 'BTC' || symbol === 'ETH';
   const numericPrice = typeof price === 'number' ? price : Number(price);
   const tokenPriceValue = price
     ? isFixedZero
       ? numericPrice.toFixed()
-      : numberCutter(numericPrice, 3)
+      : numberCutter(numericPrice, cut)
     : numericPrice;
   return tokenPriceValue;
 };

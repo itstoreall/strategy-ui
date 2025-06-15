@@ -145,6 +145,113 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
 
   // ---
 
+  const OrderListItem = ({ order }: { order: AggregatedOrderListAcc }) => {
+    const { symbol, price, orders, totalAmount, percent } = order;
+
+    const strategyPath = `/strategy/${strategy}-${symbol}`;
+    const percentValue = percent < 0 && percent > -0.09 ? 0 : percent;
+
+    const handleDisplayPercentValue = () => {
+      const _percentValue = percentValue.toFixed();
+      const percentValueToDisplay = _percentValue.includes('-')
+        ? _percentValue.split('-')[1]
+        : _percentValue;
+      const isZeroRange = percentValue > 0 && percentValue < 0.1;
+      const isZero = isZeroRange || percentValue === 0;
+      const isBig = percentValueToDisplay.length > 2;
+      const fixNumber = isZero || isBig ? 0 : 1;
+      const signPlus = percent.toString().includes('-')
+        ? ''
+        : percent >= 0.1
+        ? '+'
+        : '';
+      return `${signPlus}${percentValue.toFixed(fixNumber)}%`;
+    };
+
+    // --- Uni Value (Buy Target)
+
+    const isReachedTarget = percentValue > 0;
+
+    const currentBuyTargetValue = isReachedTarget ? config.buy : config.wait;
+
+    const currentTargetPrice = tokens?.find(
+      (token) => token.symbol === symbol
+    )?.price;
+
+    // --- Styles
+
+    const customStatus =
+      isCustom && order.percent >= 7
+        ? 'custom-sell'
+        : isCustom && order.percent <= -4
+        ? 'custom-buy'
+        : '';
+
+    const tokenPriceStyle = `row-list-item-token-price ${customStatus}`;
+    const bullColor = order.percent > 0 ? 'color-green' : 'color-blue';
+    const bearColor = order.percent > 0 ? 'color-green' : 'color-yellow';
+    const percentColor = isBull ? bullColor : bearColor;
+    const percentStyle = `row-list-item order-percent ${percentColor}`;
+    const reachedTarget = isReachedTarget ? 'color-green' : '';
+    const uniValueStyle = `uni-value ${!isBull ? reachedTarget : ''}`;
+
+    return (
+      <li className="section-order-list-item">
+        <Link
+          className={`${isAdmin ? 'admin-link' : ''}`}
+          href={isAdmin && isBull ? strategyPath : '/dashboard'}
+          prefetch={false}
+          onClick={() => removeBuyTarget(symbol, order.id)}
+        >
+          <ul className="section-order-list-item-row-list">
+            <li className="row-list-item order-symbol">
+              <span className="row-list-item-token-symbol">
+                {symbol}
+                {/* {'WERTFGR'} */}
+                {currentTargetPrice && (
+                  <span className={tokenPriceStyle}>
+                    {u.handlePriceDisplay(symbol, currentTargetPrice, 3)}
+                  </span>
+                )}
+              </span>
+            </li>
+
+            <li className="row-list-item uni-value-field">
+              <div className="uni-value-field-content">
+                {isBull && order.unrealized && (
+                  <span className="unrealized-value">
+                    {order.unrealized.toFixed()}
+                  </span>
+                )}
+
+                <span className={uniValueStyle}>
+                  {isBull ? orders : currentBuyTargetValue}
+                </span>
+              </div>
+            </li>
+
+            <li className="row-list-item uni-order-amount-and-turget-buy-price">
+              <span>
+                {isBull
+                  ? u.formatMillionAmount(
+                      parseFloat(totalAmount.toFixed(6)).toString()
+                    )
+                  : u.numberCutter(price, 3)}
+                {/* {38564326} */}
+              </span>
+            </li>
+
+            <li className={percentStyle}>
+              <span title={percentValue.toString()}>
+                {handleDisplayPercentValue()}
+              </span>
+            </li>
+          </ul>
+        </Link>
+      </li>
+    );
+  };
+
   return (
     <>
       <MainDividerSection
@@ -164,135 +271,7 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
         <div className="section-content order-list">
           <ul className="section-order-list">
             {displayedData.map((order: AggregatedOrderListAcc, idx) => {
-              const { symbol, price, orders, totalAmount, percent } = order;
-
-              const strategyPath = `/strategy/${strategy}-${symbol}`;
-              const percentValue = percent < 0 && percent > -0.09 ? 0 : percent;
-
-              const handleDisplayPercentValue = () => {
-                const _percentValue = percentValue.toFixed();
-                const percentValueToDisplay = _percentValue.includes('-')
-                  ? _percentValue.split('-')[1]
-                  : _percentValue;
-                const isZeroRange = percentValue > 0 && percentValue < 0.1;
-                const isZero = isZeroRange || percentValue === 0;
-                const isBig = percentValueToDisplay.length > 2;
-                const fixNumber = isZero || isBig ? 0 : 1;
-                const signPlus = percent.toString().includes('-')
-                  ? ''
-                  : percent >= 0.1
-                  ? '+'
-                  : '';
-                return `${signPlus}${percentValue.toFixed(fixNumber)}%`;
-              };
-
-              // --- Uni Value (Buy Target)
-
-              const currentTargetPrice = tokens?.find(
-                (token) => token.symbol === order.symbol
-              )?.price;
-
-              const isReachedTarget = percentValue > 0;
-
-              const currentBuyTargetValue = isReachedTarget
-                ? config.buy
-                : config.wait;
-
-              // --- Styles
-
-              const customStatus =
-                isCustom && percent >= 7
-                  ? 'custom-sell'
-                  : isCustom && percent <= -4
-                  ? 'custom-buy'
-                  : '';
-
-              const tokenPriceStyle = `row-list-item-token-price ${customStatus}`;
-              const bullColor = percent > 0 ? 'color-green' : 'color-blue';
-              const bearColor = percent > 0 ? 'color-green' : 'color-yellow';
-              const percentColor = isBull ? bullColor : bearColor;
-              const percentStyle = `row-list-item order-percent ${percentColor}`;
-              const reachedTarget = isReachedTarget ? 'color-green' : '';
-              const uniValueStyle = `uni-value ${!isBull ? reachedTarget : ''}`;
-
-              // const handleTokenPrice = (
-              //   symbol: string,
-              //   price: number | string
-              // ) => {
-              //   const isFixedZero = symbol === 'BTC' || symbol === 'ETH';
-              //   const numericPrice =
-              //     typeof price === 'number' ? price : Number(price);
-
-              //   // console.log('numericPrice:', price, numericPrice);
-
-              //   const tokenPriceValue = price
-              //     ? isFixedZero
-              //       ? numericPrice.toFixed()
-              //       : u.numberCutter(numericPrice, 3)
-              //     : numericPrice;
-              //   return tokenPriceValue;
-              // };
-
-              return (
-                <li key={idx} className="section-order-list-item">
-                  <Link
-                    className={`${isAdmin ? 'admin-link' : ''}`}
-                    href={isAdmin && isBull ? strategyPath : '/dashboard'}
-                    prefetch={false}
-                    onClick={() => removeBuyTarget(order.symbol, order.id)}
-                  >
-                    <ul className="section-order-list-item-row-list">
-                      <li className="row-list-item order-symbol">
-                        <span className="row-list-item-token-symbol">
-                          {symbol}
-                          {/* {'WERTFGR'} */}
-                          {currentTargetPrice && (
-                            <span className={tokenPriceStyle}>
-                              {u.handlePriceDisplay(symbol, currentTargetPrice)}
-                              {/* {u.numberCutter(currentBuyTargetPrice, 3)} */}
-                            </span>
-                          )}
-                        </span>
-
-                        {/* {isCustomStatus && (
-                          <span className={customStatusStyle} />
-                        )} */}
-                      </li>
-
-                      <li className="row-list-item uni-value-field">
-                        <div className="uni-value-field-content">
-                          {isBull && order.unrealized && (
-                            <span className="unrealized-value">
-                              {order.unrealized.toFixed()}
-                            </span>
-                          )}
-
-                          <span className={uniValueStyle}>
-                            {isBull ? orders : currentBuyTargetValue}
-                          </span>
-                        </div>
-                      </li>
-
-                      <li className="row-list-item uni-order-amount-and-turget-buy-price">
-                        <span>
-                          {isBull
-                            ? u.formatMillionAmount(
-                                parseFloat(totalAmount.toFixed(6)).toString()
-                              )
-                            : u.numberCutter(price, 3)}
-                          {/* {38564326} */}
-                        </span>
-                      </li>
-
-                      <li className={percentStyle}>
-                        <span title={percentValue.toString()}>
-                          {handleDisplayPercentValue()}
-                        </span>
-                      </li>
-                    </ul>
-                  </Link>
-                </li>
-              );
+              return <OrderListItem key={idx} order={order} />;
             })}
           </ul>
         </div>
