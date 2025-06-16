@@ -144,8 +144,8 @@ const AddOrderForm = ({
       ? `
       ${type || '--'}: ${symbol || '--'}
       Exchange: ${exchange || '--'}
-      Amount: ${amount || '--'}
       Price: ${price || '--'}
+      Amount: ${amount || '--'}
       Invested: $${price && amount ? numberCutter(price * amount) : '--'}
     `
       : `
@@ -235,6 +235,20 @@ const AddOrderForm = ({
                 />
               )}
 
+              <TextInput
+                type="text"
+                placeholder="Price"
+                disabled={isPending}
+                error={errors.price}
+                {...register('price', {
+                  required: config.priceRequired,
+                  validate: (value) =>
+                    /^\d*\.?\d*$/.test(value.toString()) ||
+                    config.priceValidation,
+                })}
+                onInput={handleNumericInput}
+              />
+
               {(isAsset || isInit) && (
                 <TextInput
                   type="text"
@@ -252,20 +266,6 @@ const AddOrderForm = ({
                   // disabled={isPending || isBuyTarget}
                 />
               )}
-
-              <TextInput
-                type="text"
-                placeholder="Price"
-                disabled={isPending}
-                error={errors.price}
-                {...register('price', {
-                  required: config.priceRequired,
-                  validate: (value) =>
-                    /^\d*\.?\d*$/.test(value.toString()) ||
-                    config.priceValidation,
-                })}
-                onInput={handleNumericInput}
-              />
 
               <div style={{ display: 'flex', gap: '1rem' }}>
                 <Button disabled={isPending || !!creationError} type="submit">

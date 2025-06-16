@@ -33,7 +33,7 @@ const c = {
   id: 'ID',
   price: 'Price',
   amount: 'Amount',
-  total: 'Total',
+  invested: 'Invested',
   profit: 'Profit',
   losses: 'Losses',
   exchange: 'Exchange',
@@ -89,58 +89,6 @@ const StrategyOrderListSection = (props: Props) => {
     openModal(ModalContentEnum.OrderDetails);
   };
   // */
-
-  /*
-  const showDetails = (order: Order) => {
-    if (isEditMenu) return;
-
-    // --- Profit
-
-    const calculatedProfit = currentPrice * order.amount - order.fiat;
-    const isProfit = calculatedProfit > 0;
-    const profitLabel = isProfit ? c.profit : c.losses;
-    const profitValue = isProfit
-      ? `$${calculatedProfit.toFixed(2)}`
-      : `${calculatedProfit.toFixed(2)} ($)`;
-
-    // --- Plus Percent
-
-    const plusSevenPercentPrice = u.plusPercent(order.price, 0.07);
-    const plusSevenFormatted = u.numberCutter(plusSevenPercentPrice, 3);
-    const plusSevenPercent = `${c.sevenPercent}: ${plusSevenFormatted}`;
-
-    const plusTenPercentPrice = u.plusPercent(order.price, 0.1);
-    const pluseTenFormatted = u.numberCutter(plusTenPercentPrice, 3);
-    const plusTenPercent = `${c.tenPercent}: ${pluseTenFormatted}`;
-
-    // --- Minus Percent
-
-    const minusFourPercentPrice = u.minusPercent(order.price, 0.04);
-    const minusFourFormatted = u.numberCutter(minusFourPercentPrice, 3);
-    const minusFourPercent = `${c.fourPercent}: ${minusFourFormatted}`;
-
-    // const minusEightPercentPrice = u.minusPercent(order.price, 0.08);
-    // const minusEightFormatted = u.numberCutter(minusEightPercentPrice, 3);
-    // const minusEightPercent = `${c.eightPercent}: ${minusEightFormatted}`;
-
-    const minusTenPercentPrice = u.minusPercent(order.price, 0.1);
-    const minusTenFormatted = u.numberCutter(minusTenPercentPrice, 3);
-    const minusTenPercent = `${c.tenPercent}: ${minusTenFormatted}`;
-
-    alert(`
-      ${c.id}: ${order.id} - ${order.exchange}
-      ${c.amount}: ${order.amount} ${sortedOrders[0]?.symbol}
-      ${c.price}: $${order.price}
-      ${c.total}: $${order.fiat} ~ ${profitLabel}: ${profitValue}
-      ${c.created}: ${u.normalizeISODate(order.createdAt, 'DD-MM-YY HH:mm')}
-
-      ${c.buy}: [-${minusFourPercent}] [-${minusTenPercent}]
-      ${c.sell}: [+${plusSevenPercent}] [+${plusTenPercent}]
-      `);
-  };
-  // */
-
-  // console.log('filteredOrders:', filteredOrders[0].symbol);
 
   return (
     <section className="section strategy-order-list">

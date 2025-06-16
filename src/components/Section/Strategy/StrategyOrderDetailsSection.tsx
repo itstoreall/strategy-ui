@@ -7,22 +7,6 @@ type Props = {
   c: { [key: string]: string | number };
 };
 
-// const c = {
-//   eightPercent: 8,
-//   fourPercent: 4,
-//   sevenPercent: 7,
-//   tenPercent: 10,
-//   id: 'ID',
-//   amount: 'Amount',
-//   price: 'Price',
-//   total: 'Total',
-//   profit: 'Profit',
-//   losses: 'Losses',
-//   created: 'Created',
-//   buy: 'Buy',
-//   sell: 'Sell',
-// };
-
 const StrategyOrderDetailsSection = ({ order, currentPrice, c }: Props) => {
   // console.log('order:', order);
 
@@ -30,8 +14,13 @@ const StrategyOrderDetailsSection = ({ order, currentPrice, c }: Props) => {
   const isProfit = calculatedProfit > 0;
   const profitLabel = isProfit ? c.profit : c.losses;
   const profitValue = isProfit
+    ? `${calculatedProfit.toFixed(2)}`
+    : `${calculatedProfit.toFixed(2)}`;
+  /* 
+  const profitValue = isProfit
     ? `$${calculatedProfit.toFixed(2)}`
     : `${calculatedProfit.toFixed(2)} ($)`;
+  */
 
   // --- Plus Percent
 
@@ -59,19 +48,6 @@ const StrategyOrderDetailsSection = ({ order, currentPrice, c }: Props) => {
   const minusTenFormatted = u.numberCutter(minusTenPercentPrice, 3);
   // const minusTenPercent = `${c.tenPercent}: ${minusTenFormatted}`;
 
-  /*
-  alert(`
-  ${c.id}: ${order.id} - ${order.exchange}
-  ${c.amount}: ${order.amount} ${order.symbol}
-  ${c.price}: $${order.price}
-  ${c.total}: $${order.fiat} ~ ${profitLabel}: ${profitValue}
-  ${c.created}: ${u.normalizeISODate(order.createdAt, 'DD-MM-YY HH:mm')}
-
-  ${c.buy}: [-${minusFourPercent}] [-${minusTenPercent}]
-  ${c.sell}: [+${plusSevenPercent}] [+${plusTenPercent}]
-  `);
-  // */
-
   const dateParts = u
     .normalizeISODate(order.createdAt, 'DD-MM-YY HH:mm')
     .split(' ');
@@ -79,49 +55,73 @@ const StrategyOrderDetailsSection = ({ order, currentPrice, c }: Props) => {
   return (
     <section className="section strategy-order-details">
       <div className={'section-content strategy-order-details'}>
-        <ul className="strategy-order-details-info-list">
-          <li className="strategy-order-details-info-list-item">
-            <span>{`${c.id}: ${order.id}`}</span>
+        <div className="strategy-order-details-heading">
+          <span className={`details-heading-exchange ${order.exchange}`}>
             <span>{order.exchange}</span>
-          </li>
-          <li className="strategy-order-details-info-list-item">
-            <span>{`${c.amount}:`}</span>
-            <span>{`${order.amount} ${order.symbol}`}</span>
-          </li>
-          <li className="strategy-order-details-info-list-item">
-            <span>{`${c.price}:`}</span>
-            <span>{`$${order.price}`}</span>
-          </li>
-          <li className="strategy-order-details-info-list-item">
-            <span>{`${c.total}:`}</span>
-            <span>{`$${order.fiat}`}</span>
-          </li>
-          <li className="strategy-order-details-info-list-item">
-            <span>{`${profitLabel}:`}</span>
+            {/* {'BINANCE'} */}
+            {/* {'MEXC'} */}
+            {/* {'BYBIT'} */}
+            {/* {'OKX'} */}
+          </span>
+          <span className="details-heading-info-box">
+            <span className="heading-info-date">{`${dateParts[0]} (${dateParts[1]})`}</span>
+            <span className="heading-info-id">{`${c.id}: ${order.id}`}</span>
+          </span>
+        </div>
+
+        <div className="strategy-order-details-info">
+          <span>
+            <span className="details-info-key">{`${c.price} ($):`}</span>
+            <span className="details-info-price">
+              {/* <span>{`${203000.567}`}</span> */}
+              <span>{`${order.price}`}</span>
+            </span>
+          </span>
+          <span>
+            <span className="details-info-key">{`${c.amount} (${order.symbol}):`}</span>
+            <span className="details-info-amount">
+              {/* <span>{0.0000521}</span> */}
+              <span>{order.amount}</span>
+            </span>
+          </span>
+        </div>
+
+        <div className="strategy-order-details-results">
+          <span className="details-results-invested">
+            <span>{`${c.invested} ($):`}</span>
+            <span>{`${order.fiat}`}</span>
+          </span>
+          <span
+            className={`details-results-profit ${
+              isProfit ? 'profit-color' : 'losses-color'
+            }`}
+          >
+            <span>{`${profitLabel} ($):`}</span>
             <span>{`${profitValue}`}</span>
-          </li>
-          <li className="strategy-order-details-info-list-item">
-            <span>{`${c.created}:`}</span>
-            <span>{`${dateParts[0]} (${dateParts[1]})`}</span>
-          </li>
-        </ul>
+          </span>
+        </div>
 
         <ul className="strategy-order-details-prices-list">
           <li className="strategy-order-details-prices-list-item">
-            <span>{`-${c.fourPercent}%:`}</span>
-            <span>{`$${minusFourFormatted}`}</span>
+            <span>
+              <span>{`-${c.fourPercent}%:`}</span>
+              <span>{`$${minusFourFormatted}`}</span>
+            </span>
+            <span>
+              <span>{`-${c.tenPercent}%:`}</span>
+              <span>{`$${minusTenFormatted}`}</span>
+            </span>
           </li>
+
           <li className="strategy-order-details-prices-list-item">
-            <span>{`-${c.tenPercent}%:`}</span>
-            <span>{`$${minusTenFormatted}`}</span>
-          </li>
-          <li className="strategy-order-details-prices-list-item">
-            <span>{`+${c.sevenPercent}%:`}</span>
-            <span>{`$${plusSevenFormatted}`}</span>
-          </li>
-          <li className="strategy-order-details-prices-list-item">
-            <span>{`+${c.tenPercent}%:`}</span>
-            <span>{`$${pluseTenFormatted}`}</span>
+            <span>
+              <span>{`+${c.sevenPercent}%:`}</span>
+              <span>{`$${plusSevenFormatted}`}</span>
+            </span>
+            <span>
+              <span>{`+${c.tenPercent}%:`}</span>
+              <span>{`$${pluseTenFormatted}`}</span>
+            </span>
           </li>
         </ul>
       </div>
