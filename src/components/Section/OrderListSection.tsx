@@ -234,13 +234,13 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
                   ? u.formatMillionAmount(
                       parseFloat(totalAmount.toFixed(6)).toString()
                     )
-                  : u.numberCutter(price, 3)}
+                  : u.handlePriceDisplay(symbol, price, 3)}
                 {/* {38564326} */}
               </span>
             </li>
 
             <li className={percentStyle}>
-              <span title={percentValue.toString()}>
+              <span title={u.numberCutter(percentValue, 3)}>
                 {handleDisplayPercentValue()}
               </span>
             </li>

@@ -9,10 +9,12 @@ import * as t from '@/src/types';
 
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
-const config = {
-  appVersion: 'v1.5.16',
+const c = {
+  appVersion: 'v1.5.17',
   dashboardPath: '/dashboard',
   strategyPath: '/strategy/',
+  initDelay: 2000,
+  cronDelay: 180000,
   fetchTokens: 'Fetch was successful:',
   updatePrices: 'Prices updated successfully:',
   refetch: 'refetching tokens...',
@@ -57,16 +59,16 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   const path = usePathname();
 
   const userId = session?.user?.id || null;
-  const app = { version: config.appVersion };
-  const isDashboard = path === config.dashboardPath;
-  const isStrategy = path.includes(config.strategyPath);
+  const app = { version: c.appVersion };
+  const isDashboard = path === c.dashboardPath;
+  const isStrategy = path.includes(c.strategyPath);
 
   useEffect(() => {
     setTimeout(() => {
       if (updatedTokens === null) {
         fetchTokens();
       }
-    }, 2000);
+    }, c.initDelay);
 
     // Fear and Greed
     chartService.fetchFearAndGreedIndex().then((idx) => {
@@ -76,19 +78,35 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
 
   useEffect(() => {
     if (window.location.hostname === 'localhost') return;
-    /*
-    console.log('cron:', count);
-    // */
+    const timeoutId = setTimeout(() => {
+      if (isDashboard || isStrategy) {
+        updateTokens(c.updatePrices);
+      }
+      setCount((prev) => prev + 1);
+    }, c.cronDelay);
+    return () => clearTimeout(timeoutId);
+  }, [count]);
+
+  /*
+  useEffect(() => {
+    // if (window.location.hostname === 'localhost') return;
     const init = 5000;
     const cron = 240000; // 300000 = 5min
     const delay = count < 3 ? init : cron;
+    console.log(1);
     const timeoutId = setTimeout(() => {
+      console.log(2);
       if (isDashboard || isStrategy) {
+        console.log(3);
         if (count >= 2) {
+          console.log(4);
           if (!updatedTokens) {
+            console.log(5);
             updateTokens(config.updatePrices);
           } else {
+            console.log(6);
             if (delay === cron) {
+              console.log(7);
               updateTokens(config.updatePrices);
             }
           }
@@ -98,6 +116,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
     }, delay);
     return () => clearTimeout(timeoutId);
   }, [count]);
+  */
 
   // ---
 
@@ -108,19 +127,19 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
     updatePrices(param, {
       onSuccess: (data) => {
         if (data?.tokens?.length) {
-          console.log(msg, data.tokens.length, config.tokens);
+          console.log(msg, data.tokens.length, c.tokens);
           setUpdatedTokens(data.tokens.sort(sortById));
         }
       },
       onError: (error) => {
-        console.error(config.errUpdatePrices, error);
+        console.error(c.errUpdatePrices, error);
       },
     });
   };
 
   const fetchTokens = () => {
     setIsTokenLoading(true);
-    updateTokens(config.fetchTokens);
+    updateTokens(c.fetchTokens);
     setIsTokenLoading(false);
   };
 

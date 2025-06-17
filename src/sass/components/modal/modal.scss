@@ -95,10 +95,16 @@
         // width: 280px;
         width: 100%;
         min-width: 280px;
+        scrollbar-width: none;
         // max-width: 390px;
         // max-width: 280px;
         // background-color: tomato;
         // --- StrategyOrderDetailsSection is here!
+
+        @include media-screen-height('max', 400px) {
+          height: 100svh;
+          overflow-y: scroll;
+        }
       }
       // */
     }
