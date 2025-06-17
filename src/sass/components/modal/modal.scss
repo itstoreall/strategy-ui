@@ -85,13 +85,17 @@
 
   &.ORDER_DETAILS {
     > div.modal {
-      width: auto;
+      // width: auto;
+      padding: 1rem;
+      max-width: $mobile;
+      // background-color: teal;
 
       // /*
       > div.strategy-order-details-modal-content {
-        width: 280px;
-        // width: 100%;
-        // min-width: 300px;
+        // width: 280px;
+        width: 100%;
+        min-width: 280px;
+        // max-width: 390px;
         // max-width: 280px;
         // background-color: tomato;
         // --- StrategyOrderDetailsSection is here!

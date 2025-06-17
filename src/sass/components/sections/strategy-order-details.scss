@@ -8,14 +8,16 @@ section.section.strategy-order-details {
   // width: 100%;
   background-color: transparent;
   // min-height: 1rem;
-  background-color: $greyDeepDarkPlus;
+  // background-color: $greyDeepDarkPlus;
   // background-color: $blackMiddle;
   // background-color: palevioletred;
 }
 
 // Custom
 section.strategy-order-details {
-  > div.section-content.strategy-order-details {
+  // --- FormWrapper > FormBackdropContainer > FormContentContainer is here!
+
+  div.section-content.strategy-order-details {
     // background-color: teal;
     display: flex;
     flex-direction: column;
@@ -111,29 +113,11 @@ section.strategy-order-details {
             // background-color: blue;
           }
 
+          /*
           &.details-info-amount {
-            > span {
-              // &:first-child {
-              //   padding-right: 0.3rem;
-              //   color: $greyDark;
-              // }
-
-              // &:last-child {
-              // }
-            }
+            > span {}
           }
-
-          // &.details-info-price {
-          //   > span {
-          //     &:first-child {
-          //       // padding-right: 0.1rem;
-          //       color: $greyDark;
-          //     }
-
-          //     // &:last-child {
-          //     // }
-          //   }
-          // }
+          */
         }
       }
     }
