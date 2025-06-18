@@ -92,12 +92,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return token;
     },
 
-    /*
     async session({ session, token }) {
+      console.log('session callback', { session, token });
       return { ...session, user: { ...session.user, id: token.id as string } };
     },
-    */
 
+    /*
     async session({ session, token }) {
       // const sessionToken = token.jti;
       const sessionWithUser = {
@@ -142,7 +142,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             console.error(' one session missed');
           }
         }
-        // */
+        
       }
 
       return {
@@ -151,5 +151,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         currentToken: token.jti,
       };
     },
+    */
   },
 });

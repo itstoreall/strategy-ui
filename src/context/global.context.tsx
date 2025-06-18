@@ -10,12 +10,13 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const c = {
-  appVersion: 'v1.5.18',
+  appVersion: 'v1.5.20',
   adminPath: '/admin',
   chartPath: '/chart',
   dashboardPath: '/dashboard',
   strategyPath: '/strategy/',
   initDelay: 2000,
+  // cronDelay: 60000,
   cronDelay: 180000,
   fetchTokens: 'Fetch was successful:',
   updatePrices: 'Prices updated successfully:',
@@ -84,7 +85,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   }, [isChart, isDashboard, isStrategy]);
 
   useEffect(() => {
-    if (window.location.hostname === 'localhost') return;
+    // if (window.location.hostname === 'localhost') return;
     const timeoutId = setTimeout(() => {
       if (isDashboard || isStrategy) {
         updateTokens(c.updatePrices);
