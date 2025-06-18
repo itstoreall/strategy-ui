@@ -11,16 +11,14 @@ const c = {
 
 const useUpdatePrices = () => {
   const { updateData } = useInvalidateQueries();
-
   return useMutation({
     mutationKey: [MutationKeyEnum.UpdatePrices],
     mutationFn: (params: UpdatePricesParams) => updatePrices(params),
-    retry: 2,
+    retry: 1,
     onSuccess: (data) => {
       if (data) {
         updateData([QueryKeyEnum.Tokens]);
       }
-      // console.log(config.success, data.tokens.length, 'tokens');
     },
     onError: (error) => {
       console.error(c.error, error);

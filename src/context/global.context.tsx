@@ -10,7 +10,9 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const c = {
-  appVersion: 'v1.5.17',
+  appVersion: 'v1.5.18',
+  adminPath: '/admin',
+  chartPath: '/chart',
   dashboardPath: '/dashboard',
   strategyPath: '/strategy/',
   initDelay: 2000,
@@ -60,21 +62,26 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
 
   const userId = session?.user?.id || null;
   const app = { version: c.appVersion };
+  const isChart = path === c.chartPath;
   const isDashboard = path === c.dashboardPath;
   const isStrategy = path.includes(c.strategyPath);
 
   useEffect(() => {
-    setTimeout(() => {
-      if (updatedTokens === null) {
-        fetchTokens();
-      }
-    }, c.initDelay);
+    if (isDashboard || isStrategy) {
+      setTimeout(() => {
+        if (updatedTokens === null) {
+          fetchTokens();
+        }
+      }, c.initDelay);
+    }
 
     // Fear and Greed
-    chartService.fetchFearAndGreedIndex().then((idx) => {
-      if (idx) setFearAndGreed(idx);
-    });
-  }, []);
+    if (isChart) {
+      chartService.fetchFearAndGreedIndex().then((idx) => {
+        if (idx) setFearAndGreed(idx);
+      });
+    }
+  }, [isChart, isDashboard, isStrategy]);
 
   useEffect(() => {
     if (window.location.hostname === 'localhost') return;

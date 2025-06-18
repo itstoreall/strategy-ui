@@ -89,11 +89,15 @@ const Dashboard = () => {
     if (!userOrders) return;
     if (userOrders?.buy.length) {
       let totalDeposit = 0;
-      const assets = userOrders.buy.map((order: Order) => {
+      const customAssets = userOrders.custom.map((order: Order) => {
         totalDeposit = totalDeposit + order.fiat;
         return order.symbol;
       });
-      const uniqueSymbols = new Set([...assets]);
+      const otherAssets = userOrders.buy.map((order: Order) => {
+        totalDeposit = totalDeposit + order.fiat;
+        return order.symbol;
+      });
+      const uniqueSymbols = new Set([...customAssets, ...otherAssets]);
       setUsingDeposit(totalDeposit);
       setUsingTokens(uniqueSymbols.size);
     } else {
@@ -107,6 +111,18 @@ const Dashboard = () => {
     if (!userOrders || !updatedTokens) return;
     let totalProfit = 0;
     let currentDeposit = 0;
+    for (let i = 0; i < userOrders.custom.length; i++) {
+      const order = userOrders.custom[i];
+      const token = updatedTokens.find((t) => t.symbol === order.symbol);
+      if (token) {
+        currentDeposit = order.amount * token.price + currentDeposit;
+        const unrealizedProfit = (token.price - order.price) * order.amount;
+        if (!unrealizedProfit.toString().includes('-')) {
+          // console.log('->:', token.symbol, totalProfit, unrealizedProfit);
+          totalProfit += unrealizedProfit;
+        }
+      }
+    }
     for (let i = 0; i < userOrders.buy.length; i++) {
       const order = userOrders.buy[i];
       const token = updatedTokens.find((t) => t.symbol === order.symbol);
