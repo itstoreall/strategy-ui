@@ -173,6 +173,10 @@ button.uni-button {
     // }
   }
 
+  &.refetch-tokens-button {
+    width: 140px;
+  }
+
   &.trade-strategy-calculating-element-button {
     display: flex;
     justify-content: center;

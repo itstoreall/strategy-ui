@@ -14,6 +14,7 @@ import { getLSTradeStrategyData, deleteLSTradeStrategyData } from '@/src/utils';
 import LSTradeStrategyModalSection from '@/src/components/Section/LSTradeStrategyModalSection';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
 import GradientProgressLoader from '@/src/assets/animation/GradientProgressLoader';
+import RefetchTokensButtonBlock from '@/src/components/RefetchTokensButtonBlock';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import OrderListSection from '@/src/components/Section/OrderListSection';
 import PageContainer, { Label } from '@/src/components/Container/Page';
@@ -31,6 +32,8 @@ const c = {
 const Dashboard = () => {
   const [currentProfit, setCurrentProfit] = useState<number | null>(null);
   const [LSStrategyData, setLSStrategyData] = useState<StoredData>(null);
+  const [isRefetchButton, setIsRefetchButton] = useState<boolean>(false);
+  const [isRefetch, setIsRefetch] = useState<boolean>(false);
   const [currentDeposit, setCurrentDeposit] = useState<number>(0);
   const [usingDeposit, setUsingDeposit] = useState<number>(0);
   const [currentUser, setCurrentUser] = useState<string>('');
@@ -43,10 +46,8 @@ const Dashboard = () => {
   const ordersParam = { enabled: !!userId };
 
   const { userOrders } = useFetchAllUserOrders(currentUser, ordersParam);
-  const { updatedTokens, users } = useGlobalState();
+  const { updatedTokens, users, fetchTokens } = useGlobalState();
   const path = useParams();
-
-  // console.log('updatedTokens:', updatedTokens);
 
   const {
     RenderModal,
@@ -60,16 +61,30 @@ const Dashboard = () => {
   const currentUserId = currentUser ? currentUser : (userId as string);
 
   useEffect(() => {
+    if (!updatedTokens) {
+      setTimeout(() => {
+        setIsRefetch(true);
+      }, 15000);
+    }
+
+    // ---
+
     const lsTradeStrategyData = getLSTradeStrategyData();
     if (lsTradeStrategyData) {
       if (lsTradeStrategyData.length) {
         setLSStrategyData(lsTradeStrategyData);
-        // console.log('lsTradeStrategyData:', lsTradeStrategyData);
       } else {
         deleteLSTradeStrategyData();
       }
     }
   }, []);
+
+  useEffect(() => {
+    if (isRefetch && !updatedTokens) {
+      setIsRefetchButton(true);
+      setIsRefetch(false);
+    }
+  }, [isRefetch]);
 
   useEffect(() => {
     if (userId) {
@@ -108,34 +123,35 @@ const Dashboard = () => {
   }, [userOrders, path]);
 
   useEffect(() => {
-    if (!userOrders || !updatedTokens) return;
+    if (!userOrders || !updatedTokens) {
+      return;
+    } else {
+      setIsRefetchButton(false);
+      setIsRefetch(false);
+    }
+
+    // --- Deposit and Profit
+
     let totalProfit = 0;
     let currentDeposit = 0;
-    for (let i = 0; i < userOrders.custom.length; i++) {
-      const order = userOrders.custom[i];
+    const updateDepositAndProfit = (order: Order) => {
       const token = updatedTokens.find((t) => t.symbol === order.symbol);
       if (token) {
         currentDeposit = order.amount * token.price + currentDeposit;
         const unrealizedProfit = (token.price - order.price) * order.amount;
         if (!unrealizedProfit.toString().includes('-')) {
-          // console.log('->:', token.symbol, totalProfit, unrealizedProfit);
           totalProfit += unrealizedProfit;
         }
       }
+    };
+    for (let i = 0; i < userOrders.custom.length; i++) {
+      const order = userOrders.custom[i];
+      updateDepositAndProfit(order);
     }
     for (let i = 0; i < userOrders.buy.length; i++) {
       const order = userOrders.buy[i];
-      const token = updatedTokens.find((t) => t.symbol === order.symbol);
-      if (token) {
-        currentDeposit = order.amount * token.price + currentDeposit;
-        const unrealizedProfit = (token.price - order.price) * order.amount;
-        if (!unrealizedProfit.toString().includes('-')) {
-          // console.log('->:', token.symbol, totalProfit, unrealizedProfit);
-          totalProfit += unrealizedProfit;
-        }
-      }
+      updateDepositAndProfit(order);
     }
-    // console.log('totalProfit:', totalProfit);
     setCurrentDeposit(+currentDeposit.toFixed());
     setCurrentProfit(+totalProfit.toFixed(1));
     setIsProcess(false);
@@ -146,7 +162,6 @@ const Dashboard = () => {
   };
 
   const toggleUser = (currentUser: string) => {
-    // console.log('users:', users);
     if (!users) return;
     for (let i = 0; i < users.length; i++) {
       const element = users[i];
@@ -161,6 +176,11 @@ const Dashboard = () => {
         }
       }
     }
+  };
+
+  const refetchTokens = () => {
+    setIsRefetch(false);
+    fetchTokens();
   };
 
   /*
@@ -247,6 +267,8 @@ const Dashboard = () => {
               ) : null}
             </SectionsContainer>
           </div>
+        ) : isRefetchButton ? (
+          <RefetchTokensButtonBlock refetchTokens={refetchTokens} />
         ) : (
           <MainLoader />
         )}
