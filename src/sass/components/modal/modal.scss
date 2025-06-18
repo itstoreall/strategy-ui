@@ -101,7 +101,7 @@
         // background-color: tomato;
         // --- StrategyOrderDetailsSection is here!
 
-        @include media-screen-height('max', 400px) {
+        @include media-screen-height('max', 552px) {
           height: 100svh;
           overflow-y: scroll;
         }

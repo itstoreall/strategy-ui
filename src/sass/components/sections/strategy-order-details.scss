@@ -2,6 +2,7 @@
 @use '@/src/sass/mixins' as *;
 
 $mainColor: $greyDeepDark;
+$mobileInitBreakpoint: $mobile - 20;
 
 // General
 section.section.strategy-order-details {
@@ -82,17 +83,26 @@ section.strategy-order-details {
         align-items: flex-end;
 
         > span {
-          font-size: 2rem;
+          font-size: 1.4rem;
 
           &.details-info-key {
-            padding-bottom: 4px;
-            font-size: 0.9rem;
+            padding-bottom: 2px;
+            font-size: 0.8rem;
             color: $greyMiddle;
           }
 
           &.details-info-price,
           &.details-info-amount {
             font-weight: 500;
+          }
+
+          @include media-screen-orientation('min', $mobileInitBreakpoint) {
+            font-size: 2rem;
+
+            &.details-info-key {
+              padding-bottom: 4px;
+              font-size: 1.1rem;
+            }
           }
         }
       }
@@ -107,21 +117,33 @@ section.strategy-order-details {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: 0.7rem;
-        padding: 1rem;
+        gap: 0.5rem;
+        padding: 0.7rem;
         width: 50%;
         border: 1px solid $greyDark;
         border-radius: $smallBorderRadius;
 
         > span {
           color: $greyMiddle;
+
           &:first-child {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
           }
 
           &:last-child {
-            font-size: 1.4rem;
+            font-size: 0.8rem;
             font-weight: 500;
+          }
+        }
+
+        @include media-screen-orientation('min', $mobileInitBreakpoint) {
+          gap: 0.7rem;
+          padding: 1rem 0.8rem;
+
+          > span {
+            &:last-child {
+              font-size: 1.1rem;
+            }
           }
         }
 
@@ -155,8 +177,8 @@ section.strategy-order-details {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        gap: 0.7rem;
-        padding: 1rem;
+        gap: 0.5rem;
+        padding: 0.7rem;
         width: 50%;
         border-radius: $smallBorderRadius;
         cursor: pointer;
@@ -179,11 +201,11 @@ section.strategy-order-details {
 
         > span {
           &:first-child {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
           }
 
           &:last-child {
-            font-size: 1.4rem;
+            font-size: 0.8rem;
             font-weight: 500;
           }
         }
@@ -202,6 +224,17 @@ section.strategy-order-details {
               &:last-child {
                 color: $googleBlue;
               }
+            }
+          }
+        }
+
+        @include media-screen-orientation('min', $mobileInitBreakpoint) {
+          gap: 0.7rem;
+          padding: 1rem 0.8rem;
+
+          > span {
+            &:last-child {
+              font-size: 1.1rem;
             }
           }
         }

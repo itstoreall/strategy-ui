@@ -98,61 +98,61 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       */
       return { ...session, user: { ...session.user, id: token.id as string } };
     },
-
-    /*
-    async session({ session, token }) {
-      // const sessionToken = token.jti;
-      const sessionWithUser = {
-        ...session,
-        user: { ...session.user, id: token.id as string },
-      };
-
-      if (sessionWithUser.user?.id) {
-        try {
-          const userExists = await prisma.user.findUnique({
-            where: { id: sessionWithUser.user.id },
-          });
-
-          if (userExists) {
-            if (token.jti) {
-              const existingSession = await prisma.session.findFirst({
-                where: { userId: sessionWithUser.user.id },
-              });
-
-              // console.log('token:', token);
-              // console.log('sessionToken:', sessionToken);
-              // console.log('existingSession:', existingSession);
-
-              if (existingSession) {
-                await prisma.session.update({
-                  where: { sessionToken: existingSession.sessionToken },
-                  data: { sessionToken: token.jti, expires: session.expires },
-                });
-              } else {
-                await prisma.session.create({
-                  data: {
-                    userId: sessionWithUser.user.id,
-                    sessionToken: token.jti,
-                    expires: session.expires,
-                  },
-                });
-              }
-            }
-          }
-        } catch (error) {
-          if (error) {
-            console.error(' one session missed');
-          }
-        }
-        
-      }
-
-      return {
-        ...session,
-        user: { ...session.user, id: token.id as string },
-        currentToken: token.jti,
-      };
-    },
-    */
   },
 });
+
+/*
+async session({ session, token }) {
+  // const sessionToken = token.jti;
+  const sessionWithUser = {
+    ...session,
+    user: { ...session.user, id: token.id as string },
+  };
+
+  if (sessionWithUser.user?.id) {
+    try {
+      const userExists = await prisma.user.findUnique({
+        where: { id: sessionWithUser.user.id },
+      });
+
+      if (userExists) {
+        if (token.jti) {
+          const existingSession = await prisma.session.findFirst({
+            where: { userId: sessionWithUser.user.id },
+          });
+
+          // console.log('token:', token);
+          // console.log('sessionToken:', sessionToken);
+          // console.log('existingSession:', existingSession);
+
+          if (existingSession) {
+            await prisma.session.update({
+              where: { sessionToken: existingSession.sessionToken },
+              data: { sessionToken: token.jti, expires: session.expires },
+            });
+          } else {
+            await prisma.session.create({
+              data: {
+                userId: sessionWithUser.user.id,
+                sessionToken: token.jti,
+                expires: session.expires,
+              },
+            });
+          }
+        }
+      }
+    } catch (error) {
+      if (error) {
+        console.error(' one session missed');
+      }
+    }
+    
+  }
+
+  return {
+    ...session,
+    user: { ...session.user, id: token.id as string },
+    currentToken: token.jti,
+  };
+},
+*/

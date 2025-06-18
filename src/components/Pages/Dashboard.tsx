@@ -179,6 +179,7 @@ const Dashboard = () => {
   };
 
   const refetchTokens = () => {
+    setIsRefetchButton(false);
     setIsRefetch(false);
     fetchTokens();
   };

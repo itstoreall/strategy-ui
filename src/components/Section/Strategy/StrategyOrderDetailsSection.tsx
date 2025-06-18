@@ -113,16 +113,16 @@ const StrategyOrderDetailsSection = ({ order, currentPrice, c }: Props) => {
 
               <div className="strategy-order-details-results">
                 <span className="details-results-invested">
-                  <span>{`${c.invested} ($):`}</span>
-                  <span>{`${order.fiat}`}</span>
+                  <span>{`${c.invested}:`}</span>
+                  <span>{`${order.fiat} $`}</span>
                 </span>
                 <span
                   className={`details-results-profit ${
                     isProfit ? 'profit-color' : 'losses-color'
                   }`}
                 >
-                  <span>{`${profitLabel} ($):`}</span>
-                  <span>{`${profitValue}`}</span>
+                  <span>{`${profitLabel}:`}</span>
+                  <span>{`${profitValue} $`}</span>
                 </span>
               </div>
 
@@ -130,11 +130,13 @@ const StrategyOrderDetailsSection = ({ order, currentPrice, c }: Props) => {
                 <div className="strategy-order-details-prices">
                   <span onClick={() => u.copyToClipboard(prices.buy.val)}>
                     <span>{prices.buy.key}</span>
-                    <span>{prices.buy.val}</span>
+                    <span>{`${prices.buy.val} $`}</span>
+                    {/* <span>{`${203000.567} $`}</span> */}
                   </span>
                   <span onClick={() => u.copyToClipboard(prices.sell.val)}>
                     <span>{prices.sell.key}</span>
-                    <span>{prices.sell.val}</span>
+                    <span>{`${prices.sell.val} $`}</span>
+                    {/* <span>{`${203000.567} $`}</span> */}
                   </span>
                 </div>
               )}
