@@ -10,13 +10,13 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const c = {
-  appVersion: 'v1.5.25',
+  appVersion: 'v1.5.26',
   adminPath: '/admin',
   chartPath: '/chart',
   dashboardPath: '/dashboard',
   strategyPath: '/strategy/',
   initDelay: 2000,
-  cronDelay: 180000,
+  cronDelay: 120000,
   fetchTokens: 'Fetch was successful:',
   updatePrices: 'Prices updated successfully:',
   refetch: 'refetching tokens...',
@@ -67,9 +67,10 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
 
   useEffect(() => {
     setTimeout(() => {
-      if (updatedTokens === null) {
-        fetchTokens();
-      }
+      fetchTokens();
+      /*
+      if (updatedTokens === null) {}
+      */
     }, c.initDelay);
 
     // Fear and Greed
