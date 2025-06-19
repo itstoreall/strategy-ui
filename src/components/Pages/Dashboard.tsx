@@ -47,7 +47,7 @@ const Dashboard = () => {
   const ordersParam = { enabled: true };
 
   const { userOrders } = useFetchAllUserOrders(currentUser, ordersParam);
-  const { count, updatedTokens, users, fetchTokens } = useGlobalState();
+  const { updatedTokens, users, fetchTokens } = useGlobalState();
   const path = useParams();
 
   const {
@@ -213,7 +213,8 @@ const Dashboard = () => {
 
       <main className="main">
         <PageHeading
-          title={`${c.dashboardTitle} ${count}`}
+          title={c.dashboardTitle}
+          // title={`${c.dashboardTitle} ${count}`}
           isAdminButton={isAdmin && !!users && !!userId}
           adminButtonText={currentUserId ? currentUserId.slice(-4) : ''}
           adminButtonFn={() => toggleUser(currentUserId)}

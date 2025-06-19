@@ -11,13 +11,13 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const c = {
-  appVersion: 'v1.5.29',
+  appVersion: 'v1.5.30',
   adminPath: '/admin',
   chartPath: '/chart',
   dashboardPath: '/dashboard',
   strategyPath: '/strategy/',
   initDelay: 2000,
-  cronDelay: 60000,
+  cronDelay: 120000,
   fetchTokens: 'Fetch was successful:',
   updatePrices: 'Prices updated successfully:',
   refetch: 'refetching tokens...',
@@ -26,7 +26,7 @@ const c = {
 };
 
 export type GlobalContextProps = {
-  count: number;
+  // count: number;
   app: { version: string };
   updatedTokens: t.Token[] | null;
   users: t.User[] | null;
@@ -38,7 +38,7 @@ export type GlobalContextProps = {
 };
 
 const initContext: GlobalContextProps = {
-  count: 0,
+  // count: 0,
   app: { version: '' },
   updatedTokens: null,
   users: null,
@@ -157,7 +157,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
 
   const values = useMemo(() => {
     return {
-      count,
+      // count,
       app,
       isTokenLoading,
       updatedTokens,
