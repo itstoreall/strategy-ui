@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { createContext, useEffect, useMemo, useState } from 'react';
-import { usePathname } from 'next/navigation';
+// import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import useFetchAllUsers from '@/src/hooks/user/useFetchAllUsers';
 import useUpdatePrices from '@/src/hooks/token/useUpdatePrices';
@@ -11,7 +11,7 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const c = {
-  appVersion: 'v1.5.28',
+  appVersion: 'v1.5.29',
   adminPath: '/admin',
   chartPath: '/chart',
   dashboardPath: '/dashboard',
@@ -26,6 +26,7 @@ const c = {
 };
 
 export type GlobalContextProps = {
+  count: number;
   app: { version: string };
   updatedTokens: t.Token[] | null;
   users: t.User[] | null;
@@ -37,6 +38,7 @@ export type GlobalContextProps = {
 };
 
 const initContext: GlobalContextProps = {
+  count: 0,
   app: { version: '' },
   updatedTokens: null,
   users: null,
@@ -63,12 +65,12 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   const { users: allUsers = null } = useFetchAllUsers({ enabled: !users });
   const { data: session } = useSession();
 
-  const path = usePathname();
+  // const path = usePathname();
 
   const userId = session?.user?.id || null;
   const app = { version: c.appVersion };
-  const isDashboard = path === c.dashboardPath;
-  const isStrategy = path.includes(c.strategyPath);
+  // const isDashboard = path === c.dashboardPath;
+  // const isStrategy = path.includes(c.strategyPath);
 
   useEffect(() => {
     const initTimeoutId = setTimeout(() => {
@@ -116,11 +118,11 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   useEffect(() => {
     // if (window.location.hostname === 'localhost') return;
     const timeoutId = setTimeout(() => {
-      if (isDashboard || isStrategy) {
-        updateTokens(c.updatePrices);
-        // console.log('useEffect [count]:', count);
-        setCount((prev) => prev + 1);
-      }
+      // if (isDashboard || isStrategy) {
+      updateTokens(c.updatePrices);
+      // console.log('useEffect [count]:', count);
+      setCount((prev) => prev + 1);
+      // }
     }, c.cronDelay);
     return () => clearTimeout(timeoutId);
   }, [count]);
@@ -155,6 +157,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
 
   const values = useMemo(() => {
     return {
+      count,
       app,
       isTokenLoading,
       updatedTokens,
