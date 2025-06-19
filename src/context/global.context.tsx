@@ -11,7 +11,7 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const c = {
-  appVersion: 'v1.5.30',
+  appVersion: 'v1.5.31',
   adminPath: '/admin',
   chartPath: '/chart',
   dashboardPath: '/dashboard',
@@ -74,11 +74,12 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
 
   useEffect(() => {
     const initTimeoutId = setTimeout(() => {
-      fetchTokens();
       // console.log('useEffect []:', count);
-      /*
-      if (updatedTokens === null) {}
-      */
+      // /*
+      if (updatedTokens === null) {
+        fetchTokens();
+      }
+      // */
     }, c.initDelay);
 
     /* // User Role
