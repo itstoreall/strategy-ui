@@ -10,13 +10,13 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const c = {
-  appVersion: 'v1.5.26',
+  appVersion: 'v1.5.27',
   adminPath: '/admin',
   chartPath: '/chart',
   dashboardPath: '/dashboard',
   strategyPath: '/strategy/',
   initDelay: 2000,
-  cronDelay: 120000,
+  cronDelay: 60000,
   fetchTokens: 'Fetch was successful:',
   updatePrices: 'Prices updated successfully:',
   refetch: 'refetching tokens...',
@@ -66,8 +66,9 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   const isStrategy = path.includes(c.strategyPath);
 
   useEffect(() => {
-    setTimeout(() => {
+    const initTimeoutId = setTimeout(() => {
       fetchTokens();
+      // console.log('useEffect []:', count);
       /*
       if (updatedTokens === null) {}
       */
@@ -77,13 +78,16 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
     chartService.fetchFearAndGreedIndex().then((idx) => {
       if (idx) setFearAndGreed(idx);
     });
+    return () => clearTimeout(initTimeoutId);
   }, []);
 
   useEffect(() => {
-    if (window.location.hostname === 'localhost') return;
+    // if (window.location.hostname === 'localhost') return;
     const timeoutId = setTimeout(() => {
       if (isDashboard || isStrategy) {
         updateTokens(c.updatePrices);
+        // console.log('useEffect [count]:', count);
+        setCount((prev) => prev + 1);
       }
     }, c.cronDelay);
     return () => clearTimeout(timeoutId);
@@ -95,6 +99,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
 
   const updateTokens = (msg: string) => {
     const param = {};
+    // console.log('updateTokens:', count);
     updatePrices(param, {
       onSuccess: (data) => {
         if (data?.tokens?.length) {
@@ -106,14 +111,14 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
         console.error(c.errUpdatePrices, error);
       },
     });
-    console.log(count);
-    setCount((prev) => prev + 1);
   };
 
   const fetchTokens = () => {
     setIsTokenLoading(true);
     updateTokens(c.fetchTokens);
     setIsTokenLoading(false);
+    // console.log('fetchTokens:', count);
+    setCount((prev) => prev + 1);
   };
 
   const values = useMemo(() => {
