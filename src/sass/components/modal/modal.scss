@@ -31,42 +31,20 @@
 
   &.STRATEGY {
     > div.modal {
+      width: 100%;
       max-width: 300px;
-      // max-width: $tablet;
 
-      // Trade-Strategy-Modal:
       > div.trade-strategy-modal-content {
-        @extend %extends-hide-scrollbar;
-        position: relative;
-        padding: 1rem;
         width: 100%;
+        min-width: 280px;
+        scrollbar-width: none;
 
-        @include media-screen-height('max', 400px) {
+        @include media-screen-height('max', 552px) {
           height: 100svh;
           overflow-y: scroll;
         }
 
-        > div.trade-strategy-modal-new-history-entry-block {
-          > ul.new-history-entry-list {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            // background-color: teal;
-
-            > li.new-history-entry-list-item {
-              display: flex;
-              gap: 0.5rem;
-            }
-          }
-        }
-
-        > ul.trade-strategy-modal-history-list {
-          > li.trade-strategy-modal-history-list-item {
-            display: flex;
-            gap: 0.5rem;
-            background-color: teal;
-          }
-        }
+        // --- TradeStrategyModalContentSection is here!
       }
     }
   }
@@ -85,20 +63,13 @@
 
   &.ORDER_DETAILS {
     > div.modal {
-      // width: auto;
       padding: 1rem;
       max-width: $mobile;
-      // background-color: teal;
 
-      // /*
       > div.strategy-order-details-modal-content {
-        // width: 280px;
         width: 100%;
         min-width: 280px;
         scrollbar-width: none;
-        // max-width: 390px;
-        // max-width: 280px;
-        // background-color: tomato;
         // --- StrategyOrderDetailsSection is here!
 
         @include media-screen-height('max', 552px) {
@@ -106,7 +77,6 @@
           overflow-y: scroll;
         }
       }
-      // */
     }
   }
 

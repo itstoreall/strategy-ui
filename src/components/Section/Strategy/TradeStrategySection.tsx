@@ -357,14 +357,14 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
       if (storedData.length > dataWithoutCurrentToken.length) {
         u.updateLSTradeStrategyData(dataWithoutCurrentToken);
         setStoredStrategy(null);
-        if (isClose) {
-          closeModal();
-          return;
-        }
       }
     } else {
       u.deleteLSTradeStrategyData();
       setStoredStrategy(null);
+    }
+    if (isClose) {
+      closeModal();
+      return;
     }
   };
 

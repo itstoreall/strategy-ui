@@ -1,10 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
+import { IoMdTrash } from 'react-icons/io';
 import { TradeStrategy } from '@/src/types';
-import { uniNumberFormatter, normalizeKyivDate } from '@/src/utils';
+import {
+  uniNumberFormatter,
+  normalizeKyivDate,
+  numberCutter,
+} from '@/src/utils';
 import * as sec from '@/src/components/Section/Strategy/TradeStrategySection';
 import Button from '@/src/components/Button/Button';
-import { IoMdTrash } from 'react-icons/io';
 
 type Props = {
   strategyHistory: sec.History;
@@ -20,9 +24,9 @@ type StringState = Dispatch<SetStateAction<string>>;
 */
 
 const c = {
-  amount: 'amount',
-  buy: 'buy',
-  sell: 'sell',
+  amount: 'Amount',
+  buy: 'Buy',
+  sell: 'Sell',
   targetButtonText: 'Create Target -10%',
 };
 
@@ -35,7 +39,7 @@ const TradeStrategyModalContentSection = (props: Props) => {
     // strategyHistory,
     storedStrategy,
     // updateStrategyHistory,
-    createNewBuyTarget,
+    // createNewBuyTarget,
     resetTradeStrategy,
     // deleteHystory,
   } = props;
@@ -66,21 +70,6 @@ const TradeStrategyModalContentSection = (props: Props) => {
     }
   }, [sellPrice]);
 
-  /*
-  const handleNumericInput = (val: string, state: StringState | null) => {
-    if (!state) return;
-    let value = val.replace(/,/g, '.');
-    if (/^\d*\.?\d*$/.test(value)) {
-      if (value.startsWith('.')) {
-        value = `0${value}`;
-      }
-      state(value);
-    } else {
-      state(value.slice(0, -1));
-    }
-  };
-  */
-
   const NewEntry = ({ strategy }: { strategy: TradeStrategy }) => {
     const isAVGPrice = strategy.orders.split(', ').length > 1;
 
@@ -88,17 +77,19 @@ const TradeStrategyModalContentSection = (props: Props) => {
       ? uniNumberFormatter(+buyPrice)
       : buyPrice;
 
+    const strategyDate = normalizeKyivDate(strategy.date, 'DD-MM-YY HH:mm');
+
     const newEntry = [
-      { name: 'date', value: normalizeKyivDate(strategy.date) },
-      { name: 'symbol', value: strategy.symbol },
-      { name: 'exchange', value: strategy.exchange },
+      { name: 'Date', value: strategyDate },
+      { name: 'Exchange', value: strategy.exchange },
+      { name: 'Symbol', value: strategy.symbol },
       { name: c.amount, value: amount },
       { name: c.buy, value: formatedBuyPrice },
       { name: c.sell, value: sellPrice },
-      { name: 'invested', value: strategy.invested },
-      { name: 'profit', value: strategy.profit },
-      { name: 'total', value: uniNumberFormatter(strategy.total) },
-      { name: 'orders', value: strategy.orders },
+      { name: 'Invested', value: strategy.invested },
+      { name: 'Profit', value: numberCutter(strategy.profit, 3) },
+      { name: 'Total', value: uniNumberFormatter(strategy.total) },
+      { name: 'Orders', value: strategy.orders },
     ];
 
     return storedStrategy ? (
@@ -106,8 +97,8 @@ const TradeStrategyModalContentSection = (props: Props) => {
         {newEntry.map((el, idx) => {
           return (
             <li key={idx} className="new-history-entry-list-item">
-              <span>{`${el.name}:`}</span>
-              <span>
+              <span className="new-history-entry-list-item-key">{`${el.name}:`}</span>
+              <span className="new-history-entry-list-item-val">
                 {el.name === 'profit'
                   ? uniNumberFormatter(+el.value)
                   : el.value}
@@ -122,69 +113,86 @@ const TradeStrategyModalContentSection = (props: Props) => {
   };
 
   return (
-    <>
-      <div className="trade-strategy-modal-new-history-entry-block"></div>
-      {storedStrategy && <NewEntry strategy={storedStrategy} />}
+    <section className="section trade-strategy-modal">
+      <div className="section-content trade-strategy-modal">
+        <div className="new-history-entry-list-box">
+          {storedStrategy && <NewEntry strategy={storedStrategy} />}
 
-      <Button
-        style={{ marginBottom: '1rem' }}
-        clickContent={createNewBuyTarget}
-        disabled={!storedStrategy}
-      >
-        {c.targetButtonText}
-      </Button>
-
-      {storedStrategy && (
-        <Button
-          className="ls-trade-strategy-modal-section-reset-button"
-          clickContent={() => resetTradeStrategy(true)}
-        >
-          <IoMdTrash size={24} fill="black" />
-        </Button>
-      )}
-
-      {/* <div>
-        <DefaultInput
-          value={amount}
-          handleChange={(val) => handleNumericInput(val, setAmount)}
-        />
-        <DefaultInput
-          value={buyPrice}
-          handleChange={(val: string) => handleNumericInput(val, setBuyPrice)}
-        />
-        <DefaultInput
-          value={sellPrice}
-          handleChange={(val: string) => handleNumericInput(val, setSellPrice)}
-        />
+          {storedStrategy && (
+            <Button
+              className="ls-trade-strategy-modal-section-reset-button"
+              clickContent={() => resetTradeStrategy(true)}
+            >
+              <IoMdTrash size={24} fill="black" />
+            </Button>
+          )}
+        </div>
       </div>
-
-      <Button
-        style={{ marginBottom: '1rem' }}
-        clickContent={updateStrategyHistory}
-        disabled={!storedStrategy}
-      >
-        Save
-      </Button>
-      <Button clickContent={deleteHystory} disabled={!strategyHistory}>
-        Delete Hystory
-      </Button>
-
-      {strategyHistory ? (
-        <ul className="trade-strategy-modal-history-list">
-          {strategyHistory.map((el, idx) => (
-            <li key={idx} className="trade-strategy-modal-history-list-item">
-              <span>{normalizeKyivDate(el.d, 'DD-MM-YY')}</span>
-              <span>{el.a}</span>
-              <span>{el.b}</span>
-              <span>{el.s}</span>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <div>No History</div>
-      )} */}
-    </>
+    </section>
   );
 };
 
 export default TradeStrategyModalContentSection;
+
+/* 
+const handleNumericInput = (val: string, state: StringState | null) => {
+  if (!state) return;
+  let value = val.replace(/,/g, '.');
+  if (/^\d*\.?\d*$/.test(value)) {
+    if (value.startsWith('.')) {
+      value = `0${value}`;
+    }
+    state(value);
+  } else {
+    state(value.slice(0, -1));
+  }
+};
+
+<Button
+    style={{ marginBottom: '1rem' }}
+    clickContent={createNewBuyTarget}
+    disabled={!storedStrategy}
+  >
+    {c.targetButtonText}
+</Button>
+
+<div>
+  <DefaultInput
+    value={amount}
+    handleChange={(val) => handleNumericInput(val, setAmount)}
+  />
+  <DefaultInput
+    value={buyPrice}
+    handleChange={(val: string) => handleNumericInput(val, setBuyPrice)}
+  />
+  <DefaultInput
+    value={sellPrice}
+    handleChange={(val: string) => handleNumericInput(val, setSellPrice)}
+  />
+</div>
+
+<Button
+  style={{ marginBottom: '1rem' }}
+  clickContent={updateStrategyHistory}
+  disabled={!storedStrategy}
+>
+  Save
+</Button>
+<Button clickContent={deleteHystory} disabled={!strategyHistory}>
+  Delete Hystory
+</Button>
+
+{strategyHistory ? (
+  <ul className="trade-strategy-modal-history-list">
+    {strategyHistory.map((el, idx) => (
+      <li key={idx} className="trade-strategy-modal-history-list-item">
+        <span>{normalizeKyivDate(el.d, 'DD-MM-YY')}</span>
+        <span>{el.a}</span>
+        <span>{el.b}</span>
+        <span>{el.s}</span>
+      </li>
+    ))}
+  </ul>
+) : (
+  <div>No History</div>
+)} */

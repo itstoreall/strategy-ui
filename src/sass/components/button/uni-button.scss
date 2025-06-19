@@ -131,17 +131,17 @@ button.uni-button {
   }
 
   &.ls-trade-strategy-modal-section-reset-button {
-    position: absolute;
+    // position: absolute;
     // left: 50%;
-    top: -80px;
+    // top: -80px;
     // bottom: -100px;
-    transform: translateX(-50% 50%);
+    // transform: translateX(-50% 50%);
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0;
     width: 40px;
-    height: 40px;
+    min-height: 40px;
     background-color: $googleYellow;
     border-radius: 50%;
     opacity: 0.8;

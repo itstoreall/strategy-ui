@@ -83,6 +83,8 @@ export const normalizeKyivDate = (date: number | Date, format?: Format) => {
       return month;
     case 'DD;':
       return day;
+    case 'DD-MM-YY HH:mm':
+      return `${day}-${month}-${year} ${hour}:${minute}`;
     case 'DD-MM-YY HH:mm:ss':
       return `${day}-${month}-${year} ${hour}:${minute}:${second}`;
     default:
