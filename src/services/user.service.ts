@@ -45,6 +45,7 @@ class UserService {
     try {
       const url = `/role/${id}`;
       const res: AxiosResponse<RoleData> = await axios.get(url);
+      // console.log('role:', res.data);
       return res.data;
     } catch (err: unknown) {
       errorHandler('Failed to retrieve user role:', err);

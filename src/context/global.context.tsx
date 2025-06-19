@@ -6,11 +6,12 @@ import useFetchAllUsers from '@/src/hooks/user/useFetchAllUsers';
 import useUpdatePrices from '@/src/hooks/token/useUpdatePrices';
 import { chartService } from '@/src/services/chart.service';
 import * as t from '@/src/types';
+// import { getUserRole } from '../lib/auth/getUserRoleServerAction';
 
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const c = {
-  appVersion: 'v1.5.27',
+  appVersion: 'v1.5.28',
   adminPath: '/admin',
   chartPath: '/chart',
   dashboardPath: '/dashboard',
@@ -28,6 +29,7 @@ export type GlobalContextProps = {
   app: { version: string };
   updatedTokens: t.Token[] | null;
   users: t.User[] | null;
+  // userRole: string;
   fearAndGreed: number;
   unrealized: number;
   fetchTokens: () => void;
@@ -38,6 +40,7 @@ const initContext: GlobalContextProps = {
   app: { version: '' },
   updatedTokens: null,
   users: null,
+  // userRole: '',
   fearAndGreed: 0,
   unrealized: 0,
   fetchTokens: () => {},
@@ -52,10 +55,12 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   const [isTokenLoading, setIsTokenLoading] = useState<boolean>(false);
   const [fearAndGreed, setFearAndGreed] = useState(0);
   const [unrealized, setUnrealized] = useState(0);
+  const [users, setUsers] = useState<t.User[] | null>(null);
+  // const [userRole, setUserRole] = useState('');
   const [count, setCount] = useState<number>(0);
 
   const { mutate: updatePrices } = useUpdatePrices();
-  const { users = null } = useFetchAllUsers({ enabled: true });
+  const { users: allUsers = null } = useFetchAllUsers({ enabled: !users });
   const { data: session } = useSession();
 
   const path = usePathname();
@@ -74,12 +79,39 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
       */
     }, c.initDelay);
 
+    /* // User Role
+    if (!userRole) {
+      getUserRole().then((res) => {
+        if (res) {
+          console.log('res?.role:', res?.role);
+          setUserRole(res?.role);
+        }
+      });
+    }
+    */
+
     // Fear and Greed
     chartService.fetchFearAndGreedIndex().then((idx) => {
       if (idx) setFearAndGreed(idx);
     });
     return () => clearTimeout(initTimeoutId);
   }, []);
+
+  // useEffect(() => {
+  //     getUserRole().then((res) => {
+  //       if (res) {
+  //         setUserRole(res?.role);
+  //       }
+  //     });
+  //   }, []);
+
+  useEffect(() => {
+    if (!users && allUsers) {
+      setUsers(allUsers);
+    }
+  }, [allUsers]);
+
+  // console.log('userRole:', userRole);
 
   useEffect(() => {
     // if (window.location.hostname === 'localhost') return;
@@ -127,6 +159,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
       isTokenLoading,
       updatedTokens,
       users,
+      // userRole,
       fearAndGreed,
       unrealized,
       fetchTokens,

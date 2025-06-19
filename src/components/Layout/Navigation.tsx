@@ -9,6 +9,7 @@ import { GoUnlock } from 'react-icons/go';
 import { GoGraph } from 'react-icons/go';
 import { GoGear } from 'react-icons/go';
 import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
+// import useGlobalState from '@/src/hooks/useGlobalState';
 
 type Props = { session: SessionContextValue; className?: string };
 
@@ -22,8 +23,10 @@ const navLinks = [
 const Navigation: React.FC<Props> = ({ session, className }) => {
   const [isAdmin, setIsAdmin] = useState(false);
 
+  // const { userRole } = useGlobalState();
   const pathname = usePathname();
 
+  // /*
   useEffect(() => {
     getUserRole().then((res) => {
       if (res?.role === 'ADMIN') {
@@ -31,6 +34,15 @@ const Navigation: React.FC<Props> = ({ session, className }) => {
       }
     });
   }, []);
+  // */
+
+  /*
+  useEffect(() => {
+    if (userRole === 'ADMIN') {
+      setIsAdmin(true);
+    }
+  }, [userRole]);
+  */
 
   useEffect(() => {
     if (!session.status) console.log('no user!');

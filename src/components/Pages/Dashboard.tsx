@@ -43,7 +43,8 @@ const Dashboard = () => {
 
   const { data: session } = useSession();
   const userId = session?.user?.id || null;
-  const ordersParam = { enabled: !!userId };
+  // const ordersParam = { enabled: !!userId };
+  const ordersParam = { enabled: true };
 
   const { userOrders } = useFetchAllUserOrders(currentUser, ordersParam);
   const { updatedTokens, users, fetchTokens } = useGlobalState();
