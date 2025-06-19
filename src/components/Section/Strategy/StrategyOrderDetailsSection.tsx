@@ -21,6 +21,12 @@ type Prices = {
   sell: { key: string; val: string };
 } | null;
 
+type FuturePriceProps = {
+  symbol: string;
+  label: string;
+  val: string;
+};
+
 const StrategyOrderDetailsSection = ({ order, currentPrice, c }: Props) => {
   const [isCustom, setIsCustom] = useState<boolean | null>(null);
   const [prices, setPrices] = useState<Prices>(null);
@@ -72,6 +78,18 @@ const StrategyOrderDetailsSection = ({ order, currentPrice, c }: Props) => {
     .normalizeISODate(order.createdAt, 'DD-MM-YY HH:mm')
     .split(' ');
 
+  const FuturePrice = ({ symbol, label, val }: FuturePriceProps) => {
+    const futurePrice = u.handlePriceDisplay(symbol, val, 3);
+    // const futurePrice = u.handlePriceDisplay(symbol, 203000.234567, 3);
+    return (
+      <span onClick={() => u.copyToClipboard(val)}>
+        <span>{label}</span>
+        <span>{`${futurePrice} $`}</span>
+        {/* <span>{`${u.numberCutter(203000.234567, 3)} $`}</span> */}
+      </span>
+    );
+  };
+
   return (
     <section className="section strategy-order-details">
       <FormWrapper className="create-order-form-wrapper">
@@ -98,15 +116,15 @@ const StrategyOrderDetailsSection = ({ order, currentPrice, c }: Props) => {
                 <span className="strategy-order-details-info-block">
                   <span className="details-info-key">{`${c.price} ($):`}</span>
                   <span className="details-info-price">
-                    {/* <span>{`${203000.567}`}</span> */}
-                    <span>{`${order.price}`}</span>
+                    {/* <span>{`${u.numberCutter(203000.56789, 3)}`}</span> */}
+                    <span>{`${u.numberCutter(order.price, 3)}`}</span>
                   </span>
                 </span>
                 <span className="strategy-order-details-info-block">
                   <span className="details-info-key">{`${c.amount} (${order.symbol}):`}</span>
                   <span className="details-info-amount">
-                    {/* <span>{0.0000521}</span> */}
-                    <span>{order.amount}</span>
+                    {/* <span>{u.numberCutter(0.000054321, 3)}</span> */}
+                    <span>{u.numberCutter(order.amount, 3)}</span>
                   </span>
                 </span>
               </div>
@@ -128,16 +146,16 @@ const StrategyOrderDetailsSection = ({ order, currentPrice, c }: Props) => {
 
               {prices && (
                 <div className="strategy-order-details-prices">
-                  <span onClick={() => u.copyToClipboard(prices.buy.val)}>
-                    <span>{prices.buy.key}</span>
-                    <span>{`${prices.buy.val} $`}</span>
-                    {/* <span>{`${203000.567} $`}</span> */}
-                  </span>
-                  <span onClick={() => u.copyToClipboard(prices.sell.val)}>
-                    <span>{prices.sell.key}</span>
-                    <span>{`${prices.sell.val} $`}</span>
-                    {/* <span>{`${203000.567} $`}</span> */}
-                  </span>
+                  <FuturePrice
+                    symbol={order.symbol}
+                    label={prices.buy.key}
+                    val={prices.buy.val}
+                  />
+                  <FuturePrice
+                    symbol={order.symbol}
+                    label={prices.sell.key}
+                    val={prices.sell.val}
+                  />
                 </div>
               )}
             </div>

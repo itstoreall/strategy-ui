@@ -10,14 +10,14 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const c = {
-  appVersion: 'v1.5.23',
+  appVersion: 'v1.5.24',
   adminPath: '/admin',
   chartPath: '/chart',
   dashboardPath: '/dashboard',
   strategyPath: '/strategy/',
   initDelay: 2000,
-  // cronDelay: 60000,
-  cronDelay: 180000,
+  cronDelay: 60000,
+  // cronDelay: 180000,
   fetchTokens: 'Fetch was successful:',
   updatePrices: 'Prices updated successfully:',
   refetch: 'refetching tokens...',
@@ -70,6 +70,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
     setTimeout(() => {
       if (updatedTokens === null) {
         fetchTokens();
+        setCount(1);
       }
     }, c.initDelay);
 
@@ -144,6 +145,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
     setIsTokenLoading(true);
     updateTokens(c.fetchTokens);
     setIsTokenLoading(false);
+    setCount(1);
   };
 
   const values = useMemo(() => {

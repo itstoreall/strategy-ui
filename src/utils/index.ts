@@ -173,10 +173,13 @@ export const handlePriceDisplay = (
   cut: 2 | 3 = 2
 ) => {
   const isFixedZero = symbol === 'BTC' || symbol === 'ETH';
+  const isCurlyBracket = price.toString().includes('0{');
   const numericPrice = typeof price === 'number' ? price : Number(price);
   const tokenPriceValue = price
     ? isFixedZero
       ? numericPrice.toFixed()
+      : isCurlyBracket
+      ? price
       : numberCutter(numericPrice, cut)
     : numericPrice;
   return tokenPriceValue;
