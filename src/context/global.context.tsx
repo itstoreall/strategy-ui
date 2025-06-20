@@ -2,16 +2,16 @@
 import { createContext, useEffect, useMemo, useState } from 'react';
 // import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
 import useFetchAllUsers from '@/src/hooks/user/useFetchAllUsers';
 import useUpdatePrices from '@/src/hooks/token/useUpdatePrices';
 import { chartService } from '@/src/services/chart.service';
 import * as t from '@/src/types';
-// import { getUserRole } from '../lib/auth/getUserRoleServerAction';
 
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const c = {
-  appVersion: 'v1.5.31',
+  appVersion: 'v1.5.32',
   adminPath: '/admin',
   chartPath: '/chart',
   dashboardPath: '/dashboard',
@@ -30,7 +30,7 @@ export type GlobalContextProps = {
   app: { version: string };
   updatedTokens: t.Token[] | null;
   users: t.User[] | null;
-  // userRole: string;
+  userRole: string;
   fearAndGreed: number;
   unrealized: number;
   fetchTokens: () => void;
@@ -42,7 +42,7 @@ const initContext: GlobalContextProps = {
   app: { version: '' },
   updatedTokens: null,
   users: null,
-  // userRole: '',
+  userRole: '',
   fearAndGreed: 0,
   unrealized: 0,
   fetchTokens: () => {},
@@ -58,7 +58,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   const [fearAndGreed, setFearAndGreed] = useState(0);
   const [unrealized, setUnrealized] = useState(0);
   const [users, setUsers] = useState<t.User[] | null>(null);
-  // const [userRole, setUserRole] = useState('');
+  const [userRole, setUserRole] = useState('');
   const [count, setCount] = useState<number>(0);
 
   const { mutate: updatePrices } = useUpdatePrices();
@@ -82,7 +82,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
       // */
     }, c.initDelay);
 
-    /* // User Role
+    // /* // User Role
     if (!userRole) {
       getUserRole().then((res) => {
         if (res) {
@@ -91,7 +91,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
         }
       });
     }
-    */
+    // */
 
     // Fear and Greed
     chartService.fetchFearAndGreedIndex().then((idx) => {
@@ -163,13 +163,13 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
       isTokenLoading,
       updatedTokens,
       users,
-      // userRole,
+      userRole,
       fearAndGreed,
       unrealized,
       fetchTokens,
       handleUnrealized,
     };
-  }, [userId, updatedTokens, unrealized]);
+  }, [userId, updatedTokens, userRole, unrealized]);
 
   return (
     <GlobalContext.Provider value={values}>{children}</GlobalContext.Provider>

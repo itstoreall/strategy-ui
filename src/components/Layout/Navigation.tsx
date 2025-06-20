@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { SessionContextValue } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -8,8 +8,8 @@ import { GoProject } from 'react-icons/go';
 import { GoUnlock } from 'react-icons/go';
 import { GoGraph } from 'react-icons/go';
 import { GoGear } from 'react-icons/go';
-import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
-// import useGlobalState from '@/src/hooks/useGlobalState';
+// import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
+import useGlobalState from '@/src/hooks/useGlobalState';
 
 type Props = { session: SessionContextValue; className?: string };
 
@@ -21,12 +21,12 @@ const navLinks = [
 ];
 
 const Navigation: React.FC<Props> = ({ session, className }) => {
-  const [isAdmin, setIsAdmin] = useState(false);
+  // const [isAdmin, setIsAdmin] = useState(false);
 
-  // const { userRole } = useGlobalState();
+  const { userRole } = useGlobalState();
   const pathname = usePathname();
 
-  // /*
+  /*
   useEffect(() => {
     getUserRole().then((res) => {
       if (res?.role === 'ADMIN') {
@@ -69,7 +69,7 @@ const Navigation: React.FC<Props> = ({ session, className }) => {
             label
           );
 
-        const isDisabled = label === 'admin' && !isAdmin;
+        const isDisabled = label === 'admin' && userRole !== 'ADMIN';
         const activeStyle = isActive ? 'active' : '';
         const rotateStyle = label === 'dashboard' ? 'rotate' : '';
         const disabledStyle = isDisabled ? 'disable' : '';
