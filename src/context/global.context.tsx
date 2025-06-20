@@ -11,7 +11,7 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const c = {
-  appVersion: 'v1.5.33',
+  appVersion: 'v1.5.34',
   adminPath: '/admin',
   chartPath: '/chart',
   dashboardPath: '/dashboard',
@@ -76,9 +76,9 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
     const initTimeoutId = setTimeout(() => {
       // console.log('useEffect []:', count);
       // /*
-      if (updatedTokens === null) {
-        fetchTokens();
-      }
+      fetchTokens();
+      // if (updatedTokens === null) {
+      // }
       // */
     }, c.initDelay);
 
@@ -99,21 +99,11 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
     return () => clearTimeout(initTimeoutId);
   }, []);
 
-  // useEffect(() => {
-  //     getUserRole().then((res) => {
-  //       if (res) {
-  //         setUserRole(res?.role);
-  //       }
-  //     });
-  //   }, []);
-
   useEffect(() => {
     if (!users && allUsers) {
       setUsers(allUsers);
     }
   }, [allUsers]);
-
-  // console.log('userRole:', userRole);
 
   useEffect(() => {
     // if (window.location.hostname === 'localhost') return;
