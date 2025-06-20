@@ -10,6 +10,7 @@ import { GoGraph } from 'react-icons/go';
 import { GoGear } from 'react-icons/go';
 // import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
 import useGlobalState from '@/src/hooks/useGlobalState';
+import { AuthRoleEnum } from '@/src/enums';
 
 type Props = { session: SessionContextValue; className?: string };
 
@@ -69,7 +70,7 @@ const Navigation: React.FC<Props> = ({ session, className }) => {
             label
           );
 
-        const isDisabled = label === 'admin' && userRole !== 'ADMIN';
+        const isDisabled = label === 'admin' && userRole !== AuthRoleEnum.Admin;
         const activeStyle = isActive ? 'active' : '';
         const rotateStyle = label === 'dashboard' ? 'rotate' : '';
         const disabledStyle = isDisabled ? 'disable' : '';

@@ -4,7 +4,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
+// import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
 import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import useGlobalState from '@/src/hooks/useGlobalState';
 import useModal from '@/src/hooks/useModal';
@@ -39,7 +39,7 @@ const Dashboard = () => {
   const [currentUser, setCurrentUser] = useState<string>('');
   const [usingTokens, setUsingTokens] = useState<number>(0);
   const [isProcess, setIsProcess] = useState<boolean>(true);
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  // const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   const { data: session } = useSession();
   const userId = session?.user?.id || null;
@@ -47,7 +47,7 @@ const Dashboard = () => {
   const ordersParam = { enabled: true };
 
   const { userOrders } = useFetchAllUserOrders(currentUser, ordersParam);
-  const { updatedTokens, users, fetchTokens } = useGlobalState();
+  const { updatedTokens, users, userRole, fetchTokens } = useGlobalState();
   const path = useParams();
 
   const {
@@ -93,13 +93,13 @@ const Dashboard = () => {
     }
   }, [userId]);
 
-  useEffect(() => {
-    if (!userId) return;
-    getUserRole(userId).then((res) => {
-      const _isAdmin = res?.role === AuthRoleEnum.Admin;
-      setIsAdmin(_isAdmin);
-    });
-  }, [currentUser]);
+  // useEffect(() => {
+  //   if (!userId) return;
+  //   getUserRole(userId).then((res) => {
+  //     const _isAdmin = res?.role === AuthRoleEnum.Admin;
+  //     setIsAdmin(_isAdmin);
+  //   });
+  // }, [currentUser]);
 
   useEffect(() => {
     if (!userOrders) return;
@@ -215,7 +215,8 @@ const Dashboard = () => {
         <PageHeading
           title={c.dashboardTitle}
           // title={`${c.dashboardTitle} ${count}`}
-          isAdminButton={isAdmin && !!users && !!userId}
+          isAdminButton={userRole === AuthRoleEnum.Admin && !!users && !!userId}
+          // isAdminButton={isAdmin && !!users && !!userId}
           adminButtonText={currentUserId ? currentUserId.slice(-4) : ''}
           adminButtonFn={() => toggleUser(currentUserId)}
           storedStrategyData={LSStrategyData}

@@ -11,7 +11,7 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const c = {
-  appVersion: 'v1.5.32',
+  appVersion: 'v1.5.33',
   adminPath: '/admin',
   chartPath: '/chart',
   dashboardPath: '/dashboard',
@@ -86,7 +86,6 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
     if (!userRole) {
       getUserRole().then((res) => {
         if (res) {
-          console.log('res?.role:', res?.role);
           setUserRole(res?.role);
         }
       });
@@ -122,7 +121,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
       // if (isDashboard || isStrategy) {
       updateTokens(c.updatePrices);
       // console.log('useEffect [count]:', count);
-      setCount((prev) => prev + 1);
+      // setCount((prev) => prev + 1);
       // }
     }, c.cronDelay);
     return () => clearTimeout(timeoutId);
@@ -146,6 +145,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
         console.error(c.errUpdatePrices, error);
       },
     });
+    setCount((prev) => prev + 1);
   };
 
   const fetchTokens = () => {
@@ -153,7 +153,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
     updateTokens(c.fetchTokens);
     setIsTokenLoading(false);
     // console.log('fetchTokens:', count);
-    setCount((prev) => prev + 1);
+    // setCount((prev) => prev + 1);
   };
 
   const values = useMemo(() => {
