@@ -114,7 +114,6 @@ class UserService {
       const url = '/update-name';
       const payload = { userId: id, name };
       const res: AxiosResponse<UpdatedData> = await axios.put(url, payload);
-      console.log('updateName res:', res);
       return res.data;
     } catch (err: unknown) {
       errorHandler('Failed to set name:', err);

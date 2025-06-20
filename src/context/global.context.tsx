@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { createContext, useEffect, useMemo, useState } from 'react';
-// import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
+import { updateDBSession } from '@/src/lib/auth/updateDBSessionServerAction';
+import { createDBSession } from '@/src/lib/auth/createDBSession';
+import { getDBSession } from '@/src/lib/auth/getDBSessionServerAction';
 import useFetchAllUsers from '@/src/hooks/user/useFetchAllUsers';
 import useUpdatePrices from '@/src/hooks/token/useUpdatePrices';
 import { chartService } from '@/src/services/chart.service';
@@ -11,7 +12,7 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const c = {
-  appVersion: 'v1.5.34',
+  appVersion: 'v1.5.35',
   adminPath: '/admin',
   chartPath: '/chart',
   dashboardPath: '/dashboard',
@@ -55,6 +56,7 @@ const sortById: SortTokens = (a, b) => a.id - b.id;
 export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   const [updatedTokens, setUpdatedTokens] = useState<t.Token[] | null>(null);
   const [isTokenLoading, setIsTokenLoading] = useState<boolean>(false);
+  const [isUpdatedSession, setIsUpdatedSession] = useState(false);
   const [fearAndGreed, setFearAndGreed] = useState(0);
   const [unrealized, setUnrealized] = useState(0);
   const [users, setUsers] = useState<t.User[] | null>(null);
@@ -65,32 +67,13 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   const { users: allUsers = null } = useFetchAllUsers({ enabled: !users });
   const { data: session } = useSession();
 
-  // const path = usePathname();
-
   const userId = session?.user?.id || null;
   const app = { version: c.appVersion };
-  // const isDashboard = path === c.dashboardPath;
-  // const isStrategy = path.includes(c.strategyPath);
 
   useEffect(() => {
     const initTimeoutId = setTimeout(() => {
-      // console.log('useEffect []:', count);
-      // /*
       fetchTokens();
-      // if (updatedTokens === null) {
-      // }
-      // */
     }, c.initDelay);
-
-    // /* // User Role
-    if (!userRole) {
-      getUserRole().then((res) => {
-        if (res) {
-          setUserRole(res?.role);
-        }
-      });
-    }
-    // */
 
     // Fear and Greed
     chartService.fetchFearAndGreedIndex().then((idx) => {
@@ -100,19 +83,36 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   }, []);
 
   useEffect(() => {
+    if (userId && !isUpdatedSession) {
+      getDBSession(userId).then((res) => {
+        const expires = new Date(Date.now() + 1000 * 60 * 60 * 24); // Extend the session by 1 day
+        if (res) {
+          updateDBSession(userId, { expires }).then((res) => {
+            setIsUpdatedSession(!!res);
+          });
+        } else {
+          createDBSession(userId, expires).then((res) => {
+            setIsUpdatedSession(!!res);
+          });
+        }
+      });
+    }
+  }, [userId]);
+
+  useEffect(() => {
     if (!users && allUsers) {
       setUsers(allUsers);
+      const user = allUsers.find((user) => user.id === userId);
+      if (user) {
+        setUserRole(user.role);
+      }
     }
   }, [allUsers]);
 
   useEffect(() => {
     // if (window.location.hostname === 'localhost') return;
     const timeoutId = setTimeout(() => {
-      // if (isDashboard || isStrategy) {
       updateTokens(c.updatePrices);
-      // console.log('useEffect [count]:', count);
-      // setCount((prev) => prev + 1);
-      // }
     }, c.cronDelay);
     return () => clearTimeout(timeoutId);
   }, [count]);
@@ -123,7 +123,6 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
 
   const updateTokens = (msg: string) => {
     const param = {};
-    // console.log('updateTokens:', count);
     updatePrices(param, {
       onSuccess: (data) => {
         if (data?.tokens?.length) {
@@ -142,8 +141,6 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
     setIsTokenLoading(true);
     updateTokens(c.fetchTokens);
     setIsTokenLoading(false);
-    // console.log('fetchTokens:', count);
-    // setCount((prev) => prev + 1);
   };
 
   const values = useMemo(() => {
