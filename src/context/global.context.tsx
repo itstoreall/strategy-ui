@@ -12,7 +12,7 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const c = {
-  appVersion: 'v1.5.35',
+  appVersion: 'v1.5.36',
   adminPath: '/admin',
   chartPath: '/chart',
   dashboardPath: '/dashboard',
@@ -83,6 +83,28 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   }, []);
 
   useEffect(() => {
+    // if (window.location.hostname === 'localhost') return;
+    const timeoutId = setTimeout(() => {
+      updateTokens(c.updatePrices);
+    }, c.cronDelay);
+    return () => clearTimeout(timeoutId);
+  }, [count]);
+
+  useEffect(() => {
+    handleDBSession();
+  }, [userId]);
+
+  useEffect(() => {
+    handleAllUsers();
+  }, [allUsers]);
+
+  useEffect(() => {
+    handleUserRole();
+  }, [users]);
+
+  // ---
+
+  const handleDBSession = () => {
     if (userId && !isUpdatedSession) {
       getDBSession(userId).then((res) => {
         const expires = new Date(Date.now() + 1000 * 60 * 60 * 24); // Extend the session by 1 day
@@ -97,27 +119,22 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
         }
       });
     }
-  }, [userId]);
+  };
 
-  useEffect(() => {
+  const handleAllUsers = () => {
     if (!users && allUsers) {
       setUsers(allUsers);
-      const user = allUsers.find((user) => user.id === userId);
+    }
+  };
+
+  const handleUserRole = () => {
+    if (!userRole && users) {
+      const user = users.find((user) => user.id === userId);
       if (user) {
         setUserRole(user.role);
       }
     }
-  }, [allUsers]);
-
-  useEffect(() => {
-    // if (window.location.hostname === 'localhost') return;
-    const timeoutId = setTimeout(() => {
-      updateTokens(c.updatePrices);
-    }, c.cronDelay);
-    return () => clearTimeout(timeoutId);
-  }, [count]);
-
-  // ---
+  };
 
   const handleUnrealized = (val: number) => setUnrealized(val);
 
@@ -135,6 +152,8 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
       },
     });
     setCount((prev) => prev + 1);
+    handleUserRole();
+    handleAllUsers();
   };
 
   const fetchTokens = () => {
