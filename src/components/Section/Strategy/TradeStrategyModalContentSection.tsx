@@ -1,34 +1,36 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
-import { IoMdTrash } from 'react-icons/io';
-import { TradeStrategy } from '@/src/types';
-import {
-  uniNumberFormatter,
-  normalizeKyivDate,
-  numberCutter,
-} from '@/src/utils';
+// import { IoMdTrash } from 'react-icons/io';
+// import { TradeStrategy } from '@/src/types';
+// import {
+//   uniNumberFormatter,
+//   normalizeKyivDate,
+//   numberCutter,
+// } from '@/src/utils';
 import * as sec from '@/src/components/Section/Strategy/TradeStrategySection';
-import Button from '@/src/components/Button/Button';
+import NewEntrySection from '@/src/components/Section/Strategy/NewEntrySection';
+// import Button from '@/src/components/Button/Button';
 
 type Props = {
-  strategyHistory: sec.History;
+  // strategyHistory: sec.History;
   storedStrategy: sec.Strategy;
-  updateStrategyHistory: () => void;
-  createNewBuyTarget: () => void;
+  // updateStrategyHistory: () => void;
+  // createNewBuyTarget: () => void;
   resetTradeStrategy: (isClose: boolean) => void;
-  deleteHystory: () => void;
+  // deleteHystory: () => void;
+  // onCloseModal: () => void;
 };
 
 /*
 type StringState = Dispatch<SetStateAction<string>>;
 */
 
-const c = {
-  amount: 'Amount',
-  buy: 'Buy',
-  sell: 'Sell',
-  targetButtonText: 'Create Target -10%',
-};
+// const c = {
+//   amount: 'Amount',
+//   buy: 'Buy',
+//   sell: 'Sell',
+//   targetButtonText: 'Create Target -10%',
+// };
 
 const TradeStrategyModalContentSection = (props: Props) => {
   const [amount, setAmount] = useState('');
@@ -42,6 +44,7 @@ const TradeStrategyModalContentSection = (props: Props) => {
     // createNewBuyTarget,
     resetTradeStrategy,
     // deleteHystory,
+    // onCloseModal,
   } = props;
 
   useEffect(() => {
@@ -70,62 +73,80 @@ const TradeStrategyModalContentSection = (props: Props) => {
     }
   }, [sellPrice]);
 
-  const NewEntry = ({ strategy }: { strategy: TradeStrategy }) => {
-    const isAVGPrice = strategy.orders.split(', ').length > 1;
+  // const NewEntry = ({ strategy }: { strategy: TradeStrategy }) => {
+  //   const isAVGPrice = strategy.orders.split(', ').length > 1;
 
-    const formatedBuyPrice = isAVGPrice
-      ? uniNumberFormatter(+buyPrice)
-      : buyPrice;
+  //   const formatedBuyPrice = isAVGPrice
+  //     ? uniNumberFormatter(+buyPrice)
+  //     : buyPrice;
 
-    const strategyDate = normalizeKyivDate(strategy.date, 'DD-MM-YY HH:mm');
+  //   const strategyDate = normalizeKyivDate(strategy.date, 'DD-MM-YY HH:mm');
 
-    const newEntry = [
-      { name: 'Date', value: strategyDate },
-      { name: 'Exchange', value: strategy.exchange },
-      { name: 'Symbol', value: strategy.symbol },
-      { name: c.amount, value: amount },
-      { name: c.buy, value: numberCutter(formatedBuyPrice, 3) },
-      { name: c.sell, value: numberCutter(sellPrice, 3) },
-      { name: 'Invested', value: strategy.invested },
-      { name: 'Profit', value: numberCutter(strategy.profit, 3) },
-      { name: 'Total', value: uniNumberFormatter(strategy.total) },
-      { name: 'Orders', value: strategy.orders },
-    ];
+  //   const newEntry = [
+  //     { name: 'Date', value: strategyDate },
+  //     { name: 'Exchange', value: strategy.exchange },
+  //     { name: 'Symbol', value: strategy.symbol },
+  //     { name: c.amount, value: amount },
+  //     { name: c.buy, value: numberCutter(formatedBuyPrice, 3) },
+  //     { name: c.sell, value: numberCutter(sellPrice, 3) },
+  //     { name: 'Invested', value: strategy.invested },
+  //     { name: 'Profit', value: numberCutter(strategy.profit, 3) },
+  //     { name: 'Total', value: uniNumberFormatter(strategy.total) },
+  //     { name: 'Orders', value: strategy.orders },
+  //   ];
 
-    return storedStrategy ? (
-      <ul className="new-history-entry-list">
-        {newEntry.map((el, idx) => {
-          return (
-            <li key={idx} className="new-history-entry-list-item">
-              <span className="new-history-entry-list-item-key">{`${el.name}:`}</span>
-              <span className="new-history-entry-list-item-val">
-                {el.name === 'profit'
-                  ? uniNumberFormatter(+el.value)
-                  : el.value}
-              </span>
-            </li>
-          );
-        })}
-      </ul>
-    ) : (
-      <div>No Trade Strategy</div>
-    );
-  };
+  //   return storedStrategy ? (
+  //     <ul className="new-history-entry-list">
+  //       {newEntry.map((el, idx) => {
+  //         return (
+  //           <li key={idx} className="new-history-entry-list-item">
+  //             <span className="new-history-entry-list-item-key">{`${el.name}:`}</span>
+  //             <span className="new-history-entry-list-item-val">
+  //               {el.name === 'profit'
+  //                 ? uniNumberFormatter(+el.value)
+  //                 : el.value}
+  //             </span>
+  //           </li>
+  //         );
+  //       })}
+  //     </ul>
+  //   ) : (
+  //     <div>No Trade Strategy</div>
+  //   );
+  // };
 
   return (
     <section className="section trade-strategy-modal">
       <div className="section-content trade-strategy-modal">
         <div className="new-history-entry-list-box">
-          {storedStrategy && <NewEntry strategy={storedStrategy} />}
-
           {storedStrategy && (
+            <NewEntrySection
+              strategy={storedStrategy}
+              resetTradeStrategy={resetTradeStrategy}
+              // storedStrategy={storedStrategy}
+              // amount={amount}
+              // buyPrice={buyPrice}
+              // sellPrice={sellPrice}
+            />
+          )}
+
+          {/* {storedStrategy && (
             <Button
               className="ls-trade-strategy-modal-section-reset-button"
               clickContent={() => resetTradeStrategy(true)}
             >
               <IoMdTrash size={24} fill="black" />
             </Button>
-          )}
+          )} */}
+
+          {/* {storedStrategy && (
+            <Button
+            // className="ls-trade-strategy-modal-section-reset-button"
+            // clickContent={onCloseModal}
+            >
+              {'<'}
+            </Button>
+          )} */}
         </div>
       </div>
     </section>

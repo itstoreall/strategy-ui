@@ -1,16 +1,20 @@
-import Link from 'next/link';
-import { IoMdTrash } from 'react-icons/io';
+import { useEffect, useRef, useState } from 'react';
 import { TradeStrategy } from '@/src/types';
-import { deleteLSTradeStrategyData } from '@/src/utils';
+import NewEntrySection from '@/src/components/Section/Strategy/NewEntrySection';
 import Button from '@/src/components/Button/Button';
+
+export type Strategy = TradeStrategy | null;
 
 type Props = {
   data: TradeStrategy[];
-  // data: { symbol: string }[];
+  storedStrategy: Strategy;
+  handleChoseLSStrategy: (el: Strategy) => void;
+  resetTradeStrategy: () => void;
   closeModal: () => void;
-  resetState: () => void;
+  onOpenModal: () => void;
 };
 
+/*
 const c = {
   path: '/strategy/BUY',
   one: 'oneElement',
@@ -20,73 +24,94 @@ const c = {
   fromFive: 'fromFiveElements',
   fromSeven: 'fromSevenElements',
   resetConfirmMsg: 'All stored Trade Strategies will be deleted!',
+  deleteLSStrategyMsg: 'LS Strategy will be deleted!',
   resetDelay: 2000,
 };
+*/
 
 const LSTradeStrategyModalSection = (props: Props) => {
-  const { data, resetState, closeModal } = props;
+  const [isScrollable, setIsScrollable] = useState(false);
 
+  const { data, storedStrategy, handleChoseLSStrategy, resetTradeStrategy } =
+    props; // resetState, closeModal
+
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const checkHeight = () => {
+      if (contentRef.current) {
+        const ulHeight = contentRef.current.offsetHeight;
+        const maxHeight = window.innerHeight;
+        setIsScrollable(ulHeight > maxHeight);
+      }
+    };
+    checkHeight();
+    window.addEventListener('resize', checkHeight);
+    return () => window.removeEventListener('resize', checkHeight);
+  }, [data.length, storedStrategy]);
+
+  const handleItemClick = (symbol: string | null) => {
+    if (symbol) {
+      const strategy = data.find((el) => el.symbol === symbol);
+      if (strategy) {
+        handleChoseLSStrategy(strategy);
+      }
+    } else {
+      handleChoseLSStrategy(null);
+    }
+  };
+
+  /*
   const resetAllLSData = () => {
     if (!confirm(c.resetConfirmMsg)) return;
     deleteLSTradeStrategyData();
     resetState();
     closeModal();
   };
+  // */
 
   // ---
 
-  const rowStyle =
-    data.length === 1
-      ? c.one
-      : data.length === 2
-      ? c.two
-      : data.length === 3
-      ? c.three
-      : data.length === 4
-      ? c.four
-      : data.length >= 5 && data.length <= 6
-      ? c.fromFive
-      : data.length >= 7 && data.length < 10
-      ? c.fromSeven
-      : '';
-
-  const listStyle = `ls-trade-strategy-modal-section-list ${rowStyle}`;
+  const listStyle = 'ls-trade-strategy-modal-section-list';
 
   return (
-    <section className="section ls-trade-strategy-modal">
-      <ul className={listStyle}>
-        {data.map((strategy, idx) => {
-          const strategyPath = `${c.path}-${strategy.symbol}`;
-
-          const handleLinkClick = () => {
-            setTimeout(() => {
-              closeModal();
-              resetState();
-            }, c.resetDelay);
-          };
-
-          return (
-            <li key={idx} className="ls-trade-strategy-modal-section-list-item">
-              <Link
-                className={'ls-trade-strategy-modal-section-list-item-link'}
-                href={strategyPath}
-                prefetch={false}
-                onClick={handleLinkClick}
-              />
-              <span className="ls-trade-strategy-modal-section-token-symbol">
-                {strategy.symbol}
-              </span>
-            </li>
-          );
-        })}
-      </ul>
-
-      <Button
-        className="ls-trade-strategy-modal-section-reset-button"
-        clickContent={resetAllLSData}
+    <section
+      className={`section ls-trade-strategy-modal${
+        isScrollable ? '-scrollable' : ''
+      }`}
+    >
+      <div
+        ref={contentRef}
+        className={`section-content ls-trade-strategy-modal${
+          storedStrategy ? '-new-entry-block' : ''
+        }`}
       >
-        <IoMdTrash size={24} fill="black" />
-      </Button>
+        {storedStrategy ? (
+          <NewEntrySection
+            strategy={storedStrategy}
+            resetTradeStrategy={resetTradeStrategy}
+            handleGoBack={() => handleItemClick(null)}
+          />
+        ) : (
+          <ul className={listStyle}>
+            {data.map((strategy, idx) => {
+              return (
+                <li
+                  key={idx}
+                  className="ls-trade-strategy-modal-section-list-item"
+                >
+                  <Button
+                    className="ls-trade-strategy-modal-section-list-item-button"
+                    clickContent={() => handleItemClick(strategy.symbol)}
+                  >
+                    {strategy.symbol}
+                  </Button>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div>
     </section>
   );
 };

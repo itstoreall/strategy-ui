@@ -130,12 +130,19 @@ button.uni-button {
     }
   }
 
-  &.ls-trade-strategy-modal-section-reset-button {
-    // position: absolute;
-    // left: 50%;
-    // top: -80px;
-    // bottom: -100px;
-    // transform: translateX(-50% 50%);
+  &.ls-trade-strategy-modal-section-list-item-button {
+    padding: 0;
+    height: 100%;
+    color: $googleYellow;
+    background-color: $googleYellowDeepDarkPlus;
+
+    &:hover {
+      background-color: $googleYellowDeepDark;
+    }
+  }
+
+  &.new-entry-section-reset-button,
+  &.new-entry-section-go-back-button {
     display: flex;
     justify-content: center;
     align-items: center;

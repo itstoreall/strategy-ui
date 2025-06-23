@@ -2,140 +2,46 @@
 @use '@/src/sass/base/vars' as *;
 
 // General
-section.section.ls-trade-strategy-modal {
+section.section.ls-trade-strategy-modal,
+section.section.ls-trade-strategy-modal-scrollable {
   background-color: transparent;
 }
 
 // Custom
-section.ls-trade-strategy-modal {
-  position: relative;
+section.ls-trade-strategy-modal-scrollable {
+  height: 100svh;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
 
-  > ul.ls-trade-strategy-modal-section-list {
-    display: grid;
-    gap: 10px;
+section.ls-trade-strategy-modal,
+section.ls-trade-strategy-modal-scrollable {
+  // position: relative;
 
-    @include media-screen-orientation('max', $tablet - 0.1) {
-      padding-bottom: 2rem;
-    }
+  div.section-content.ls-trade-strategy-modal-new-entry-block {
+    width: calc(300px - 1.4rem);
+  }
 
-    > li.ls-trade-strategy-modal-section-list-item {
-      position: relative;
-      aspect-ratio: 1 / 1;
-      border: 1px solid $googleYellow;
-      border-radius: $middleBorderRadius;
+  div.section-content.ls-trade-strategy-modal {
+    > ul {
+      display: grid;
+      gap: 1rem;
 
-      > a {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-        background-color: $googleYellow;
-        opacity: 0.1;
-        transition: opacity $ease03s;
-
-        &:hover {
-          opacity: 0.2;
+      &.ls-trade-strategy-modal-section-list {
+        /*
+        @include media-screen-orientation('max', $tablet - 0.1) {
+          padding-bottom: 2rem;
         }
-      }
+        */
 
-      > span.ls-trade-strategy-modal-section-token-symbol {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: $googleYellow;
-        user-select: none;
-        pointer-events: none;
-      }
-    }
-
-    &.oneElement {
-      grid-template-columns: 1fr;
-
-      > li.ls-trade-strategy-modal-section-list-item {
-        width: 140px;
-      }
-    }
-
-    &.twoElements {
-      grid-template-columns: 1fr;
-
-      @include media-screen-orientation('min', $tablet) {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      > li.ls-trade-strategy-modal-section-list-item {
-        width: 140px;
-      }
-    }
-
-    &.threeElements {
-      grid-template-columns: 1fr;
-
-      @include media-screen-orientation('min', $tablet) {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      > li.ls-trade-strategy-modal-section-list-item {
-        width: 130px;
-      }
-    }
-
-    &.fourElements {
-      grid-template-columns: repeat(2, 1fr);
-
-      > li.ls-trade-strategy-modal-section-list-item {
-        width: 100px;
-
-        @include media-screen-orientation('min', $mobile) {
+        > li.ls-trade-strategy-modal-section-list-item {
+          position: relative;
+          aspect-ratio: 1 / 1;
           width: 140px;
-        }
-      }
-    }
-
-    &.fromFiveElements {
-      grid-template-columns: repeat(2, 1fr);
-
-      @include media-screen-orientation('min', $tablet) {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      > li.ls-trade-strategy-modal-section-list-item {
-        width: 80px;
-
-        @include media-screen-orientation('min', $mobile) {
-          width: 90px;
-        }
-
-        @include media-screen-orientation('min', $tablet) {
-          width: 100px;
-        }
-      }
-    }
-
-    &.fromSevenElements {
-      grid-template-columns: repeat(3, 1fr);
-
-      // @include media-screen-orientation('min', $tablet) {
-      //   grid-template-columns: repeat(3, 1fr);
-      // }
-
-      > li.ls-trade-strategy-modal-section-list-item {
-        width: 80px;
-
-        @include media-screen-orientation('min', $mobile) {
-          width: 90px;
-        }
-
-        @include media-screen-orientation('min', $tablet) {
-          width: 100px;
+          border: 1px solid $googleYellow;
+          border-radius: $middleBorderRadius;
         }
       }
     }
   }
-
-  // > svg {
-  //   position: absolute;
-  // }
 }

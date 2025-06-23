@@ -10,7 +10,11 @@ import useGlobalState from '@/src/hooks/useGlobalState';
 import useModal from '@/src/hooks/useModal';
 import { Order, TradeStrategy } from '@/src/types';
 import { AuthRoleEnum, QueryKeyEnum } from '@/src/enums';
-import { getLSTradeStrategyData, deleteLSTradeStrategyData } from '@/src/utils';
+import {
+  getLSTradeStrategyData,
+  deleteLSTradeStrategyData,
+  updateLSTradeStrategyData,
+} from '@/src/utils';
 import LSTradeStrategyModalSection from '@/src/components/Section/LSTradeStrategyModalSection';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
 import GradientProgressLoader from '@/src/assets/animation/GradientProgressLoader';
@@ -22,11 +26,14 @@ import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import SectionsContainer from '@/src/components/Container/Sections';
 import PricesSection from '@/src/components/Section/PricesSection';
 import MainLoader from '@/src/components/MainLoader';
+// import TradeStrategyModalContentSection from '../Section/Strategy/TradeStrategyModalContentSection';
 
 export type StoredData = TradeStrategy[] | null;
+export type Strategy = TradeStrategy | null;
 
 const c = {
   dashboardTitle: 'Dashboard',
+  deleteLSStrategy: 'LS Strategy will be deleted!',
 };
 
 const Dashboard = () => {
@@ -40,6 +47,8 @@ const Dashboard = () => {
   const [usingTokens, setUsingTokens] = useState<number>(0);
   const [isProcess, setIsProcess] = useState<boolean>(true);
   // const [isAdmin, setIsAdmin] = useState<boolean>(false);
+
+  const [storedStrategy, setStoredStrategy] = useState<Strategy>(null);
 
   const { data: session } = useSession();
   const userId = session?.user?.id || null;
@@ -55,11 +64,81 @@ const Dashboard = () => {
     openModal,
     isFormModal,
     isLSStrategyDataModal,
+    // isStrategyModal,
     closeModal,
-    // ModalContentEnum,
+    ModalContentEnum,
   } = useModal();
 
   const currentUserId = currentUser ? currentUser : (userId as string);
+
+  // ---
+
+  // useEffect(() => {
+  //   const lsData = getLSCurrentStrategy('COMP');
+  //   if (lsData) {
+  //     setStoredStrategy(lsData);
+  //   }
+  // }, []);
+
+  // const getLSCurrentStrategy = (_symbol: string): Strategy => {
+  //   const lsData = getLSTradeStrategyData();
+  //   const lsStrategy = lsData
+  //     ? lsData.find((storedStrategy: TradeStrategy) => {
+  //         return storedStrategy.symbol === _symbol;
+  //       })
+  //     : null;
+  //   return lsStrategy ? lsStrategy : null;
+  // };
+
+  useEffect(() => {
+    if (!isLSStrategyDataModal && storedStrategy) {
+      setStoredStrategy(null);
+    }
+  }, [isLSStrategyDataModal]);
+
+  const resetTradeStrategy = () => {
+    console.log('111');
+    if (!storedStrategy) return;
+    const storedData = getLSTradeStrategyData();
+    const confirmMsg = `${storedStrategy.symbol} ${c.deleteLSStrategy}`;
+    if (!confirm(confirmMsg) || !storedData) return;
+    const dataWithoutCurrentToken = storedData.filter((el: TradeStrategy) => {
+      return el.symbol !== storedStrategy.symbol;
+    });
+    if (dataWithoutCurrentToken.length) {
+      if (storedData.length > dataWithoutCurrentToken.length) {
+        updateLSTradeStrategyData(dataWithoutCurrentToken);
+        setStoredStrategy(null);
+      }
+    } else {
+      deleteLSTradeStrategyData();
+      setStoredStrategy(null);
+    }
+    getLSStrateguData();
+    // closeModal();
+    // if (isClose) {
+    //   return;
+    // }
+  };
+
+  const handleChoseLSStrategy = (el: Strategy | null) => setStoredStrategy(el);
+
+  const handleOpenNewEntryModal = () => {
+    openModal(ModalContentEnum.Strategy);
+  };
+
+  // const handleCloseNewEntryModal = () => {
+  //   openModal(ModalContentEnum.LSStrategyData);
+  // };
+
+  // useEffect(() => {
+  //   if (!storedStrategy) {
+  //     console.log('getLSStrateguData!!!');
+  //     getLSStrateguData();
+  //   }
+  // }, [storedStrategy]);
+
+  // ---
 
   useEffect(() => {
     if (!updatedTokens) {
@@ -70,14 +149,16 @@ const Dashboard = () => {
 
     // ---
 
-    const lsTradeStrategyData = getLSTradeStrategyData();
-    if (lsTradeStrategyData) {
-      if (lsTradeStrategyData.length) {
-        setLSStrategyData(lsTradeStrategyData);
-      } else {
-        deleteLSTradeStrategyData();
-      }
-    }
+    // getLSStrateguData();
+
+    // const lsTradeStrategyData = getLSTradeStrategyData();
+    // if (lsTradeStrategyData) {
+    //   if (lsTradeStrategyData.length) {
+    //     setLSStrategyData(lsTradeStrategyData);
+    //   } else {
+    //     deleteLSTradeStrategyData();
+    //   }
+    // }
   }, []);
 
   useEffect(() => {
@@ -89,6 +170,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (userId) {
+      getLSStrateguData();
       setCurrentUser(userId);
     }
   }, [userId]);
@@ -158,8 +240,19 @@ const Dashboard = () => {
     setIsProcess(false);
   }, [updatedTokens, userOrders]);
 
-  const handleLSStrategyData = (data: TradeStrategy[] | null) => {
-    setLSStrategyData(data);
+  // const handleLSStrategyData = (data: TradeStrategy[] | null) => {
+  //   setLSStrategyData(data);
+  // };
+
+  const getLSStrateguData = () => {
+    const lsTradeStrategyData = getLSTradeStrategyData();
+    if (lsTradeStrategyData) {
+      if (lsTradeStrategyData.length) {
+        setLSStrategyData(lsTradeStrategyData);
+      } else {
+        deleteLSTradeStrategyData();
+      }
+    }
   };
 
   const toggleUser = (currentUser: string) => {
@@ -187,17 +280,17 @@ const Dashboard = () => {
 
   /*
   const d = [
+    { symbol: 'COMP' },
+    { symbol: 'EOS' },
     { symbol: 'VIRTUAL' },
     { symbol: 'VIRTUAL' },
     { symbol: 'VIRTUAL' },
     { symbol: 'VIRTUAL' },
-    { symbol: 'VIRTUAL' },
-    { symbol: 'VIRTUAL' },
-    { symbol: 'VIRTUAL' },
-    { symbol: 'VIRTUAL' },
-    { symbol: 'VIRTUAL' },
-    { symbol: 'VIRTUAL' },
-    { symbol: 'VIRTUAL' },
+    // { symbol: 'VIRTUAL' },
+    // { symbol: 'VIRTUAL' },
+    // { symbol: 'VIRTUAL' },
+    // { symbol: 'VIRTUAL' },
+    // { symbol: 'VIRTUAL' },
   ];
   // */
 
@@ -296,8 +389,12 @@ const Dashboard = () => {
             <LSTradeStrategyModalSection
               data={LSStrategyData.slice(0, 9)}
               // data={d.slice(0, 9)}
-              resetState={() => handleLSStrategyData(null)}
+              storedStrategy={storedStrategy}
+              handleChoseLSStrategy={handleChoseLSStrategy}
+              resetTradeStrategy={resetTradeStrategy}
+              // resetState={() => handleLSStrategyData(null)}
               closeModal={closeModal}
+              onOpenModal={handleOpenNewEntryModal}
             />
           </RenderModal>
         )}

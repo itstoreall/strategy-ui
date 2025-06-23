@@ -6,40 +6,6 @@ section.section.trade-strategy-modal {
   background-color: transparent;
 }
 
-// Custom
-section.trade-strategy-modal {
-  div.section-content.trade-strategy-modal {
-    > div.new-history-entry-list-box {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 0 0 1rem;
-
-      > ul.new-history-entry-list {
-        display: flex;
-        flex-direction: column;
-        gap: 0.7rem;
-        padding: 1rem 1rem 1.2rem;
-        margin-bottom: 2rem;
-        width: calc(100% - 2rem - 2px);
-        border: 1px solid $googleYellow;
-        border-radius: $middleBorderRadius;
-
-        > li.new-history-entry-list-item {
-          display: flex;
-          justify-content: space-between;
-          gap: 0.5rem;
-
-          > span {
-            color: $googleYellow;
-
-            /*
-            &.new-history-entry-list-item-key {}
-            &.new-history-entry-list-item-val {}
-            */
-          }
-        }
-      }
-    }
-  }
-}
+/* // Custom
+section.trade-strategy-modal {}
+// */

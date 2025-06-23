@@ -52,10 +52,33 @@
   &.LS_STRATEGY_DATA {
     > div.modal {
       width: auto;
+      // padding: 1rem;
+      // max-width: $mobile;
 
-      /*
+      // /*
       > div.ls-trade-strategy-modal-content {
+        display: flex;
+        // align-items: center;
+        // width: 100%;
+        // min-width: 280px;
+        // height: 100svh;
+        // overflow-y: scroll;
+        // scrollbar-width: none;
+        // background-color: teal;
         // --- LSTradeStrategyModalSection is here!
+
+        // @include media-screen-orientation('max', $tablet - 0.1) {
+        //   transform: translateY(-2rem);
+        // }
+
+        // @include media-screen-height('max', 552px) {
+        //   height: 100svh;
+        //   overflow-y: scroll;
+        // }
+        @include media-screen-height('min', 100svh) {
+          // height: 100svh;
+          // overflow-y: scroll;
+        }
       }
       // */
     }

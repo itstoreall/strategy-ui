@@ -1,16 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useLayoutEffect } from 'react';
-import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import useTakeProfitOrders from '@/src/hooks/strategy/useTakeProfitOrders';
-import useUpdateStrategy from '@/src/hooks/strategy/useUpdateStrategy';
 import useModal from '@/src/hooks/useModal';
-import { ExchangeEnum, OrderTypeEnum, QueryKeyEnum } from '@/src/enums';
+/*
+import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
+import useUpdateStrategy from '@/src/hooks/strategy/useUpdateStrategy';
+import useCreateOrder from '@/src/hooks/order/useCreateOrder';
+*/
+import { ExchangeEnum } from '@/src/enums';
 import * as t from '@/src/types';
 import * as u from '@/src/utils';
 import TradeStrategyModalContentSection from '@/src/components/Section/Strategy/TradeStrategyModalContentSection';
 import TradeStrategyOrderListSection from '@/src/components/Section/Strategy/TradeStrategyOrderListSection';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
-import useCreateOrder from '@/src/hooks/order/useCreateOrder';
 
 export type TradeStrategyProps = {
   userId: string;
@@ -35,11 +37,10 @@ const c = {
 const TradeStrategySection = (props: TradeStrategyProps) => {
   const [copiedField, setCopiedField] = useState<CopiedField | null>(null);
   const [orders, setOrders] = useState<t.Order[] | null>(null);
-  const [strategyHistory, setStrategyHistory] = useState<History>(null);
+  // const [strategyHistory, setStrategyHistory] = useState<History>(null);
   const [storedStrategy, setStoredStrategy] = useState<Strategy>(null);
 
-  const { userId, token, orderData, filterExchange, handleFilterExchange } =
-    props;
+  const { token, orderData, filterExchange, handleFilterExchange } = props;
 
   const {
     selectedOrders,
@@ -59,6 +60,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     handleSelectAllOrders,
   } = useTakeProfitOrders({ orders });
 
+  /*
   const { userOrders } = useFetchAllUserOrders(userId, { enabled: !!userId });
 
   const { mutate: updateStrategy, isSuccess: isSuccessUpdateStrategy } =
@@ -74,6 +76,25 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     // isSuccess,
     // isError,
   } = useCreateOrder(invalidateQuery);
+
+  useEffect(() => {
+    if (isSuccessUpdateStrategy) {
+      resetTradeStrategy(false);
+      }
+      }, [isSuccessUpdateStrategy]);
+      
+  useLayoutEffect(() => {
+    if (orderData.strategy && orderData.strategy?.data) {
+      const _strategyHistory =
+        typeof orderData.strategy.data === 'string'
+          ? JSON.parse(orderData.strategy.data)
+          : typeof orderData.strategy.data === 'object'
+          ? [orderData.strategy.data]
+          : orderData.strategy.data;
+      setStrategyHistory(_strategyHistory);
+    }
+  }, [orderData]);
+  */
 
   const {
     isStrategyModal,
@@ -92,12 +113,6 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     }
   }, []);
 
-  useEffect(() => {
-    if (isSuccessUpdateStrategy) {
-      resetTradeStrategy(false);
-    }
-  }, [isSuccessUpdateStrategy]);
-
   useLayoutEffect(() => {
     // Take Profit
     if (orderData.orders && handleFilterExchange) {
@@ -107,17 +122,6 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
       } else if (exs.size > 1) {
         handleFilterExchange(ExchangeEnum.All);
       }
-    }
-
-    // History
-    if (orderData.strategy && orderData.strategy?.data) {
-      const _strategyHistory =
-        typeof orderData.strategy.data === 'string'
-          ? JSON.parse(orderData.strategy.data)
-          : typeof orderData.strategy.data === 'object'
-          ? [orderData.strategy.data]
-          : orderData.strategy.data;
-      setStrategyHistory(_strategyHistory);
     }
   }, [orderData]);
 
@@ -226,14 +230,6 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
 
   // ---
 
-  const handleDisplayBuyPrice = (strategy: t.TradeStrategy) => {
-    const isAVGPrice = strategy.orders.split(', ').length > 1;
-    const buyPrice = isAVGPrice
-      ? u.uniNumberFormatter(strategy.avgBuyPrice)
-      : strategy.avgBuyPrice;
-    return buyPrice;
-  };
-
   const displayConfirmMessage = (storedTradeStrategy: t.TradeStrategy) => {
     return `Will be replaced: ${token.symbol} (${storedTradeStrategy.exchange})
 
@@ -286,6 +282,15 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     }
   };
 
+  /* --- Do not delete!
+  const handleDisplayBuyPrice = (strategy: t.TradeStrategy) => {
+    const isAVGPrice = strategy.orders.split(', ').length > 1;
+    const buyPrice = isAVGPrice
+      ? u.uniNumberFormatter(strategy.avgBuyPrice)
+      : strategy.avgBuyPrice;
+    return buyPrice;
+  };
+
   const createNewBuyTarget = () => {
     if (userOrders) {
       const existingTarget = userOrders.sell.find(
@@ -296,7 +301,6 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
         return;
       }
       if (!confirm(`${token.symbol} (-10%) Targer will be created!`)) return;
-      // /*
       if (!storedStrategy) return;
       const payload = {
         type: OrderTypeEnum.Sell,
@@ -308,10 +312,9 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
       };
       console.log('payload:', payload);
       createOrder(payload);
-      // */
     }
   };
-
+  
   const updateStrategyHistory = () => {
     const storedStrategy = getLSCurrentStrategy(token.symbol);
     if (storedStrategy && orderData.strategy) {
@@ -324,18 +327,18 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
         s: storedStrategy.sellPrice,
         // o: storedStrategy.orders,
       };
-
+      
       if (!confirm('New History entry will be created!')) return;
       const newData = strategyHistory
-        ? [...strategyHistory, newHistoryEntry]
-        : [newHistoryEntry];
+      ? [...strategyHistory, newHistoryEntry]
+      : [newHistoryEntry];
       updateStrategy({
         strategyId: +orderData.strategy.id,
         params: newData,
       });
     }
   };
-
+  
   const deleteHystory = () => {
     if (!confirm('All History will be deleted!')) return;
     updateStrategy({
@@ -344,6 +347,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     });
     setStrategyHistory(null);
   };
+  */
 
   const resetTradeStrategy = (isClose: boolean) => {
     const storedData = u.getLSTradeStrategyData();
@@ -413,12 +417,12 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
       {isStrategyModal && (
         <RenderModal>
           <TradeStrategyModalContentSection
-            strategyHistory={strategyHistory}
+            // strategyHistory={strategyHistory}
             storedStrategy={storedStrategy}
-            updateStrategyHistory={updateStrategyHistory}
-            createNewBuyTarget={createNewBuyTarget}
+            // updateStrategyHistory={updateStrategyHistory}
+            // createNewBuyTarget={createNewBuyTarget}
             resetTradeStrategy={resetTradeStrategy}
-            deleteHystory={deleteHystory}
+            // deleteHystory={deleteHystory}
           />
         </RenderModal>
       )}

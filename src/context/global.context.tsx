@@ -12,7 +12,7 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const c = {
-  appVersion: 'v1.5.36',
+  appVersion: 'v1.5.37',
   adminPath: '/admin',
   chartPath: '/chart',
   dashboardPath: '/dashboard',
@@ -83,7 +83,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   }, []);
 
   useEffect(() => {
-    // if (window.location.hostname === 'localhost') return;
+    if (window.location.hostname === 'localhost') return;
     const timeoutId = setTimeout(() => {
       updateTokens(c.updatePrices);
     }, c.cronDelay);
@@ -92,6 +92,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
 
   useEffect(() => {
     handleDBSession();
+    handleUserRole();
   }, [userId]);
 
   useEffect(() => {
@@ -128,7 +129,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   };
 
   const handleUserRole = () => {
-    if (!userRole && users) {
+    if (!userRole && users && userId) {
       const user = users.find((user) => user.id === userId);
       if (user) {
         setUserRole(user.role);
