@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { GoProject } from 'react-icons/go';
 import { GoUnlock } from 'react-icons/go';
+import { GoLock } from 'react-icons/go';
 import { GoGraph } from 'react-icons/go';
 import { GoGear } from 'react-icons/go';
 // import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
@@ -56,10 +57,15 @@ const Navigation: React.FC<Props> = ({ session, className }) => {
     <nav className={`nav ${className}`}>
       {navLinks.map(({ label, href }) => {
         const isActive = pathname === href;
+        const isAdmin = userRole === AuthRoleEnum.Admin;
 
         const linkItem =
           label === 'admin' ? (
-            <GoUnlock size={'20.8px'} />
+            isAdmin ? (
+              <GoUnlock size={'20.8px'} />
+            ) : (
+              <GoLock size={'20.8px'} />
+            )
           ) : label === 'chart' ? (
             <GoGraph size={'20.8px'} />
           ) : label === 'dashboard' ? (
@@ -70,7 +76,7 @@ const Navigation: React.FC<Props> = ({ session, className }) => {
             label
           );
 
-        const isDisabled = label === 'admin' && userRole !== AuthRoleEnum.Admin;
+        const isDisabled = label === 'admin' && !isAdmin;
         const activeStyle = isActive ? 'active' : '';
         const rotateStyle = label === 'dashboard' ? 'rotate' : '';
         const disabledStyle = isDisabled ? 'disable' : '';
