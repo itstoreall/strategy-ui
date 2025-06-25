@@ -15,21 +15,24 @@ import * as enm from '@/src/enums';
 import * as t from '@/src/types';
 import * as u from '@/src/utils';
 import GradientProgressLoader from '@/src/assets/animation/GradientProgressLoader';
-import StrategyOrderListSection from '@/src/components/Section/StrategyOrderListSection';
-import StrategySnapshotSection from '@/src/components/Section/StrategySnapshotSection';
-import TradeStrategySection from '@/src/components/Section/Strategy/TradeStrategySection';
-import MainDividerSection from '@/src/components/Section/MainDividerSection';
+// import StrategyOrderListSection from '@/src/components/Section/StrategyOrderListSection';
+// import StrategySnapshotSection from '@/src/components/Section/StrategySnapshotSection';
+// import TradeStrategySection from '@/src/components/Section/Strategy/TradeStrategySection';
+// import MainDividerSection from '@/src/components/Section/MainDividerSection';
+// import * as heading from '@/src/components/Layout/PageHeading';
+// import PageHeading from '@/src/components/Layout/PageHeading';
+import DCAStrategySection from '@/src/components/Section/Strategy/DCAStrategySection';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import PageContainer, { Label } from '@/src/components/Container/Page';
-import SectionsContainer from '@/src/components/Container/Sections';
-import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
+// import SectionsContainer from '@/src/components/Container/Sections';
+// import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import MainLoader from '@/src/components/MainLoader';
-import DotsLoader from '@/src/components/DotsLoader';
+// import DotsLoader from '@/src/components/DotsLoader';
 /*
 import Button from '@/src/components/Button/Button';
 // */
 
-type Snapshot = {
+export type Snapshot = {
   totalAmount: number;
   positiveOrders: number;
   successOrders: number | null;
@@ -37,18 +40,40 @@ type Snapshot = {
   profit: number | null;
 };
 
+type SortedOrder = {
+  percent: number;
+  priority: number;
+  id: number;
+  type: string;
+  symbol: string;
+  amount: number;
+  price: number;
+  fiat: number;
+  status: enm.OrderStatusEnum;
+  userId: string;
+  strategy: {
+    target: number;
+    data: JSON;
+  };
+  exchange: enm.ExchangeEnum;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type SortedOrders = SortedOrder[] | null;
+
 const c = {
   lsTakeProfitKey: 'takeProfit',
-  listLoaderColor: '#3a3f46',
-  loading: 'Loading',
-  dividerTitle: 'Orders',
+  // listLoaderColor: '#3a3f46',
+  // loading: 'Loading',
+  // dividerTitle: 'Orders',
 };
 
 const {
   OrderStatusEnum,
-  OrderTypeDisplayEnum,
+  // OrderTypeDisplayEnum,
   OrderTypeEnum,
-  QueryKeyEnum,
+  // QueryKeyEnum,
   ExchangeEnum,
 } = enm;
 
@@ -74,7 +99,7 @@ const Strategy = () => {
   const symbol = path.split('-')[1];
   const token = updatedTokens?.find((token) => token?.symbol === symbol);
 
-  const { RenderModal, openModal, ModalContentEnum, isFormModal } = useModal();
+  const { openModal, ModalContentEnum } = useModal();
 
   const { userOrderData } = useFetchAllUserStrategyOrders(
     userId,
@@ -151,45 +176,47 @@ const Strategy = () => {
     return { priority: 4 };
   };
 
-  const classifiedOrders = userOrderData?.orders?.map((order) => {
-    const percent = ((currentPrice - order.price) / order.price) * 100;
-    if (!exchanges.includes(order.exchange)) {
-      exchanges.push(order.exchange);
-    }
-
-    const calculateSnapshotValues = (order: t.Order, percent: number) => {
-      snapshot.totalAmount += order.amount;
-      snapshot.deposit += order.fiat;
-      if (!percent.toString().includes('-')) {
-        if (snapshot.profit === null) {
-          snapshot.profit = 0 + order.amount * currentPrice;
-        } else {
-          snapshot.profit += order.amount * currentPrice;
+  const classifiedOrders: SortedOrder[] | null = userOrderData?.orders
+    ? userOrderData?.orders?.map((order) => {
+        const percent = ((currentPrice - order.price) / order.price) * 100;
+        if (!exchanges.includes(order.exchange)) {
+          exchanges.push(order.exchange);
         }
-        if (percent >= userOrderData.strategy.target) {
-          if (snapshot.successOrders === null) {
-            snapshot.successOrders = 1;
-          } else {
-            snapshot.successOrders += 1;
+
+        const calculateSnapshotValues = (order: t.Order, percent: number) => {
+          snapshot.totalAmount += order.amount;
+          snapshot.deposit += order.fiat;
+          if (!percent.toString().includes('-')) {
+            if (snapshot.profit === null) {
+              snapshot.profit = 0 + order.amount * currentPrice;
+            } else {
+              snapshot.profit += order.amount * currentPrice;
+            }
+            if (percent >= userOrderData.strategy.target) {
+              if (snapshot.successOrders === null) {
+                snapshot.successOrders = 1;
+              } else {
+                snapshot.successOrders += 1;
+              }
+            }
+            if (snapshot.positiveOrders === null) {
+              snapshot.positiveOrders = 1;
+            } else {
+              snapshot.positiveOrders += 1;
+            }
           }
-        }
-        if (snapshot.positiveOrders === null) {
-          snapshot.positiveOrders = 1;
-        } else {
-          snapshot.positiveOrders += 1;
-        }
-      }
-    };
+        };
 
-    if (order.exchange === filterExchange) {
-      calculateSnapshotValues(order, percent);
-    } else if (filterExchange === ExchangeEnum.All) {
-      calculateSnapshotValues(order, percent);
-    }
+        if (order.exchange === filterExchange) {
+          calculateSnapshotValues(order, percent);
+        } else if (filterExchange === ExchangeEnum.All) {
+          calculateSnapshotValues(order, percent);
+        }
 
-    const { priority } = classifyOrder(percent, userOrderData.strategy);
-    return { ...order, percent, priority };
-  });
+        const { priority } = classifyOrder(percent, userOrderData.strategy);
+        return { ...order, percent, priority };
+      })
+    : null;
 
   const sortedOrders = classifiedOrders?.sort((a, b) => {
     if (a.priority === b.priority) {
@@ -201,6 +228,7 @@ const Strategy = () => {
 
   const handleModal = () => openModal(ModalContentEnum.Form);
 
+  /*
   const ListLoader = () => {
     return (
       <span
@@ -217,6 +245,7 @@ const Strategy = () => {
       </span>
     );
   };
+  */
 
   // ---
 
@@ -242,17 +271,44 @@ const Strategy = () => {
           isButtonDisabled={!updatedTokens}
         />
 
-        {/* <Button clickContent={handleUpdateStrategy} disabled={isPending}>
-          {isPending ? 'Updating...' : 'Update'}
-        </Button> */}
+        {userId && token && userOrderData?.orders && sortedOrders ? (
+          <DCAStrategySection
+            userId={userId}
+            symbol={symbol}
+            type={type}
+            token={token}
+            currentPrice={currentPrice}
+            avgBuyPrice={avgBuyPrice}
+            filterExchange={filterExchange}
+            updatedTokens={updatedTokens}
+            userOrderData={userOrderData}
+            sortedOrders={sortedOrders}
+            exchanges={exchanges}
+            snapshot={snapshot}
+            isTakeProfit={isTakeProfit}
+            isEditMenu={isEditMenu}
+            handleFilterExchange={handleFilterExchange}
+            setIsEditMenu={setIsEditMenu}
+          />
+        ) : (
+          <MainLoader />
+        )}
+      </main>
+
+      {/* <main className="main">
+        <PageHeading
+          title={symbol}
+          assetPrice={currentPrice}
+          mainButtonText={mainButtonText}
+          handleModal={handleModal}
+          isButtonDisabled={!updatedTokens}
+        />
 
         {userOrderData?.orders ? (
           <div className="main-content">
             <SectionsContainer>
               <StrategySnapshotSection
-                /*
-                sortedOrders={sortedOrders ?? null}
-                */
+                // sortedOrders={sortedOrders ?? null}
                 orderNumber={sortedOrders?.length ?? 0}
                 totalAmount={snapshot.totalAmount}
                 positiveOrders={snapshot.positiveOrders}
@@ -277,9 +333,7 @@ const Strategy = () => {
                   <MainDividerSection
                     className="order-list-devider"
                     title={c.dividerTitle}
-                    /*
-                    subTitle={calculateStrategyPercent()}
-                    */
+                    // subTitle={calculateStrategyPercent()}
                     avgBuyPrice={avgBuyPrice}
                     exchanges={exchanges}
                     filterExchange={filterExchange}
@@ -328,7 +382,7 @@ const Strategy = () => {
             />
           </RenderModal>
         )}
-      </main>
+      </main> */}
     </PageContainer>
   );
 };

@@ -15,11 +15,18 @@ import { AuthRoleEnum } from '@/src/enums';
 
 type Props = { session: SessionContextValue; className?: string };
 
+const c = {
+  admin: 'admin',
+  chart: 'chart',
+  dashboard: 'dashboard',
+  settings: 'settings',
+};
+
 const navLinks = [
-  { label: 'admin', href: '/admin' },
-  { label: 'chart', href: '/chart' },
-  { label: 'dashboard', href: '/dashboard' },
-  { label: 'settings', href: '/settings' },
+  { label: c.admin, href: '/admin' },
+  { label: c.chart, href: '/chart' },
+  { label: c.dashboard, href: '/dashboard' },
+  { label: c.settings, href: '/settings' },
 ];
 
 const Navigation: React.FC<Props> = ({ session, className }) => {
@@ -50,9 +57,6 @@ const Navigation: React.FC<Props> = ({ session, className }) => {
     if (!session.status) console.log('no user!');
   }, [session]);
 
-  /*
-   */
-
   return (
     <nav className={`nav ${className}`}>
       {navLinks.map(({ label, href }) => {
@@ -60,25 +64,25 @@ const Navigation: React.FC<Props> = ({ session, className }) => {
         const isAdmin = userRole === AuthRoleEnum.Admin;
 
         const linkItem =
-          label === 'admin' ? (
+          label === c.admin ? (
             isAdmin ? (
               <GoUnlock size={'20.8px'} />
             ) : (
               <GoLock size={'20.8px'} />
             )
-          ) : label === 'chart' ? (
+          ) : label === c.chart ? (
             <GoGraph size={'20.8px'} />
-          ) : label === 'dashboard' ? (
+          ) : label === c.dashboard ? (
             <GoProject size={'20.8px'} />
-          ) : label === 'settings' ? (
+          ) : label === c.settings ? (
             <GoGear size={'20.8px'} />
           ) : (
             label
           );
 
-        const isDisabled = label === 'admin' && !isAdmin;
+        const isDisabled = label === c.admin && !isAdmin;
         const activeStyle = isActive ? 'active' : '';
-        const rotateStyle = label === 'dashboard' ? 'rotate' : '';
+        const rotateStyle = label === c.dashboard ? 'rotate' : '';
         const disabledStyle = isDisabled ? 'disable' : '';
         const linkStyle = `${activeStyle} ${rotateStyle} ${disabledStyle}`;
 
