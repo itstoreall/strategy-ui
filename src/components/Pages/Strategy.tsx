@@ -5,32 +5,17 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import useFetchAllUserStrategyOrders from '@/src/hooks/order/useFetchAllUserStrategyOrders';
-/*
-import useTxn from '@/src/hooks/useTxn';
-import useUpdateStrategy from '@/src/hooks/strategy/useUpdateStrategy';
-// */
 import useGlobalState from '@/src/hooks/useGlobalState';
 import useModal from '@/src/hooks/useModal';
 import * as enm from '@/src/enums';
 import * as t from '@/src/types';
 import * as u from '@/src/utils';
 import GradientProgressLoader from '@/src/assets/animation/GradientProgressLoader';
-// import StrategyOrderListSection from '@/src/components/Section/StrategyOrderListSection';
-// import StrategySnapshotSection from '@/src/components/Section/StrategySnapshotSection';
-// import TradeStrategySection from '@/src/components/Section/Strategy/TradeStrategySection';
-// import MainDividerSection from '@/src/components/Section/MainDividerSection';
-// import * as heading from '@/src/components/Layout/PageHeading';
-// import PageHeading from '@/src/components/Layout/PageHeading';
+import DCAPlusStrategySection from '@/src/components/Section/Strategy/DCAPlusStrategySection';
 import DCAStrategySection from '@/src/components/Section/Strategy/DCAStrategySection';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import PageContainer, { Label } from '@/src/components/Container/Page';
-// import SectionsContainer from '@/src/components/Container/Sections';
-// import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import MainLoader from '@/src/components/MainLoader';
-// import DotsLoader from '@/src/components/DotsLoader';
-/*
-import Button from '@/src/components/Button/Button';
-// */
 
 export type Snapshot = {
   totalAmount: number;
@@ -64,18 +49,9 @@ export type SortedOrders = SortedOrder[] | null;
 
 const c = {
   lsTakeProfitKey: 'takeProfit',
-  // listLoaderColor: '#3a3f46',
-  // loading: 'Loading',
-  // dividerTitle: 'Orders',
 };
 
-const {
-  OrderStatusEnum,
-  // OrderTypeDisplayEnum,
-  OrderTypeEnum,
-  // QueryKeyEnum,
-  ExchangeEnum,
-} = enm;
+const { OrderStatusEnum, OrderTypeEnum, ExchangeEnum } = enm;
 
 const Strategy = () => {
   const [filterExchange, setFilterExchange] = useState(enm.ExchangeEnum.All);
@@ -83,11 +59,6 @@ const Strategy = () => {
   const [currentPrice, setCurrentPrice] = useState(0);
   const [avgBuyPrice, setAvgBuyPrice] = useState(0);
   const [isEditMenu, setIsEditMenu] = useState(false);
-
-  /*
-  const { mutateAsync: updateStrategy } = useUpdateStrategy();
-  const { isPending, txn } = useTxn();
-  // */
 
   const { updatedTokens } = useGlobalState();
   const { data: session } = useSession();
@@ -161,6 +132,10 @@ const Strategy = () => {
     setFilterExchange(val);
   };
 
+  const handleModal = () => {
+    openModal(ModalContentEnum.Form);
+  };
+
   const handleAVG = (orders: t.Order[]) => {
     const averagePrice = u.calculateAVGPrice(orders);
     setAvgBuyPrice(averagePrice);
@@ -226,29 +201,6 @@ const Strategy = () => {
 
   // ---
 
-  const handleModal = () => openModal(ModalContentEnum.Form);
-
-  /*
-  const ListLoader = () => {
-    return (
-      <span
-        style={{
-          display: 'flex',
-          paddingTop: '12px',
-          fontSize: '0.9rem',
-          color: c.listLoaderColor,
-          whiteSpace: 'nowrap',
-        }}
-      >
-        {c.loading}
-        <DotsLoader inlineStyle={{ color: c.listLoaderColor }} />
-      </span>
-    );
-  };
-  */
-
-  // ---
-
   const mainButtonText =
     type === OrderTypeEnum.Buy ? heading.c.addAsset : heading.c.addTarget;
 
@@ -272,117 +224,49 @@ const Strategy = () => {
         />
 
         {userId && token && userOrderData?.orders && sortedOrders ? (
-          <DCAStrategySection
-            userId={userId}
-            symbol={symbol}
-            type={type}
-            token={token}
-            currentPrice={currentPrice}
-            avgBuyPrice={avgBuyPrice}
-            filterExchange={filterExchange}
-            updatedTokens={updatedTokens}
-            userOrderData={userOrderData}
-            sortedOrders={sortedOrders}
-            exchanges={exchanges}
-            snapshot={snapshot}
-            isTakeProfit={isTakeProfit}
-            isEditMenu={isEditMenu}
-            handleFilterExchange={handleFilterExchange}
-            setIsEditMenu={setIsEditMenu}
-          />
+          symbol === 'BTC' ? (
+            <DCAPlusStrategySection
+              userId={userId}
+              symbol={symbol}
+              type={type}
+              token={token}
+              currentPrice={currentPrice}
+              avgBuyPrice={avgBuyPrice}
+              filterExchange={filterExchange}
+              updatedTokens={updatedTokens}
+              userOrderData={userOrderData}
+              sortedOrders={sortedOrders}
+              exchanges={exchanges}
+              snapshot={snapshot}
+              isTakeProfit={isTakeProfit}
+              isEditMenu={isEditMenu}
+              handleFilterExchange={handleFilterExchange}
+              setIsEditMenu={setIsEditMenu}
+            />
+          ) : (
+            <DCAStrategySection
+              userId={userId}
+              symbol={symbol}
+              type={type}
+              token={token}
+              currentPrice={currentPrice}
+              avgBuyPrice={avgBuyPrice}
+              filterExchange={filterExchange}
+              updatedTokens={updatedTokens}
+              userOrderData={userOrderData}
+              sortedOrders={sortedOrders}
+              exchanges={exchanges}
+              snapshot={snapshot}
+              isTakeProfit={isTakeProfit}
+              isEditMenu={isEditMenu}
+              handleFilterExchange={handleFilterExchange}
+              setIsEditMenu={setIsEditMenu}
+            />
+          )
         ) : (
           <MainLoader />
         )}
       </main>
-
-      {/* <main className="main">
-        <PageHeading
-          title={symbol}
-          assetPrice={currentPrice}
-          mainButtonText={mainButtonText}
-          handleModal={handleModal}
-          isButtonDisabled={!updatedTokens}
-        />
-
-        {userOrderData?.orders ? (
-          <div className="main-content">
-            <SectionsContainer>
-              <StrategySnapshotSection
-                // sortedOrders={sortedOrders ?? null}
-                orderNumber={sortedOrders?.length ?? 0}
-                totalAmount={snapshot.totalAmount}
-                positiveOrders={snapshot.positiveOrders}
-                successOrders={snapshot.successOrders}
-                depositAmount={snapshot.deposit}
-                profitAmount={snapshot.profit}
-              />
-
-              {userId && isTakeProfit && token && userOrderData && (
-                <TradeStrategySection
-                  userId={userId}
-                  token={token}
-                  orderData={userOrderData}
-                  filterExchange={filterExchange}
-                  handleFilterExchange={handleFilterExchange}
-                  // exchanges={exchanges}
-                />
-              )}
-
-              {updatedTokens ? (
-                <>
-                  <MainDividerSection
-                    className="order-list-devider"
-                    title={c.dividerTitle}
-                    // subTitle={calculateStrategyPercent()}
-                    avgBuyPrice={avgBuyPrice}
-                    exchanges={exchanges}
-                    filterExchange={filterExchange}
-                    currentPrice={currentPrice}
-                    ordersNumber={sortedOrders?.length}
-                    handleFilterExchange={handleFilterExchange}
-                    isSwitchButton={!!sortedOrders?.length}
-                    isDisabled={!isEditMenu}
-                    setIsDisabled={setIsEditMenu}
-                  />
-
-                  <div className="sections-container-strategy-order-list-block">
-                    <StrategyOrderListSection
-                      sortedOrders={sortedOrders ?? []}
-                      strategy={userOrderData.strategy}
-                      filterExchange={filterExchange}
-                      currentPrice={currentPrice}
-                      isEditMenu={isEditMenu}
-                      handleFilterExchange={handleFilterExchange}
-                    />
-                  </div>
-                </>
-              ) : (
-                <ListLoader />
-              )}
-            </SectionsContainer>
-          </div>
-        ) : (
-          <MainLoader />
-        )}
-
-        {updatedTokens && isFormModal && (
-          <RenderModal>
-            <AddOrderForm
-              tokens={updatedTokens}
-              initType={
-                type === OrderTypeEnum.Buy
-                  ? OrderTypeDisplayEnum.Asset
-                  : OrderTypeDisplayEnum.BuyTarget
-              }
-              initSymbol={symbol}
-              invalidateQuery={[
-                QueryKeyEnum.UserOrders,
-                QueryKeyEnum.UserStrategyOrders,
-              ]}
-            />
-          </RenderModal>
-        )}
-      </main> */}
     </PageContainer>
   );
 };
