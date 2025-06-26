@@ -106,6 +106,7 @@ const StrategyOrderListSection = (props: Props) => {
               const _percent = ((currentPrice - price) / price) * 100;
               const percent = _percent < 0 && _percent > -0.09 ? 0 : _percent;
 
+              const isBTC = order.symbol === 'BTC';
               const isSuccess = percent >= sellPercent;
               const isPositive = percent >= 0 && percent < sellPercent;
               const isNegative = percent <= 0 && percent > buyPercent;
@@ -182,7 +183,7 @@ const StrategyOrderListSection = (props: Props) => {
                     <li className="row-strategy-list-item order-price">
                       {/* <span>{formatMillionAmount('234567035')}</span> */}
                       {/* <span>{u.uniNumberFormatter(price)}</span> */}
-                      <span>{u.numberCutter(price, 3)}</span>
+                      <span>{u.numberCutter(price, isBTC ? 0 : 3)}</span>
                       {/* <span>{price}</span> */}
                     </li>
 

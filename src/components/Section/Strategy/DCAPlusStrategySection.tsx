@@ -6,10 +6,11 @@ import TradeStrategySection from '@/src/components/Section/Strategy/TradeStrateg
 import StrategyOrderListSection from '@/src/components/Section/StrategyOrderListSection';
 import StrategySnapshotSection from '@/src/components/Section/StrategySnapshotSection';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
-import { SortedOrders } from '@/src/components/Pages/Strategy';
 import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
-import DotsLoader from '@/src/components/DotsLoader';
+import { SortedOrders } from '@/src/components/Pages/Strategy';
+import ListLoader from '@/src/components/ListLoader';
+// import DotsLoader from '@/src/components/DotsLoader';
 
 type Props = {
   userId: string;
@@ -31,9 +32,8 @@ type Props = {
 };
 
 const c = {
-  listLoaderColor: '#3a3f46',
-  loading: 'Loading',
   dividerTitle: 'Orders',
+  loading: 'Loading',
 };
 
 const DCAPlusStrategySection = (props: Props) => {
@@ -56,24 +56,17 @@ const DCAPlusStrategySection = (props: Props) => {
     setIsEditMenu,
   } = props;
 
-  const { RenderModal, isFormModal } = useModal();
+  /*
+  const decreasedBy2Percent = currentPrice / 1.02;
+  const differenceOf2Percent = currentPrice - decreasedBy2Percent;
+  
+  console.log('');
+  console.log('avg:', currentPrice.toFixed());
+  console.log('-2%:', decreasedBy2Percent.toFixed());
+  console.log('dif:', differenceOf2Percent.toFixed());
+  // */
 
-  const ListLoader = () => {
-    return (
-      <span
-        style={{
-          display: 'flex',
-          paddingTop: '12px',
-          fontSize: '0.9rem',
-          color: c.listLoaderColor,
-          whiteSpace: 'nowrap',
-        }}
-      >
-        {c.loading}
-        <DotsLoader inlineStyle={{ color: c.listLoaderColor }} />
-      </span>
-    );
-  };
+  const { RenderModal, isFormModal } = useModal();
 
   // no scss styles!
   return (
@@ -134,7 +127,7 @@ const DCAPlusStrategySection = (props: Props) => {
               </div>
             </>
           ) : (
-            <ListLoader />
+            <ListLoader text={c.loading} />
           )}
         </SectionsContainer>
       </div>

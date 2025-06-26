@@ -2,7 +2,9 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useLayoutEffect, useState } from 'react';
+import useStrategy from '@/src/hooks/strategy/useStrategy';
 import useModal from '@/src/hooks/useModal';
+import { SortedOrder } from '@/src/types';
 import * as enm from '@/src/enums';
 import GradientProgressLoader from '@/src/assets/animation/GradientProgressLoader';
 import DCAPlusStrategySection from '@/src/components/Section/Strategy/DCAPlusStrategySection';
@@ -10,8 +12,6 @@ import DCAStrategySection from '@/src/components/Section/Strategy/DCAStrategySec
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import MainLoader from '@/src/components/MainLoader';
-import useClassifyOrders from '@/src/hooks/strategy/useClassifyOrders';
-import { SortedOrder } from '@/src/types';
 
 export type SortedOrders = SortedOrder[] | null;
 
@@ -39,7 +39,7 @@ const Strategy = () => {
     userOrderData,
     sortedOrders,
     handleFilterExchange,
-  } = useClassifyOrders();
+  } = useStrategy();
 
   const { openModal, ModalContentEnum } = useModal();
 
@@ -59,15 +59,12 @@ const Strategy = () => {
   const mainButtonText =
     type === OrderTypeEnum.Buy ? heading.c.addAsset : heading.c.addTarget;
 
+  const progressTrigger =
+    updatedTokens?.find((token) => token.symbol === 'BTC')?.price ?? 0;
+
   return (
     <PageContainer label={Label.Main}>
-      {updatedTokens && (
-        <GradientProgressLoader
-          trigger={
-            updatedTokens.find((token) => token.symbol === 'BTC')?.price ?? 0
-          }
-        />
-      )}
+      {updatedTokens && <GradientProgressLoader trigger={progressTrigger} />}
 
       <main className="main">
         <PageHeading

@@ -140,7 +140,9 @@ export const uniNumberFormatter = (_value: number): string => {
 export const numberCutter = (val: string | number, cut: number = 2) => {
   const str = typeof val === 'string' ? val : val.toString();
   const parts = str.split('.');
-  if (parts.length === 2) {
+  if (cut === 0) {
+    return parts[0];
+  } else if (parts.length === 2) {
     const match = str.match(/\.(0+)(\d+)$/);
     if (match?.length === 3) {
       const number = `${parts[0]}.${match[1]}${match[2].slice(0, cut)}`;
@@ -209,7 +211,7 @@ export const calculateAVGPrice = (orders: Order[]) => {
   return totalAmount ? totalPrice / totalAmount : 0;
 };
 
-// --- %
+// --- % (Strategy Order Details)
 
 type Percent = 1 | 0.1 | 0.04 | 0.07 | 0.08;
 

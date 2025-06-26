@@ -9,7 +9,7 @@ import { ExchangeEnum, OrderStatusEnum } from '@/src/enums';
 import * as t from '@/src/types';
 import * as u from '@/src/utils';
 
-const useClassifyOrders = () => {
+const useStrategy = () => {
   const [filterExchange, setFilterExchange] = useState(ExchangeEnum.All);
   const [currentPrice, setCurrentPrice] = useState(0);
   const [avgBuyPrice, setAvgBuyPrice] = useState(0);
@@ -149,4 +149,4 @@ const useClassifyOrders = () => {
   };
 };
 
-export default useClassifyOrders;
+export default useStrategy;

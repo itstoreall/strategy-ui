@@ -6,10 +6,10 @@ import TradeStrategySection from '@/src/components/Section/Strategy/TradeStrateg
 import StrategyOrderListSection from '@/src/components/Section/StrategyOrderListSection';
 import StrategySnapshotSection from '@/src/components/Section/StrategySnapshotSection';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
-import { SortedOrders } from '@/src/components/Pages/Strategy';
 import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
-import DotsLoader from '@/src/components/DotsLoader';
+import { SortedOrders } from '@/src/components/Pages/Strategy';
+import ListLoader from '@/src/components/ListLoader';
 
 type Props = {
   userId: string;
@@ -31,7 +31,6 @@ type Props = {
 };
 
 const c = {
-  listLoaderColor: '#3a3f46',
   loading: 'Loading',
   dividerTitle: 'Orders',
 };
@@ -57,23 +56,6 @@ const DCAStrategySection = (props: Props) => {
   } = props;
 
   const { RenderModal, isFormModal } = useModal();
-
-  const ListLoader = () => {
-    return (
-      <span
-        style={{
-          display: 'flex',
-          paddingTop: '12px',
-          fontSize: '0.9rem',
-          color: c.listLoaderColor,
-          whiteSpace: 'nowrap',
-        }}
-      >
-        {c.loading}
-        <DotsLoader inlineStyle={{ color: c.listLoaderColor }} />
-      </span>
-    );
-  };
 
   // no scss styles!
   return (
@@ -134,7 +116,7 @@ const DCAStrategySection = (props: Props) => {
               </div>
             </>
           ) : (
-            <ListLoader />
+            <ListLoader text={c.loading} />
           )}
         </SectionsContainer>
       </div>
