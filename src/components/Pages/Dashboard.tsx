@@ -97,7 +97,6 @@ const Dashboard = () => {
   }, [isLSStrategyDataModal]);
 
   const resetTradeStrategy = () => {
-    console.log('111');
     if (!storedStrategy) return;
     const storedData = getLSTradeStrategyData();
     const confirmMsg = `${storedStrategy.symbol} ${c.deleteLSStrategy}`;

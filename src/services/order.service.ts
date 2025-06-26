@@ -1,5 +1,4 @@
 import { AxiosError } from 'axios';
-// import { getSessionData } from '@/src/lib/auth/getSessionDataServerAction';
 import apiClient from '@/src/lib/api/client';
 import { OrderTypeEnum } from '@/src/enums';
 import { OrderData, OrderStrategyData } from '@/src/types';
@@ -31,18 +30,8 @@ class OrderService {
   }
 
   async fetchAllByUserId(userId: string): Promise<OrderData> {
-    /*
-    const sessionData = await getSessionData();
-    if (!userId) {
-      throw new Error('User ID is required to fetch orders.');
-    }
-    if (!sessionData) {
-      throw new Error('Session token is missing!');
-    }
-    const url = `/orders/user/${userId}?sessionToken=${sessionData.hashedToken}`;
-    */
     try {
-      const url = `/orders/user/${userId}?sessionToken=${'sessionToken'}`;
+      const url = `/orders/user/${userId}`;
       const res = await apiClient.get(url);
       return res.data;
     } catch (err: unknown) {

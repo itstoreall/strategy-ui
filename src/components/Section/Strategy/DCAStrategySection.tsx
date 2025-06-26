@@ -1,12 +1,12 @@
 import { Dispatch, SetStateAction } from 'react';
 import useModal from '@/src/hooks/useModal';
 import * as enm from '@/src/enums';
-import { OrderStrategyData, Token } from '@/src/types';
+import { OrderStrategyData, StrategySnapshot, Token } from '@/src/types';
 import TradeStrategySection from '@/src/components/Section/Strategy/TradeStrategySection';
 import StrategyOrderListSection from '@/src/components/Section/StrategyOrderListSection';
 import StrategySnapshotSection from '@/src/components/Section/StrategySnapshotSection';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
-import { Snapshot, SortedOrders } from '@/src/components/Pages/Strategy';
+import { SortedOrders } from '@/src/components/Pages/Strategy';
 import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import DotsLoader from '@/src/components/DotsLoader';
@@ -23,7 +23,7 @@ type Props = {
   userOrderData: OrderStrategyData;
   sortedOrders: SortedOrders;
   exchanges: enm.ExchangeEnum[];
-  snapshot: Snapshot;
+  snapshot: StrategySnapshot;
   isTakeProfit: boolean;
   isEditMenu: boolean;
   handleFilterExchange: (val: enm.ExchangeEnum) => void;

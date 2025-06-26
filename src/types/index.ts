@@ -53,6 +53,34 @@ export type TokensRes = {
 
 // --- Strategy
 
+export type SortedOrder = {
+  percent: number;
+  priority: number;
+  id: number;
+  type: string;
+  symbol: string;
+  amount: number;
+  price: number;
+  fiat: number;
+  status: OrderStatusEnum;
+  userId: string;
+  strategy: {
+    target: number;
+    data: JSON;
+  };
+  exchange: ExchangeEnum;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type StrategySnapshot = {
+  totalAmount: number;
+  positiveOrders: number;
+  successOrders: number | null;
+  deposit: number;
+  profit: number | null;
+};
+
 export type TradeStrategy = {
   date: number;
   symbol: string;

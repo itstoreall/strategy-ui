@@ -12,13 +12,13 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const c = {
-  appVersion: 'v1.5.41',
+  appVersion: 'v1.5.42',
   adminPath: '/admin',
   chartPath: '/chart',
   dashboardPath: '/dashboard',
   strategyPath: '/strategy/',
   initDelay: 2000,
-  cronDelay: 120000,
+  cronDelay: 60000,
   fetchTokens: 'Fetch was successful:',
   updatePrices: 'Prices updated successfully:',
   refetch: 'refetching tokens...',

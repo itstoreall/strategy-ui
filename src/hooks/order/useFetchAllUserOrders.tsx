@@ -35,21 +35,6 @@ const useFetchAllUserOrders = (
     return categorized;
   };
 
-  /*
-  const modifyData = (data: OrderData) => {
-    const categorized = data.data.reduce<StrategyOrders>(
-      (acc, item) => {
-        if (item.type === OrderTypeEnum.Buy) acc.buy.push(item);
-        else if (item.type === OrderTypeEnum.Sell) acc.sell.push(item);
-        return acc;
-      },
-      { custom: [], buy: [], sell: [] }
-    );
-
-    return categorized;
-  };
-  */
-
   const {
     data: userOrders,
     error,
