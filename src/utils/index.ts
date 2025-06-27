@@ -1,5 +1,7 @@
 import { Order, TradeStrategy } from '@/src/types';
 
+export type PricePercent = 1 | 0.1 | 0.08 | 0.07 | 0.04 | 0.02;
+
 type TrimAddress = (address: string, start: number, end: number) => string;
 
 type Format =
@@ -140,6 +142,14 @@ export const uniNumberFormatter = (_value: number): string => {
 export const numberCutter = (val: string | number, cut: number = 2) => {
   const str = typeof val === 'string' ? val : val.toString();
   const parts = str.split('.');
+  /* --- BTC
+  if (parts.length === 2 && parts[0].length >= 5) {
+    const number = `${parts[0]}.${parts[1].slice(0, cut)}`;
+    console.log('-->', val, parts);
+    console.log('-->', val, parts[0].length);
+    console.log('-->', val, number);
+  }
+  // */
   if (cut === 0) {
     return parts[0];
   } else if (parts.length === 2) {
@@ -213,13 +223,11 @@ export const calculateAVGPrice = (orders: Order[]) => {
 
 // --- % (Strategy Order Details)
 
-type Percent = 1 | 0.1 | 0.04 | 0.07 | 0.08;
-
-export const plusPercent = (val: number, percent: Percent = 1) => {
+export const plusPercent = (val: number, percent: PricePercent = 1) => {
   return val * (1 + percent);
 };
 
-export const minusPercent = (val: number, percent: Percent = 1) => {
+export const minusPercent = (val: number, percent: PricePercent = 1) => {
   return val * (1 - percent);
 };
 

@@ -13,7 +13,7 @@ import Title from '@/src/components/Layout/Title';
 type Props = {
   order: Order;
   currentPrice: number;
-  c: { [key: string]: string | number };
+  // c: { [key: string]: string | number };
 };
 
 type Prices = {
@@ -27,17 +27,42 @@ type FuturePriceProps = {
   val: string;
 };
 
-const StrategyOrderDetailsSection = ({ order, currentPrice, c }: Props) => {
+type HandlePercentPriceArgs = {
+  buyKey: number;
+  sellKey: number;
+  price: number;
+  minusPercent: u.PricePercent;
+  plusPercent: u.PricePercent;
+  cut: number;
+};
+
+const c = {
+  twoPercent: 2,
+  fourPercent: 4,
+  sevenPercent: 7,
+  tenPercent: 10,
+  id: 'ID',
+  price: 'Price',
+  amount: 'Amount',
+  invested: 'Invested',
+  profit: 'Profit',
+  losses: 'Losses',
+};
+
+const StrategyOrderDetailsSection = ({ order, currentPrice }: Props) => {
   const [isCustom, setIsCustom] = useState<boolean | null>(null);
   const [prices, setPrices] = useState<Prices>(null);
 
   const { closeModal } = useModal();
 
   const isCustomToken = customTokens.includes(order.symbol);
+  const isBTC = order.symbol === 'BTC';
 
   useEffect(() => {
     if (order) {
-      if (isCustomToken) {
+      if (isBTC) {
+        return;
+      } else if (isCustomToken) {
         setIsCustom(true);
       } else {
         setIsCustom(false);
@@ -46,26 +71,49 @@ const StrategyOrderDetailsSection = ({ order, currentPrice, c }: Props) => {
   }, [order]);
 
   useEffect(() => {
-    if (isCustom) {
-      const minusFourPercentPrice = u.minusPercent(order.price, 0.04);
-      const minusFourFormatted = u.numberCutter(minusFourPercentPrice, 3);
-      const plusSevenPercentPrice = u.plusPercent(order.price, 0.07);
-      const plusSevenFormatted = u.numberCutter(plusSevenPercentPrice, 3);
-      setPrices({
-        buy: { key: `-${c.fourPercent}%`, val: minusFourFormatted },
-        sell: { key: `+${c.sevenPercent}%`, val: plusSevenFormatted },
+    if (isBTC) {
+      handlePrice({
+        buyKey: c.twoPercent,
+        sellKey: c.fourPercent,
+        price: order.price,
+        minusPercent: 0.02,
+        plusPercent: 0.04,
+        cut: 0,
       });
-    } else {
-      const minusTenPercentPrice = u.minusPercent(order.price, 0.1);
-      const minusTenFormatted = u.numberCutter(minusTenPercentPrice, 3);
-      const plusTenPercentPrice = u.plusPercent(order.price, 0.1);
-      const pluseTenFormatted = u.numberCutter(plusTenPercentPrice, 3);
-      setPrices({
-        buy: { key: `-${c.tenPercent}%`, val: minusTenFormatted },
-        sell: { key: `+${c.tenPercent}%`, val: pluseTenFormatted },
+    } else if (isCustom) {
+      handlePrice({
+        buyKey: c.fourPercent,
+        sellKey: c.sevenPercent,
+        price: order.price,
+        minusPercent: 0.04,
+        plusPercent: 0.07,
+        cut: 3,
+      });
+    } else if (!isCustom && isCustom !== null) {
+      handlePrice({
+        buyKey: c.tenPercent,
+        sellKey: c.tenPercent,
+        price: order.price,
+        minusPercent: 0.1,
+        plusPercent: 0.1,
+        cut: 3,
       });
     }
   }, [isCustom]);
+
+  // ---
+
+  const handlePrice = (args: HandlePercentPriceArgs) => {
+    const { buyKey, sellKey, price, minusPercent, plusPercent, cut } = args;
+    const minusPercentPrice = u.minusPercent(price, minusPercent);
+    const minusValue = u.numberCutter(minusPercentPrice, cut);
+    const plusPercentPrice = u.plusPercent(order.price, plusPercent);
+    const plusValue = u.numberCutter(plusPercentPrice, cut);
+    setPrices({
+      buy: { key: `-${buyKey}%`, val: minusValue },
+      sell: { key: `+${sellKey}%`, val: plusValue },
+    });
+  };
 
   const calculatedProfit = currentPrice * order.amount - order.fiat;
   const isProfit = calculatedProfit > 0;

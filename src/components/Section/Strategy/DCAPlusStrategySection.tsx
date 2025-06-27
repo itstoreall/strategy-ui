@@ -10,7 +10,6 @@ import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import { SortedOrders } from '@/src/components/Pages/Strategy';
 import ListLoader from '@/src/components/ListLoader';
-// import DotsLoader from '@/src/components/DotsLoader';
 
 type Props = {
   userId: string;
@@ -59,7 +58,7 @@ const DCAPlusStrategySection = (props: Props) => {
   /*
   const decreasedBy2Percent = currentPrice / 1.02;
   const differenceOf2Percent = currentPrice - decreasedBy2Percent;
-  
+
   console.log('');
   console.log('avg:', currentPrice.toFixed());
   console.log('-2%:', decreasedBy2Percent.toFixed());

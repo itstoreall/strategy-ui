@@ -22,20 +22,14 @@ type Props = {
 };
 
 const c = {
-  eightPercent: 8,
+  twoPercent: 2,
   fourPercent: 4,
   sevenPercent: 7,
-  tenPercent: 10,
+  buyTargetPercent: 50,
   success: 'success',
   positiveValue: 'positiveValue',
   negativeValue: 'negativeValue',
   failed: 'failed',
-  id: 'ID',
-  price: 'Price',
-  amount: 'Amount',
-  invested: 'Invested',
-  profit: 'Profit',
-  losses: 'Losses',
   exchange: 'Exchange',
   created: 'Created',
   buy: 'Buy',
@@ -97,16 +91,23 @@ const StrategyOrderListSection = (props: Props) => {
           <ul className="section-strategy-order-list">
             {filteredOrders.map((order: Order) => {
               const { id, price, amount } = order;
+              const isBTC = order.symbol === 'BTC';
 
-              const sellPercent = isCustomToken
+              const sellPercent = isBTC
+                ? c.fourPercent
+                : isCustomToken
                 ? c.sevenPercent
                 : strategy.target;
-              const buyPercent = isCustomToken ? -c.fourPercent : -50;
+
+              const buyPercent = isBTC
+                ? -c.twoPercent
+                : isCustomToken
+                ? -c.fourPercent
+                : -c.buyTargetPercent;
 
               const _percent = ((currentPrice - price) / price) * 100;
               const percent = _percent < 0 && _percent > -0.09 ? 0 : _percent;
 
-              const isBTC = order.symbol === 'BTC';
               const isSuccess = percent >= sellPercent;
               const isPositive = percent >= 0 && percent < sellPercent;
               const isNegative = percent <= 0 && percent > buyPercent;
@@ -215,7 +216,7 @@ const StrategyOrderListSection = (props: Props) => {
           <StrategyOrderDetailsSection
             order={orderDetails}
             currentPrice={currentPrice}
-            c={c}
+            // c={c}
           />
         </RenderModal>
       )}
