@@ -56,13 +56,23 @@ const DCAPlusStrategySection = (props: Props) => {
   } = props;
 
   /*
-  const decreasedBy2Percent = currentPrice / 1.02;
-  const differenceOf2Percent = currentPrice - decreasedBy2Percent;
+  const lowestPriceOrder = sortedOrders?.reduce((acc, order) =>
+    order.price < acc.price ? order : acc
+  );
+  const lowestPrice = lowestPriceOrder?.price;
+  const lowestPriceAmount = lowestPriceOrder?.amount;
 
-  console.log('');
-  console.log('avg:', currentPrice.toFixed());
-  console.log('-2%:', decreasedBy2Percent.toFixed());
-  console.log('dif:', differenceOf2Percent.toFixed());
+  const twoPercent = (lowestPrice as number) * 0.02;
+  const buyPrice = (lowestPrice as number) - twoPercent;
+  const buyAmount = (lowestPriceAmount as number) * 1.2;
+
+  console.log(' ');
+  console.log('lowestPrice:', lowestPrice);
+  console.log('lowestPriceAmount:', lowestPriceAmount);
+  console.log('2%:', twoPercent.toFixed());
+
+  console.log('price:', buyPrice.toFixed());
+  console.log('amount:', buyAmount.toFixed(6));
   // */
 
   const { RenderModal, isFormModal } = useModal();
