@@ -10,6 +10,7 @@ import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import { SortedOrders } from '@/src/components/Pages/Strategy';
 import ListLoader from '@/src/components/ListLoader';
+// import { numberCutter } from '@/src/utils';
 
 type Props = {
   userId: string;
@@ -62,17 +63,37 @@ const DCAPlusStrategySection = (props: Props) => {
   const lowestPrice = lowestPriceOrder?.price;
   const lowestPriceAmount = lowestPriceOrder?.amount;
 
-  const twoPercent = (lowestPrice as number) * 0.02;
-  const buyPrice = (lowestPrice as number) - twoPercent;
+  const twoPercentLow = (lowestPrice as number) * 0.02;
+  const buyPrice = (lowestPrice as number) - twoPercentLow;
   const buyAmount = (lowestPriceAmount as number) * 1.2;
 
-  console.log(' ');
-  console.log('lowestPrice:', lowestPrice);
-  console.log('lowestPriceAmount:', lowestPriceAmount);
-  console.log('2%:', twoPercent.toFixed());
+  const fourPercentAVG = avgBuyPrice * 0.04;
+  const sellPrice = (avgBuyPrice as number) + fourPercentAVG;
+  const sellAmount = snapshot.totalAmount;
 
-  console.log('price:', buyPrice.toFixed());
-  console.log('amount:', buyAmount.toFixed(6));
+  const fivePercentAVG = avgBuyPrice * 0.05;
+  const stopLoss = avgBuyPrice - fivePercentAVG;
+
+  const buy = {
+    amount: buyAmount.toFixed(6),
+    price: numberCutter(buyPrice, 0),
+    isBuyAllowed: currentPrice <= buyPrice,
+  };
+
+  const sell = {
+    amount: sellAmount.toFixed(6),
+    price: numberCutter(sellPrice, 0),
+    isSellAllowed: currentPrice >= sellPrice,
+  };
+
+  const basic = {
+    stopLoss: numberCutter(stopLoss, 0),
+  };
+
+  console.log(' ');
+  console.log('buy:', buy);
+  console.log('sell:', sell);
+  console.log('basic:', basic);
   // */
 
   const { RenderModal, isFormModal } = useModal();

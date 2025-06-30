@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import { InputEvent } from '@/src/types';
+import { numberCutter } from '@/src/utils';
 import { ExchangeEnum, SortEnum } from '@/src/enums';
-import { uniNumberFormatter } from '@/src/utils';
 import SwitchIcon from '@/src/assets/icons/SwitchIcon';
 import Button from '@/src/components/Button/Button';
 import SelectMulti from '../Form/SelectMulti';
@@ -64,8 +64,10 @@ const MainDividerSection = (props: Props) => {
 
   const { openDropdownId, toggleDropdown } = useSelectMulti();
 
+  const isBTC = avgBuyPrice > 67000;
+
   const displayAvgBuyPrice = () => {
-    alert(`${c.avg}: ${uniNumberFormatter(avgBuyPrice)}`);
+    alert(`${c.avg}: ${numberCutter(avgBuyPrice, isBTC ? 0 : 3)}`);
   };
 
   const handleSelectChange = (field: string, value: string) => {
