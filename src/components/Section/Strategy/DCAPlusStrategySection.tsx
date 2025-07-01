@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import useModal from '@/src/hooks/useModal';
 import * as enm from '@/src/enums';
+// import { numberCutter } from '@/src/utils';
 import { OrderStrategyData, StrategySnapshot, Token } from '@/src/types';
 import TradeStrategySection from '@/src/components/Section/Strategy/TradeStrategySection';
 import StrategyOrderListSection from '@/src/components/Section/StrategyOrderListSection';
@@ -10,7 +11,6 @@ import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import { SortedOrders } from '@/src/components/Pages/Strategy';
 import ListLoader from '@/src/components/ListLoader';
-// import { numberCutter } from '@/src/utils';
 
 type Props = {
   userId: string;

@@ -96,6 +96,10 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   }, [orderData]);
   */
 
+  const isBTC = token.symbol === 'BTC';
+
+  // console.log('orders:', orders);
+
   const {
     isStrategyModal,
     ModalContentEnum,
@@ -135,6 +139,14 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
       handleSelectedOrders();
     }
   }, [filterExchange, orderData]);
+
+  useEffect(() => {
+    if (isBTC && orders) {
+      orders.forEach((order) => {
+        handleToggleSelect(order.id.toString());
+      });
+    }
+  }, [orders]);
 
   useEffect(() => {
     if (orders) {
@@ -385,7 +397,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
         className="order-list-devider"
         title={filterExchange}
         filterExchange={filterExchange}
-        isSwitchButton
+        isSwitchButton={!isBTC}
         isDisabled={!isSelectedAllOrders}
         setIsDisabled={handleSelectAllOrders}
         /*

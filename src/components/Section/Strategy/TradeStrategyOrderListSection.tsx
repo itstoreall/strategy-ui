@@ -217,31 +217,33 @@ const TradeStrategyOrderListSection = (props: TradeStrategyOrderListProps) => {
         </div>
       </div>
 
-      <ul className="section-trade-strategy-list">
-        {orderSet.map((order) => {
-          const { id, amount, price, fiat } = order;
+      {!isBTC && (
+        <ul className="section-trade-strategy-list">
+          {orderSet.map((order) => {
+            const { id, amount, price, fiat } = order;
 
-          const currentPrice = token.price;
-          const total = amount * currentPrice;
-          const percent = ((currentPrice - price) / price) * 100;
+            const currentPrice = token.price;
+            const total = amount * currentPrice;
+            const percent = ((currentPrice - price) / price) * 100;
 
-          return percent > 0 ? (
-            <li key={id} className={itemStyle}>
-              <OrderContent
-                id={id}
-                amount={amount}
-                invested={fiat}
-                total={total}
-                percent={percent}
-                isSelected={selectedOrders.has(id.toString())}
-                onToggleSelect={handleToggleSelect}
-                onCopy={handleCopyValue}
-                copiedField={copiedField}
-              />
-            </li>
-          ) : null;
-        })}
-      </ul>
+            return percent > 0 ? (
+              <li key={id} className={itemStyle}>
+                <OrderContent
+                  id={id}
+                  amount={amount}
+                  invested={fiat}
+                  total={total}
+                  percent={percent}
+                  isSelected={selectedOrders.has(id.toString())}
+                  onToggleSelect={handleToggleSelect}
+                  onCopy={handleCopyValue}
+                  copiedField={copiedField}
+                />
+              </li>
+            ) : null;
+          })}
+        </ul>
+      )}
     </>
   );
 };
