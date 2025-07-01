@@ -111,7 +111,7 @@ section.strategy-order-details {
     > div.strategy-order-details-results {
       display: flex;
       gap: 1rem;
-      margin-bottom: 1rem;
+      // margin-bottom: 1rem;
 
       > span {
         display: flex;
@@ -172,6 +172,7 @@ section.strategy-order-details {
     > div.strategy-order-details-prices {
       display: flex;
       gap: 1rem;
+      padding-top: 1rem;
 
       > span {
         display: flex;

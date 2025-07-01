@@ -11,8 +11,11 @@ import { ExchangeEnum } from '@/src/enums';
 import * as t from '@/src/types';
 import * as u from '@/src/utils';
 import TradeStrategyModalContentSection from '@/src/components/Section/Strategy/TradeStrategyModalContentSection';
+import ListLoader from '../../ListLoader';
+/*
 import TradeStrategyOrderListSection from '@/src/components/Section/Strategy/TradeStrategyOrderListSection';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
+*/
 
 export type TradeStrategyProps = {
   userId: string;
@@ -32,10 +35,11 @@ export type Strategy = t.TradeStrategy | null;
 
 const c = {
   deleteLSStrategy: 'LS Strategy will be deleted!',
+  loading: 'loading',
 };
 
-const TradeStrategySection = (props: TradeStrategyProps) => {
-  const [copiedField, setCopiedField] = useState<CopiedField | null>(null);
+const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
+  // const [copiedField, setCopiedField] = useState<CopiedField | null>(null);
   const [orders, setOrders] = useState<t.Order[] | null>(null);
   // const [strategyHistory, setStrategyHistory] = useState<History>(null);
   const [storedStrategy, setStoredStrategy] = useState<Strategy>(null);
@@ -57,7 +61,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     handleUnrealized,
     handleProfit,
     handleToggleSelect,
-    handleSelectAllOrders,
+    // handleSelectAllOrders,
   } = useTakeProfitOrders({ orders });
 
   /*
@@ -96,11 +100,15 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   }, [orderData]);
   */
 
+  const isBTC = token.symbol === 'BTC';
+
+  // console.log('orders:', orders);
+
   const {
     isStrategyModal,
-    ModalContentEnum,
+    // ModalContentEnum,
     RenderModal,
-    openModal,
+    // openModal,
     closeModal,
   } = useModal();
 
@@ -135,6 +143,14 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
       handleSelectedOrders();
     }
   }, [filterExchange, orderData]);
+
+  useEffect(() => {
+    if (isBTC && orders) {
+      orders.forEach((order) => {
+        handleToggleSelect(order.id.toString());
+      });
+    }
+  }, [orders]);
 
   useEffect(() => {
     if (orders) {
@@ -212,6 +228,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     return lsStrategy ? lsStrategy : null;
   };
 
+  /*
   const createNewTradeStrategy = (ex: ExchangeEnum) => {
     const newTradeStrategy: t.TradeStrategy = {
       date: Date.now(),
@@ -227,9 +244,11 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     };
     return newTradeStrategy;
   };
+  */
 
   // ---
 
+  /*
   const displayConfirmMessage = (storedTradeStrategy: t.TradeStrategy) => {
     return `Will be replaced: ${token.symbol} (${storedTradeStrategy.exchange})
 
@@ -240,7 +259,9 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     orders: ${storedTradeStrategy.orders}
     `;
   };
+  */
 
+  /*
   const handleTemporaryStorage = () => {
     if (!filterExchange || !totalSelectedAmount) return;
     const newTradeStrategy = createNewTradeStrategy(filterExchange);
@@ -272,15 +293,16 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
       setStoredStrategy(newTradeStrategy);
     }
   };
+  */
 
+  /*
   const handleUpdateStrategy = () => {
-    /*
-    handleTemporaryStorage();
-    */
+    // handleTemporaryStorage();
     if (storedStrategy) {
       openModal(ModalContentEnum.Strategy);
     }
   };
+  */
 
   /* --- Do not delete!
   const handleDisplayBuyPrice = (strategy: t.TradeStrategy) => {
@@ -372,45 +394,59 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     }
   };
 
+  /*
   const handleCopyValue = (id: number, key: string, val: number) => {
     if (copiedField) return;
     setCopiedField({ id, key });
     u.copyToClipboard(val.toString());
     setTimeout(() => setCopiedField(null), 500);
   };
+  */
+
+  /*
+  const tradeStrategyDCAPlus = {
+    token: token,
+    orders: orders,
+    totalSelectedAmount: totalSelectedAmount,
+    avgSelectedBuyPrice: avgSelectedBuyPrice,
+    totalSelectedInvested: totalSelectedInvested,
+    totalSelectedUnrealized: totalSelectedUnrealized,
+    totalSelectedProfit: totalSelectedProfit,
+    selectedOrders: selectedOrders,
+    storedStrategy: storedStrategy,
+  };
+
+  console.log('tradeStrategyDCAPlus:', tradeStrategyDCAPlus);
+  */
+
+  const isTradeStrategy =
+    token &&
+    orders &&
+    totalSelectedAmount &&
+    avgSelectedBuyPrice &&
+    totalSelectedInvested &&
+    totalSelectedUnrealized &&
+    totalSelectedProfit &&
+    selectedOrders;
 
   return orders?.length ? (
     <>
-      <MainDividerSection
+      {/* <MainDividerSection
         className="order-list-devider"
         title={filterExchange}
         filterExchange={filterExchange}
-        isSwitchButton
+        isSwitchButton={!isBTC}
         isDisabled={!isSelectedAllOrders}
         setIsDisabled={handleSelectAllOrders}
-        /*
-        subTitle={calculateStrategyPercent()}
-        */
-      />
+      /> */}
 
       <section className="section trade-strategy">
         <div className="section-content trade-strategy">
-          <TradeStrategyOrderListSection
-            token={token}
-            orderSet={orders}
-            totalSelectedAmount={totalSelectedAmount}
-            avgSelectedBuyPrice={avgSelectedBuyPrice}
-            totalSelectedInvested={totalSelectedInvested}
-            totalSelectedUnrealized={totalSelectedUnrealized}
-            totalSelectedProfit={totalSelectedProfit}
-            selectedOrders={selectedOrders}
-            storedStrategy={storedStrategy}
-            copiedField={copiedField}
-            handleTemporaryStorage={handleTemporaryStorage}
-            handleUpdateStrategy={handleUpdateStrategy}
-            handleToggleSelect={handleToggleSelect}
-            handleCopyValue={handleCopyValue}
-          />
+          {isTradeStrategy ? (
+            <div>{'BTC Trade Strategy'}</div>
+          ) : (
+            <ListLoader text={c.loading} />
+          )}
         </div>
       </section>
 
@@ -430,4 +466,4 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   ) : null;
 };
 
-export default TradeStrategySection;
+export default TradeStrategyDCAPlusSection;

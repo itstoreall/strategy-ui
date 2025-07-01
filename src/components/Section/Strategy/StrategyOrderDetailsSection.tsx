@@ -55,8 +55,8 @@ const StrategyOrderDetailsSection = ({ order, currentPrice }: Props) => {
 
   const { closeModal } = useModal();
 
-  const isCustomToken = customTokens.includes(order.symbol);
   const isBTC = order.symbol === 'BTC';
+  const isCustomToken = customTokens.includes(order.symbol);
 
   useEffect(() => {
     if (order) {
@@ -159,13 +159,15 @@ const StrategyOrderDetailsSection = ({ order, currentPrice }: Props) => {
                   <span className="heading-info-id">{`${c.id}: ${order.id}`}</span>
                 </span>
               </div>
-
               <div className="strategy-order-details-info">
                 <span className="strategy-order-details-info-block">
                   <span className="details-info-key">{`${c.price} ($):`}</span>
                   <span className="details-info-price">
                     {/* <span>{`${u.numberCutter(203000.56789, 3)}`}</span> */}
-                    <span>{`${u.numberCutter(order.price, 3)}`}</span>
+                    <span>{`${u.numberCutter(
+                      order.price,
+                      isBTC ? 0 : 3
+                    )}`}</span>
                   </span>
                 </span>
                 <span className="strategy-order-details-info-block">
@@ -176,7 +178,6 @@ const StrategyOrderDetailsSection = ({ order, currentPrice }: Props) => {
                   </span>
                 </span>
               </div>
-
               <div className="strategy-order-details-results">
                 <span className="details-results-invested">
                   <span>{`${c.invested}:`}</span>
@@ -192,7 +193,7 @@ const StrategyOrderDetailsSection = ({ order, currentPrice }: Props) => {
                 </span>
               </div>
 
-              {prices && (
+              {prices && !isBTC && (
                 <div className="strategy-order-details-prices">
                   <FuturePrice
                     symbol={order.symbol}

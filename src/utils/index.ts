@@ -161,7 +161,11 @@ export const numberCutter = (val: string | number, cut: number = 2) => {
         return number;
       } else {
         const significantDigits = match[2].slice(0, cut);
-        return `${parts[0]}.0{${leadingZeros}}${significantDigits}`;
+        if (parts[0].length > 1) {
+          return `${parts[0]}.${parts[1].slice(0, cut)}`;
+        } else {
+          return `${parts[0]}.0{${leadingZeros}}${significantDigits}`;
+        }
       }
     } else {
       const parts = str.split('.');

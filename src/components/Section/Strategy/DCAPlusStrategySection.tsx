@@ -3,7 +3,7 @@ import useModal from '@/src/hooks/useModal';
 import * as enm from '@/src/enums';
 // import { numberCutter } from '@/src/utils';
 import { OrderStrategyData, StrategySnapshot, Token } from '@/src/types';
-import TradeStrategySection from '@/src/components/Section/Strategy/TradeStrategySection';
+import TradeStrategyDCAPlusSection from '@/src/components/Section/Strategy/TradeStrategyDCAPlusSection';
 import StrategyOrderListSection from '@/src/components/Section/StrategyOrderListSection';
 import StrategySnapshotSection from '@/src/components/Section/StrategySnapshotSection';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
@@ -116,7 +116,7 @@ const DCAPlusStrategySection = (props: Props) => {
           />
 
           {userId && isTakeProfit && token && userOrderData && (
-            <TradeStrategySection
+            <TradeStrategyDCAPlusSection
               userId={userId}
               token={token}
               orderData={userOrderData}

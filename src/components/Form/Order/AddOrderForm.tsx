@@ -146,7 +146,7 @@ const AddOrderForm = ({
       Exchange: ${exchange || '--'}
       Price: ${price || '--'}
       Amount: ${amount || '--'}
-      Invested: $${price && amount ? numberCutter(price * amount) : '--'}
+      Invested: $${price && amount ? numberCutter(price * amount, 3) : '--'}
     `
       : `
       ${type || '--'}: ${symbol || '--'} - ${price || '--'}
