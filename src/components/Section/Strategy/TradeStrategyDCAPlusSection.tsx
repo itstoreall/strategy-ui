@@ -413,12 +413,13 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
         setIsDisabled={handleSelectAllOrders}
       /> */}
 
-      <section className="section trade-strategy">
-        <div className="section-content trade-strategy">
+      <section className="section trade-strategy-dca-plus">
+        <div className="section-content trade-strategy-dca-plus">
           {currentValues && buyValues && sellValues ? (
-            <div>
-              <ul style={{ display: 'flex', gap: '1rem' }}>
-                <li style={{ display: 'flex', flexDirection: 'column' }}>
+            <div className="section-trade-strategy-dca-plus-values-block">
+              <ul className="section-trade-strategy-dca-plus-list">
+                <li className={'section-trade-strategy-dca-plus-list-item'}>
+                  <span>{'AVG'}</span>
                   <span>{u.numberCutter(currentValues.avg, 0)}</span>
                   <span
                     style={{
@@ -436,24 +437,31 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
                       : `+${u.numberCutter(currentValues.percent)}%`}
                   </span>
                 </li>
-                <li style={{ display: 'flex', flexDirection: 'column' }}>
+                <li
+                  className={`section-trade-strategy-dca-plus-list-item ${
+                    buyValues.isActive ? 'color-blue' : ''
+                  }`}
+                >
+                  <span>{'Buy'}</span>
                   <span
-                    style={{
-                      color: `${buyValues.isActive ? 'blue' : 'white'}`,
-                    }}
+                  // className={`trade-strategy-dca-plus-list-item-value ${
+                  //   buyValues.isActive ? 'color-blue' : ''
+                  // }`}
+                  // style={{
+                  //   color: `${buyValues.isActive ? 'blue' : 'white'}`,
+                  // }}
                   >
                     {buyValues.price}
                   </span>
                   <span>{buyValues.amount}</span>
                 </li>
-                <li style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span
-                    style={{
-                      color: `${sellValues.isActive ? 'green' : 'white'}`,
-                    }}
-                  >
-                    {sellValues.price}
-                  </span>
+                <li
+                  className={`section-trade-strategy-dca-plus-list-item ${
+                    sellValues.isActive ? 'color-green' : ''
+                  }`}
+                >
+                  <span>{'Sell'}</span>
+                  <span>{sellValues.price}</span>
                   <span>{sellValues.amount}</span>
                 </li>
               </ul>
