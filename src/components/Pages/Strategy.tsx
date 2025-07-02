@@ -43,6 +43,8 @@ const Strategy = () => {
 
   const { openModal, ModalContentEnum } = useModal();
 
+  // console.log('sortedOrders:', sortedOrders);
+
   // ---
 
   useLayoutEffect(() => {
