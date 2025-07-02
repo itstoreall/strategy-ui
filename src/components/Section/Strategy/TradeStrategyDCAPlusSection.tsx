@@ -12,6 +12,7 @@ import * as t from '@/src/types';
 import * as u from '@/src/utils';
 import TradeStrategyModalContentSection from '@/src/components/Section/Strategy/TradeStrategyModalContentSection';
 import ListLoader from '../../ListLoader';
+import useTradeStrategyDCAPlus from '@/src/hooks/strategy/useTradeStrategyDCAPlus';
 /*
 import TradeStrategyOrderListSection from '@/src/components/Section/Strategy/TradeStrategyOrderListSection';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
@@ -31,18 +32,6 @@ export type CopiedField = {
   key: string;
 };
 
-type CurrentValues = {
-  avg: number;
-  percent: number;
-  stopLoss: number;
-};
-
-type TradeValues = {
-  amount: string;
-  price: string;
-  isActive: boolean;
-};
-
 export type History = t.HistoryEntry[] | null;
 export type Strategy = t.TradeStrategy | null;
 
@@ -53,9 +42,6 @@ const c = {
 
 const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
   // const [copiedField, setCopiedField] = useState<CopiedField | null>(null);
-  const [curValues, setCurValues] = useState<CurrentValues | null>(null);
-  const [buyValues, setBuyValues] = useState<TradeValues | null>(null);
-  const [sellValues, setSellValues] = useState<TradeValues | null>(null);
   const [orders, setOrders] = useState<t.Order[] | null>(null);
   // const [strategyHistory, setStrategyHistory] = useState<History>(null);
   const [storedStrategy, setStoredStrategy] = useState<Strategy>(null);
@@ -74,6 +60,12 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
     handleProfit,
     handleToggleSelect,
   } = useTakeProfitOrders({ orders });
+
+  const { currentValues, buyValues, sellValues } = useTradeStrategyDCAPlus({
+    snapshot,
+    orderData,
+    token,
+  });
 
   /*
   const { userOrders } = useFetchAllUserOrders(userId, { enabled: !!userId });
@@ -129,15 +121,6 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
       setStoredStrategy(lsData);
     }
   }, []);
-
-  useEffect(() => {
-    if (snapshot && orderData && token) {
-      const avg = u.calculateAVGPrice(orderData.orders);
-      handleCurrentValues(avg);
-      handleBuyValues(orderData.orders, token.price);
-      handleSellValues(snapshot, avg, token.price);
-    }
-  }, [snapshot, orderData, token]);
 
   useLayoutEffect(() => {
     // Take Profit
@@ -209,51 +192,7 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
     }
   }, [selectedOrders, orders, token]);
 
-  // console.log('isSelectedAllOrders', isSelectedAllOrders);
-
   // ---
-
-  const handleCurrentValues = (avg: number) => {
-    const percent = ((token.price - avg) / avg) * 100;
-    const fivePercentAVG = avg * 0.05;
-    const stopLoss = u.numberCutter(avg - fivePercentAVG, 0);
-    setCurValues({
-      avg,
-      percent,
-      stopLoss: Number(stopLoss),
-    });
-  };
-
-  const handleBuyValues = (orders: t.Order[], currentPrice: number) => {
-    const lowestPriceOrder = orders?.reduce((acc, order) =>
-      order.price < acc.price ? order : acc
-    );
-    const lowestPrice = lowestPriceOrder.price;
-    const lowestPriceAmount = lowestPriceOrder.amount;
-    const twoPercentLow = lowestPrice * 0.02;
-    const buyPrice = lowestPrice - twoPercentLow;
-    const buyAmount = lowestPriceAmount * 1.2;
-    setBuyValues({
-      amount: buyAmount.toFixed(6),
-      price: u.numberCutter(buyPrice, 0),
-      isActive: currentPrice <= buyPrice,
-    });
-  };
-
-  const handleSellValues = (
-    snapshot: t.StrategySnapshot,
-    avg: number,
-    currentPrice: number
-  ) => {
-    const fourPercentAVG = avg * 0.04;
-    const sellPrice = avg + fourPercentAVG;
-    const sellAmount = snapshot.totalAmount;
-    setSellValues({
-      amount: sellAmount.toFixed(6),
-      price: u.numberCutter(sellPrice, 0),
-      isActive: currentPrice >= sellPrice,
-    });
-  };
 
   const getCurrentExchanges = (data: t.Order[]) => {
     const exs = new Set<ExchangeEnum>();
@@ -476,25 +415,25 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
 
       <section className="section trade-strategy">
         <div className="section-content trade-strategy">
-          {curValues && buyValues && sellValues ? (
+          {currentValues && buyValues && sellValues ? (
             <div>
               <ul style={{ display: 'flex', gap: '1rem' }}>
                 <li style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span>{u.numberCutter(curValues.avg, 0)}</span>
+                  <span>{u.numberCutter(currentValues.avg, 0)}</span>
                   <span
                     style={{
                       color: `${
-                        curValues.percent > 0
+                        currentValues.percent > 0
                           ? 'green'
-                          : token.price > curValues.stopLoss
+                          : token.price > currentValues.stopLoss
                           ? 'blue'
                           : 'red'
                       }`,
                     }}
                   >
-                    {curValues.percent < 0
-                      ? `${u.numberCutter(curValues.percent)}%`
-                      : `+${u.numberCutter(curValues.percent)}%`}
+                    {currentValues.percent < 0
+                      ? `${u.numberCutter(currentValues.percent)}%`
+                      : `+${u.numberCutter(currentValues.percent)}%`}
                   </span>
                 </li>
                 <li style={{ display: 'flex', flexDirection: 'column' }}>

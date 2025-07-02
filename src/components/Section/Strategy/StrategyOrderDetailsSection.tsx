@@ -13,7 +13,6 @@ import Title from '@/src/components/Layout/Title';
 type Props = {
   order: Order;
   currentPrice: number;
-  // c: { [key: string]: string | number };
 };
 
 type Prices = {
