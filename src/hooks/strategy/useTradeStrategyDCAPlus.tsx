@@ -40,8 +40,8 @@ const useTradeStrategyDCAPlus = ({ snapshot, orderData, token }: Props) => {
     const fivePercentAVG = avg * 0.05;
     const stopLoss = u.numberCutter(avg - fivePercentAVG, 0);
     setCurrent({
-      avg,
-      percent,
+      avg: Number(u.numberCutter(avg, 0)),
+      percent: Number(u.numberCutter(percent)),
       stopLoss: Number(stopLoss),
     });
   };

@@ -101,7 +101,7 @@ const MainDividerSection = (props: Props) => {
       {title && <span className="main-divider-section-title">{title}</span>}
       {subTitle && <span className={subTitleStyle}>{subTitle}</span>}
 
-      {ordersNumber > 1 && (
+      {ordersNumber > 1 && !isBTC && (
         <Button className={avgStyle} clickContent={displayAvgBuyPrice}>
           {c.avg}
         </Button>

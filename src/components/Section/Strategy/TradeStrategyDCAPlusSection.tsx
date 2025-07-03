@@ -2,6 +2,7 @@
 import { useState, useEffect, useLayoutEffect } from 'react';
 import useTakeProfitOrders from '@/src/hooks/strategy/useTakeProfitOrders';
 import useModal from '@/src/hooks/useModal';
+
 /*
 import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import useUpdateStrategy from '@/src/hooks/strategy/useUpdateStrategy';
@@ -402,6 +403,9 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
   };
   */
 
+  // console.log('==>', currentValues && currentValues);
+  console.log('==>', buyValues && buyValues);
+
   return orders?.length ? (
     <>
       {/* <MainDividerSection
@@ -418,19 +422,30 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
           {currentValues && buyValues && sellValues ? (
             <div className="section-trade-strategy-dca-plus-values-block">
               <ul className="section-trade-strategy-dca-plus-list">
-                <li className={'section-trade-strategy-dca-plus-list-item'}>
+                {/* <li className={'section-trade-strategy-dca-plus-list-item'}> */}
+                <li
+                  className={`section-trade-strategy-dca-plus-list-item ${
+                    token.price < currentValues.stopLoss
+                      ? 'color-red'
+                      : buyValues.isActive
+                      ? 'color-blue'
+                      : sellValues.isActive
+                      ? 'color-green'
+                      : ''
+                  }`}
+                >
                   <span>{'AVG'}</span>
-                  <span>{u.numberCutter(currentValues.avg, 0)}</span>
+                  <span>$ {u.numberCutter(currentValues.avg, 0)}</span>
                   <span
-                    style={{
-                      color: `${
-                        currentValues.percent > 0
-                          ? 'green'
-                          : token.price > currentValues.stopLoss
-                          ? 'blue'
-                          : 'red'
-                      }`,
-                    }}
+                  // style={{
+                  //   color: `${
+                  //     currentValues.percent > 0
+                  //       ? 'green'
+                  //       : token.price > currentValues.stopLoss
+                  //       ? 'blue'
+                  //       : 'red'
+                  //   }`,
+                  // }}
                   >
                     {currentValues.percent < 0
                       ? `${u.numberCutter(currentValues.percent)}%`
@@ -442,7 +457,7 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
                     buyValues.isActive ? 'color-blue' : ''
                   }`}
                 >
-                  <span>{'Buy'}</span>
+                  <span>{'BUY'}</span>
                   <span
                   // className={`trade-strategy-dca-plus-list-item-value ${
                   //   buyValues.isActive ? 'color-blue' : ''
@@ -451,7 +466,7 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
                   //   color: `${buyValues.isActive ? 'blue' : 'white'}`,
                   // }}
                   >
-                    {buyValues.price}
+                    $ {buyValues.price}
                   </span>
                   <span>{buyValues.amount}</span>
                 </li>
@@ -460,8 +475,8 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
                     sellValues.isActive ? 'color-green' : ''
                   }`}
                 >
-                  <span>{'Sell'}</span>
-                  <span>{sellValues.price}</span>
+                  <span>{'SELL'}</span>
+                  <span>$ {sellValues.price}</span>
                   <span>{sellValues.amount}</span>
                 </li>
               </ul>
@@ -489,3 +504,8 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
 };
 
 export default TradeStrategyDCAPlusSection;
+
+/* Dollar & BTC
+import { RiMoneyDollarCircleLine } from 'react-icons/ri';
+import { RiBtcLine } from 'react-icons/ri';
+*/
