@@ -121,8 +121,6 @@ const DCAPlusStrategySection = (props: Props) => {
               token={token}
               snapshot={snapshot}
               orderData={userOrderData}
-              filterExchange={filterExchange}
-              handleFilterExchange={handleFilterExchange}
               // exchanges={exchanges}
             />
           )}

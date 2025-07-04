@@ -52,6 +52,19 @@ section.main-divider {
     }
   }
 
+  > div.main-divider-section-btc-link-block {
+    position: relative;
+    min-width: 30px;
+
+    > a {
+      > svg {
+        position: absolute;
+        top: -14px;
+        fill: $btcColor;
+      }
+    }
+  }
+
   > div.main-divider-section-filter-input-block {
     position: relative;
     display: flex;

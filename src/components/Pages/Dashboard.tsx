@@ -339,7 +339,7 @@ const Dashboard = () => {
 
               {userOrders.custom.length ? (
                 <OrderListSection
-                  data={userOrders.custom}
+                  data={[...userOrders.custom, ...userOrders.DCAPlus]}
                   tokens={updatedTokens}
                   userId={userId}
                   isCustom={true}

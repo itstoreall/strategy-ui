@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useLayoutEffect } from 'react';
-import useTakeProfitOrders from '@/src/hooks/strategy/useTakeProfitOrders';
+// import { FaBitcoin } from 'react-icons/fa';
+// import useTakeProfitOrders from '@/src/hooks/strategy/useTakeProfitOrders';
 import useModal from '@/src/hooks/useModal';
 
 /*
@@ -24,7 +25,6 @@ export type TradeStrategyProps = {
   token: t.Token;
   snapshot: t.StrategySnapshot;
   orderData: t.OrderStrategyData;
-  filterExchange: ExchangeEnum;
   handleFilterExchange?: (val: ExchangeEnum) => void;
 };
 
@@ -47,20 +47,19 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
   // const [strategyHistory, setStrategyHistory] = useState<History>(null);
   const [storedStrategy, setStoredStrategy] = useState<Strategy>(null);
 
-  const { token, snapshot, orderData, filterExchange, handleFilterExchange } =
-    props;
+  const { token, snapshot, orderData } = props;
 
-  const {
-    selectedOrders,
-    isSelectedAllOrders,
-    setIsSelectedAllOrders,
-    handleAmount,
-    handleBuyPrice,
-    handleInvested,
-    handleUnrealized,
-    handleProfit,
-    handleToggleSelect,
-  } = useTakeProfitOrders({ orders });
+  // const {
+  //   // selectedOrders,
+  //   // isSelectedAllOrders,
+  //   // setIsSelectedAllOrders,
+  //   // handleAmount,
+  //   // handleBuyPrice,
+  //   // handleInvested,
+  //   // handleUnrealized,
+  //   // handleProfit,
+  //   // handleToggleSelect,
+  // } = useTakeProfitOrders({ orders });
 
   const { currentValues, buyValues, sellValues } = useTradeStrategyDCAPlus({
     snapshot,
@@ -104,7 +103,7 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
   }, [orderData]);
   */
 
-  const isBTC = token.symbol === 'BTC';
+  // const isBTC = token.symbol === 'BTC';
 
   const {
     isStrategyModal,
@@ -123,98 +122,68 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
     }
   }, []);
 
+  // useLayoutEffect(() => {
+  //   // Take Profit
+  //   if (orderData.orders && handleFilterExchange) {
+  //     const exs = getCurrentExchanges(orderData.orders);
+  //     if (exs.size === 1) {
+  //       handleFilterExchange(Array.from(exs)[0]);
+  //     } else if (exs.size > 1) {
+  //       handleFilterExchange(ExchangeEnum.All);
+  //     }
+  //   }
+  // }, [orderData]);
+
   useLayoutEffect(() => {
-    // Take Profit
-    if (orderData.orders && handleFilterExchange) {
-      const exs = getCurrentExchanges(orderData.orders);
-      if (exs.size === 1) {
-        handleFilterExchange(Array.from(exs)[0]);
-      } else if (exs.size > 1) {
-        handleFilterExchange(ExchangeEnum.All);
-      }
-    }
+    setOrders(orderData.orders);
   }, [orderData]);
 
-  useLayoutEffect(() => {
-    const exs = getCurrentExchanges(orderData.orders);
-    // setSelectedOrders(new Set());
-    if (exs.size && handleFilterExchange) {
-      if (filterExchange === ExchangeEnum.All && exs.size === 1) {
-        handleFilterExchange(Array.from(exs)[0]);
-      }
-      handleSelectedOrders();
-    }
-  }, [filterExchange, orderData]);
+  // useEffect(() => {
+  //   if (isBTC && orders) {
+  //     orders.forEach((order) => {
+  //       handleToggleSelect(order.id.toString());
+  //     });
+  //   }
+  // }, [orders]);
 
-  useEffect(() => {
-    if (isBTC && orders) {
-      orders.forEach((order) => {
-        handleToggleSelect(order.id.toString());
-      });
-    }
-  }, [orders]);
+  // useEffect(() => {
+  //   if (orders) {
+  //     const selectedOrderList = orders.filter((order) =>
+  //       selectedOrders.has(order.id.toString())
+  //     );
 
-  useEffect(() => {
-    if (orders) {
-      const selectedOrderList = orders.filter((order) =>
-        selectedOrders.has(order.id.toString())
-      );
+  //     // Update selection state (Toggle)
+  //     if (orders?.length === selectedOrders.size) {
+  //       if (orders.length) {
+  //         setIsSelectedAllOrders(true);
+  //       }
+  //     } else if (isSelectedAllOrders && orders?.length > selectedOrders.size) {
+  //       setIsSelectedAllOrders(false);
+  //     }
 
-      // Update selection state (Toggle)
-      if (orders?.length === selectedOrders.size) {
-        if (orders.length) {
-          setIsSelectedAllOrders(true);
-        }
-      } else if (isSelectedAllOrders && orders?.length > selectedOrders.size) {
-        setIsSelectedAllOrders(false);
-      }
+  //     // Calculate totals
+  //     const { totalAmount, totalUnrealized, totalInvested } = orders.reduce(
+  //       (acc, order) => {
+  //         if (selectedOrders.has(order.id.toString())) {
+  //           acc.totalAmount += order.amount;
+  //           acc.totalUnrealized += order.amount * token.price;
+  //           acc.totalInvested += order.fiat;
+  //         }
+  //         return acc;
+  //       },
+  //       { totalAmount: 0, totalUnrealized: 0, totalInvested: 0 }
+  //     );
 
-      // Calculate totals
-      const { totalAmount, totalUnrealized, totalInvested } = orders.reduce(
-        (acc, order) => {
-          if (selectedOrders.has(order.id.toString())) {
-            acc.totalAmount += order.amount;
-            acc.totalUnrealized += order.amount * token.price;
-            acc.totalInvested += order.fiat;
-          }
-          return acc;
-        },
-        { totalAmount: 0, totalUnrealized: 0, totalInvested: 0 }
-      );
+  //     handleAmount(totalAmount);
+  //     handleInvested(totalInvested);
+  //     handleUnrealized(totalUnrealized);
+  //     handleProfit(totalUnrealized - totalInvested);
 
-      handleAmount(totalAmount);
-      handleInvested(totalInvested);
-      handleUnrealized(totalUnrealized);
-      handleProfit(totalUnrealized - totalInvested);
-
-      // Calculate AVG Buy Price
-      const avgPrice = u.calculateAVGPrice(selectedOrderList);
-      handleBuyPrice(avgPrice);
-    }
-  }, [selectedOrders, orders, token]);
-
-  // ---
-
-  const getCurrentExchanges = (data: t.Order[]) => {
-    const exs = new Set<ExchangeEnum>();
-    data.forEach((order) => {
-      if (exs.has(order.exchange)) return;
-      exs.add(order.exchange);
-    });
-    return exs;
-  };
-
-  const handleSelectedOrders = () => {
-    const selectedOrders = orderData.orders.filter((order) => {
-      const currentPrice = token.price;
-      const percent = ((currentPrice - order.price) / order.price) * 100;
-      return order.exchange === filterExchange && percent > 0;
-      // return order.exchange === selectedEx && percent > 0;
-    });
-    if (selectedOrders) {
-      setOrders(selectedOrders);
-    }
-  };
+  //     // Calculate AVG Buy Price
+  //     const avgPrice = u.calculateAVGPrice(selectedOrderList);
+  //     handleBuyPrice(avgPrice);
+  //   }
+  // }, [selectedOrders, orders, token]);
 
   // --- StoredData:
 
@@ -402,9 +371,6 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
     setTimeout(() => setCopiedField(null), 500);
   };
   */
-
-  // console.log('==>', currentValues && currentValues);
-  console.log('==>', buyValues && buyValues);
 
   return orders?.length ? (
     <>

@@ -22,6 +22,7 @@ const c = {
   lsBuyTargetLimitKey: 'buyTargetListLimited',
   confirmDeletion: 'Buy Target will be deleted!',
   buyTargets: 'Targets',
+  customTitle: 'DCA',
   fourPercent: 4,
   sevenPercent: 7,
   buy: 'Buy',
@@ -33,6 +34,7 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
   const isBull = data[0].type === OrderTypeEnum.Buy;
   const currentLsKey = isBull ? c.lsOrderLimitKey : c.lsBuyTargetLimitKey;
 
+  const [isBTCButton, setIsBTCButton] = useState<boolean>(false);
   const [isExpanded, setIsExpanded] = useState<boolean>(() => {
     const savedState = localStorage.getItem(currentLsKey);
     return savedState ? JSON.parse(savedState) : false;
@@ -40,6 +42,17 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
 
   const { updateData } = useInvalidateQueries();
   const { handleUnrealized } = useGlobalState();
+
+  useEffect(() => {
+    if (data) {
+      const BTCOrder = data.find((order) => order.symbol === 'BTC');
+      if (BTCOrder) {
+        setIsBTCButton(true);
+      } else {
+        setIsBTCButton(false);
+      }
+    }
+  }, [data]);
 
   useEffect(() => {
     localStorage.setItem(currentLsKey, JSON.stringify(isExpanded));
@@ -120,6 +133,10 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
     if (aggregatedData && aggregatedData.length > 0) {
       let unrealizedValue: number = 0;
       aggregatedData.forEach((item) => {
+        // if (!isCustom && item.symbol === 'BTC') {
+        //   console.log('item:', item);
+        //   setIsBTCButton(true);
+        // }
         if (item.unrealized) {
           unrealizedValue += item.unrealized;
         }
@@ -254,12 +271,13 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
     <>
       <MainDividerSection
         className="order-list-devider"
-        title={!isBull ? c.buyTargets : isCustom ? 'Trading' : ''}
+        title={!isBull ? c.buyTargets : isCustom ? c.customTitle : ''}
         filterSymbol={!isCustom ? filterSymbol : ''}
         handleFilterChange={isBull && !isCustom ? handleFilterChange : null}
         resetFilter={resetFilter}
         sortField={sortField}
         handleSortToggle={handleSortToggle}
+        isBTCButton={isBTCButton}
         isSwitchButton={isToggle && !isCustom}
         isDisabled={!isExpanded}
         setIsDisabled={toggleList}
@@ -269,7 +287,9 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
         <div className="section-content order-list">
           <ul className="section-order-list">
             {displayedData.map((order: AggregatedOrderListAcc, idx) => {
-              return <OrderListItem key={idx} order={order} />;
+              if (order.symbol !== 'BTC') {
+                return <OrderListItem key={idx} order={order} />;
+              } else return;
             })}
           </ul>
         </div>

@@ -1,11 +1,13 @@
 import { Dispatch, SetStateAction } from 'react';
-import { InputEvent } from '@/src/types';
-import { numberCutter } from '@/src/utils';
-import { ExchangeEnum, SortEnum } from '@/src/enums';
-import SwitchIcon from '@/src/assets/icons/SwitchIcon';
-import Button from '@/src/components/Button/Button';
-import SelectMulti from '../Form/SelectMulti';
+import Link from 'next/link';
+import { FaBitcoin } from 'react-icons/fa';
 import useSelectMulti from '@/src/hooks/useSelectMulti';
+import { ExchangeEnum, SortEnum } from '@/src/enums';
+import { numberCutter } from '@/src/utils';
+import { InputEvent } from '@/src/types';
+import SwitchIcon from '@/src/assets/icons/SwitchIcon';
+import SelectMulti from '@/src/components/Form/SelectMulti';
+import Button from '@/src/components/Button/Button';
 
 type Props = {
   className?:
@@ -26,6 +28,7 @@ type Props = {
   resetFilter?: () => void;
   sortField?: SortEnum;
   handleSortToggle?: () => void;
+  isBTCButton?: boolean;
   isSwitchButton?: boolean;
   isDisabled?: boolean;
   setIsDisabled?: Dispatch<SetStateAction<boolean>>;
@@ -59,12 +62,14 @@ const MainDividerSection = (props: Props) => {
     handleSortToggle,
     isDisabled,
     setIsDisabled,
+    isBTCButton,
     isSwitchButton = false,
   } = props;
 
   const { openDropdownId, toggleDropdown } = useSelectMulti();
 
   const isBTC = avgBuyPrice > 67000;
+  // const isCustom = title === 'Trading';
 
   const displayAvgBuyPrice = () => {
     alert(`${c.avg}: ${numberCutter(avgBuyPrice, isBTC ? 0 : 3)}`);
@@ -105,6 +110,18 @@ const MainDividerSection = (props: Props) => {
         <Button className={avgStyle} clickContent={displayAvgBuyPrice}>
           {c.avg}
         </Button>
+      )}
+
+      {isBTCButton && (
+        <div className="main-divider-section-btc-link-block">
+          <Link
+            className="main-divider-section-btc-link"
+            href={'/strategy/BUY-BTC'}
+            prefetch={false}
+          >
+            <FaBitcoin size={28} />
+          </Link>
+        </div>
       )}
 
       {handleFilterExchange && exchanges && exchanges.length > 2 && (
