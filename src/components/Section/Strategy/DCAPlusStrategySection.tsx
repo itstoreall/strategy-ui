@@ -98,18 +98,21 @@ const DCAPlusStrategySection = (props: Props) => {
 
   const { RenderModal, isFormModal } = useModal();
 
+  const isBTC = token.symbol === 'BTC';
+
   // no scss styles!
   return (
     <section>
       <div className="main-content">
         <SectionsContainer>
           <StrategySnapshotSection
+            isBTC={isBTC}
             orderNumber={sortedOrders?.length ?? 0}
             totalAmount={snapshot.totalAmount}
             positiveOrders={snapshot.positiveOrders}
             successOrders={snapshot.successOrders}
             depositAmount={snapshot.deposit}
-            profitAmount={snapshot.profit}
+            total={snapshot.profit}
           />
 
           {userId && isTakeProfit && token && userOrderData && (

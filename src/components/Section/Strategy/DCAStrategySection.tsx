@@ -71,7 +71,7 @@ const DCAStrategySection = (props: Props) => {
             positiveOrders={snapshot.positiveOrders}
             successOrders={snapshot.successOrders}
             depositAmount={snapshot.deposit}
-            profitAmount={snapshot.profit}
+            total={snapshot.profit}
           />
 
           {userId && isTakeProfit && token && userOrderData && (
