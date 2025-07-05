@@ -113,7 +113,7 @@ const MainDividerSection = (props: Props) => {
       )}
 
       {isBTCButton && (
-        <div className="main-divider-section-btc-link-block">
+        <div className="main-divider-section-btc-link-box">
           <Link
             className="main-divider-section-btc-link"
             href={'/strategy/BUY-BTC'}

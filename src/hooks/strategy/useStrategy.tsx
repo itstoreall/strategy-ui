@@ -33,6 +33,8 @@ const useStrategy = () => {
     { enabled: !!userId }
   );
 
+  const isBTC = userOrderData?.orders[0].symbol === 'BTC';
+
   const exchanges: ExchangeEnum[] = [ExchangeEnum.All];
   const strategySnapshot: t.StrategySnapshot = {
     totalAmount: 0,
@@ -74,6 +76,14 @@ const useStrategy = () => {
     setAvgBuyPrice(averagePrice);
   };
 
+  const updateTotalProfit = (order: t.Order) => {
+    if (strategySnapshot.profit === null) {
+      strategySnapshot.profit = 0 + order.amount * currentPrice;
+    } else {
+      strategySnapshot.profit += order.amount * currentPrice;
+    }
+  };
+
   const classifyOrder = (percent: number, strategy: t.Strategy) => {
     if (userOrderData && percent >= userOrderData.strategy.target)
       return { priority: 0 };
@@ -94,12 +104,15 @@ const useStrategy = () => {
         const calculateSnapshotValues = (order: t.Order, percent: number) => {
           strategySnapshot.totalAmount += order.amount;
           strategySnapshot.deposit += order.fiat;
-          if (!percent.toString().includes('-')) {
+          if (!percent.toString().includes('-') && !isBTC) {
+            updateTotalProfit(order);
+            /*
             if (strategySnapshot.profit === null) {
               strategySnapshot.profit = 0 + order.amount * currentPrice;
             } else {
               strategySnapshot.profit += order.amount * currentPrice;
             }
+            */
             if (percent >= userOrderData.strategy.target) {
               if (strategySnapshot.successOrders === null) {
                 strategySnapshot.successOrders = 1;
@@ -112,6 +125,15 @@ const useStrategy = () => {
             } else {
               strategySnapshot.positiveOrders += 1;
             }
+          } else if (isBTC) {
+            updateTotalProfit(order);
+            /*
+            if (strategySnapshot.profit === null) {
+              strategySnapshot.profit = 0 + order.amount * currentPrice;
+            } else {
+              strategySnapshot.profit += order.amount * currentPrice;
+            }
+            */
           }
         };
 

@@ -104,9 +104,6 @@ const DCAPlusStrategySection = (props: Props) => {
       <div className="main-content">
         <SectionsContainer>
           <StrategySnapshotSection
-            /*
-            sortedOrders={sortedOrders ?? null}
-            */
             orderNumber={sortedOrders?.length ?? 0}
             totalAmount={snapshot.totalAmount}
             positiveOrders={snapshot.positiveOrders}
@@ -130,9 +127,6 @@ const DCAPlusStrategySection = (props: Props) => {
               <MainDividerSection
                 className="order-list-devider"
                 title={c.dividerTitle}
-                /*
-                subTitle={calculateStrategyPercent()}
-                */
                 avgBuyPrice={avgBuyPrice}
                 exchanges={exchanges}
                 filterExchange={filterExchange}

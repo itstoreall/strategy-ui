@@ -1,4 +1,8 @@
-import { formatMillionAmount, uniNumberFormatter } from '@/src/utils';
+import {
+  // formatMillionAmount,
+  numberCutter,
+  uniNumberFormatter,
+} from '@/src/utils';
 import DotsLoader from '@/src/components/DotsLoader';
 // import { Order } from '@/src/types';
 
@@ -21,7 +25,7 @@ const StrategySnapshotSection = (props: Props) => {
     */
     orderNumber,
     totalAmount,
-    positiveOrders,
+    // positiveOrders,
     successOrders,
     depositAmount,
     profitAmount,
@@ -37,15 +41,15 @@ const StrategySnapshotSection = (props: Props) => {
   const isProfit = !!profitAmount && profitAmount > 0;
   const isAllNegative = isOrders && !isProfit && !isPositive;
 
-  const successValue = isProfit && successOrders ? successOrders : 0;
-  const orderValue = `${successValue}/${positiveOrders}`;
-  const loaderValue = isProfit ? orderValue : <DotsLoader />;
+  // const successValue = isProfit && successOrders ? successOrders : 0;
+  // const orderValue = `${successValue}/${positiveOrders}`;
+  // const loaderValue = isProfit ? orderValue : <DotsLoader />;
 
-  const positiveValue = isPositive
-    ? orderValue
-    : isAllNegative
-    ? 0
-    : loaderValue;
+  // const positiveValue = isPositive
+  //   ? orderValue
+  //   : isAllNegative
+  //   ? 0
+  //   : loaderValue;
 
   const profitValue = isProfit ? (
     profitAmount
@@ -68,8 +72,9 @@ const StrategySnapshotSection = (props: Props) => {
         </li>
         <li className="snapshot-item">
           <div className="item-content">
-            <span className="content-name">Success</span>
-            <span className="content-value">{positiveValue}</span>
+            <span className="content-name">Empty</span>
+            <span className="content-value">{'-'}</span>
+            {/* <span className="content-value">{positiveValue}</span> */}
           </div>
         </li>
         <li className="snapshot-item">
@@ -77,20 +82,22 @@ const StrategySnapshotSection = (props: Props) => {
             <span className="content-name">Deposit</span>
             <span
               className="content-value"
-              title={`$${depositAmount.toFixed(2)}`}
+              // title={`$${depositAmount.toFixed(2)}`}
             >
-              {formatMillionAmount(depositAmount.toFixed(1))}
+              {numberCutter(depositAmount)}
+              {/* {formatMillionAmount(depositAmount.toFixed(1))} */}
             </span>
           </div>
         </li>
         <li className="snapshot-item">
           <div className="item-content">
-            <span className="content-name">Unrealized</span>
+            <span className="content-name">Total</span>
             <span
               className="content-value"
-              title={`$${(+profitValue).toFixed(2)}`}
+              // title={`$${(+profitValue).toFixed(2)}`}
             >
-              {profitValue ? (+profitValue).toFixed(1) : 0}
+              {profitValue ? numberCutter(+profitValue) : 0}
+              {/* {profitValue ? (+profitValue).toFixed(1) : 0} */}
             </span>
           </div>
         </li>

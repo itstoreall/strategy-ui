@@ -52,14 +52,18 @@ section.main-divider {
     }
   }
 
-  > div.main-divider-section-btc-link-block {
+  > div.main-divider-section-btc-link-box {
     position: relative;
     min-width: 30px;
 
-    > a {
+    > a.main-divider-section-btc-link {
+      position: absolute;
+      top: -20px;
+      padding-top: 6px;
+      width: 40px;
+      height: 34px;
+
       > svg {
-        position: absolute;
-        top: -14px;
         fill: $btcColor;
       }
     }

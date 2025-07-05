@@ -402,17 +402,7 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
                 >
                   <span>{'AVG'}</span>
                   <span>$ {u.numberCutter(currentValues.avg, 0)}</span>
-                  <span
-                  // style={{
-                  //   color: `${
-                  //     currentValues.percent > 0
-                  //       ? 'green'
-                  //       : token.price > currentValues.stopLoss
-                  //       ? 'blue'
-                  //       : 'red'
-                  //   }`,
-                  // }}
-                  >
+                  <span>
                     {currentValues.percent < 0
                       ? `${u.numberCutter(currentValues.percent)}%`
                       : `+${u.numberCutter(currentValues.percent)}%`}

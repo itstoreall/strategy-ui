@@ -140,7 +140,7 @@ const StrategyOrderListSection = (props: Props) => {
                 const isZeroRange = percent > 0 && percent < 0.1;
                 const isZero = isZeroRange || percent === 0;
                 const isBig = percentValueToDisplay.length > 2;
-                const fixNumber = isZero || isBig ? 0 : 1;
+                const fixNumber = isZero || isBig ? 0 : 2;
                 const signPlus = _percent.toString().includes('-')
                   ? ''
                   : _percent >= 0.1
