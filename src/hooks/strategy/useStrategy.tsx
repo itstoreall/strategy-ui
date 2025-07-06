@@ -33,7 +33,7 @@ const useStrategy = () => {
     { enabled: !!userId }
   );
 
-  const isBTC = userOrderData?.orders[0].symbol === 'BTC';
+  const isBTC = userOrderData?.orders[0]?.symbol === 'BTC';
 
   const exchanges: ExchangeEnum[] = [ExchangeEnum.All];
   const strategySnapshot: t.StrategySnapshot = {

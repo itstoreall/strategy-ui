@@ -68,7 +68,7 @@ const MainDividerSection = (props: Props) => {
 
   const { openDropdownId, toggleDropdown } = useSelectMulti();
 
-  const isBTC = avgBuyPrice > 67000;
+  const isBTC = avgBuyPrice > 32000;
   // const isCustom = title === 'Trading';
 
   const displayAvgBuyPrice = () => {

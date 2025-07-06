@@ -27,7 +27,7 @@ const useTradeStrategyDCAPlus = ({ snapshot, orderData, token }: Props) => {
   const [sell, setSell] = useState<TradeValues | null>(null);
 
   useEffect(() => {
-    if (snapshot && orderData && token) {
+    if (snapshot && orderData.orders.length && token) {
       const avg = u.calculateAVGPrice(orderData.orders);
       handleCurrentValues(avg);
       handleBuyValues(orderData.orders, token.price);

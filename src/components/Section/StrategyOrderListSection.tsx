@@ -106,7 +106,10 @@ const StrategyOrderListSection = (props: Props) => {
                 : -c.buyTargetPercent;
 
               const _percent = ((currentPrice - price) / price) * 100;
+              const percent = _percent === 0 ? 0 : _percent;
+              /*
               const percent = _percent < 0 && _percent > -0.09 ? 0 : _percent;
+              */
 
               const isSuccess = percent >= sellPercent;
               const isPositive = percent >= 0 && percent < sellPercent;
@@ -137,8 +140,11 @@ const StrategyOrderListSection = (props: Props) => {
                 const percentValueToDisplay = percentValue.includes('-')
                   ? percentValue.split('-')[1]
                   : percentValue;
-                const isZeroRange = percent > 0 && percent < 0.1;
+                /*
+                const isZeroRange = percent > 0 && percent < 0.01;
                 const isZero = isZeroRange || percent === 0;
+                */
+                const isZero = percent === 0;
                 const isBig = percentValueToDisplay.length > 2;
                 const fixNumber = isZero || isBig ? 0 : 2;
                 const signPlus = _percent.toString().includes('-')

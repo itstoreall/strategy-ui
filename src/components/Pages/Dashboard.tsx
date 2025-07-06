@@ -337,7 +337,7 @@ const Dashboard = () => {
 
               <PricesSection tokens={updatedTokens} />
 
-              {userOrders.custom.length ? (
+              {userOrders.custom.length || userOrders.DCAPlus.length ? (
                 <OrderListSection
                   data={[...userOrders.custom, ...userOrders.DCAPlus]}
                   tokens={updatedTokens}
