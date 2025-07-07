@@ -14,7 +14,8 @@ import * as t from '@/src/types';
 import * as u from '@/src/utils';
 import TradeStrategyModalContentSection from '@/src/components/Section/Strategy/TradeStrategyModalContentSection';
 import ListLoader from '../../ListLoader';
-import useTradeStrategyDCAPlus from '@/src/hooks/strategy/useTradeStrategyDCAPlus';
+// import useTradeStrategyDCAPlus from '@/src/hooks/strategy/useTradeStrategyDCAPlus';
+import useStrategyDCA from '@/src/hooks/useStrategyDCA';
 /*
 import TradeStrategyOrderListSection from '@/src/components/Section/Strategy/TradeStrategyOrderListSection';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
@@ -37,8 +38,12 @@ export type History = t.HistoryEntry[] | null;
 export type Strategy = t.TradeStrategy | null;
 
 const c = {
+  avg: 'AVG',
   deleteLSStrategy: 'LS Strategy will be deleted!',
   loading: 'loading',
+  stopLoss: 'stop-loss',
+  buy: 'buy',
+  sell: 'sell',
 };
 
 const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
@@ -47,7 +52,7 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
   // const [strategyHistory, setStrategyHistory] = useState<History>(null);
   const [storedStrategy, setStoredStrategy] = useState<Strategy>(null);
 
-  const { token, snapshot, orderData } = props;
+  const { token, orderData } = props; //snapshot,
 
   // const {
   //   // selectedOrders,
@@ -61,11 +66,13 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
   //   // handleToggleSelect,
   // } = useTakeProfitOrders({ orders });
 
-  const { currentValues, buyValues, sellValues } = useTradeStrategyDCAPlus({
-    snapshot,
-    orderData,
-    token,
-  });
+  // const { currentValues, buyValues, sellValues } = useTradeStrategyDCAPlus({
+  //   snapshot,
+  //   orderData,
+  //   token,
+  // });
+
+  const { currentBTC, buyBTC, sellBTC, getStatus } = useStrategyDCA();
 
   /*
   const { userOrders } = useFetchAllUserOrders(userId, { enabled: !!userId });
@@ -372,6 +379,10 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
   };
   */
 
+  const status = getStatus();
+
+  // console.log('status:', status);
+
   return orders?.length ? (
     <>
       {/* <MainDividerSection
@@ -385,35 +396,38 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
 
       <section className="section trade-strategy-dca-plus">
         <div className="section-content trade-strategy-dca-plus">
-          {currentValues && buyValues && sellValues ? (
+          {currentBTC && buyBTC && sellBTC ? (
             <div className="section-trade-strategy-dca-plus-values-block">
               <ul className="section-trade-strategy-dca-plus-list">
                 {/* <li className={'section-trade-strategy-dca-plus-list-item'}> */}
                 <li
+                  className={`section-trade-strategy-dca-plus-list-item ${status}`}
+                >
+                  {/* <li
                   className={`section-trade-strategy-dca-plus-list-item ${
-                    token.price < currentValues.stopLoss
+                    token.price < currentBTC.stopLoss
                       ? 'color-red'
-                      : buyValues.isActive
+                      : buyBTC.isActive
                       ? 'color-blue'
-                      : sellValues.isActive
+                      : sellBTC.isActive
                       ? 'color-green'
                       : ''
                   }`}
-                >
-                  <span>{'AVG'}</span>
-                  <span>$ {u.numberCutter(currentValues.avg, 0)}</span>
+                > */}
+                  <span className="dca-plus-list-item-title">{c.avg}</span>
+                  <span>$ {u.numberCutter(currentBTC.avg, 0)}</span>
                   <span>
-                    {currentValues.percent < 0
-                      ? `${u.numberCutter(currentValues.percent)}%`
-                      : `+${u.numberCutter(currentValues.percent)}%`}
+                    {currentBTC.percent < 0
+                      ? `${u.numberCutter(currentBTC.percent)}%`
+                      : `+${u.numberCutter(currentBTC.percent)}%`}
                   </span>
                 </li>
                 <li
                   className={`section-trade-strategy-dca-plus-list-item ${
-                    buyValues.isActive ? 'color-blue' : ''
+                    buyBTC.isActive ? c.buy : ''
                   }`}
                 >
-                  <span>{'BUY'}</span>
+                  <span className="dca-plus-list-item-title">{c.buy}</span>
                   <span
                   // className={`trade-strategy-dca-plus-list-item-value ${
                   //   buyValues.isActive ? 'color-blue' : ''
@@ -422,18 +436,18 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
                   //   color: `${buyValues.isActive ? 'blue' : 'white'}`,
                   // }}
                   >
-                    $ {buyValues.price}
+                    $ {buyBTC.price}
                   </span>
-                  <span>{buyValues.amount}</span>
+                  <span>{buyBTC.amount}</span>
                 </li>
                 <li
                   className={`section-trade-strategy-dca-plus-list-item ${
-                    sellValues.isActive ? 'color-green' : ''
+                    sellBTC.isActive ? c.sell : ''
                   }`}
                 >
-                  <span>{'SELL'}</span>
-                  <span>$ {sellValues.price}</span>
-                  <span>{sellValues.amount}</span>
+                  <span className="dca-plus-list-item-title">{c.sell}</span>
+                  <span>$ {sellBTC.price}</span>
+                  <span>{sellBTC.amount}</span>
                 </li>
               </ul>
             </div>

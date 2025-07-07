@@ -57,19 +57,19 @@ section.trade-strategy-dca-plus {
             padding: 1rem;
           }
 
-          &.color-blue {
-            border-color: $googleBlue;
+          &.stop-loss {
+            border-color: $googleRed;
 
             > span {
-              color: $googleBlue;
+              color: $googleRed;
 
               &:nth-child(1) {
-                background: $blueBlackGradient;
+                background: $redBlackGradient;
               }
             }
           }
 
-          &.color-green {
+          &.sell {
             border-color: $googleGreen;
 
             > span {
@@ -81,14 +81,14 @@ section.trade-strategy-dca-plus {
             }
           }
 
-          &.color-red {
-            border-color: $googleRed;
+          &.buy {
+            border-color: $googleBlue;
 
             > span {
-              color: $googleRed;
+              color: $googleBlue;
 
               &:nth-child(1) {
-                background: $redBlackGradient;
+                background: $blueBlackGradient;
               }
             }
           }
@@ -120,6 +120,10 @@ section.trade-strategy-dca-plus {
 
             &:nth-child(2) {
               font-weight: 600;
+            }
+
+            &.dca-plus-list-item-title {
+              text-transform: uppercase;
             }
           }
         }

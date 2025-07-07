@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { SessionProvider } from 'next-auth/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { StrategyDCAProvider } from '@/src/context/strategyDCA.context';
 import { GlobalProvider } from '@/src/context/global.context';
 import { ModalProvider } from '@/src/context/modal.context';
 
@@ -13,7 +14,9 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
     <SessionProvider>
       <QueryClientProvider client={queryClient}>
         <GlobalProvider>
-          <ModalProvider>{children}</ModalProvider>
+          <StrategyDCAProvider>
+            <ModalProvider>{children}</ModalProvider>
+          </StrategyDCAProvider>
         </GlobalProvider>
       </QueryClientProvider>
     </SessionProvider>

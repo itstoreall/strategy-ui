@@ -71,6 +71,11 @@ const Dashboard = () => {
 
   const currentUserId = currentUser ? currentUser : (userId as string);
 
+  // console.log('-');
+  // console.log('currentBTC:', currentBTC);
+  // console.log('buyBTC:', buyBTC);
+  // console.log('sellBTC:', sellBTC);
+
   // ---
 
   // useEffect(() => {

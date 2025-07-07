@@ -58,13 +58,31 @@ section.main-divider {
 
     > a.main-divider-section-btc-link {
       position: absolute;
-      top: -20px;
+      top: -21px;
       padding-top: 6px;
       width: 40px;
       height: 34px;
 
       > svg {
         fill: $btcColor;
+      }
+
+      &.stop-loss {
+        > svg {
+          fill: $googleRed;
+        }
+      }
+
+      &.buy {
+        > svg {
+          fill: $googleBlue;
+        }
+      }
+
+      &.sell {
+        > svg {
+          fill: $googleGreen;
+        }
       }
     }
   }

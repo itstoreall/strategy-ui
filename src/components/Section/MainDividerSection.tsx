@@ -8,6 +8,7 @@ import { InputEvent } from '@/src/types';
 import SwitchIcon from '@/src/assets/icons/SwitchIcon';
 import SelectMulti from '@/src/components/Form/SelectMulti';
 import Button from '@/src/components/Button/Button';
+import useStrategyDCA from '@/src/hooks/useStrategyDCA';
 
 type Props = {
   className?:
@@ -66,6 +67,7 @@ const MainDividerSection = (props: Props) => {
     isSwitchButton = false,
   } = props;
 
+  const { getStatus } = useStrategyDCA();
   const { openDropdownId, toggleDropdown } = useSelectMulti();
 
   const isBTC = avgBuyPrice > 32000;
@@ -115,7 +117,7 @@ const MainDividerSection = (props: Props) => {
       {isBTCButton && (
         <div className="main-divider-section-btc-link-box">
           <Link
-            className="main-divider-section-btc-link"
+            className={`main-divider-section-btc-link ${getStatus()}`}
             href={'/strategy/BUY-BTC'}
             prefetch={false}
           >
