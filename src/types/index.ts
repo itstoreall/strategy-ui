@@ -102,6 +102,20 @@ export type HistoryEntry = {
   s: number; // Sell Price
 };
 
+// --- DCA
+
+export type CurrentValues = {
+  avg: number;
+  percent: number;
+  stopLoss: number;
+};
+
+export type TradeValues = {
+  amount: string;
+  price: string;
+  isActive: boolean;
+};
+
 // export type TradeStrategy = {
 //   symbol: string;
 //   exchange: ExchangeEnum;

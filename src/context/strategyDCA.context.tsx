@@ -7,20 +7,8 @@ import * as enm from '@/src/enums';
 import * as t from '@/src/types';
 import * as u from '@/src/utils';
 
-type CurrentValues = {
-  avg: number;
-  percent: number;
-  stopLoss: number;
-};
-
-type TradeValues = {
-  amount: string;
-  price: string;
-  isActive: boolean;
-};
-
-type DCAPlusCurrentState = CurrentValues | null;
-type DCAPlusTradeState = TradeValues | null;
+type DCAPlusCurrentState = t.CurrentValues | null;
+type DCAPlusTradeState = t.TradeValues | null;
 
 export type StrategyDCAContext = {
   currentBTC: DCAPlusCurrentState;

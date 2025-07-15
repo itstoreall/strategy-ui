@@ -29,6 +29,12 @@ export type TradeStrategyProps = {
   handleFilterExchange?: (val: ExchangeEnum) => void;
 };
 
+type DCAPlusListProps = {
+  cur: t.CurrentValues;
+  buy: t.TradeValues;
+  sell: t.TradeValues;
+};
+
 export type CopiedField = {
   id: number;
   key: string;
@@ -379,9 +385,39 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
   };
   */
 
-  const status = getStatus();
+  const DCAPlusList = ({ cur, buy, sell }: DCAPlusListProps) => {
+    const status = getStatus();
+    const currentPercentDisplay =
+      cur.percent < 0
+        ? `${u.numberCutter(cur.percent)}%`
+        : `+${u.numberCutter(cur.percent)}%`;
 
-  // console.log('status:', status);
+    const isBuy = buy.isActive ? c.buy : '';
+    const isSell = sell.isActive ? c.sell : '';
+    const curItemStyle = `section-trade-strategy-dca-plus-list-item ${status}`;
+    const buyItemStyle = `section-trade-strategy-dca-plus-list-item ${isBuy}`;
+    const sellItemStyle = `section-trade-strategy-dca-plus-list-item ${isSell}`;
+
+    return (
+      <ul className="section-trade-strategy-dca-plus-list">
+        <li className={curItemStyle}>
+          <span className="dca-plus-list-item-title">{c.avg}</span>
+          <span>$ {u.numberCutter(cur.avg, 0)}</span>
+          <span>{currentPercentDisplay}</span>
+        </li>
+        <li className={buyItemStyle}>
+          <span className="dca-plus-list-item-title">{c.buy}</span>
+          <span>$ {buy.price}</span>
+          <span>{buy.amount}</span>
+        </li>
+        <li className={sellItemStyle}>
+          <span className="dca-plus-list-item-title">{c.sell}</span>
+          <span>$ {sell.price}</span>
+          <span>{sell.amount}</span>
+        </li>
+      </ul>
+    );
+  };
 
   return orders?.length ? (
     <>
@@ -398,58 +434,7 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
         <div className="section-content trade-strategy-dca-plus">
           {currentBTC && buyBTC && sellBTC ? (
             <div className="section-trade-strategy-dca-plus-values-block">
-              <ul className="section-trade-strategy-dca-plus-list">
-                {/* <li className={'section-trade-strategy-dca-plus-list-item'}> */}
-                <li
-                  className={`section-trade-strategy-dca-plus-list-item ${status}`}
-                >
-                  {/* <li
-                  className={`section-trade-strategy-dca-plus-list-item ${
-                    token.price < currentBTC.stopLoss
-                      ? 'color-red'
-                      : buyBTC.isActive
-                      ? 'color-blue'
-                      : sellBTC.isActive
-                      ? 'color-green'
-                      : ''
-                  }`}
-                > */}
-                  <span className="dca-plus-list-item-title">{c.avg}</span>
-                  <span>$ {u.numberCutter(currentBTC.avg, 0)}</span>
-                  <span>
-                    {currentBTC.percent < 0
-                      ? `${u.numberCutter(currentBTC.percent)}%`
-                      : `+${u.numberCutter(currentBTC.percent)}%`}
-                  </span>
-                </li>
-                <li
-                  className={`section-trade-strategy-dca-plus-list-item ${
-                    buyBTC.isActive ? c.buy : ''
-                  }`}
-                >
-                  <span className="dca-plus-list-item-title">{c.buy}</span>
-                  <span
-                  // className={`trade-strategy-dca-plus-list-item-value ${
-                  //   buyValues.isActive ? 'color-blue' : ''
-                  // }`}
-                  // style={{
-                  //   color: `${buyValues.isActive ? 'blue' : 'white'}`,
-                  // }}
-                  >
-                    $ {buyBTC.price}
-                  </span>
-                  <span>{buyBTC.amount}</span>
-                </li>
-                <li
-                  className={`section-trade-strategy-dca-plus-list-item ${
-                    sellBTC.isActive ? c.sell : ''
-                  }`}
-                >
-                  <span className="dca-plus-list-item-title">{c.sell}</span>
-                  <span>$ {sellBTC.price}</span>
-                  <span>{sellBTC.amount}</span>
-                </li>
-              </ul>
+              <DCAPlusList cur={currentBTC} buy={buyBTC} sell={sellBTC} />
             </div>
           ) : (
             <ListLoader text={c.loading} />
