@@ -5,8 +5,9 @@ import { deleteOrder } from '@/src/lib/api/deleteOrderServerAction';
 import useFilterAndSortOrderList from '@/src/hooks/order/useFilterAndSortOrderList';
 import useInvalidateQueries from '@/src/hooks/useInvalidateQueries';
 import useGlobalState from '@/src/hooks/useGlobalState';
-import * as u from '@/src/utils';
 import { OrderTypeEnum, QueryKeyEnum } from '@/src/enums';
+import * as u from '@/src/utils';
+import * as msg from '@/src/messages/confirm';
 import { AggregatedOrderListAcc, Order, Token } from '@/src/types';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
 
@@ -153,7 +154,7 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
 
   const removeBuyTarget = async (symbol: string, id: number) => {
     if (isBull) return;
-    if (!confirm(`(${symbol}) ${c.confirmDeletion}`)) return;
+    if (!confirm(msg.deleteBuyTarget(symbol))) return;
     const isDeleted = await deleteOrder(id);
     if (isDeleted) {
       updateData([QueryKeyEnum.UserOrders, QueryKeyEnum.UserStrategyOrders]);

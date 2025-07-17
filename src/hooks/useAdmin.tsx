@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import useRemoveToken from '@/src/hooks/token/useRemoveToken';
 import useGlobalState from '@/src/hooks/useGlobalState';
+import * as confirmMsg from '@/src/messages/confirm';
+import * as alertMsg from '@/src/messages/alert';
 import { User } from '@/src/types';
 
 const useAdmin = (users: User[] | null) => {
@@ -26,10 +28,10 @@ const useAdmin = (users: User[] | null) => {
 
   useEffect(() => {
     if (isSuccessRemoveToken) {
-      alert('Token successfully deleted!');
+      alert(alertMsg.adminTokenDeleteSuccess());
     }
     if (isErrorRemoveToken) {
-      alert('Token deletion error!');
+      alert(alertMsg.adminTokenDeleteError());
     }
   }, [isSuccessRemoveToken, isErrorRemoveToken]);
 
@@ -38,7 +40,7 @@ const useAdmin = (users: User[] | null) => {
   const handleUserOptions = (options: string[]) => setUserOptions(options);
 
   const removeToken = async (symbol: string) => {
-    if (confirm(`The Token (${symbol}) will be deleted!`)) {
+    if (confirm(confirmMsg.deleteTokenAdmin(symbol))) {
       deleteToken(symbol);
     }
   };

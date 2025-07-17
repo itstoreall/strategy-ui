@@ -1,5 +1,6 @@
 import useGlobalState from '@/src/hooks/useGlobalState';
 import { formatMillionAmount } from '@/src/utils';
+import * as msg from '@/src/messages/alert';
 import DotsLoader from '@/src/components/DotsLoader';
 
 type Props = {
@@ -32,14 +33,11 @@ const AccountSnapshotSection = (props: Props) => {
 
   const handleClickDeposit = () => {
     const losses = (depositAmount - currentDeposit).toFixed();
-    alert(`
-    Actual: $${currentDeposit} 
-    Losses: $${+losses > 0 ? losses : 0}
-    `);
+    alert(msg.snapshopDashboardDeposit(currentDeposit, losses));
   };
 
   const handleClickProfit = () => {
-    alert(`Unrealized: $${unrealized}`);
+    alert(msg.snapshopDashboardUnrelized(unrealized));
   };
 
   return (
