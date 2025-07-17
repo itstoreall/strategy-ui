@@ -16,6 +16,11 @@ type Props = {
 };
 
 const c = {
+  amount: 'Amount',
+  deposit: 'Deposit',
+  success: 'Success',
+  losses: 'Losses',
+  profit: 'Profit',
   total: 'Total',
   unrealized: 'Unrealized',
 };
@@ -57,7 +62,7 @@ const StrategySnapshotSection = (props: Props) => {
       <ul className="section-content snapshot-list">
         <li className="snapshot-item">
           <div className="item-content">
-            <span className="content-name">Amount</span>
+            <span className="content-name">{c.amount}</span>
             <span className="content-value" title={totalAmount.toString()}>
               {uniNumberFormatter(totalAmount)}
             </span>
@@ -67,7 +72,7 @@ const StrategySnapshotSection = (props: Props) => {
           <div className="item-content">
             {isBTC ? (
               <>
-                <span className="content-name">Deposit</span>
+                <span className="content-name">{c.deposit}</span>
                 <span
                   className="content-value"
                   // title={`$${depositAmount.toFixed(2)}`}
@@ -78,7 +83,7 @@ const StrategySnapshotSection = (props: Props) => {
               </>
             ) : (
               <>
-                <span className="content-name">Success</span>
+                <span className="content-name">{c.success}</span>
                 <span className="content-value">{positiveValue}</span>
               </>
             )}
@@ -90,7 +95,7 @@ const StrategySnapshotSection = (props: Props) => {
             {isBTC ? (
               <>
                 <span className="content-name">
-                  {currentProfit.includes('-') ? 'Losses' : 'Profit'}
+                  {currentProfit.includes('-') ? c.losses : c.profit}
                 </span>
                 <span className="content-value">
                   {numberCutter(currentProfit)}
@@ -98,7 +103,7 @@ const StrategySnapshotSection = (props: Props) => {
               </>
             ) : (
               <>
-                <span className="content-name">Deposit</span>
+                <span className="content-name">{c.deposit}</span>
                 <span className="content-value">
                   {numberCutter(depositAmount)}
                   {/* {formatMillionAmount(depositAmount.toFixed(1))} */}

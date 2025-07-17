@@ -60,7 +60,7 @@ section.trade-strategy-dca-plus {
           }
 
           &.stop-loss {
-            border-color: $googleRed;
+            border-color: $googleRedMiddleDark;
 
             > span {
               color: $googleRed;
@@ -72,7 +72,7 @@ section.trade-strategy-dca-plus {
           }
 
           &.sell {
-            border-color: $googleGreen;
+            border-color: $googleGreenMiddleDark;
 
             > span {
               color: $googleGreen;
@@ -84,7 +84,7 @@ section.trade-strategy-dca-plus {
           }
 
           &.buy {
-            border-color: $googleBlue;
+            border-color: $googleBlueMiddleDark;
 
             > span {
               color: $googleBlue;

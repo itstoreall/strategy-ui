@@ -25,7 +25,6 @@ type Props = {
   sortedOrders: SortedOrders;
   exchanges: enm.ExchangeEnum[];
   snapshot: StrategySnapshot;
-  isTakeProfit: boolean;
   isEditMenu: boolean;
   handleFilterExchange: (val: enm.ExchangeEnum) => void;
   setIsEditMenu: Dispatch<SetStateAction<boolean>>;
@@ -50,7 +49,6 @@ const DCAPlusStrategySection = (props: Props) => {
     sortedOrders,
     exchanges,
     snapshot,
-    isTakeProfit,
     isEditMenu,
     handleFilterExchange,
     setIsEditMenu,
@@ -115,7 +113,7 @@ const DCAPlusStrategySection = (props: Props) => {
             total={snapshot.profit}
           />
 
-          {userId && isTakeProfit && token && userOrderData && (
+          {userId && token && userOrderData && (
             <TradeStrategyDCAPlusSection
               userId={userId}
               token={token}

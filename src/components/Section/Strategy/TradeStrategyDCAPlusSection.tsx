@@ -2,6 +2,7 @@
 import { useState, useEffect, useLayoutEffect } from 'react';
 // import { FaBitcoin } from 'react-icons/fa';
 // import useTakeProfitOrders from '@/src/hooks/strategy/useTakeProfitOrders';
+import useStrategyDCA from '@/src/hooks/useStrategyDCA';
 import useModal from '@/src/hooks/useModal';
 
 /*
@@ -13,9 +14,8 @@ import { ExchangeEnum } from '@/src/enums';
 import * as t from '@/src/types';
 import * as u from '@/src/utils';
 import TradeStrategyModalContentSection from '@/src/components/Section/Strategy/TradeStrategyModalContentSection';
-import ListLoader from '../../ListLoader';
 // import useTradeStrategyDCAPlus from '@/src/hooks/strategy/useTradeStrategyDCAPlus';
-import useStrategyDCA from '@/src/hooks/useStrategyDCA';
+import ListLoader from '@/src/components/ListLoader';
 /*
 import TradeStrategyOrderListSection from '@/src/components/Section/Strategy/TradeStrategyOrderListSection';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';

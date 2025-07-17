@@ -92,7 +92,6 @@ const Strategy = () => {
               sortedOrders={sortedOrders}
               exchanges={exchanges}
               snapshot={strategySnapshot}
-              isTakeProfit={isTakeProfit}
               isEditMenu={isEditMenu}
               handleFilterExchange={handleFilterExchange}
               setIsEditMenu={setIsEditMenu}
