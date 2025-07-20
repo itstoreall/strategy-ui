@@ -2,12 +2,11 @@
 import { useState, useEffect, useLayoutEffect } from 'react';
 // import { FaBitcoin } from 'react-icons/fa';
 // import useTakeProfitOrders from '@/src/hooks/strategy/useTakeProfitOrders';
+// import useUpdateStrategy from '@/src/hooks/strategy/useUpdateStrategy';
 import useStrategyDCA from '@/src/hooks/useStrategyDCA';
 import useModal from '@/src/hooks/useModal';
-
 /*
 import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
-import useUpdateStrategy from '@/src/hooks/strategy/useUpdateStrategy';
 import useCreateOrder from '@/src/hooks/order/useCreateOrder';
 */
 import { ExchangeEnum } from '@/src/enums';

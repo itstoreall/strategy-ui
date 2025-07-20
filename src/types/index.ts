@@ -102,6 +102,8 @@ export type HistoryEntry = {
   s: number; // Sell Price
 };
 
+export type UpdatedSrategyData = { history: HistoryEntry[] };
+
 // --- DCA
 
 export type CurrentValues = {

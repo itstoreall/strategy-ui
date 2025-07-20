@@ -1,15 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
-// /*
+import { deleteOrder } from '@/src/lib/api/deleteOrderServerAction';
+import useUpdateStrategy from '@/src/hooks/strategy/useUpdateStrategy';
+import useInvalidateQueries from '@/src/hooks/useInvalidateQueries';
+import useRedirect from '@/src/hooks/useRedirect';
 import useModal from '@/src/hooks/useModal';
-// */
-import { Order, Strategy } from '@/src/types';
+import { Order, Strategy, TradeStrategy } from '@/src/types';
+import { ExchangeEnum, QueryKeyEnum } from '@/src/enums';
 import { customTokens } from '@/src/config';
-import { ExchangeEnum } from '@/src/enums';
 import * as u from '@/src/utils';
-// /*
+import * as msg from '@/src/messages/confirm';
 import StrategyOrderDetailsSection from '@/src/components/Section/Strategy/StrategyOrderDetailsSection';
-// */
 import StrategyOrderEditMenuSection from '@/src/components/Section/StrategyOrderEditMenuSection';
 
 type Props = {
@@ -38,10 +39,9 @@ const c = {
 };
 
 const StrategyOrderListSection = (props: Props) => {
-  const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
-  // /*
+  const [deleteOrderId, setDeleteOrderId] = useState<number | null>(null);
   const [orderDetails, setOrderDetails] = useState<Order | null>(null);
-  // */
+  const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
 
   const {
     sortedOrders,
@@ -52,12 +52,14 @@ const StrategyOrderListSection = (props: Props) => {
     handleFilterExchange,
   } = props;
 
-  // /*
+  const redirectTo = useRedirect();
+  const { updateData } = useInvalidateQueries();
+  const { mutate: updStg, isSuccess: isSuccessUpdStg } = useUpdateStrategy();
   const { RenderModal, openModal, ModalContentEnum, isStrategyOrderDetails } =
     useModal();
-  // */
 
-  const isCustomToken = customTokens.includes(filteredOrders[0]?.symbol);
+  const symbol = filteredOrders[0]?.symbol;
+  const isCustomToken = customTokens.includes(symbol);
 
   useEffect(() => {
     const filteredOrders = filterExchange
@@ -74,6 +76,25 @@ const StrategyOrderListSection = (props: Props) => {
     }
   }, [sortedOrders]);
 
+  useEffect(() => {
+    if (isSuccessUpdStg && deleteOrderId) {
+      removeOrder(deleteOrderId);
+    }
+  }, [isSuccessUpdStg]);
+
+  /*
+  useEffect(() => {
+    const s = JSON.parse(strategy.data);
+    if (s?.history) {
+      console.log('s:', s.history);
+    }
+  }, [strategy]);
+
+  useEffect(() => {
+    console.log('deleteOrderId:', deleteOrderId);
+  }, [deleteOrderId]);
+  */
+
   // --- Details
 
   // /*
@@ -83,6 +104,55 @@ const StrategyOrderListSection = (props: Props) => {
     openModal(ModalContentEnum.OrderDetails);
   };
   // */
+
+  const archiveOrder = (order: Order) => {
+    if (!confirm(msg.editMenuArchiveBtn(order.id))) return;
+    setDeleteOrderId(order.id);
+    const strategyData = JSON.parse(strategy.data);
+    const newEntry = {
+      d: Date.now(),
+      a: order.amount,
+      b: order.price,
+      s: currentPrice,
+    };
+    const updatedHistory = !!strategyData?.history
+      ? [...strategyData.history, newEntry]
+      : [newEntry];
+    const newStrategyData = {
+      ...strategyData,
+      history: updatedHistory,
+    };
+    // /*
+    updStg({
+      strategyId: strategy.id,
+      newStrategyData,
+      // newStrategyData: null,
+    });
+    // */
+  };
+
+  const handleRemoveOrder = async (id: number) => {
+    if (!confirm(msg.editMenuDeleteBtn(id))) return;
+    removeOrder(id);
+  };
+
+  const removeOrder = async (id: number) => {
+    const isDeleted = await deleteOrder(id);
+    if (isDeleted) {
+      setDeleteOrderId(null);
+      updateData([QueryKeyEnum.UserOrders, QueryKeyEnum.UserStrategyOrders]);
+      if (sortedOrders.length === 1) {
+        const lsTradeStrategyData = u.getLSTradeStrategyData();
+        if (lsTradeStrategyData) {
+          const dataWithoutCurrentToken = lsTradeStrategyData.filter(
+            (el: TradeStrategy) => el.symbol !== sortedOrders[0]?.symbol
+          );
+          u.updateLSTradeStrategyData(dataWithoutCurrentToken);
+        }
+        redirectTo('/dashboard');
+      }
+    }
+  };
 
   return (
     <section className="section strategy-order-list">
@@ -199,9 +269,10 @@ const StrategyOrderListSection = (props: Props) => {
 
                       {isEditMenu ? (
                         <StrategyOrderEditMenuSection
-                          id={order.id}
-                          symbol={sortedOrders[0].symbol}
-                          orderNumber={sortedOrders.length}
+                          isDCAPlus={isBTC}
+                          order={order}
+                          archiveOrder={archiveOrder}
+                          removeOrder={handleRemoveOrder}
                         />
                       ) : (
                         <span>{handleDisplayPercentValue()}</span>

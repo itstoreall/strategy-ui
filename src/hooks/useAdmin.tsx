@@ -40,7 +40,7 @@ const useAdmin = (users: User[] | null) => {
   const handleUserOptions = (options: string[]) => setUserOptions(options);
 
   const removeToken = async (symbol: string) => {
-    if (confirm(confirmMsg.deleteTokenAdmin(symbol))) {
+    if (confirm(confirmMsg.adminDeleteToken(symbol))) {
       deleteToken(symbol);
     }
   };

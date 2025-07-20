@@ -2,11 +2,11 @@ import { useMutation } from '@tanstack/react-query';
 import useInvalidateQueries from '@/src/hooks/useInvalidateQueries';
 import { updateStrategyData } from '@/src/lib/api/updateStrategyDataServerAction';
 import { MutationKeyEnum, QueryKeyEnum } from '@/src/enums';
-import { HistoryEntry } from '@/src/types';
+import { UpdatedSrategyData } from '@/src/types';
 
 type UseMutationOptions = {
   strategyId: number;
-  params: HistoryEntry[] | null;
+  newStrategyData: UpdatedSrategyData | null;
 };
 
 const c = {
@@ -19,8 +19,8 @@ const useUpdateStrategy = () => {
 
   return useMutation({
     mutationKey: [MutationKeyEnum.UpdateStrategy],
-    mutationFn: async ({ strategyId, params }: UseMutationOptions) => {
-      const data = JSON.stringify(params);
+    mutationFn: async ({ strategyId, newStrategyData }: UseMutationOptions) => {
+      const data = JSON.stringify(newStrategyData);
       return updateStrategyData(strategyId, data);
     },
     onSuccess: (data) => {

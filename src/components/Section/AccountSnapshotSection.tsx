@@ -33,11 +33,11 @@ const AccountSnapshotSection = (props: Props) => {
 
   const handleClickDeposit = () => {
     const losses = (depositAmount - currentDeposit).toFixed();
-    alert(msg.snapshopDashboardDeposit(currentDeposit, losses));
+    alert(msg.dashboardSnapshopDeposit(currentDeposit, losses));
   };
 
   const handleClickProfit = () => {
-    alert(msg.snapshopDashboardUnrelized(unrealized));
+    alert(msg.dashboardSnapshopUnrelized(unrealized));
   };
 
   return (

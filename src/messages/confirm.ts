@@ -1,6 +1,6 @@
 // --- Admin
 
-export const deleteTokenAdmin = (symbol: string) => {
+export const adminDeleteToken = (symbol: string) => {
   return `Delete!
 Token (${symbol}) will be deleted`;
 };
@@ -14,12 +14,12 @@ export const deleteBuyTarget = (symbol: string) => {
 
 // --- OrderListItem EditMenu
 
-export const deleteEditMenuBtn = (id: number) => {
+export const editMenuDeleteBtn = (id: number) => {
   return `Delete!
 Order ${id} will be deleted`;
 };
 
-export const archiveEditMenuBtn = (id: number) => {
+export const editMenuArchiveBtn = (id: number) => {
   return `Archive!
 Order ${id} will be archived`;
 };
