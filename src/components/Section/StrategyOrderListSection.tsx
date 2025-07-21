@@ -293,6 +293,7 @@ const StrategyOrderListSection = (props: Props) => {
           <StrategyOrderDetailsSection
             order={orderDetails}
             currentPrice={currentPrice}
+            isSP={filteredOrders.length === 1}
             // c={c}
           />
         </RenderModal>

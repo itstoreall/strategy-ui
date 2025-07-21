@@ -13,11 +13,13 @@ import Title from '@/src/components/Layout/Title';
 type Props = {
   order: Order;
   currentPrice: number;
+  isSP: boolean;
 };
 
 type Prices = {
   buy: { key: string; val: string };
   sell: { key: string; val: string };
+  sO: { key: string; val: string };
 } | null;
 
 type FuturePriceProps = {
@@ -29,9 +31,11 @@ type FuturePriceProps = {
 type HandlePercentPriceArgs = {
   buyKey: number;
   sellKey: number;
+  sOKey: string;
   price: number;
   minusPercent: u.PricePercent;
   plusPercent: u.PricePercent;
+  sOPercent: u.PricePercent;
   cut: number;
 };
 
@@ -46,15 +50,17 @@ const c = {
   invested: 'Invested',
   profit: 'Profit',
   losses: 'Losses',
+  sOKey: 'Stabilizing Order',
 };
 
-const StrategyOrderDetailsSection = ({ order, currentPrice }: Props) => {
+const StrategyOrderDetailsSection = ({ order, currentPrice, isSP }: Props) => {
   const [isCustom, setIsCustom] = useState<boolean | null>(null);
   const [prices, setPrices] = useState<Prices>(null);
 
   const { closeModal } = useModal();
 
   const isBTC = order.symbol === 'BTC';
+  const isETH = order.symbol === 'ETH';
   const isCustomToken = customTokens.includes(order.symbol);
 
   useEffect(() => {
@@ -74,28 +80,34 @@ const StrategyOrderDetailsSection = ({ order, currentPrice }: Props) => {
       handlePrice({
         buyKey: c.twoPercent,
         sellKey: c.fourPercent,
+        sOKey: c.sOKey,
         price: order.price,
         minusPercent: 0.02,
         plusPercent: 0.04,
+        sOPercent: 0.02,
         cut: 0,
       });
     } else if (isCustom) {
       handlePrice({
         buyKey: c.fourPercent,
         sellKey: c.sevenPercent,
+        sOKey: c.sOKey,
         price: order.price,
         minusPercent: 0.04,
         plusPercent: 0.07,
-        cut: 3,
+        sOPercent: 0.04,
+        cut: isETH ? 0 : 3,
       });
     } else if (!isCustom && isCustom !== null) {
       handlePrice({
         buyKey: c.tenPercent,
         sellKey: c.tenPercent,
+        sOKey: c.sOKey,
         price: order.price,
         minusPercent: 0.1,
         plusPercent: 0.1,
-        cut: 3,
+        sOPercent: 0.1,
+        cut: isETH ? 0 : 3,
       });
     }
   }, [isCustom]);
@@ -103,14 +115,26 @@ const StrategyOrderDetailsSection = ({ order, currentPrice }: Props) => {
   // ---
 
   const handlePrice = (args: HandlePercentPriceArgs) => {
-    const { buyKey, sellKey, price, minusPercent, plusPercent, cut } = args;
+    const {
+      buyKey,
+      sellKey,
+      sOKey,
+      price,
+      minusPercent,
+      plusPercent,
+      sOPercent,
+      cut,
+    } = args;
     const minusPercentPrice = u.minusPercent(price, minusPercent);
     const minusValue = u.numberCutter(minusPercentPrice, cut);
     const plusPercentPrice = u.plusPercent(order.price, plusPercent);
     const plusValue = u.numberCutter(plusPercentPrice, cut);
+    const sOPercentPrice = u.plusPercent(order.price, sOPercent);
+    const sOValue = u.numberCutter(sOPercentPrice, cut);
     setPrices({
       buy: { key: `-${buyKey}%`, val: minusValue },
       sell: { key: `+${sellKey}%`, val: plusValue },
+      sO: { key: sOKey, val: sOValue },
     });
   };
 
@@ -204,6 +228,15 @@ const StrategyOrderDetailsSection = ({ order, currentPrice }: Props) => {
                     label={prices.sell.key}
                     val={prices.sell.val}
                   />
+                </div>
+              )}
+
+              {prices && isSP && isCustom && (
+                <div className="strategy-order-details-stabilizing-order">
+                  <span className="details-stabilizing-value">
+                    <span>{`${prices.sO.key}:`}</span>
+                    <span>{`${prices.sO.val} $`}</span>
+                  </span>
                 </div>
               )}
             </div>

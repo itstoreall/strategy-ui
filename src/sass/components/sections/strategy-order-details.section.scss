@@ -241,5 +241,30 @@ section.strategy-order-details {
         }
       }
     }
+
+    > div.strategy-order-details-stabilizing-order {
+      display: flex;
+      gap: 1rem;
+      padding-top: 1rem;
+
+      > span.details-stabilizing-value {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        > span {
+          &:first-child {
+            color: $greyDark;
+            font-size: 0.8rem;
+          }
+
+          &:last-child {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: $greyMiddle;
+          }
+        }
+      }
+    }
   }
 }
