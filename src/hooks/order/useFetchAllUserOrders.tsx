@@ -20,6 +20,12 @@ const useFetchAllUserOrders = (
   const modifyData = (data: OrderData) => {
     const categorized = data.data.reduce<StrategyOrders>(
       (acc, item) => {
+        /*
+        if (item.symbol === 'BTC') {
+          console.log('item:', item.symbol);
+        }
+        */
+
         if (item.type === OrderTypeEnum.Buy) {
           if (customTokens.includes(item.symbol)) {
             acc.custom.push(item);

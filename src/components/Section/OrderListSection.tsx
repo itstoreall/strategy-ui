@@ -48,8 +48,12 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
     if (data) {
       const BTCOrder = data.find((order) => order.symbol === 'BTC');
       if (BTCOrder) {
-        setIsBTCButton(true);
+        // console.log('isBull 1:', isBull);
+        if (isBull) {
+          setIsBTCButton(true);
+        }
       } else {
+        // console.log('isBull 2:', isBull);
         setIsBTCButton(false);
       }
     }
@@ -288,7 +292,7 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
         <div className="section-content order-list">
           <ul className="section-order-list">
             {displayedData.map((order: AggregatedOrderListAcc, idx) => {
-              if (order.symbol !== 'BTC') {
+              if (order.symbol !== 'BTC' || !isBull) {
                 return <OrderListItem key={idx} order={order} />;
               } else return;
             })}
