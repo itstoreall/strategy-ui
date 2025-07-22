@@ -205,6 +205,8 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
         ? 'custom-sell'
         : isCustom && order.percent <= -c.fourPercent
         ? 'custom-buy'
+        : isCustom && order.orders === 1
+        ? 'stabilizing-order-price'
         : '';
 
     const tokenPriceStyle = `row-list-item-token-price ${customStatus}`;

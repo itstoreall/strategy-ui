@@ -242,7 +242,7 @@ section.strategy-order-details {
       }
     }
 
-    > div.strategy-order-details-stabilizing-order {
+    > div.strategy-order-details-stabilizing-order-price {
       display: flex;
       gap: 1rem;
       padding-top: 1rem;
@@ -253,15 +253,15 @@ section.strategy-order-details {
         gap: 0.5rem;
 
         > span {
+          font-size: 0.8rem;
+
           &:first-child {
-            color: $greyDark;
-            font-size: 0.8rem;
+            color: $greyMiddle;
           }
 
           &:last-child {
-            font-size: 0.9rem;
             font-weight: 600;
-            color: $greyMiddle;
+            color: $violetLight;
           }
         }
       }

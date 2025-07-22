@@ -105,6 +105,11 @@ section.order-list {
                       opacity: 1;
                     }
 
+                    &.stabilizing-order-price {
+                      color: $violetLight;
+                      opacity: 1;
+                    }
+
                     @include media-screen-orientation('min', $mobile + 200) {
                       margin-left: 7px;
                       font-size: 0.7rem;
