@@ -61,6 +61,7 @@ const StrategyOrderDetailsSection = ({ order, currentPrice, isSOP }: Props) => {
 
   const isBTC = order.symbol === 'BTC';
   const isETH = order.symbol === 'ETH';
+  const isDisplaySOP = currentPrice > Number(prices?.sOP.val);
   const isCustomToken = customTokens.includes(order.symbol);
 
   useEffect(() => {
@@ -231,7 +232,7 @@ const StrategyOrderDetailsSection = ({ order, currentPrice, isSOP }: Props) => {
                 </div>
               )}
 
-              {prices && isSOP && isCustom && (
+              {prices && isSOP && isCustom && isDisplaySOP && (
                 <div className="strategy-order-details-stabilizing-order-price">
                   <span className="details-stabilizing-value">
                     <span>{`${prices.sOP.key}:`}</span>

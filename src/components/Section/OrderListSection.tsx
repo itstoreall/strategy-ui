@@ -198,6 +198,10 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
       (token) => token.symbol === symbol
     )?.price;
 
+    const isDisplaySOP =
+      currentTargetPrice &&
+      currentTargetPrice > u.plusPercent(order.price, 0.04);
+
     // --- Styles
 
     const customStatus =
@@ -205,7 +209,7 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
         ? 'custom-sell'
         : isCustom && order.percent <= -c.fourPercent
         ? 'custom-buy'
-        : isCustom && order.orders === 1
+        : isCustom && isDisplaySOP
         ? 'stabilizing-order-price'
         : '';
 
