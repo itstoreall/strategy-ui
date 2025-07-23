@@ -17,6 +17,11 @@ export type CreateOrderDto = {
   userId: string;
 };
 
+export type DelManyOrdersRes = {
+  deletedCount: number;
+  deletedIds: number[];
+};
+
 class OrderService {
   async fetchAllOrders(): Promise<OrderData> {
     try {
@@ -87,6 +92,18 @@ class OrderService {
       return res.data.data;
     } catch (err: unknown) {
       const errorMessage = errorHandler('ERROR in deleteOrder:', err);
+      throw new Error(errorMessage);
+    }
+  }
+
+  async deleteManyOrders(orderIds: number[]): Promise<DelManyOrdersRes> {
+    console.log('orderIds:', orderIds);
+    try {
+      const url = '/orders/many';
+      const res = await apiClient.delete(url, { data: { orderIds } });
+      return res.data.data;
+    } catch (err: unknown) {
+      const errorMessage = errorHandler('ERROR in deleteManyOrders:', err);
       throw new Error(errorMessage);
     }
   }

@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useLayoutEffect } from 'react';
+// import { deleteManyOrders } from '@/src/lib/api/deleteManyOrdersServerAction';
 // import { FaBitcoin } from 'react-icons/fa';
 // import useTakeProfitOrders from '@/src/hooks/strategy/useTakeProfitOrders';
 // import useUpdateStrategy from '@/src/hooks/strategy/useUpdateStrategy';
+// import useInvalidateQueries from '@/src/hooks/useInvalidateQueries';
 import useStrategyDCA from '@/src/hooks/useStrategyDCA';
 import useModal from '@/src/hooks/useModal';
 /*
@@ -10,13 +12,13 @@ import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import useCreateOrder from '@/src/hooks/order/useCreateOrder';
 */
 import { ExchangeEnum } from '@/src/enums';
+import * as confirmMsg from '@/src/messages/confirm';
 import * as t from '@/src/types';
 import * as u from '@/src/utils';
 import TradeStrategyModalContentSection from '@/src/components/Section/Strategy/TradeStrategyModalContentSection';
 // import useTradeStrategyDCAPlus from '@/src/hooks/strategy/useTradeStrategyDCAPlus';
 import ListLoader from '@/src/components/ListLoader';
 import Button from '../../Button/Button';
-import * as confirmMsg from '@/src/messages/confirm';
 /*
 import TradeStrategyOrderListSection from '@/src/components/Section/Strategy/TradeStrategyOrderListSection';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
@@ -55,9 +57,10 @@ const c = {
 
 const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
   // const [copiedField, setCopiedField] = useState<CopiedField | null>(null);
-  const [orders, setOrders] = useState<t.Order[] | null>(null);
   // const [strategyHistory, setStrategyHistory] = useState<History>(null);
   const [storedStrategy, setStoredStrategy] = useState<Strategy>(null);
+  const [sellPrice, setSellPrice] = useState<string | null>(null);
+  const [orders, setOrders] = useState<t.Order[] | null>(null);
 
   const { token, orderData } = props; //snapshot,
 
@@ -80,6 +83,10 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
   // });
 
   const { currentBTC, buyBTC, sellBTC, getStatus } = useStrategyDCA();
+  // const { updateData } = useInvalidateQueries();
+
+  const isDisplayCloseButton = sellPrice && token.price >= +sellPrice;
+  // const isDisplayCloseButton = true;
 
   /*
   const { userOrders } = useFetchAllUserOrders(userId, { enabled: !!userId });
@@ -386,7 +393,29 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
   };
   */
 
+  const handleCloseTrades = async () => {
+    const orderIds = orderData.orders.map((order) => order.id);
+
+    if (!orderIds.length) return;
+    if (!confirm(confirmMsg.closeTrades(`${orderIds.length} BTC`))) return;
+
+    console.log('!', orderIds);
+
+    /*
+    const deletedOrders = await deleteManyOrders(orderIds);
+    if (deletedOrders.deletedCount === orderIds.length) {
+      updateData([QueryKeyEnum.UserOrders, QueryKeyEnum.UserStrategyOrders]);
+    }
+    // */
+  };
+
   const DCAPlusList = ({ cur, buy, sell }: DCAPlusListProps) => {
+    useEffect(() => {
+      if (sell.price) {
+        setSellPrice(sell.price);
+      }
+    }, [sell, cur]);
+
     const status = getStatus();
     const currentPercentDisplay =
       cur.percent < 0
@@ -420,12 +449,6 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
     );
   };
 
-  const handleCloseTrades = () => {
-    if (confirm(confirmMsg.closeTrades([111]))) {
-      console.log('closed!');
-    }
-  };
-
   return orders?.length ? (
     <>
       {/* <MainDividerSection
@@ -442,15 +465,17 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
           {currentBTC && buyBTC && sellBTC ? (
             <div className="section-trade-strategy-dca-plus-values-block">
               <DCAPlusList cur={currentBTC} buy={buyBTC} sell={sellBTC} />
-              <div className="trade-strategy-dca-plus-button-block">
-                <Button
-                  className="trade-strategy-dca-plus-button"
-                  clickContent={handleCloseTrades}
-                >
-                  Close
-                </Button>
-                <div />
-              </div>
+              {isDisplayCloseButton && (
+                <div className="trade-strategy-dca-plus-button-block">
+                  <Button
+                    className="trade-strategy-dca-plus-button"
+                    clickContent={handleCloseTrades}
+                  >
+                    Close
+                  </Button>
+                  <div />
+                </div>
+              )}
             </div>
           ) : (
             <ListLoader text={c.loading} />

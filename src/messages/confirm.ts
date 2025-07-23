@@ -26,7 +26,7 @@ Order ${id} will be archived`;
 
 // --- Strategy
 
-export const closeTrades = (ids: number[]) => {
+export const closeTrades = (orderInfo: string) => {
   return `Close!
-Orders: ${ids[0]} will be closed`;
+${orderInfo} orders will be closed`;
 };
