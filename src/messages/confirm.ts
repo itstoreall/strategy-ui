@@ -23,3 +23,10 @@ export const editMenuArchiveBtn = (id: number) => {
   return `Archive!
 Order ${id} will be archived`;
 };
+
+// --- Strategy
+
+export const closeTrades = (ids: number[]) => {
+  return `Close!
+Orders: ${ids[0]} will be closed`;
+};

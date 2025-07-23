@@ -16,6 +16,7 @@ import TradeStrategyModalContentSection from '@/src/components/Section/Strategy/
 // import useTradeStrategyDCAPlus from '@/src/hooks/strategy/useTradeStrategyDCAPlus';
 import ListLoader from '@/src/components/ListLoader';
 import Button from '../../Button/Button';
+import * as confirmMsg from '@/src/messages/confirm';
 /*
 import TradeStrategyOrderListSection from '@/src/components/Section/Strategy/TradeStrategyOrderListSection';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
@@ -420,7 +421,9 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
   };
 
   const handleCloseTrades = () => {
-    console.log('Close click!');
+    if (confirm(confirmMsg.closeTrades([111]))) {
+      console.log('closed!');
+    }
   };
 
   return orders?.length ? (

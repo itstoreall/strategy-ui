@@ -152,6 +152,7 @@ section.trade-strategy-dca-plus {
 
         @include media-screen-orientation('min', $mobile + 200) {
           flex-direction: column;
+          gap: 1rem;
 
           > div {
             height: 100%;
@@ -159,6 +160,10 @@ section.trade-strategy-dca-plus {
             border-radius: $middleBorderRadius;
             // background-color: teal;
           }
+        }
+
+        @include media-screen-orientation('min', $tablet) {
+          gap: 0.8rem;
         }
       }
     }
