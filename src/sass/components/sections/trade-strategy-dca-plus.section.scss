@@ -17,18 +17,26 @@ section.trade-strategy-dca-plus {
     padding: 0;
 
     > div.section-trade-strategy-dca-plus-values-block {
+      display: flex;
+      gap: 1rem;
       user-select: none;
+
+      @include media-screen-orientation('max', $mobile + 199.9) {
+        flex-direction: column;
+        gap: 0.7rem;
+      }
 
       > ul.section-trade-strategy-dca-plus-list {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 0.5rem;
+        width: 100%;
 
         @include media-screen-orientation('min', $customMobile) {
           gap: 0.7rem;
         }
 
-        @include media-screen-orientation('min', $mobile + 100) {
+        @include media-screen-orientation('min', $mobile + 200) {
           gap: 1rem;
         }
 
@@ -127,6 +135,29 @@ section.trade-strategy-dca-plus {
             &.dca-plus-list-item-title {
               text-transform: uppercase;
             }
+          }
+        }
+      }
+
+      > div.trade-strategy-dca-plus-button-block {
+        display: flex;
+        gap: 0.8rem;
+        // background-color: red;
+
+        @include media-screen-orientation('max', $mobile + 199.9) {
+          > div {
+            display: none;
+          }
+        }
+
+        @include media-screen-orientation('min', $mobile + 200) {
+          flex-direction: column;
+
+          > div {
+            height: 100%;
+            border: 1px solid $greyDeepDark;
+            border-radius: $middleBorderRadius;
+            // background-color: teal;
           }
         }
       }

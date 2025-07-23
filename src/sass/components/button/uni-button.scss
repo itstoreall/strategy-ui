@@ -338,6 +338,15 @@ button.uni-button {
     }
   }
 
+  &.trade-strategy-dca-plus-button {
+    padding: 11px;
+    font-size: 0.8rem;
+
+    @include media-screen-orientation('min', $mobile + 200) {
+      width: 100px;
+    }
+  }
+
   &.strategy-order-edit-menu-button {
     display: flex;
     justify-content: center;

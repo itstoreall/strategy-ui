@@ -15,6 +15,7 @@ import * as u from '@/src/utils';
 import TradeStrategyModalContentSection from '@/src/components/Section/Strategy/TradeStrategyModalContentSection';
 // import useTradeStrategyDCAPlus from '@/src/hooks/strategy/useTradeStrategyDCAPlus';
 import ListLoader from '@/src/components/ListLoader';
+import Button from '../../Button/Button';
 /*
 import TradeStrategyOrderListSection from '@/src/components/Section/Strategy/TradeStrategyOrderListSection';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
@@ -418,6 +419,10 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
     );
   };
 
+  const handleCloseTrades = () => {
+    console.log('Close click!');
+  };
+
   return orders?.length ? (
     <>
       {/* <MainDividerSection
@@ -434,6 +439,15 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
           {currentBTC && buyBTC && sellBTC ? (
             <div className="section-trade-strategy-dca-plus-values-block">
               <DCAPlusList cur={currentBTC} buy={buyBTC} sell={sellBTC} />
+              <div className="trade-strategy-dca-plus-button-block">
+                <Button
+                  className="trade-strategy-dca-plus-button"
+                  clickContent={handleCloseTrades}
+                >
+                  Close
+                </Button>
+                <div />
+              </div>
             </div>
           ) : (
             <ListLoader text={c.loading} />
