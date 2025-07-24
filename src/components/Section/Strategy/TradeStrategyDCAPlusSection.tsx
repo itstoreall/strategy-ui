@@ -4,6 +4,7 @@ import { deleteManyOrders } from '@/src/lib/api/deleteManyOrdersServerAction';
 import useInvalidateQueries from '@/src/hooks/useInvalidateQueries';
 import useUpdateStrategy from '@/src/hooks/strategy/useUpdateStrategy';
 import useStrategyDCA from '@/src/hooks/useStrategyDCA';
+import useRedirect from '@/src/hooks/useRedirect';
 import useModal from '@/src/hooks/useModal';
 import { ExchangeEnum, QueryKeyEnum } from '@/src/enums';
 import * as confirmMsg from '@/src/messages/confirm';
@@ -55,6 +56,7 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
   const { mutate: updStg, isSuccess: isSuccessUpdStg } = useUpdateStrategy();
   const { currentBTC, buyBTC, sellBTC, getStatus } = useStrategyDCA();
   const { updateData } = useInvalidateQueries();
+  const redirectTo = useRedirect();
 
   const isDisplayCloseButton = sellPrice && token.price >= +sellPrice;
   // const isDisplayCloseButton = true;
@@ -83,6 +85,7 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
   useEffect(() => {
     if (isSuccessUpdStg) {
       console.log('isSuccessUpdStg:', isSuccessUpdStg);
+      redirectTo('/dashboard');
     }
   }, [isSuccessUpdStg]);
 
@@ -141,7 +144,7 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
         return acc;
       }, 0);
       const params = {
-        a: totalAmount,
+        a: +totalAmount.toString().slice(0, 9),
         b: currentBTC.avg,
         s: token.price,
         stgData: orderData.strategy.data,

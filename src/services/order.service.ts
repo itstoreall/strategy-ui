@@ -97,7 +97,6 @@ class OrderService {
   }
 
   async deleteManyOrders(orderIds: number[]): Promise<DelManyOrdersRes> {
-    console.log('orderIds:', orderIds);
     try {
       const url = '/orders/many';
       const res = await apiClient.delete(url, { data: { orderIds } });
