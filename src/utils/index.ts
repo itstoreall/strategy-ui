@@ -13,6 +13,13 @@ type Format =
   | 'DD-MM-YY HH:mm'
   | 'DD-MM-YY HH:mm:ss';
 
+type CreateStrategyEntryArgs = {
+  a: number;
+  b: number;
+  s: number;
+  stgData: string;
+};
+
 export const c = {
   tradeStrategyKey: 'tradeStrategy',
 };
@@ -250,4 +257,19 @@ export const updateLSTradeStrategyData = (data: TradeStrategy[]) => {
 
 export const deleteLSTradeStrategyData = () => {
   localStorage.removeItem(c.tradeStrategyKey);
+};
+
+// --- Strategy Data Updating
+
+export const createStrategyEntry = (args: CreateStrategyEntryArgs) => {
+  const { a, b, s, stgData } = args;
+  const newEntry = { d: Date.now(), a, b, s };
+  const strategyData = JSON.parse(stgData);
+  const updatedHistory = !!strategyData?.history
+    ? [...strategyData.history, newEntry]
+    : [newEntry];
+  return {
+    ...strategyData,
+    history: updatedHistory,
+  };
 };

@@ -1,28 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useLayoutEffect } from 'react';
-// import { deleteManyOrders } from '@/src/lib/api/deleteManyOrdersServerAction';
-// import { FaBitcoin } from 'react-icons/fa';
-// import useTakeProfitOrders from '@/src/hooks/strategy/useTakeProfitOrders';
-// import useUpdateStrategy from '@/src/hooks/strategy/useUpdateStrategy';
-// import useInvalidateQueries from '@/src/hooks/useInvalidateQueries';
+import { deleteManyOrders } from '@/src/lib/api/deleteManyOrdersServerAction';
+import useInvalidateQueries from '@/src/hooks/useInvalidateQueries';
+import useUpdateStrategy from '@/src/hooks/strategy/useUpdateStrategy';
 import useStrategyDCA from '@/src/hooks/useStrategyDCA';
 import useModal from '@/src/hooks/useModal';
-/*
-import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
-import useCreateOrder from '@/src/hooks/order/useCreateOrder';
-*/
-import { ExchangeEnum } from '@/src/enums';
+import { ExchangeEnum, QueryKeyEnum } from '@/src/enums';
 import * as confirmMsg from '@/src/messages/confirm';
 import * as t from '@/src/types';
 import * as u from '@/src/utils';
 import TradeStrategyModalContentSection from '@/src/components/Section/Strategy/TradeStrategyModalContentSection';
-// import useTradeStrategyDCAPlus from '@/src/hooks/strategy/useTradeStrategyDCAPlus';
 import ListLoader from '@/src/components/ListLoader';
-import Button from '../../Button/Button';
-/*
-import TradeStrategyOrderListSection from '@/src/components/Section/Strategy/TradeStrategyOrderListSection';
-import MainDividerSection from '@/src/components/Section/MainDividerSection';
-*/
+import Button from '@/src/components/Button/Button';
 
 export type TradeStrategyProps = {
   userId: string;
@@ -57,74 +46,18 @@ const c = {
 
 const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
   // const [copiedField, setCopiedField] = useState<CopiedField | null>(null);
-  // const [strategyHistory, setStrategyHistory] = useState<History>(null);
   const [storedStrategy, setStoredStrategy] = useState<Strategy>(null);
   const [sellPrice, setSellPrice] = useState<string | null>(null);
   const [orders, setOrders] = useState<t.Order[] | null>(null);
 
   const { token, orderData } = props; //snapshot,
 
-  // const {
-  //   // selectedOrders,
-  //   // isSelectedAllOrders,
-  //   // setIsSelectedAllOrders,
-  //   // handleAmount,
-  //   // handleBuyPrice,
-  //   // handleInvested,
-  //   // handleUnrealized,
-  //   // handleProfit,
-  //   // handleToggleSelect,
-  // } = useTakeProfitOrders({ orders });
-
-  // const { currentValues, buyValues, sellValues } = useTradeStrategyDCAPlus({
-  //   snapshot,
-  //   orderData,
-  //   token,
-  // });
-
+  const { mutate: updStg, isSuccess: isSuccessUpdStg } = useUpdateStrategy();
   const { currentBTC, buyBTC, sellBTC, getStatus } = useStrategyDCA();
-  // const { updateData } = useInvalidateQueries();
+  const { updateData } = useInvalidateQueries();
 
   const isDisplayCloseButton = sellPrice && token.price >= +sellPrice;
   // const isDisplayCloseButton = true;
-
-  /*
-  const { userOrders } = useFetchAllUserOrders(userId, { enabled: !!userId });
-
-  const { mutate: updateStrategy, isSuccess: isSuccessUpdateStrategy } =
-    useUpdateStrategy();
-
-  const invalidateQuery = [
-    QueryKeyEnum.UserOrders,
-    QueryKeyEnum.UserStrategyOrders,
-  ];
-
-  const {
-    mutate: createOrder,
-    // isSuccess,
-    // isError,
-  } = useCreateOrder(invalidateQuery);
-
-  useEffect(() => {
-    if (isSuccessUpdateStrategy) {
-      resetTradeStrategy(false);
-      }
-      }, [isSuccessUpdateStrategy]);
-      
-  useLayoutEffect(() => {
-    if (orderData.strategy && orderData.strategy?.data) {
-      const _strategyHistory =
-        typeof orderData.strategy.data === 'string'
-          ? JSON.parse(orderData.strategy.data)
-          : typeof orderData.strategy.data === 'object'
-          ? [orderData.strategy.data]
-          : orderData.strategy.data;
-      setStrategyHistory(_strategyHistory);
-    }
-  }, [orderData]);
-  */
-
-  // const isBTC = token.symbol === 'BTC';
 
   const {
     isStrategyModal,
@@ -143,70 +76,17 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
     }
   }, []);
 
-  // useLayoutEffect(() => {
-  //   // Take Profit
-  //   if (orderData.orders && handleFilterExchange) {
-  //     const exs = getCurrentExchanges(orderData.orders);
-  //     if (exs.size === 1) {
-  //       handleFilterExchange(Array.from(exs)[0]);
-  //     } else if (exs.size > 1) {
-  //       handleFilterExchange(ExchangeEnum.All);
-  //     }
-  //   }
-  // }, [orderData]);
-
   useLayoutEffect(() => {
     setOrders(orderData.orders);
   }, [orderData]);
 
-  // useEffect(() => {
-  //   if (isBTC && orders) {
-  //     orders.forEach((order) => {
-  //       handleToggleSelect(order.id.toString());
-  //     });
-  //   }
-  // }, [orders]);
+  useEffect(() => {
+    if (isSuccessUpdStg) {
+      console.log('isSuccessUpdStg:', isSuccessUpdStg);
+    }
+  }, [isSuccessUpdStg]);
 
-  // useEffect(() => {
-  //   if (orders) {
-  //     const selectedOrderList = orders.filter((order) =>
-  //       selectedOrders.has(order.id.toString())
-  //     );
-
-  //     // Update selection state (Toggle)
-  //     if (orders?.length === selectedOrders.size) {
-  //       if (orders.length) {
-  //         setIsSelectedAllOrders(true);
-  //       }
-  //     } else if (isSelectedAllOrders && orders?.length > selectedOrders.size) {
-  //       setIsSelectedAllOrders(false);
-  //     }
-
-  //     // Calculate totals
-  //     const { totalAmount, totalUnrealized, totalInvested } = orders.reduce(
-  //       (acc, order) => {
-  //         if (selectedOrders.has(order.id.toString())) {
-  //           acc.totalAmount += order.amount;
-  //           acc.totalUnrealized += order.amount * token.price;
-  //           acc.totalInvested += order.fiat;
-  //         }
-  //         return acc;
-  //       },
-  //       { totalAmount: 0, totalUnrealized: 0, totalInvested: 0 }
-  //     );
-
-  //     handleAmount(totalAmount);
-  //     handleInvested(totalInvested);
-  //     handleUnrealized(totalUnrealized);
-  //     handleProfit(totalUnrealized - totalInvested);
-
-  //     // Calculate AVG Buy Price
-  //     const avgPrice = u.calculateAVGPrice(selectedOrderList);
-  //     handleBuyPrice(avgPrice);
-  //   }
-  // }, [selectedOrders, orders, token]);
-
-  // --- StoredData:
+  // ---
 
   const getLSCurrentStrategy = (_symbol: string): t.TradeStrategy | null => {
     const lsData = u.getLSTradeStrategyData();
@@ -217,149 +97,6 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
       : null;
     return lsStrategy ? lsStrategy : null;
   };
-
-  /*
-  const createNewTradeStrategy = (ex: ExchangeEnum) => {
-    const newTradeStrategy: t.TradeStrategy = {
-      date: Date.now(),
-      symbol: token.symbol,
-      exchange: ex,
-      amount: totalSelectedAmount,
-      avgBuyPrice: avgSelectedBuyPrice,
-      sellPrice: token.price,
-      invested: totalSelectedInvested,
-      total: totalSelectedUnrealized,
-      profit: totalSelectedProfit,
-      orders: Array.from(selectedOrders).join(', '),
-    };
-    return newTradeStrategy;
-  };
-  */
-
-  // ---
-
-  /*
-  const displayConfirmMessage = (storedTradeStrategy: t.TradeStrategy) => {
-    return `Will be replaced: ${token.symbol} (${storedTradeStrategy.exchange})
-
-    amount: ${storedTradeStrategy.amount}
-    invested: ${storedTradeStrategy.invested}
-    total: ${u.uniNumberFormatter(storedTradeStrategy.total)}
-    profit: ${u.uniNumberFormatter(storedTradeStrategy.profit)}
-    orders: ${storedTradeStrategy.orders}
-    `;
-  };
-  */
-
-  /*
-  const handleTemporaryStorage = () => {
-    if (!filterExchange || !totalSelectedAmount) return;
-    const newTradeStrategy = createNewTradeStrategy(filterExchange);
-    const storedData = u.getLSTradeStrategyData();
-    if (storedData) {
-      const storedStrategy = storedData.find(
-        (storedStrategy: t.TradeStrategy) => {
-          return storedStrategy.symbol === token.symbol;
-        }
-      );
-      if (storedStrategy) {
-        if (confirm(displayConfirmMessage(storedStrategy))) {
-          const newData = storedData.map((storedStrategy: t.TradeStrategy) => {
-            return storedStrategy.symbol === token.symbol
-              ? newTradeStrategy
-              : storedStrategy;
-          });
-          u.updateLSTradeStrategyData(newData);
-          setStoredStrategy(newTradeStrategy);
-        }
-      } else {
-        const newData = [...storedData, newTradeStrategy];
-        u.updateLSTradeStrategyData(newData);
-        setStoredStrategy(newTradeStrategy);
-      }
-    } else {
-      const newData = [newTradeStrategy];
-      u.updateLSTradeStrategyData(newData);
-      setStoredStrategy(newTradeStrategy);
-    }
-  };
-  */
-
-  /*
-  const handleUpdateStrategy = () => {
-    // handleTemporaryStorage();
-    if (storedStrategy) {
-      openModal(ModalContentEnum.Strategy);
-    }
-  };
-  */
-
-  /* --- Do not delete!
-  const handleDisplayBuyPrice = (strategy: t.TradeStrategy) => {
-    const isAVGPrice = strategy.orders.split(', ').length > 1;
-    const buyPrice = isAVGPrice
-      ? u.uniNumberFormatter(strategy.avgBuyPrice)
-      : strategy.avgBuyPrice;
-    return buyPrice;
-  };
-
-  const createNewBuyTarget = () => {
-    if (userOrders) {
-      const existingTarget = userOrders.sell.find(
-        (order) => order.symbol === token.symbol
-      );
-      if (!!existingTarget) {
-        alert(`${token.symbol} Target already exists!`);
-        return;
-      }
-      if (!confirm(`${token.symbol} (-10%) Targer will be created!`)) return;
-      if (!storedStrategy) return;
-      const payload = {
-        type: OrderTypeEnum.Sell,
-        symbol: token.symbol,
-        exchange: ExchangeEnum.Binance,
-        amount: storedStrategy.amount,
-        price: u.minusPercent(token.price, 0.1),
-        userId: userId,
-      };
-      console.log('payload:', payload);
-      createOrder(payload);
-    }
-  };
-  
-  const updateStrategyHistory = () => {
-    const storedStrategy = getLSCurrentStrategy(token.symbol);
-    if (storedStrategy && orderData.strategy) {
-      const buyPrice = handleDisplayBuyPrice(storedStrategy);
-      const newHistoryEntry: t.HistoryEntry = {
-        d: storedStrategy.date,
-        // e: storedStrategy.exchange,
-        a: storedStrategy.amount,
-        b: +buyPrice,
-        s: storedStrategy.sellPrice,
-        // o: storedStrategy.orders,
-      };
-      
-      if (!confirm('New History entry will be created!')) return;
-      const newData = strategyHistory
-      ? [...strategyHistory, newHistoryEntry]
-      : [newHistoryEntry];
-      updateStrategy({
-        strategyId: +orderData.strategy.id,
-        params: newData,
-      });
-    }
-  };
-  
-  const deleteHystory = () => {
-    if (!confirm('All History will be deleted!')) return;
-    updateStrategy({
-      strategyId: orderData.strategy.id,
-      params: null,
-    });
-    setStrategyHistory(null);
-  };
-  */
 
   const resetTradeStrategy = (isClose: boolean) => {
     const storedData = u.getLSTradeStrategyData();
@@ -395,18 +132,28 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
 
   const handleCloseTrades = async () => {
     const orderIds = orderData.orders.map((order) => order.id);
-
-    if (!orderIds.length) return;
+    if (!orderIds.length || !currentBTC) return;
     if (!confirm(confirmMsg.closeTrades(`${orderIds.length} BTC`))) return;
-
-    console.log('!', orderIds);
-
-    /*
     const deletedOrders = await deleteManyOrders(orderIds);
     if (deletedOrders.deletedCount === orderIds.length) {
+      const totalAmount = orderData.orders.reduce((acc, order) => {
+        acc += order.amount;
+        return acc;
+      }, 0);
+      const params = {
+        a: totalAmount,
+        b: currentBTC.avg,
+        s: token.price,
+        stgData: orderData.strategy.data,
+      };
+      const newStrategyData = u.createStrategyEntry(params);
+      updStg({
+        strategyId: orderData.strategy.id,
+        newStrategyData,
+        // newStrategyData: null,
+      });
       updateData([QueryKeyEnum.UserOrders, QueryKeyEnum.UserStrategyOrders]);
     }
-    // */
   };
 
   const DCAPlusList = ({ cur, buy, sell }: DCAPlusListProps) => {
