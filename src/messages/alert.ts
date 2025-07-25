@@ -12,7 +12,7 @@ Token deletion error`;
 
 // --- Snapshop Dashboard
 
-export const dashboardSnapshopDeposit = (a: number, l: string) => {
+export const dashboardSnapshopDeposit = (a: string, l: string) => {
   return `Deposit:
 Actual: $${a} 
 Losses: $${+l > 0 ? l : 0}`;

@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import useModal from '@/src/hooks/useModal';
 import * as enm from '@/src/enums';
-// import { numberCutter } from '@/src/utils';
 import { OrderStrategyData, StrategySnapshot, Token } from '@/src/types';
 import TradeStrategyDCAPlusSection from '@/src/components/Section/Strategy/TradeStrategyDCAPlusSection';
 import StrategyOrderListSection from '@/src/components/Section/StrategyOrderListSection';
@@ -53,46 +52,6 @@ const DCAPlusStrategySection = (props: Props) => {
     handleFilterExchange,
     setIsEditMenu,
   } = props;
-
-  // // /*
-  // const lowestPriceOrder = sortedOrders?.reduce((acc, order) =>
-  //   order.price < acc.price ? order : acc
-  // );
-  // const lowestPrice = lowestPriceOrder?.price;
-  // const lowestPriceAmount = lowestPriceOrder?.amount;
-
-  // const twoPercentLow = (lowestPrice as number) * 0.02;
-  // const buyPrice = (lowestPrice as number) - twoPercentLow;
-  // const buyAmount = (lowestPriceAmount as number) * 1.2;
-
-  // const fourPercentAVG = avgBuyPrice * 0.04;
-  // const sellPrice = (avgBuyPrice as number) + fourPercentAVG;
-  // const sellAmount = snapshot.totalAmount;
-
-  // const fivePercentAVG = avgBuyPrice * 0.05;
-  // const stopLoss = avgBuyPrice - fivePercentAVG;
-
-  // const buy = {
-  //   amount: buyAmount.toFixed(6),
-  //   price: numberCutter(buyPrice, 0),
-  //   isBuyAllowed: currentPrice <= buyPrice,
-  // };
-
-  // const sell = {
-  //   amount: sellAmount.toFixed(6),
-  //   price: numberCutter(sellPrice, 0),
-  //   isSellAllowed: currentPrice >= sellPrice,
-  // };
-
-  // const basic = {
-  //   stopLoss: numberCutter(stopLoss, 0),
-  // };
-
-  // console.log(' ');
-  // console.log('buy:', buy);
-  // console.log('sell:', sell);
-  // console.log('basic:', basic);
-  // // */
 
   const { RenderModal, isFormModal } = useModal();
 

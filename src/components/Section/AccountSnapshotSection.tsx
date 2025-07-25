@@ -32,8 +32,10 @@ const AccountSnapshotSection = (props: Props) => {
   const { unrealized } = useGlobalState();
 
   const handleClickDeposit = () => {
-    const losses = (depositAmount - currentDeposit).toFixed();
-    alert(msg.dashboardSnapshopDeposit(currentDeposit, losses));
+    const isFullyProfitable = currentDeposit < depositAmount;
+    const deposit = isFullyProfitable ? currentDeposit : depositAmount;
+    const losses = depositAmount - currentDeposit;
+    alert(msg.dashboardSnapshopDeposit(deposit.toFixed(), losses.toFixed()));
   };
 
   const handleClickProfit = () => {

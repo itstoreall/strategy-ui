@@ -37,11 +37,11 @@ const c = {
 };
 
 const Dashboard = () => {
-  const [currentProfit, setCurrentProfit] = useState<number | null>(null);
   const [LSStrategyData, setLSStrategyData] = useState<StoredData>(null);
   const [isRefetchButton, setIsRefetchButton] = useState<boolean>(false);
   const [isRefetch, setIsRefetch] = useState<boolean>(false);
   const [currentDeposit, setCurrentDeposit] = useState<number>(0);
+  const [currentProfit, setCurrentProfit] = useState<number | null>(null);
   const [usingDeposit, setUsingDeposit] = useState<number>(0);
   const [currentUser, setCurrentUser] = useState<string>('');
   const [usingTokens, setUsingTokens] = useState<number>(0);
@@ -191,6 +191,10 @@ const Dashboard = () => {
     if (!userOrders) return;
     if (userOrders?.buy.length) {
       let totalDeposit = 0;
+      const DCAPlusAssets = userOrders.DCAPlus.map((order: Order) => {
+        totalDeposit = totalDeposit + order.fiat;
+        return order.symbol;
+      });
       const customAssets = userOrders.custom.map((order: Order) => {
         totalDeposit = totalDeposit + order.fiat;
         return order.symbol;
@@ -199,7 +203,11 @@ const Dashboard = () => {
         totalDeposit = totalDeposit + order.fiat;
         return order.symbol;
       });
-      const uniqueSymbols = new Set([...customAssets, ...otherAssets]);
+      const uniqueSymbols = new Set([
+        ...DCAPlusAssets,
+        ...customAssets,
+        ...otherAssets,
+      ]);
       setUsingDeposit(totalDeposit);
       setUsingTokens(uniqueSymbols.size);
     } else {
@@ -231,6 +239,10 @@ const Dashboard = () => {
         }
       }
     };
+    for (let i = 0; i < userOrders.DCAPlus.length; i++) {
+      const order = userOrders.DCAPlus[i];
+      updateDepositAndProfit(order);
+    }
     for (let i = 0; i < userOrders.custom.length; i++) {
       const order = userOrders.custom[i];
       updateDepositAndProfit(order);
