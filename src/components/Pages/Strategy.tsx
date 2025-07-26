@@ -7,6 +7,7 @@ import useModal from '@/src/hooks/useModal';
 import { SortedOrder } from '@/src/types';
 import * as enm from '@/src/enums';
 import GradientProgressLoader from '@/src/assets/animation/GradientProgressLoader';
+import StrategyHistoryModalSection from '@/src/components/Section/StrategyHistoryModalSection';
 import DCAPlusStrategySection from '@/src/components/Section/Strategy/DCAPlusStrategySection';
 import DCAStrategySection from '@/src/components/Section/Strategy/DCAStrategySection';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
@@ -41,9 +42,21 @@ const Strategy = () => {
     handleFilterExchange,
   } = useStrategy();
 
-  const { openModal, ModalContentEnum } = useModal();
+  // const { openModal, ModalContentEnum } = useModal();
+
+  const {
+    RenderModal,
+    openModal,
+    // isFormModal,
+    isStrategyHistoryModal,
+    // isStrategyModal,
+    // closeModal,
+    // ModalContentEnum,
+  } = useModal();
 
   // console.log('sortedOrders:', sortedOrders);
+
+  const isBTC = symbol === 'BTC';
 
   // ---
 
@@ -52,9 +65,9 @@ const Strategy = () => {
     setIsTakeProfit(takeProfit);
   }, []);
 
-  const handleModal = () => {
-    openModal(ModalContentEnum.Form);
-  };
+  // const handleModal = () => {
+  //   openModal(ModalContentEnum.Form);
+  // };
 
   // ---
 
@@ -73,12 +86,14 @@ const Strategy = () => {
           title={symbol}
           assetPrice={currentPrice}
           mainButtonText={mainButtonText}
-          handleModal={handleModal}
+          handleModal={(cont) => openModal(cont)}
+          // handleModal={handleModal}
+          isDCAPlus={isBTC}
           isButtonDisabled={!updatedTokens}
         />
 
         {userId && token && userOrderData?.orders && sortedOrders ? (
-          symbol === 'BTC' ? (
+          isBTC ? (
             <DCAPlusStrategySection
               userId={userId}
               symbol={symbol}
@@ -118,6 +133,14 @@ const Strategy = () => {
           )
         ) : (
           <MainLoader />
+        )}
+
+        {isStrategyHistoryModal && userOrderData && (
+          <RenderModal>
+            <StrategyHistoryModalSection
+              strategyData={userOrderData.strategy.data}
+            />
+          </RenderModal>
         )}
       </main>
     </PageContainer>

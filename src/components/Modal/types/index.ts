@@ -11,7 +11,7 @@ export type ModalContextProps = {
   RenderModal: ({ children }: ChildrenProps) => JSX.Element;
   isFormModal: boolean;
   isStrategyModal: boolean;
-  isLSStrategyDataModal: boolean;
+  isStrategyHistoryModal: boolean;
   isStrategyOrderDetails: boolean;
 };
 

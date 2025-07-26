@@ -4,18 +4,11 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-// import { getUserRole } from '@/src/lib/auth/getUserRoleServerAction';
 import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import useGlobalState from '@/src/hooks/useGlobalState';
 import useModal from '@/src/hooks/useModal';
 import { Order, TradeStrategy } from '@/src/types';
 import { AuthRoleEnum, QueryKeyEnum } from '@/src/enums';
-import {
-  getLSTradeStrategyData,
-  deleteLSTradeStrategyData,
-  updateLSTradeStrategyData,
-} from '@/src/utils';
-import LSTradeStrategyModalSection from '@/src/components/Section/LSTradeStrategyModalSection';
 import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
 import GradientProgressLoader from '@/src/assets/animation/GradientProgressLoader';
 import RefetchTokensButtonBlock from '@/src/components/RefetchTokensButtonBlock';
@@ -26,7 +19,6 @@ import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import SectionsContainer from '@/src/components/Container/Sections';
 import PricesSection from '@/src/components/Section/PricesSection';
 import MainLoader from '@/src/components/MainLoader';
-// import TradeStrategyModalContentSection from '../Section/Strategy/TradeStrategyModalContentSection';
 
 export type StoredData = TradeStrategy[] | null;
 export type Strategy = TradeStrategy | null;
@@ -37,7 +29,6 @@ const c = {
 };
 
 const Dashboard = () => {
-  const [LSStrategyData, setLSStrategyData] = useState<StoredData>(null);
   const [isRefetchButton, setIsRefetchButton] = useState<boolean>(false);
   const [isRefetch, setIsRefetch] = useState<boolean>(false);
   const [currentDeposit, setCurrentDeposit] = useState<number>(0);
@@ -63,84 +54,21 @@ const Dashboard = () => {
     RenderModal,
     openModal,
     isFormModal,
-    isLSStrategyDataModal,
+    isStrategyHistoryModal,
     // isStrategyModal,
-    closeModal,
-    ModalContentEnum,
+    // closeModal,
+    // ModalContentEnum,
   } = useModal();
 
   const currentUserId = currentUser ? currentUser : (userId as string);
 
-  // console.log('-');
-  // console.log('currentBTC:', currentBTC);
-  // console.log('buyBTC:', buyBTC);
-  // console.log('sellBTC:', sellBTC);
-
   // ---
 
-  // useEffect(() => {
-  //   const lsData = getLSCurrentStrategy('COMP');
-  //   if (lsData) {
-  //     setStoredStrategy(lsData);
-  //   }
-  // }, []);
-
-  // const getLSCurrentStrategy = (_symbol: string): Strategy => {
-  //   const lsData = getLSTradeStrategyData();
-  //   const lsStrategy = lsData
-  //     ? lsData.find((storedStrategy: TradeStrategy) => {
-  //         return storedStrategy.symbol === _symbol;
-  //       })
-  //     : null;
-  //   return lsStrategy ? lsStrategy : null;
-  // };
-
   useEffect(() => {
-    if (!isLSStrategyDataModal && storedStrategy) {
+    if (!isStrategyHistoryModal && storedStrategy) {
       setStoredStrategy(null);
     }
-  }, [isLSStrategyDataModal]);
-
-  const resetTradeStrategy = () => {
-    if (!storedStrategy) return;
-    const storedData = getLSTradeStrategyData();
-    const confirmMsg = `${storedStrategy.symbol} ${c.deleteLSStrategy}`;
-    if (!confirm(confirmMsg) || !storedData) return;
-    const dataWithoutCurrentToken = storedData.filter((el: TradeStrategy) => {
-      return el.symbol !== storedStrategy.symbol;
-    });
-    if (dataWithoutCurrentToken.length) {
-      if (storedData.length > dataWithoutCurrentToken.length) {
-        updateLSTradeStrategyData(dataWithoutCurrentToken);
-        setStoredStrategy(null);
-      }
-    } else {
-      deleteLSTradeStrategyData();
-      setStoredStrategy(null);
-    }
-    getLSStrateguData();
-    // closeModal();
-    // if (isClose) {
-    //   return;
-    // }
-  };
-
-  const handleChoseLSStrategy = (el: Strategy | null) => setStoredStrategy(el);
-
-  const handleOpenNewEntryModal = () => {
-    openModal(ModalContentEnum.Strategy);
-  };
-
-  // const handleCloseNewEntryModal = () => {
-  //   openModal(ModalContentEnum.LSStrategyData);
-  // };
-
-  // useEffect(() => {
-  //   if (!storedStrategy) {
-  //     console.log('getLSStrateguData!!!');
-  //     getLSStrateguData();
-  //   }
-  // }, [storedStrategy]);
+  }, [isStrategyHistoryModal]);
 
   // ---
 
@@ -152,17 +80,6 @@ const Dashboard = () => {
     }
 
     // ---
-
-    // getLSStrateguData();
-
-    // const lsTradeStrategyData = getLSTradeStrategyData();
-    // if (lsTradeStrategyData) {
-    //   if (lsTradeStrategyData.length) {
-    //     setLSStrategyData(lsTradeStrategyData);
-    //   } else {
-    //     deleteLSTradeStrategyData();
-    //   }
-    // }
   }, []);
 
   useEffect(() => {
@@ -174,7 +91,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (userId) {
-      getLSStrateguData();
+      // getLSStrateguData();
       setCurrentUser(userId);
     }
   }, [userId]);
@@ -256,21 +173,6 @@ const Dashboard = () => {
     setIsProcess(false);
   }, [updatedTokens, userOrders]);
 
-  // const handleLSStrategyData = (data: TradeStrategy[] | null) => {
-  //   setLSStrategyData(data);
-  // };
-
-  const getLSStrateguData = () => {
-    const lsTradeStrategyData = getLSTradeStrategyData();
-    if (lsTradeStrategyData) {
-      if (lsTradeStrategyData.length) {
-        setLSStrategyData(lsTradeStrategyData);
-      } else {
-        deleteLSTradeStrategyData();
-      }
-    }
-  };
-
   const toggleUser = (currentUser: string) => {
     if (!users) return;
     for (let i = 0; i < users.length; i++) {
@@ -294,22 +196,6 @@ const Dashboard = () => {
     fetchTokens();
   };
 
-  /*
-  const d = [
-    { symbol: 'COMP' },
-    { symbol: 'EOS' },
-    { symbol: 'VIRTUAL' },
-    { symbol: 'VIRTUAL' },
-    { symbol: 'VIRTUAL' },
-    { symbol: 'VIRTUAL' },
-    // { symbol: 'VIRTUAL' },
-    // { symbol: 'VIRTUAL' },
-    // { symbol: 'VIRTUAL' },
-    // { symbol: 'VIRTUAL' },
-    // { symbol: 'VIRTUAL' },
-  ];
-  // */
-
   return (
     <PageContainer label={Label.Main}>
       {updatedTokens && (
@@ -328,7 +214,7 @@ const Dashboard = () => {
           // isAdminButton={isAdmin && !!users && !!userId}
           adminButtonText={currentUserId ? currentUserId.slice(-4) : ''}
           adminButtonFn={() => toggleUser(currentUserId)}
-          storedStrategyData={LSStrategyData}
+          // storedStrategyData={LSStrategyData}
           // storedStrategyData={d}
           mainButtonText={heading.c.create}
           handleModal={(cont) => openModal(cont)}
@@ -395,22 +281,6 @@ const Dashboard = () => {
                 QueryKeyEnum.UserStrategyOrders,
               ]}
               buyTargets={userOrders?.sell}
-            />
-          </RenderModal>
-        )}
-
-        {/* {isLSStrategyDataModal && d && ( */}
-        {isLSStrategyDataModal && LSStrategyData && (
-          <RenderModal>
-            <LSTradeStrategyModalSection
-              data={LSStrategyData.slice(0, 9)}
-              // data={d.slice(0, 9)}
-              storedStrategy={storedStrategy}
-              handleChoseLSStrategy={handleChoseLSStrategy}
-              resetTradeStrategy={resetTradeStrategy}
-              // resetState={() => handleLSStrategyData(null)}
-              closeModal={closeModal}
-              onOpenModal={handleOpenNewEntryModal}
             />
           </RenderModal>
         )}

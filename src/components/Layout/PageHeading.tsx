@@ -26,6 +26,7 @@ type Props = {
   // storedStrategyData?: { symbol: string }[] | null;
   mainButtonText?: string;
   role?: Role;
+  isDCAPlus?: boolean;
   isButtonDisabled?: boolean;
   handleModal?: (cont: ModalContentEnum) => void;
   // handleModal?: () => void;
@@ -56,9 +57,9 @@ const PageHeading = ({
   adminButtonFn,
 
   // Right side:
-  storedStrategyData,
   mainButtonText,
   role = '',
+  isDCAPlus,
   isButtonDisabled,
   handleModal,
 }: Props) => {
@@ -79,7 +80,7 @@ const PageHeading = ({
     if (handleModal) {
       handleModal(
         content === c.ls
-          ? ModalContentEnum.LSStrategyData
+          ? ModalContentEnum.StrategyHistory
           : ModalContentEnum.Form
       );
     }
@@ -141,7 +142,7 @@ const PageHeading = ({
       </div>
 
       <div className="main-heading-right-side-block">
-        {isDashboard && !!storedStrategyData && (
+        {isStrategy && isDCAPlus && (
           <Button
             className={'main-heading-ls-trade-strategy-button'}
             clickContent={() => openModal(c.ls)}

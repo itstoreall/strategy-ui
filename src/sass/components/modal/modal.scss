@@ -49,7 +49,7 @@
     }
   }
 
-  &.LS_STRATEGY_DATA {
+  &.STRATEGY_HISTORY {
     > div.modal {
       width: auto;
       // padding: 1rem;
@@ -75,10 +75,10 @@
         //   height: 100svh;
         //   overflow-y: scroll;
         // }
-        @include media-screen-height('min', 100svh) {
-          // height: 100svh;
-          // overflow-y: scroll;
-        }
+        // @include media-screen-height('min', 100svh) {
+        //   // height: 100svh;
+        //   // overflow-y: scroll;
+        // }
       }
       // */
     }

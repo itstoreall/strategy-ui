@@ -2,39 +2,40 @@
 @use '@/src/sass/base/vars' as *;
 
 // General
-section.section.ls-trade-strategy-modal,
-section.section.ls-trade-strategy-modal-scrollable {
+section.section.strategy-history-modal,
+section.section.strategy-history-modal-scrollable {
   background-color: transparent;
+  background-color: tomato;
 }
 
 // Custom
-section.ls-trade-strategy-modal-scrollable {
+section.strategy-history-modal-scrollable {
   height: 100svh;
   overflow-y: scroll;
   scrollbar-width: none;
 }
 
-section.ls-trade-strategy-modal,
-section.ls-trade-strategy-modal-scrollable {
+section.strategy-history-modal,
+section.strategy-history-modal-scrollable {
   // position: relative;
 
-  div.section-content.ls-trade-strategy-modal-new-entry-block {
-    width: calc(300px - 1.4rem);
-  }
+  // div.section-content.strategy-history-modal-new-entry-block {
+  //   width: calc(300px - 1.4rem);
+  // }
 
-  div.section-content.ls-trade-strategy-modal {
+  div.section-content.strategy-history-modal {
     > ul {
       display: grid;
       gap: 1rem;
 
-      &.ls-trade-strategy-modal-section-list {
+      &.strategy-history-modal-list {
         /*
         @include media-screen-orientation('max', $tablet - 0.1) {
           padding-bottom: 2rem;
         }
         */
 
-        > li.ls-trade-strategy-modal-section-list-item {
+        > li.strategy-history-modal-list-item {
           position: relative;
           aspect-ratio: 1 / 1;
           width: 140px;

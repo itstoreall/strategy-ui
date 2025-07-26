@@ -8,10 +8,14 @@ import { useSession } from 'next-auth/react';
 import { Session } from 'next-auth';
 */
 
-const useFetchAllUserOrders = (
-  userId: string | null,
-  options: { enabled: boolean }
-) => {
+type UserId = string | null;
+type Options = { enabled: boolean };
+
+const c = {
+  errMsg: 'Invalid userId in queryKey!',
+};
+
+const useFetchAllUserOrders = (userId: UserId, options: Options) => {
   /*
   const session = useSession();
   if (!session.data) return [];
@@ -53,7 +57,7 @@ const useFetchAllUserOrders = (
     queryFn: ({ queryKey }) => {
       const [, userId] = queryKey;
       if (!userId || typeof userId !== 'string') {
-        throw new Error('Invalid userId in queryKey!');
+        throw new Error(c.errMsg);
       }
       return orderService.fetchAllByUserId(userId);
     },
