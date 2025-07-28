@@ -10,6 +10,7 @@ section.section.strategy-history-modal-scrollable {
 
 // Custom
 section.strategy-history-modal-scrollable {
+  max-height: 500px;
   height: 100svh;
   overflow-y: scroll;
   scrollbar-width: none;
@@ -20,6 +21,8 @@ section.strategy-history-modal-scrollable {
   // position: relative;
 
   div.section-content.strategy-history-modal {
+    // padding: 0;
+
     > ul {
       display: grid;
       gap: 0.8rem;

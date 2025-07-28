@@ -31,7 +31,8 @@ const StrategyHistoryModalSection = ({ strategyData }: Props) => {
     const checkHeight = () => {
       if (contentRef.current) {
         const ulHeight = contentRef.current.offsetHeight;
-        const maxHeight = window.innerHeight;
+        const maxHeight = 500;
+        // const maxHeight = window.innerHeight;
         setIsScrollable(ulHeight > maxHeight);
       }
     };
@@ -42,7 +43,7 @@ const StrategyHistoryModalSection = ({ strategyData }: Props) => {
 
   // ---
 
-  /*
+  // /*
   const d = [
     {
       a: 0.002625,
@@ -187,8 +188,8 @@ const StrategyHistoryModalSection = ({ strategyData }: Props) => {
         {history && (
           <>
             <ul className={'strategy-history-modal-list'}>
-              {/* {d.map((el, idx) => { */}
-              {history.map((el, idx) => {
+              {/* {history.map((el, idx) => { */}
+              {d.map((el, idx) => {
                 return <HistoryListItem key={idx} trade={el} />;
               })}
             </ul>

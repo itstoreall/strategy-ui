@@ -7,7 +7,7 @@ const StrategyHistoryModal = ({ children }: ChildrenProps) => {
 
   return (
     <CommonModal className={ModalContentEnum.StrategyHistory}>
-      <div className={'ls-trade-strategy-modal-content'}>{children}</div>
+      <div className={'strategy-history-modal-content'}>{children}</div>
     </CommonModal>
   );
 };
