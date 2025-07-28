@@ -30,3 +30,13 @@ export const closeTrades = (orderInfo: string) => {
   return `Close!
 ${orderInfo} orders will be closed`;
 };
+
+export const recoverTrade = (id: number) => {
+  return `Recover!
+${id}`;
+};
+
+export const deleteTrade = (id: number) => {
+  return `Delete!
+${id}`;
+};

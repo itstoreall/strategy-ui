@@ -23,6 +23,7 @@ section.strategy-history-modal-scrollable {
     > ul {
       display: grid;
       gap: 0.8rem;
+      // background-color: $blue;
 
       &.strategy-history-modal-list {
         /*
@@ -34,15 +35,20 @@ section.strategy-history-modal-scrollable {
         > li.strategy-history-modal-list-item {
           // position: relative;
           // aspect-ratio: 1 / 1;
-          width: 260px;
-          border: 1px solid $googleYellow;
-          border-radius: $middleBorderRadius;
+          display: flex;
+          gap: 0.7rem;
+          width: 300px;
+          // border: 1px solid $googleYellow;
+          // border-radius: $middleBorderRadius;
 
           > div.strategy-history-list-item-content-block {
             display: flex;
             flex-direction: column;
             gap: 0.4rem;
-            padding: 0.5rem;
+            padding: 0.6rem 0.5rem 0.7rem;
+            width: 100%;
+            border: 1px solid $googleYellow;
+            border-radius: $middleBorderRadius;
             // background-color: teal;
 
             > span.strategy-history-list-item-content {
@@ -56,6 +62,14 @@ section.strategy-history-modal-scrollable {
                 color: $googleYellow;
               }
             }
+          }
+
+          > div.strategy-history-list-item-controls-block {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1rem;
+            // background-color: teal;
           }
         }
       }
