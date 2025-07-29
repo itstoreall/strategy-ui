@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { RiExchangeDollarLine } from 'react-icons/ri';
 import { IoMdTrash } from 'react-icons/io';
+import { HiMiniXMark } from 'react-icons/hi2';
 import { HistoryEntry } from '@/src/types';
 import { normalizeKyivDate } from '@/src/utils';
 import * as confirmMsg from '@/src/messages/confirm';
 import Button from '@/src/components/Button/Button';
+import useModal from '@/src/hooks/useModal';
 
 type Props = {
   strategyData: string;
@@ -19,6 +21,7 @@ const StrategyHistoryModalSection = ({ strategyData }: Props) => {
   const [isScrollable, setIsScrollable] = useState(false);
 
   const contentRef = useRef<HTMLDivElement>(null);
+  const { closeModal } = useModal();
 
   useEffect(() => {
     if (strategyData) {
@@ -31,8 +34,8 @@ const StrategyHistoryModalSection = ({ strategyData }: Props) => {
     const checkHeight = () => {
       if (contentRef.current) {
         const ulHeight = contentRef.current.offsetHeight;
-        const maxHeight = 500;
-        // const maxHeight = window.innerHeight;
+        const maxHeight = window.innerHeight;
+        // const maxHeight = 500;
         setIsScrollable(ulHeight > maxHeight);
       }
     };
@@ -43,7 +46,7 @@ const StrategyHistoryModalSection = ({ strategyData }: Props) => {
 
   // ---
 
-  // /*
+  /*
   const d = [
     {
       a: 0.002625,
@@ -137,16 +140,16 @@ const StrategyHistoryModalSection = ({ strategyData }: Props) => {
       <li className="strategy-history-modal-list-item">
         <div className="strategy-history-list-item-controls-block">
           <Button
-            className="new-entry-section-reset-button"
+            className="strategy-history-list-item-button"
             clickContent={() => recoverTrade(trade.d)}
           >
-            <RiExchangeDollarLine size={24} fill="black" />
+            <RiExchangeDollarLine size={22} fill="black" />
           </Button>
           <Button
-            className="new-entry-section-reset-button"
+            className="strategy-history-list-item-button"
             clickContent={() => deleteTrade(trade.d)}
           >
-            <IoMdTrash size={24} fill="black" />
+            <IoMdTrash size={22} fill="black" />
           </Button>
         </div>
         <div className="strategy-history-list-item-content-block">
@@ -181,6 +184,17 @@ const StrategyHistoryModalSection = ({ strategyData }: Props) => {
         isScrollable ? '-scrollable' : ''
       }`}
     >
+      <div className="strategy-history-modal-heading">
+        <div className="strategy-history-modal-heading-content">
+          <span>History</span>
+          <Button
+            className="strategy-history-modal-heading-button"
+            clickContent={closeModal}
+          >
+            <HiMiniXMark size={24} fill="black" />
+          </Button>
+        </div>
+      </div>
       <div
         ref={contentRef}
         className={'section-content strategy-history-modal'}
@@ -188,8 +202,8 @@ const StrategyHistoryModalSection = ({ strategyData }: Props) => {
         {history && (
           <>
             <ul className={'strategy-history-modal-list'}>
-              {/* {history.map((el, idx) => { */}
-              {d.map((el, idx) => {
+              {/* {d.map((el, idx) => { */}
+              {history.map((el, idx) => {
                 return <HistoryListItem key={idx} trade={el} />;
               })}
             </ul>

@@ -143,6 +143,7 @@ button.uni-button {
   // }
 
   &.new-entry-section-reset-button,
+  &.strategy-history-list-item-button,
   &.new-entry-section-go-back-button {
     display: flex;
     justify-content: center;
@@ -158,6 +159,25 @@ button.uni-button {
     &:hover {
       opacity: 1;
     }
+  }
+
+  &.strategy-history-modal-heading-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    width: 45px;
+    height: 45px;
+    background-color: transparent;
+
+    > svg {
+      fill: $googleYellow;
+    }
+  }
+
+  &.strategy-history-list-item-button {
+    width: 30px;
+    min-height: 30px;
   }
 
   &.admin-heading-button {
