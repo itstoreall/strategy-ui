@@ -1,5 +1,7 @@
 // --- Admin
 
+import * as u from '@/src/utils';
+
 export const adminDeleteToken = (symbol: string) => {
   return `Delete!
 Token (${symbol}) will be deleted`;
@@ -38,5 +40,5 @@ ${id}`;
 
 export const deleteTradeHistoryElement = (id: number) => {
   return `Delete!
-Trade ${id} will be deleted`;
+Trade ${u.trimString(id.toString(), 3, 3)} will be deleted`;
 };

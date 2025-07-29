@@ -39,6 +39,8 @@ const StrategySnapshotSection = (props: Props) => {
     total,
   } = props;
 
+  // ---
+
   const isOrders = orderNumber > 0;
   const isPositive = !!successOrders && successOrders > 0;
   const isProfit = !!total && total > 0;

@@ -28,6 +28,8 @@ const StrategyHistoryModalSection = (props: Props) => {
   const contentRef = useRef<HTMLDivElement>(null);
   const { closeModal } = useModal();
 
+  // ---
+
   useEffect(() => {
     if (strategyData) {
       const _strategyData = JSON.parse(strategyData);
@@ -136,15 +138,9 @@ const StrategyHistoryModalSection = (props: Props) => {
     };
     */
 
-    // const deleteTrade = (id: number) => {
-    //   if (confirm(confirmMsg.deleteTradeHistoryElement(id))) {
-    //     console.log('delete...');
-    //     const _strategyData = JSON.parse(strategyData);
-    //     console.log('_strategyData:', _strategyData);
-    //     console.log('history:', history);
-    //     // deleteTradeHistoryElement(id);
-    //   }
-    // };
+    const invested = trade.a * trade.b;
+    const sold = trade.a * trade.s;
+    const profit = sold - invested;
 
     return (
       <li className="strategy-history-modal-list-item">
@@ -178,6 +174,10 @@ const StrategyHistoryModalSection = (props: Props) => {
           <span className="strategy-history-list-item-content">
             <span>{'Sell:'}</span>
             <span>{`${trade.s} $`}</span>
+          </span>
+          <span className="strategy-history-list-item-content">
+            <span>{'Profit:'}</span>
+            <span>{`${profit.toFixed(2)} $`}</span>
           </span>
           <span className="strategy-history-list-item-content">
             <span>{'Date:'}</span>
