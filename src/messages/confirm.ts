@@ -36,7 +36,7 @@ export const recoverTrade = (id: number) => {
 ${id}`;
 };
 
-export const deleteTrade = (id: number) => {
+export const deleteTradeHistoryElement = (id: number) => {
   return `Delete!
-${id}`;
+Trade ${id} will be deleted`;
 };

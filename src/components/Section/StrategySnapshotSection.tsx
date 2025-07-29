@@ -55,7 +55,7 @@ const StrategySnapshotSection = (props: Props) => {
     : loaderValue;
 
   const totalValue = isProfit ? total : isAllNegative ? 0 : <DotsLoader />;
-  const currentProfit = numberCutter(Number(totalValue) - depositAmount, 1);
+  const currentProfit = Number(totalValue) - depositAmount;
 
   return (
     <section className="section order-list-snapshot">
@@ -95,7 +95,7 @@ const StrategySnapshotSection = (props: Props) => {
             {isBTC ? (
               <>
                 <span className="content-name">
-                  {currentProfit.includes('-') ? c.losses : c.profit}
+                  {currentProfit.toString().includes('-') ? c.losses : c.profit}
                 </span>
                 <span className="content-value">
                   {numberCutter(currentProfit)}

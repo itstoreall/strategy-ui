@@ -27,7 +27,7 @@ section.strategy-history-modal-scrollable {
     display: flex;
     justify-content: center;
     width: 100%;
-    height: 45px;
+    height: 48px;
     z-index: 1;
 
     > div.strategy-history-modal-heading-content {
@@ -42,8 +42,8 @@ section.strategy-history-modal-scrollable {
       // background-color: teal;
 
       > span {
-        font-weight: 600;
-        color: $googleYellow;
+        // font-weight: 500;
+        color: $greyLight;
       }
     }
   }

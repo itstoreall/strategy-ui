@@ -1,11 +1,13 @@
 'use client';
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
+import useUpdateStrategy from '@/src/hooks/strategy/useUpdateStrategy';
 import useStrategy from '@/src/hooks/strategy/useStrategy';
 import useModal from '@/src/hooks/useModal';
-import { SortedOrder } from '@/src/types';
 import * as enm from '@/src/enums';
+import * as t from '@/src/types';
+import * as confirmMsg from '@/src/messages/confirm';
 import GradientProgressLoader from '@/src/assets/animation/GradientProgressLoader';
 import StrategyHistoryModalSection from '@/src/components/Section/StrategyHistoryModalSection';
 import DCAPlusStrategySection from '@/src/components/Section/Strategy/DCAPlusStrategySection';
@@ -14,7 +16,7 @@ import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import MainLoader from '@/src/components/MainLoader';
 
-export type SortedOrders = SortedOrder[] | null;
+export type SortedOrders = t.SortedOrder[] | null;
 
 const c = {
   lsTakeProfitKey: 'takeProfit',
@@ -25,6 +27,8 @@ const { OrderTypeEnum } = enm;
 const Strategy = () => {
   const [isTakeProfit, setIsTakeProfit] = useState(false);
   const [isEditMenu, setIsEditMenu] = useState(false);
+
+  const { mutate: updStg, isSuccess: isSuccessUpdStg } = useUpdateStrategy();
 
   const {
     userId,
@@ -42,8 +46,6 @@ const Strategy = () => {
     handleFilterExchange,
   } = useStrategy();
 
-  // const { openModal, ModalContentEnum } = useModal();
-
   const {
     RenderModal,
     openModal,
@@ -54,8 +56,6 @@ const Strategy = () => {
     // ModalContentEnum,
   } = useModal();
 
-  // console.log('sortedOrders:', sortedOrders);
-
   const isBTC = symbol === 'BTC';
 
   // ---
@@ -65,9 +65,31 @@ const Strategy = () => {
     setIsTakeProfit(takeProfit);
   }, []);
 
-  // const handleModal = () => {
-  //   openModal(ModalContentEnum.Form);
-  // };
+  useEffect(() => {
+    if (isSuccessUpdStg) {
+      console.log('isSuccessUpdStg:', isSuccessUpdStg);
+    }
+  }, [isSuccessUpdStg]);
+
+  // ---
+
+  const deleteTradeHistoryElement = (tradeId: number) => {
+    const isDelete = confirm(confirmMsg.deleteTradeHistoryElement(tradeId));
+    if (!userOrderData || !isDelete) return;
+    const strategyData = JSON.parse(userOrderData.strategy.data);
+    const updatedHistory = strategyData.history.filter(
+      (el: t.HistoryEntry) => el.d !== tradeId
+    );
+    const newStrategyData = {
+      ...strategyData,
+      history: updatedHistory,
+    };
+    updStg({
+      strategyId: userOrderData.strategy.id,
+      newStrategyData,
+      // newStrategyData: null,
+    });
+  };
 
   // ---
 
@@ -139,6 +161,7 @@ const Strategy = () => {
           <RenderModal>
             <StrategyHistoryModalSection
               strategyData={userOrderData.strategy.data}
+              deleteTradeHistoryElement={deleteTradeHistoryElement}
             />
           </RenderModal>
         )}

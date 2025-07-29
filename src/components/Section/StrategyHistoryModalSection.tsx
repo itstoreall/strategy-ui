@@ -1,24 +1,29 @@
 import { useEffect, useRef, useState } from 'react';
+/*
 import { RiExchangeDollarLine } from 'react-icons/ri';
+*/
 import { IoMdTrash } from 'react-icons/io';
 import { HiMiniXMark } from 'react-icons/hi2';
 import { HistoryEntry } from '@/src/types';
 import { normalizeKyivDate } from '@/src/utils';
-import * as confirmMsg from '@/src/messages/confirm';
+// import * as confirmMsg from '@/src/messages/confirm';
 import Button from '@/src/components/Button/Button';
 import useModal from '@/src/hooks/useModal';
 
 type Props = {
   strategyData: string;
+  deleteTradeHistoryElement: (tradeId: number) => void;
 };
 
 type ListItemProps = {
   trade: { d: number; a: number; b: number; s: number };
 };
 
-const StrategyHistoryModalSection = ({ strategyData }: Props) => {
+const StrategyHistoryModalSection = (props: Props) => {
   const [history, setHistory] = useState<HistoryEntry[] | null>(null);
   const [isScrollable, setIsScrollable] = useState(false);
+
+  const { strategyData, deleteTradeHistoryElement } = props;
 
   const contentRef = useRef<HTMLDivElement>(null);
   const { closeModal } = useModal();
@@ -35,7 +40,6 @@ const StrategyHistoryModalSection = ({ strategyData }: Props) => {
       if (contentRef.current) {
         const ulHeight = contentRef.current.offsetHeight;
         const maxHeight = window.innerHeight;
-        // const maxHeight = 500;
         setIsScrollable(ulHeight > maxHeight);
       }
     };
@@ -124,30 +128,36 @@ const StrategyHistoryModalSection = ({ strategyData }: Props) => {
   // */
 
   const HistoryListItem = ({ trade }: ListItemProps) => {
+    /*
     const recoverTrade = (id: number) => {
       if (confirm(confirmMsg.recoverTrade(id))) {
         console.log('recover...');
       }
     };
+    */
 
-    const deleteTrade = (id: number) => {
-      if (confirm(confirmMsg.deleteTrade(id))) {
-        console.log('delete...');
-      }
-    };
+    // const deleteTrade = (id: number) => {
+    //   if (confirm(confirmMsg.deleteTradeHistoryElement(id))) {
+    //     console.log('delete...');
+    //     const _strategyData = JSON.parse(strategyData);
+    //     console.log('_strategyData:', _strategyData);
+    //     console.log('history:', history);
+    //     // deleteTradeHistoryElement(id);
+    //   }
+    // };
 
     return (
       <li className="strategy-history-modal-list-item">
         <div className="strategy-history-list-item-controls-block">
-          <Button
+          {/* <Button
             className="strategy-history-list-item-button"
             clickContent={() => recoverTrade(trade.d)}
           >
             <RiExchangeDollarLine size={22} fill="black" />
-          </Button>
+          </Button> */}
           <Button
             className="strategy-history-list-item-button"
-            clickContent={() => deleteTrade(trade.d)}
+            clickContent={() => deleteTradeHistoryElement(trade.d)}
           >
             <IoMdTrash size={22} fill="black" />
           </Button>
@@ -186,12 +196,12 @@ const StrategyHistoryModalSection = ({ strategyData }: Props) => {
     >
       <div className="strategy-history-modal-heading">
         <div className="strategy-history-modal-heading-content">
-          <span>History</span>
+          <span></span>
           <Button
             className="strategy-history-modal-heading-button"
             clickContent={closeModal}
           >
-            <HiMiniXMark size={24} fill="black" />
+            <HiMiniXMark size={30} fill="black" />
           </Button>
         </div>
       </div>
