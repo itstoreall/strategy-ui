@@ -196,7 +196,7 @@ const StrategyHistoryModalSection = (props: Props) => {
     >
       <div className="strategy-history-modal-heading">
         <div className="strategy-history-modal-heading-content">
-          <span></span>
+          {/* <span /> */}
           <Button
             className="strategy-history-modal-heading-button"
             clickContent={closeModal}

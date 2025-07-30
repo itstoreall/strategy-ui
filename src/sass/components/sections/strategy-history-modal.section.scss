@@ -32,24 +32,19 @@ section.strategy-history-modal-scrollable {
 
     > div.strategy-history-modal-heading-content {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       align-items: center;
       padding-left: 15px;
       width: 100%;
       max-width: $max;
       // width: 320px;
-      background-color: $black;
+      // background-color: $black;
       // background-color: teal;
-
-      > span {
-        // font-weight: 500;
-        color: $greyLight;
-      }
     }
   }
 
   div.section-content.strategy-history-modal {
-    padding-top: 55px;
+    // padding-top: 55px;
     // background-color: $blue;
 
     > ul {
