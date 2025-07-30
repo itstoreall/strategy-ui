@@ -26,6 +26,7 @@ export type Strategy = TradeStrategy | null;
 const c = {
   dashboardTitle: 'Dashboard',
   deleteLSStrategy: 'LS Strategy will be deleted!',
+  triggerSymbol: 'BTC',
 };
 
 const Dashboard = () => {
@@ -108,7 +109,7 @@ const Dashboard = () => {
     if (!userOrders) return;
     if (userOrders?.buy.length) {
       let totalDeposit = 0;
-      const DCAPlusAssets = userOrders.DCAPlus.map((order: Order) => {
+      const DCAPAssets = userOrders.DCAP.map((order: Order) => {
         totalDeposit = totalDeposit + order.fiat;
         return order.symbol;
       });
@@ -121,7 +122,7 @@ const Dashboard = () => {
         return order.symbol;
       });
       const uniqueSymbols = new Set([
-        ...DCAPlusAssets,
+        ...DCAPAssets,
         ...customAssets,
         ...otherAssets,
       ]);
@@ -156,8 +157,8 @@ const Dashboard = () => {
         }
       }
     };
-    for (let i = 0; i < userOrders.DCAPlus.length; i++) {
-      const order = userOrders.DCAPlus[i];
+    for (let i = 0; i < userOrders.DCAP.length; i++) {
+      const order = userOrders.DCAP[i];
       updateDepositAndProfit(order);
     }
     for (let i = 0; i < userOrders.custom.length; i++) {
@@ -201,7 +202,7 @@ const Dashboard = () => {
       {updatedTokens && (
         <GradientProgressLoader
           trigger={
-            updatedTokens.find((token) => token.symbol === 'BTC')?.price ?? 0
+            updatedTokens.find((t) => t.symbol === c.triggerSymbol)?.price ?? 0
           }
         />
       )}
@@ -240,9 +241,9 @@ const Dashboard = () => {
 
               <PricesSection tokens={updatedTokens} />
 
-              {userOrders.custom.length || userOrders.DCAPlus.length ? (
+              {userOrders.custom.length || userOrders.DCAP.length ? (
                 <OrderListSection
-                  data={[...userOrders.custom, ...userOrders.DCAPlus]}
+                  data={[...userOrders.custom, ...userOrders.DCAP]}
                   tokens={updatedTokens}
                   userId={userId}
                   isCustom={true}

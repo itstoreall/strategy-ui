@@ -26,7 +26,7 @@ type Props = {
   // storedStrategyData?: { symbol: string }[] | null;
   mainButtonText?: string;
   role?: Role;
-  isDCAPlus?: boolean;
+  isDCAP?: boolean;
   isButtonDisabled?: boolean;
   handleModal?: (cont: ModalContentEnum) => void;
   // handleModal?: () => void;
@@ -59,7 +59,7 @@ const PageHeading = ({
   // Right side:
   mainButtonText,
   role = '',
-  isDCAPlus,
+  isDCAP,
   isButtonDisabled,
   handleModal,
 }: Props) => {
@@ -142,15 +142,12 @@ const PageHeading = ({
       </div>
 
       <div className="main-heading-right-side-block">
-        {isStrategy && isDCAPlus && (
+        {isStrategy && isDCAP && (
           <Button
-            className={'main-heading-ls-trade-strategy-button'}
+            className={'main-heading-trade-strategy-history-button'}
             clickContent={() => openModal(c.ls)}
           >
-            <GoClock
-              className="trade-strategy-calculating-element-button-icon"
-              size={20}
-            />
+            <GoClock size={20} />
           </Button>
         )}
 

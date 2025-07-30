@@ -45,7 +45,7 @@ const c = {
   sell: 'sell',
 };
 
-const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
+const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
   // const [copiedField, setCopiedField] = useState<CopiedField | null>(null);
   const [storedStrategy, setStoredStrategy] = useState<Strategy>(null);
   const [sellPrice, setSellPrice] = useState<string | null>(null);
@@ -54,7 +54,7 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
   const { token, orderData } = props; //snapshot,
 
   const { mutate: updStg, isSuccess: isSuccessUpdStg } = useUpdateStrategy();
-  const { currentBTC, buyBTC, sellBTC, getStatus } = useStrategyDCA();
+  const { currentDCAP, buyDCAP, sellDCAP, getStatus } = useStrategyDCA();
   const { updateData } = useInvalidateQueries();
   const redirectTo = useRedirect();
 
@@ -135,7 +135,7 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
 
   const handleCloseTrades = async () => {
     const orderIds = orderData.orders.map((order) => order.id);
-    if (!orderIds.length || !currentBTC) return;
+    if (!orderIds.length || !currentDCAP) return;
     if (!confirm(confirmMsg.closeTrades(`${orderIds.length} BTC`))) return;
     const deletedOrders = await deleteManyOrders(orderIds);
     if (deletedOrders.deletedCount === orderIds.length) {
@@ -145,7 +145,7 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
       }, 0);
       const params = {
         a: +totalAmount.toString().slice(0, 9),
-        b: currentBTC.avg,
+        b: currentDCAP.avg,
         s: token.price,
         stgData: orderData.strategy.data,
       };
@@ -212,9 +212,9 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
 
       <section className="section trade-strategy-dca-plus">
         <div className="section-content trade-strategy-dca-plus">
-          {currentBTC && buyBTC && sellBTC ? (
+          {currentDCAP && buyDCAP && sellDCAP ? (
             <div className="section-trade-strategy-dca-plus-values-block">
-              <DCAPlusList cur={currentBTC} buy={buyBTC} sell={sellBTC} />
+              <DCAPlusList cur={currentDCAP} buy={buyDCAP} sell={sellDCAP} />
               {isDisplayCloseButton && (
                 <div className="trade-strategy-dca-plus-button-block">
                   <Button
@@ -249,7 +249,7 @@ const TradeStrategyDCAPlusSection = (props: TradeStrategyProps) => {
   ) : null;
 };
 
-export default TradeStrategyDCAPlusSection;
+export default TradeStrategyDCAPSection;
 
 /* Dollar & BTC
 import { RiMoneyDollarCircleLine } from 'react-icons/ri';

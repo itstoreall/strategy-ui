@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from 'react';
 import useModal from '@/src/hooks/useModal';
 import * as enm from '@/src/enums';
 import { OrderStrategyData, StrategySnapshot, Token } from '@/src/types';
-import TradeStrategyDCAPlusSection from '@/src/components/Section/Strategy/TradeStrategyDCAPlusSection';
+import TradeStrategyDCAPSection from '@/src/components/Section/Strategy/TradeStrategyDCAPSection';
 import StrategyOrderListSection from '@/src/components/Section/StrategyOrderListSection';
 import StrategySnapshotSection from '@/src/components/Section/StrategySnapshotSection';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
@@ -34,7 +34,7 @@ const c = {
   loading: 'Loading',
 };
 
-const DCAPlusStrategySection = (props: Props) => {
+const DCAPStrategySection = (props: Props) => {
   const {
     userId,
     symbol,
@@ -56,6 +56,7 @@ const DCAPlusStrategySection = (props: Props) => {
   const { RenderModal, isFormModal } = useModal();
 
   const isBTC = token.symbol === 'BTC';
+  const isETH = token.symbol === 'ETH';
 
   // no scss styles!
   return (
@@ -64,6 +65,7 @@ const DCAPlusStrategySection = (props: Props) => {
         <SectionsContainer>
           <StrategySnapshotSection
             isBTC={isBTC}
+            isETH={isETH}
             orderNumber={sortedOrders?.length ?? 0}
             totalAmount={snapshot.totalAmount}
             positiveOrders={snapshot.positiveOrders}
@@ -73,7 +75,7 @@ const DCAPlusStrategySection = (props: Props) => {
           />
 
           {userId && token && userOrderData && (
-            <TradeStrategyDCAPlusSection
+            <TradeStrategyDCAPSection
               userId={userId}
               token={token}
               snapshot={snapshot}
@@ -136,4 +138,4 @@ const DCAPlusStrategySection = (props: Props) => {
   );
 };
 
-export default DCAPlusStrategySection;
+export default DCAPStrategySection;

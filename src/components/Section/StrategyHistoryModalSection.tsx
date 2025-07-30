@@ -209,7 +209,7 @@ const StrategyHistoryModalSection = (props: Props) => {
         ref={contentRef}
         className={'section-content strategy-history-modal'}
       >
-        {history && (
+        {history ? (
           <>
             <ul className={'strategy-history-modal-list'}>
               {/* {d.map((el, idx) => { */}
@@ -218,6 +218,8 @@ const StrategyHistoryModalSection = (props: Props) => {
               })}
             </ul>
           </>
+        ) : (
+          <div>No history!</div>
         )}
       </div>
     </section>

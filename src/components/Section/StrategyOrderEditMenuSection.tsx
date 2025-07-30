@@ -7,14 +7,14 @@ import { Order } from '@/src/types';
 import Button from '@/src/components/Button/Button';
 
 type Props = {
-  isDCAPlus: boolean;
+  isDCAP: boolean;
   order: Order;
   archiveOrder: (order: Order) => void;
   removeOrder: (id: number) => void;
 };
 
 const StrategyOrderEditMenuSection = (props: Props) => {
-  const { isDCAPlus, order, archiveOrder, removeOrder } = props;
+  const { isDCAP, order, archiveOrder, removeOrder } = props;
 
   return (
     <section className="strategy-order-edit-menu">
@@ -25,7 +25,7 @@ const StrategyOrderEditMenuSection = (props: Props) => {
         <FiEdit3 size={18} />
       </Button> */}
 
-      {isDCAPlus && (
+      {isDCAP && (
         <Button
           className="strategy-order-edit-menu-button"
           clickContent={() => archiveOrder(order)}

@@ -34,6 +34,7 @@ const useStrategy = () => {
   );
 
   const isBTC = userOrderData?.orders[0]?.symbol === 'BTC';
+  const isETH = userOrderData?.orders[0]?.symbol === 'ETH';
 
   const exchanges: ExchangeEnum[] = [ExchangeEnum.All];
   const strategySnapshot: t.StrategySnapshot = {
@@ -104,7 +105,7 @@ const useStrategy = () => {
         const calculateSnapshotValues = (order: t.Order, percent: number) => {
           strategySnapshot.totalAmount += order.amount;
           strategySnapshot.deposit += order.fiat;
-          if (!percent.toString().includes('-') && !isBTC) {
+          if (!percent.toString().includes('-') && (!isBTC || !isETH)) {
             updateTotalProfit(order);
             /*
             if (strategySnapshot.profit === null) {
@@ -125,7 +126,7 @@ const useStrategy = () => {
             } else {
               strategySnapshot.positiveOrders += 1;
             }
-          } else if (isBTC) {
+          } else if (isBTC || isETH) {
             updateTotalProfit(order);
             /*
             if (strategySnapshot.profit === null) {

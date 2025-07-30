@@ -36,6 +36,7 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
   const currentLsKey = isBull ? c.lsOrderLimitKey : c.lsBuyTargetLimitKey;
 
   const [isBTCButton, setIsBTCButton] = useState<boolean>(false);
+  const [isETHButton, setIsETHButton] = useState<boolean>(false);
   const [isExpanded, setIsExpanded] = useState<boolean>(() => {
     const savedState = localStorage.getItem(currentLsKey);
     return savedState ? JSON.parse(savedState) : false;
@@ -55,6 +56,17 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
       } else {
         // console.log('isBull 2:', isBull);
         setIsBTCButton(false);
+      }
+
+      const ETHOrder = data.find((order) => order.symbol === 'ETH');
+      if (ETHOrder) {
+        // console.log('isBull 1:', isBull);
+        if (isBull) {
+          setIsETHButton(true);
+        }
+      } else {
+        // console.log('isBull 2:', isBull);
+        setIsETHButton(false);
       }
     }
   }, [data]);
@@ -289,6 +301,7 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
         sortField={sortField}
         handleSortToggle={handleSortToggle}
         isBTCButton={isBTCButton}
+        isETHButton={isETHButton}
         isSwitchButton={isToggle && !isCustom}
         isDisabled={!isExpanded}
         setIsDisabled={toggleList}
@@ -298,7 +311,10 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
         <div className="section-content order-list">
           <ul className="section-order-list">
             {displayedData.map((order: AggregatedOrderListAcc, idx) => {
-              if (order.symbol !== 'BTC' || !isBull) {
+              if (
+                (order.symbol !== 'BTC' && order.symbol !== 'ETH') ||
+                !isBull
+              ) {
                 return <OrderListItem key={idx} order={order} />;
               } else return;
             })}

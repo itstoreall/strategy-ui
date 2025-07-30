@@ -129,6 +129,7 @@ const TradeStrategyOrderListSection = (props: TradeStrategyOrderListProps) => {
   } = props;
 
   const isBTC = token.symbol === 'BTC';
+  const isETH = token.symbol === 'ETH';
 
   const singleItemStyle = orderSet.length < 2 ? 'single-element' : '';
   const itemStyle = `section-trade-strategy-list-item ${singleItemStyle}`;
@@ -155,7 +156,7 @@ const TradeStrategyOrderListSection = (props: TradeStrategyOrderListProps) => {
                   {c.keyAVG}
                 </span>
                 <span className="trade-strategy-calculating-element-value">
-                  {u.numberCutter(avgSelectedBuyPrice, isBTC ? 0 : 3)}
+                  {u.numberCutter(avgSelectedBuyPrice, isBTC || isETH ? 0 : 3)}
                   {/* {u.uniNumberFormatter(800000000)} */}
                 </span>
               </span>

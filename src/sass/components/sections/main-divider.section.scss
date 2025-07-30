@@ -87,6 +87,51 @@ section.main-divider {
     }
   }
 
+  > div.main-divider-section-eth-link-box {
+    position: relative;
+    min-width: 30px;
+
+    > a.main-divider-section-eth-link {
+      position: absolute;
+      top: -21px;
+      padding-top: 6px;
+      width: 40px;
+      height: 34px;
+
+      > span.main-divider-section-eth-icon-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 29px;
+        height: 29px;
+        background-color: $greyDeepDark;
+        border-radius: 50%;
+
+        > svg {
+          width: 18px;
+        }
+
+        &.stop-loss {
+          > svg {
+            fill: $googleRed;
+          }
+        }
+
+        &.buy {
+          > svg {
+            fill: $googleBlue;
+          }
+        }
+
+        &.sell {
+          > svg {
+            fill: $googleGreen;
+          }
+        }
+      }
+    }
+  }
+
   > div.main-divider-section-filter-input-block {
     position: relative;
     display: flex;

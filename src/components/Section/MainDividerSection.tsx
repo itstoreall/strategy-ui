@@ -9,6 +9,7 @@ import SwitchIcon from '@/src/assets/icons/SwitchIcon';
 import SelectMulti from '@/src/components/Form/SelectMulti';
 import Button from '@/src/components/Button/Button';
 import useStrategyDCA from '@/src/hooks/useStrategyDCA';
+import ETHLogo from '@/src/assets/logos/ETHLogo';
 
 type Props = {
   className?:
@@ -30,6 +31,7 @@ type Props = {
   sortField?: SortEnum;
   handleSortToggle?: () => void;
   isBTCButton?: boolean;
+  isETHButton?: boolean;
   isSwitchButton?: boolean;
   isDisabled?: boolean;
   setIsDisabled?: Dispatch<SetStateAction<boolean>>;
@@ -64,6 +66,7 @@ const MainDividerSection = (props: Props) => {
     isDisabled,
     setIsDisabled,
     isBTCButton,
+    isETHButton,
     isSwitchButton = false,
   } = props;
 
@@ -122,6 +125,21 @@ const MainDividerSection = (props: Props) => {
             prefetch={false}
           >
             <FaBitcoin size={28} />
+          </Link>
+        </div>
+      )}
+
+      {isETHButton && (
+        <div className="main-divider-section-eth-link-box">
+          <Link
+            className={`main-divider-section-eth-link ${getStatus()}`}
+            href={'/strategy/BUY-ETH'}
+            prefetch={false}
+          >
+            <span className="main-divider-section-eth-icon-box">
+              <ETHLogo />
+              {/* <SiEthereum size={20} /> */}
+            </span>
           </Link>
         </div>
       )}

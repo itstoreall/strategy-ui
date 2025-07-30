@@ -171,7 +171,7 @@ export type Strategy = {
 };
 
 export type StrategyOrders = {
-  DCAPlus: Order[];
+  DCAP: Order[];
   custom: Order[];
   buy: Order[];
   sell: Order[];

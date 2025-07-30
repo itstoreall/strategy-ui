@@ -10,7 +10,7 @@ import * as t from '@/src/types';
 import * as confirmMsg from '@/src/messages/confirm';
 import GradientProgressLoader from '@/src/assets/animation/GradientProgressLoader';
 import StrategyHistoryModalSection from '@/src/components/Section/StrategyHistoryModalSection';
-import DCAPlusStrategySection from '@/src/components/Section/Strategy/DCAPlusStrategySection';
+import DCAPStrategySection from '@/src/components/Section/Strategy/DCAPStrategySection';
 import DCAStrategySection from '@/src/components/Section/Strategy/DCAStrategySection';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 import PageContainer, { Label } from '@/src/components/Container/Page';
@@ -20,6 +20,7 @@ export type SortedOrders = t.SortedOrder[] | null;
 
 const c = {
   lsTakeProfitKey: 'takeProfit',
+  triggerSymbol: 'BTC',
 };
 
 const { OrderTypeEnum } = enm;
@@ -57,6 +58,7 @@ const Strategy = () => {
   } = useModal();
 
   const isBTC = symbol === 'BTC';
+  const isETH = symbol === 'ETH';
 
   // ---
 
@@ -97,7 +99,7 @@ const Strategy = () => {
     type === OrderTypeEnum.Buy ? heading.c.addAsset : heading.c.addTarget;
 
   const progressTrigger =
-    updatedTokens?.find((token) => token.symbol === 'BTC')?.price ?? 0;
+    updatedTokens?.find((t) => t.symbol === c.triggerSymbol)?.price ?? 0;
 
   return (
     <PageContainer label={Label.Main}>
@@ -110,13 +112,13 @@ const Strategy = () => {
           mainButtonText={mainButtonText}
           handleModal={(cont) => openModal(cont)}
           // handleModal={handleModal}
-          isDCAPlus={isBTC}
+          isDCAP={(isBTC || isETH) && !!userOrderData?.strategy.data}
           isButtonDisabled={!updatedTokens}
         />
 
         {userId && token && userOrderData?.orders && sortedOrders ? (
-          isBTC ? (
-            <DCAPlusStrategySection
+          isBTC || isETH ? (
+            <DCAPStrategySection
               userId={userId}
               symbol={symbol}
               type={type}

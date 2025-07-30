@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { orderService } from '@/src/services/order.service';
 import { OrderTypeEnum, QueryKeyEnum } from '@/src/enums';
 import { OrderData, StrategyOrders } from '@/src/types';
-import { customTokens, DCAPlusTokens } from '@/src/config';
+import { customTokens, DCAPTokens } from '@/src/config';
 /*
 import { useSession } from 'next-auth/react';
 import { Session } from 'next-auth';
@@ -33,15 +33,15 @@ const useFetchAllUserOrders = (userId: UserId, options: Options) => {
         if (item.type === OrderTypeEnum.Buy) {
           if (customTokens.includes(item.symbol)) {
             acc.custom.push(item);
-          } else if (DCAPlusTokens.includes(item.symbol)) {
-            acc.DCAPlus.push(item);
+          } else if (DCAPTokens.includes(item.symbol)) {
+            acc.DCAP.push(item);
           } else {
             acc.buy.push(item);
           }
         } else if (item.type === OrderTypeEnum.Sell) acc.sell.push(item);
         return acc;
       },
-      { DCAPlus: [], custom: [], buy: [], sell: [] }
+      { DCAP: [], custom: [], buy: [], sell: [] }
     );
 
     return categorized;

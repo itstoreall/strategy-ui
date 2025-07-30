@@ -162,18 +162,21 @@ const StrategyOrderListSection = (props: Props) => {
             {filteredOrders.map((order: Order) => {
               const { id, price, amount } = order;
               const isBTC = order.symbol === 'BTC';
+              const isETH = order.symbol === 'ETH';
 
-              const sellPercent = isBTC
-                ? c.fourPercent
-                : isCustomToken
-                ? c.sevenPercent
-                : strategy.target;
+              const sellPercent =
+                isBTC || isETH
+                  ? c.fourPercent
+                  : isCustomToken
+                  ? c.sevenPercent
+                  : strategy.target;
 
-              const buyPercent = isBTC
-                ? -c.twoPercent
-                : isCustomToken
-                ? -c.fourPercent
-                : -c.buyTargetPercent;
+              const buyPercent =
+                isBTC || isETH
+                  ? -c.twoPercent
+                  : isCustomToken
+                  ? -c.fourPercent
+                  : -c.buyTargetPercent;
 
               const _percent = ((currentPrice - price) / price) * 100;
               const percent = _percent === 0 ? 0 : _percent;
@@ -269,7 +272,7 @@ const StrategyOrderListSection = (props: Props) => {
 
                       {isEditMenu ? (
                         <StrategyOrderEditMenuSection
-                          isDCAPlus={isBTC}
+                          isDCAP={isBTC}
                           order={order}
                           archiveOrder={archiveOrder}
                           removeOrder={handleRemoveOrder}

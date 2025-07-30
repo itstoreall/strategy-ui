@@ -6,19 +6,21 @@ import useFetchAllUserStrategyOrders from '@/src/hooks/order/useFetchAllUserStra
 import * as enm from '@/src/enums';
 import * as t from '@/src/types';
 import * as u from '@/src/utils';
+import { usePathname } from 'next/navigation';
 
-type DCAPlusCurrentState = t.CurrentValues | null;
-type DCAPlusTradeState = t.TradeValues | null;
+type DCAPCurrentState = t.CurrentValues | null;
+type DCAPTradeState = t.TradeValues | null;
 
 export type StrategyDCAContext = {
-  currentBTC: DCAPlusCurrentState;
-  buyBTC: DCAPlusTradeState;
-  sellBTC: DCAPlusTradeState;
+  currentDCAP: DCAPCurrentState;
+  buyDCAP: DCAPTradeState;
+  sellDCAP: DCAPTradeState;
   getStatus: () => string;
 };
 
 const c = {
   symbolBTC: 'BTC',
+  symbolETH: 'ETH',
   stopLoss: 'stop-loss',
   buy: 'buy',
   sell: 'sell',
@@ -27,31 +29,40 @@ const c = {
 // --- Context
 
 const initContext: StrategyDCAContext = {
-  currentBTC: null,
-  buyBTC: null,
-  sellBTC: null,
+  currentDCAP: null,
+  buyDCAP: null,
+  sellDCAP: null,
   getStatus: () => '',
 };
 
 const StrategyDCAContext = createContext<StrategyDCAContext>(initContext);
 
 export const StrategyDCAProvider = ({ children }: t.ChildrenProps & {}) => {
-  const [currentBTC, setCurrentBTC] = useState<DCAPlusCurrentState>(null);
-  const [buyBTC, setBuyBTC] = useState<DCAPlusTradeState>(null);
-  const [sellBTC, setSellBTC] = useState<DCAPlusTradeState>(null);
-  // const [statusBTC, setStatusBTC] = useState<string>('');
+  const [currentDCAP, setCurrentDCAP] = useState<DCAPCurrentState>(null);
+  const [buyDCAP, setBuyDCAP] = useState<DCAPTradeState>(null);
+  const [sellDCAP, setSellDCAP] = useState<DCAPTradeState>(null);
 
   const { updatedTokens } = useGlobalState();
   const { data: session } = useSession();
+  const pathname = usePathname();
 
   const userId = session?.user?.id || null;
   const type = enm.OrderTypeEnum.Buy;
-  const tokenBTC = updatedTokens?.find((el) => el?.symbol === c.symbolBTC);
+  const isBTC = pathname.includes(`-${c.symbolBTC}`);
+  // const isETH = path.includes(`-${c.symbolETH}`);
+  const curDCAPSymbol = isBTC ? c.symbolBTC : c.symbolETH;
+
+  const tokenDCAP = updatedTokens?.find(
+    (el) => el?.symbol === curDCAPSymbol
+    // (el) => el?.symbol === (isBTC ? c.symbolBTC : isETH && c.symbolETH)
+  );
+  // const tokenETH = updatedTokens?.find((el) => el?.symbol === c.symbolETH);
 
   const { userOrderData: orderData } = useFetchAllUserStrategyOrders(
     userId,
     type,
-    c.symbolBTC,
+    // c.symbolBTC,
+    curDCAPSymbol,
     enm.OrderStatusEnum.Active,
     '', // ExchangeEnum
     { enabled: !!userId }
@@ -61,28 +72,29 @@ export const StrategyDCAProvider = ({ children }: t.ChildrenProps & {}) => {
 
   useEffect(() => {
     if (!orderData) return;
-    if (orderData.orders.length && tokenBTC) {
+    if (orderData.orders.length && tokenDCAP) {
       const { orders } = orderData;
       const avg = u.calculateAVGPrice(orders);
-      const orderBTC = orders.filter((el) => el.symbol === c.symbolBTC);
-      if (orderBTC) {
-        const totalAmount = orderBTC.reduce((acc: number, order: t.Order) => {
+      const orderDCAP = orders.filter((el) => el.symbol === curDCAPSymbol);
+      // const orderBTC = orders.filter((el) => el.symbol === c.symbolBTC);
+      if (orderDCAP) {
+        const totalAmount = orderDCAP.reduce((acc: number, order: t.Order) => {
           acc += order.amount;
           return acc;
         }, 0);
         handleCurrentValues(avg);
-        handleBuyValues(orders, tokenBTC.price);
-        handleSellValues(totalAmount, avg, tokenBTC.price);
+        handleBuyValues(orders, tokenDCAP.price);
+        handleSellValues(totalAmount, avg, tokenDCAP.price);
       }
     }
-  }, [orderData, tokenBTC]);
+  }, [orderData, tokenDCAP]);
 
   const handleCurrentValues = (avg: number) => {
-    if (!tokenBTC) return;
-    const percent = ((tokenBTC.price - avg) / avg) * 100;
+    if (!tokenDCAP) return;
+    const percent = ((tokenDCAP.price - avg) / avg) * 100;
     const fivePercentAVG = avg * 0.05;
     const stopLoss = u.numberCutter(avg - fivePercentAVG, 0);
-    setCurrentBTC({
+    setCurrentDCAP({
       avg: Number(u.numberCutter(avg, 0)),
       percent: Number(u.numberCutter(percent)),
       stopLoss: Number(stopLoss),
@@ -98,7 +110,7 @@ export const StrategyDCAProvider = ({ children }: t.ChildrenProps & {}) => {
     const twoPercentLow = lowestPrice * 0.02;
     const buyPrice = lowestPrice - twoPercentLow;
     const buyAmount = lowestPriceAmount * 1.2;
-    setBuyBTC({
+    setBuyDCAP({
       amount: buyAmount.toFixed(6),
       price: u.numberCutter(buyPrice, 0),
       isActive: currentPrice <= buyPrice,
@@ -113,7 +125,7 @@ export const StrategyDCAProvider = ({ children }: t.ChildrenProps & {}) => {
     const fourPercentAVG = avg * 0.04;
     const sellPrice = avg + fourPercentAVG;
     const sellAmount = totalAmount;
-    setSellBTC({
+    setSellDCAP({
       amount: sellAmount.toFixed(6),
       price: u.numberCutter(sellPrice, 0),
       isActive: currentPrice >= sellPrice,
@@ -121,13 +133,13 @@ export const StrategyDCAProvider = ({ children }: t.ChildrenProps & {}) => {
   };
 
   const getStatus = () => {
-    if (!tokenBTC || !currentBTC || !buyBTC || !sellBTC) return '';
+    if (!tokenDCAP || !currentDCAP || !buyDCAP || !sellDCAP) return '';
     const status =
-      tokenBTC.price < currentBTC.stopLoss
+      tokenDCAP.price < currentDCAP.stopLoss
         ? c.stopLoss
-        : buyBTC.isActive
+        : buyDCAP.isActive
         ? c.buy
-        : sellBTC.isActive
+        : sellDCAP.isActive
         ? c.sell
         : '';
     return status;
@@ -135,12 +147,12 @@ export const StrategyDCAProvider = ({ children }: t.ChildrenProps & {}) => {
 
   const values = useMemo(() => {
     return {
-      currentBTC,
-      buyBTC,
-      sellBTC,
+      currentDCAP,
+      buyDCAP,
+      sellDCAP,
       getStatus,
     };
-  }, [currentBTC, buyBTC, sellBTC]);
+  }, [currentDCAP, buyDCAP, sellDCAP]);
 
   return (
     <StrategyDCAContext.Provider value={values}>

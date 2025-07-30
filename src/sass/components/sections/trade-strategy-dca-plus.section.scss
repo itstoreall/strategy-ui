@@ -43,7 +43,7 @@ section.trade-strategy-dca-plus {
         > li.section-trade-strategy-dca-plus-list-item {
           display: flex;
           flex-direction: column;
-          gap: 0.5rem;
+          gap: 0.4rem;
           padding: 0.7rem;
           border: 1px solid $greyDeepDark;
           border-radius: $middleBorderRadius;
@@ -63,7 +63,7 @@ section.trade-strategy-dca-plus {
           // */
 
           @include media-screen-orientation('min', $tablet) {
-            gap: 0.7rem;
+            gap: 0.4rem;
             padding: 1rem;
           }
 
@@ -117,7 +117,7 @@ section.trade-strategy-dca-plus {
 
             &:nth-child(1) {
               padding: 2px 4px;
-              margin-bottom: 0.2rem;
+              margin-bottom: 0.1rem;
               font-weight: 600;
               color: $black;
               background: $greyBlackGradient;

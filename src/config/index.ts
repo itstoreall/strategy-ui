@@ -1,2 +1,2 @@
-export const customTokens = ['ETH', 'SOL', 'LINK', 'UNI', 'QNT'];
-export const DCAPlusTokens = ['BTC'];
+export const customTokens = ['SOL', 'LINK', 'UNI', 'QNT'];
+export const DCAPTokens = ['BTC', 'ETH'];
