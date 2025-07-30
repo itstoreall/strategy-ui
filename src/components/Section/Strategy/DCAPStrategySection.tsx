@@ -55,8 +55,8 @@ const DCAPStrategySection = (props: Props) => {
 
   const { RenderModal, isFormModal } = useModal();
 
-  const isBTC = token.symbol === 'BTC';
-  const isETH = token.symbol === 'ETH';
+  // const isBTC = token.symbol === 'BTC';
+  // const isETH = token.symbol === 'ETH';
 
   // no scss styles!
   return (
@@ -64,8 +64,9 @@ const DCAPStrategySection = (props: Props) => {
       <div className="main-content">
         <SectionsContainer>
           <StrategySnapshotSection
-            isBTC={isBTC}
-            isETH={isETH}
+            // isBTC={isBTC}
+            // isETH={isETH}
+            isDCAP={true}
             orderNumber={sortedOrders?.length ?? 0}
             totalAmount={snapshot.totalAmount}
             positiveOrders={snapshot.positiveOrders}

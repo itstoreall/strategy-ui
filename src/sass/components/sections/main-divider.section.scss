@@ -112,20 +112,34 @@ section.main-divider {
         }
 
         &.stop-loss {
-          > svg {
-            fill: $googleRed;
-          }
+          background-color: $googleRed;
         }
 
         &.buy {
-          > svg {
-            fill: $googleBlue;
-          }
+          background-color: $googleBlue;
         }
 
         &.sell {
-          > svg {
-            fill: $googleGreen;
+          background-color: $googleGreen;
+        }
+
+        &.stop-loss,
+        &.sell,
+        &.buy {
+          > svg path {
+            &:nth-child(1),
+            &:nth-child(4) {
+              fill: $greyDark;
+            }
+
+            &:nth-child(2) {
+              fill: $googleGreenMiddleDark;
+            }
+
+            &:nth-child(3),
+            &:nth-child(5) {
+              fill: $black;
+            }
           }
         }
       }

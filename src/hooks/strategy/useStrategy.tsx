@@ -33,8 +33,9 @@ const useStrategy = () => {
     { enabled: !!userId }
   );
 
-  const isBTC = userOrderData?.orders[0]?.symbol === 'BTC';
-  const isETH = userOrderData?.orders[0]?.symbol === 'ETH';
+  // const isBTC = userOrderData?.orders[0]?.symbol === 'BTC';
+  // const isETH = userOrderData?.orders[0]?.symbol === 'ETH';
+  const isDCAP = u.checkDCAP(userOrderData?.orders[0]?.symbol ?? '');
 
   const exchanges: ExchangeEnum[] = [ExchangeEnum.All];
   const strategySnapshot: t.StrategySnapshot = {
@@ -105,7 +106,7 @@ const useStrategy = () => {
         const calculateSnapshotValues = (order: t.Order, percent: number) => {
           strategySnapshot.totalAmount += order.amount;
           strategySnapshot.deposit += order.fiat;
-          if (!percent.toString().includes('-') && (!isBTC || !isETH)) {
+          if (!percent.toString().includes('-') && !isDCAP) {
             updateTotalProfit(order);
             /*
             if (strategySnapshot.profit === null) {
@@ -126,7 +127,7 @@ const useStrategy = () => {
             } else {
               strategySnapshot.positiveOrders += 1;
             }
-          } else if (isBTC || isETH) {
+          } else if (isDCAP) {
             updateTotalProfit(order);
             /*
             if (strategySnapshot.profit === null) {

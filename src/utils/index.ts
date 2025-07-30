@@ -1,4 +1,5 @@
 import { Order, TradeStrategy } from '@/src/types';
+import { DCAPTokens } from '../config';
 
 export type PricePercent = 1 | 0.1 | 0.08 | 0.07 | 0.04 | 0.02;
 
@@ -191,6 +192,10 @@ export const numberCutter = (val: string | number, cut: number = 2) => {
 };
 
 // ---
+
+export const checkDCAP = (symbol: string) => {
+  return DCAPTokens.includes(symbol);
+};
 
 export const handlePriceDisplay = (
   symbol: string,

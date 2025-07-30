@@ -59,14 +59,16 @@ const StrategyOrderDetailsSection = ({ order, currentPrice, isSOP }: Props) => {
 
   const { closeModal } = useModal();
 
-  const isBTC = order.symbol === 'BTC';
-  const isETH = order.symbol === 'ETH';
+  // const isBTC = order.symbol === 'BTC';
+  // const isETH = order.symbol === 'ETH';
+  const isDCAP = u.checkDCAP(order.symbol);
   const isDisplaySOP = currentPrice > Number(prices?.sOP.val);
   const isCustomToken = customTokens.includes(order.symbol);
 
   useEffect(() => {
     if (order) {
-      if (isBTC) {
+      // if (isBTC) {
+      if (isDCAP) {
         return;
       } else if (isCustomToken) {
         setIsCustom(true);
@@ -77,7 +79,8 @@ const StrategyOrderDetailsSection = ({ order, currentPrice, isSOP }: Props) => {
   }, [order]);
 
   useEffect(() => {
-    if (isBTC) {
+    // if (isBTC) {
+    if (isDCAP) {
       handlePrice({
         buyKey: c.twoPercent,
         sellKey: c.fourPercent,
@@ -97,7 +100,8 @@ const StrategyOrderDetailsSection = ({ order, currentPrice, isSOP }: Props) => {
         minusPercent: 0.04,
         plusPercent: 0.07,
         sOPPercent: 0.04,
-        cut: isETH ? 0 : 3,
+        cut: 3,
+        // cut: isETH ? 0 : 3,
       });
     } else if (!isCustom && isCustom !== null) {
       handlePrice({
@@ -108,7 +112,7 @@ const StrategyOrderDetailsSection = ({ order, currentPrice, isSOP }: Props) => {
         minusPercent: 0.1,
         plusPercent: 0.1,
         sOPPercent: 0.1,
-        cut: isETH ? 0 : 3,
+        cut: 3,
       });
     }
   }, [isCustom]);
@@ -190,7 +194,7 @@ const StrategyOrderDetailsSection = ({ order, currentPrice, isSOP }: Props) => {
                     {/* <span>{`${u.numberCutter(203000.56789, 3)}`}</span> */}
                     <span>{`${u.numberCutter(
                       order.price,
-                      isBTC ? 0 : 3
+                      isDCAP ? 0 : 3
                     )}`}</span>
                   </span>
                 </span>
@@ -217,7 +221,7 @@ const StrategyOrderDetailsSection = ({ order, currentPrice, isSOP }: Props) => {
                 </span>
               </div>
 
-              {prices && !isBTC && (
+              {prices && !isDCAP && (
                 <div className="strategy-order-details-prices">
                   <FuturePrice
                     symbol={order.symbol}

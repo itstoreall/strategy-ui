@@ -161,22 +161,21 @@ const StrategyOrderListSection = (props: Props) => {
           <ul className="section-strategy-order-list">
             {filteredOrders.map((order: Order) => {
               const { id, price, amount } = order;
-              const isBTC = order.symbol === 'BTC';
-              const isETH = order.symbol === 'ETH';
+              const isDCAP = u.checkDCAP(symbol);
+              // const isBTC = order.symbol === 'BTC';
+              // const isETH = order.symbol === 'ETH';
 
-              const sellPercent =
-                isBTC || isETH
-                  ? c.fourPercent
-                  : isCustomToken
-                  ? c.sevenPercent
-                  : strategy.target;
+              const sellPercent = isDCAP
+                ? c.fourPercent
+                : isCustomToken
+                ? c.sevenPercent
+                : strategy.target;
 
-              const buyPercent =
-                isBTC || isETH
-                  ? -c.twoPercent
-                  : isCustomToken
-                  ? -c.fourPercent
-                  : -c.buyTargetPercent;
+              const buyPercent = isDCAP
+                ? -c.twoPercent
+                : isCustomToken
+                ? -c.fourPercent
+                : -c.buyTargetPercent;
 
               const _percent = ((currentPrice - price) / price) * 100;
               const percent = _percent === 0 ? 0 : _percent;
@@ -263,7 +262,7 @@ const StrategyOrderListSection = (props: Props) => {
                     <li className="row-strategy-list-item order-price">
                       {/* <span>{formatMillionAmount('234567035')}</span> */}
                       {/* <span>{u.uniNumberFormatter(price)}</span> */}
-                      <span>{u.numberCutter(price, isBTC ? 0 : 3)}</span>
+                      <span>{u.numberCutter(price, isDCAP ? 0 : 3)}</span>
                       {/* <span>{price}</span> */}
                     </li>
 
@@ -272,7 +271,7 @@ const StrategyOrderListSection = (props: Props) => {
 
                       {isEditMenu ? (
                         <StrategyOrderEditMenuSection
-                          isDCAP={isBTC}
+                          isDCAP={isDCAP}
                           order={order}
                           archiveOrder={archiveOrder}
                           removeOrder={handleRemoveOrder}

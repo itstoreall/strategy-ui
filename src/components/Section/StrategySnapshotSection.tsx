@@ -6,8 +6,9 @@ type Props = {
   /*
   sortedOrders: Order[] | null;
   */
-  isBTC?: boolean;
-  isETH?: boolean;
+  // isBTC?: boolean;
+  // isETH?: boolean;
+  isDCAP?: boolean;
   orderNumber: number;
   totalAmount: number;
   positiveOrders: number;
@@ -31,8 +32,9 @@ const StrategySnapshotSection = (props: Props) => {
     /*
     sortedOrders,
     */
-    isBTC,
-    isETH,
+    // isBTC,
+    // isETH,
+    isDCAP,
     orderNumber,
     totalAmount,
     positiveOrders,
@@ -74,7 +76,7 @@ const StrategySnapshotSection = (props: Props) => {
         </li>
         <li className="snapshot-item">
           <div className="item-content">
-            {isBTC || isETH ? (
+            {isDCAP ? (
               <>
                 <span className="content-name">{c.deposit}</span>
                 <span
@@ -96,7 +98,7 @@ const StrategySnapshotSection = (props: Props) => {
         </li>
         <li className="snapshot-item">
           <div className="item-content">
-            {isBTC || isETH ? (
+            {isDCAP ? (
               <>
                 <span className="content-name">
                   {currentProfit.toString().includes('-') ? c.losses : c.profit}
@@ -119,7 +121,7 @@ const StrategySnapshotSection = (props: Props) => {
         <li className="snapshot-item">
           <div className="item-content">
             <span className="content-name">
-              {isBTC || isETH ? c.total : c.unrealized}
+              {isDCAP ? c.total : c.unrealized}
             </span>
             <span className="content-value">
               {totalValue ? numberCutter(+totalValue) : 0}

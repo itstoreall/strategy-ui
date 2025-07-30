@@ -7,6 +7,7 @@ import useStrategy from '@/src/hooks/strategy/useStrategy';
 import useModal from '@/src/hooks/useModal';
 import * as enm from '@/src/enums';
 import * as t from '@/src/types';
+import * as u from '@/src/utils';
 import * as confirmMsg from '@/src/messages/confirm';
 import GradientProgressLoader from '@/src/assets/animation/GradientProgressLoader';
 import StrategyHistoryModalSection from '@/src/components/Section/StrategyHistoryModalSection';
@@ -30,6 +31,7 @@ const Strategy = () => {
   const [isEditMenu, setIsEditMenu] = useState(false);
 
   const { mutate: updStg, isSuccess: isSuccessUpdStg } = useUpdateStrategy();
+  const { RenderModal, openModal, isStrategyHistoryModal } = useModal();
 
   const {
     userId,
@@ -47,18 +49,8 @@ const Strategy = () => {
     handleFilterExchange,
   } = useStrategy();
 
-  const {
-    RenderModal,
-    openModal,
-    // isFormModal,
-    isStrategyHistoryModal,
-    // isStrategyModal,
-    // closeModal,
-    // ModalContentEnum,
-  } = useModal();
 
-  const isBTC = symbol === 'BTC';
-  const isETH = symbol === 'ETH';
+  const isDCAP = u.checkDCAP(symbol);
 
   // ---
 
@@ -112,12 +104,12 @@ const Strategy = () => {
           mainButtonText={mainButtonText}
           handleModal={(cont) => openModal(cont)}
           // handleModal={handleModal}
-          isDCAP={(isBTC || isETH) && !!userOrderData?.strategy.data}
+          isDCAP={isDCAP && !!userOrderData?.strategy.data}
           isButtonDisabled={!updatedTokens}
         />
 
         {userId && token && userOrderData?.orders && sortedOrders ? (
-          isBTC || isETH ? (
+          isDCAP ? (
             <DCAPStrategySection
               userId={userId}
               symbol={symbol}
