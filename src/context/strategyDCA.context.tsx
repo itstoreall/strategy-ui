@@ -15,6 +15,7 @@ export type StrategyDCAContext = {
   currentDCAP: DCAPCurrentState;
   buyDCAP: DCAPTradeState;
   sellDCAP: DCAPTradeState;
+  getSpecStatus: (symbol: string, orders: t.Order[]) => string;
   getStatus: () => string;
 };
 
@@ -32,6 +33,7 @@ const initContext: StrategyDCAContext = {
   currentDCAP: null,
   buyDCAP: null,
   sellDCAP: null,
+  getSpecStatus: () => '',
   getStatus: () => '',
 };
 
@@ -48,20 +50,19 @@ export const StrategyDCAProvider = ({ children }: t.ChildrenProps & {}) => {
 
   const userId = session?.user?.id || null;
   const type = enm.OrderTypeEnum.Buy;
-  const isBTC = pathname.includes(`-${c.symbolBTC}`);
-  // const isETH = pathname.includes(`-${c.symbolETH}`);
-  const curDCAPSymbol = isBTC ? c.symbolBTC : c.symbolETH;
+  const isBTCStrategyPage = pathname.includes(`/BUY-${c.symbolBTC}`);
+  const isETHStrategyPage = pathname.includes(`/BUY-${c.symbolETH}`);
+  const curDCAPSymbol = isBTCStrategyPage
+    ? c.symbolBTC
+    : isETHStrategyPage
+    ? c.symbolETH
+    : '';
 
-  const tokenDCAP = updatedTokens?.find(
-    (el) => el?.symbol === curDCAPSymbol
-    // (el) => el?.symbol === (isBTC ? c.symbolBTC : isETH && c.symbolETH)
-  );
-  // const tokenETH = updatedTokens?.find((el) => el?.symbol === c.symbolETH);
+  const tokenDCAP = updatedTokens?.find((el) => el?.symbol === curDCAPSymbol);
 
   const { userOrderData: orderData } = useFetchAllUserStrategyOrders(
     userId,
     type,
-    // c.symbolBTC,
     curDCAPSymbol,
     enm.OrderStatusEnum.Active,
     '', // ExchangeEnum
@@ -72,36 +73,51 @@ export const StrategyDCAProvider = ({ children }: t.ChildrenProps & {}) => {
 
   useEffect(() => {
     if (!orderData) return;
-    if (orderData.orders.length && tokenDCAP) {
-      const { orders } = orderData;
+    handleDCAPValues(orderData.orders);
+  }, [orderData, tokenDCAP]);
+
+  const handleDCAPValues = (orders: t.Order[]) => {
+    if (orders.length && tokenDCAP) {
       const avg = u.calculateAVGPrice(orders);
-      const orderDCAP = orders.filter((el) => el.symbol === curDCAPSymbol);
-      // const orderBTC = orders.filter((el) => el.symbol === c.symbolBTC);
-      if (orderDCAP) {
-        const totalAmount = orderDCAP.reduce((acc: number, order: t.Order) => {
+      const ordersDCAP = orders.filter((el) => el.symbol === curDCAPSymbol);
+      if (ordersDCAP) {
+        const totalAmount = ordersDCAP.reduce((acc: number, order: t.Order) => {
           acc += order.amount;
           return acc;
         }, 0);
-        handleCurrentValues(avg);
-        handleBuyValues(orders, tokenDCAP.price);
-        handleSellValues(totalAmount, avg, tokenDCAP.price);
+        const curValues = getCurrentValues(avg);
+        const buyValues = getBuyValues(orders);
+        const sellValues = getSellValues(totalAmount, avg);
+        if (curValues && buyValues && sellValues) {
+          setCurrentDCAP({
+            avg: Number(u.numberCutter(avg, 0)),
+            percent: Number(u.numberCutter(curValues.percent)),
+            stopLoss: Number(curValues.stopLoss),
+          });
+          setBuyDCAP({
+            amount: buyValues.buyAmount.toFixed(6),
+            price: u.numberCutter(buyValues.buyPrice, 0),
+            isActive: tokenDCAP.price <= buyValues.buyPrice,
+          });
+          setSellDCAP({
+            amount: sellValues.sellAmount.toFixed(6),
+            price: u.numberCutter(sellValues.sellPrice, 0),
+            isActive: tokenDCAP.price >= sellValues.sellPrice,
+          });
+        }
       }
     }
-  }, [orderData, tokenDCAP]);
+  };
 
-  const handleCurrentValues = (avg: number) => {
+  const getCurrentValues = (avg: number) => {
     if (!tokenDCAP) return;
     const percent = ((tokenDCAP.price - avg) / avg) * 100;
     const fivePercentAVG = avg * 0.05;
     const stopLoss = u.numberCutter(avg - fivePercentAVG, 0);
-    setCurrentDCAP({
-      avg: Number(u.numberCutter(avg, 0)),
-      percent: Number(u.numberCutter(percent)),
-      stopLoss: Number(stopLoss),
-    });
+    return { percent, stopLoss };
   };
 
-  const handleBuyValues = (orders: t.Order[], currentPrice: number) => {
+  const getBuyValues = (orders: t.Order[]) => {
     const lowestPriceOrder = orders?.reduce((acc, order) =>
       order.price < acc.price ? order : acc
     );
@@ -110,26 +126,14 @@ export const StrategyDCAProvider = ({ children }: t.ChildrenProps & {}) => {
     const twoPercentLow = lowestPrice * 0.02;
     const buyPrice = lowestPrice - twoPercentLow;
     const buyAmount = lowestPriceAmount * 1.2;
-    setBuyDCAP({
-      amount: buyAmount.toFixed(6),
-      price: u.numberCutter(buyPrice, 0),
-      isActive: currentPrice <= buyPrice,
-    });
+    return { buyPrice, buyAmount };
   };
 
-  const handleSellValues = (
-    totalAmount: number,
-    avg: number,
-    currentPrice: number
-  ) => {
+  const getSellValues = (totalAmount: number, avg: number) => {
     const fourPercentAVG = avg * 0.04;
     const sellPrice = avg + fourPercentAVG;
     const sellAmount = totalAmount;
-    setSellDCAP({
-      amount: sellAmount.toFixed(6),
-      price: u.numberCutter(sellPrice, 0),
-      isActive: currentPrice >= sellPrice,
-    });
+    return { sellPrice, sellAmount };
   };
 
   const getStatus = () => {
@@ -145,11 +149,39 @@ export const StrategyDCAProvider = ({ children }: t.ChildrenProps & {}) => {
     return status;
   };
 
+  const getSpecStatus = (symbol: string, orders: t.Order[]) => {
+    let status = '';
+    if (!symbol || !orders) return '';
+    const token = updatedTokens?.find((el) => el?.symbol === symbol);
+    const _orders = orders.filter((order) => order.symbol === symbol);
+    if (token && _orders.length) {
+      const avg = u.calculateAVGPrice(_orders);
+      const totalAmount = _orders.reduce((acc: number, order: t.Order) => {
+        acc += order.amount;
+        return acc;
+      }, 0);
+      const curValues = getCurrentValues(avg);
+      const buyValues = getBuyValues(orders);
+      const sellValues = getSellValues(totalAmount, avg);
+      if (!token || !curValues || !buyValues || !sellValues) return '';
+      status =
+        token.price < +curValues.stopLoss
+          ? c.stopLoss
+          : token.price <= buyValues.buyPrice
+          ? c.buy
+          : token.price >= sellValues.sellPrice
+          ? c.sell
+          : '';
+    }
+    return status;
+  };
+
   const values = useMemo(() => {
     return {
       currentDCAP,
       buyDCAP,
       sellDCAP,
+      getSpecStatus,
       getStatus,
     };
   }, [currentDCAP, buyDCAP, sellDCAP]);

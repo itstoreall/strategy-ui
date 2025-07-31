@@ -300,6 +300,7 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
         resetFilter={resetFilter}
         sortField={sortField}
         handleSortToggle={handleSortToggle}
+        orders={data}
         isBTCButton={isBTCButton}
         isETHButton={isETHButton}
         isSwitchButton={isToggle && !isCustom}

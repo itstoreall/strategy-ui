@@ -56,9 +56,9 @@ section.main-divider {
     position: relative;
     min-width: 30px;
 
-    > a.main-divider-section-btc-link {
+    > a.main-divider-btc-link {
       position: absolute;
-      top: -21px;
+      top: -21.5px;
       padding-top: 6px;
       width: 40px;
       height: 34px;
@@ -91,19 +91,19 @@ section.main-divider {
     position: relative;
     min-width: 30px;
 
-    > a.main-divider-section-eth-link {
+    > a.main-divider-eth-link {
       position: absolute;
       top: -21px;
       padding-top: 6px;
       width: 40px;
       height: 34px;
 
-      > span.main-divider-section-eth-icon-box {
+      > span.main-divider-eth-icon-box {
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 29px;
-        height: 29px;
+        width: 30px;
+        height: 30px;
         background-color: $greyDeepDark;
         border-radius: 50%;
 
@@ -111,7 +111,7 @@ section.main-divider {
           width: 18px;
         }
 
-        /*
+        // /*
         &.stop-loss {
           background-color: $googleRed;
         }
@@ -143,7 +143,7 @@ section.main-divider {
             }
           }
         }
-        */
+        // */
       }
     }
   }
