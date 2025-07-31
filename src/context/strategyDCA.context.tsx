@@ -49,7 +49,7 @@ export const StrategyDCAProvider = ({ children }: t.ChildrenProps & {}) => {
   const userId = session?.user?.id || null;
   const type = enm.OrderTypeEnum.Buy;
   const isBTC = pathname.includes(`-${c.symbolBTC}`);
-  // const isETH = path.includes(`-${c.symbolETH}`);
+  // const isETH = pathname.includes(`-${c.symbolETH}`);
   const curDCAPSymbol = isBTC ? c.symbolBTC : c.symbolETH;
 
   const tokenDCAP = updatedTokens?.find(

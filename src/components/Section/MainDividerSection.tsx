@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { FaBitcoin } from 'react-icons/fa';
 import useSelectMulti from '@/src/hooks/useSelectMulti';
@@ -8,7 +9,6 @@ import { InputEvent } from '@/src/types';
 import SwitchIcon from '@/src/assets/icons/SwitchIcon';
 import SelectMulti from '@/src/components/Form/SelectMulti';
 import Button from '@/src/components/Button/Button';
-import useStrategyDCA from '@/src/hooks/useStrategyDCA';
 import ETHLogo from '@/src/assets/logos/ETHLogo';
 
 type Props = {
@@ -38,6 +38,8 @@ type Props = {
 };
 
 const c = {
+  symbolBTC: 'BTC',
+  symbolETH: 'ETH',
   avg: 'AVG',
   placeholderExchange: 'Exchange',
   selectFieldExchange: 'exchange',
@@ -70,14 +72,17 @@ const MainDividerSection = (props: Props) => {
     isSwitchButton = false,
   } = props;
 
-  const { getStatus } = useStrategyDCA();
   const { openDropdownId, toggleDropdown } = useSelectMulti();
+  const pathname = usePathname();
 
-  const isBTC = avgBuyPrice > 32000;
+  const isBTC = pathname.includes(`-${c.symbolBTC}`);
+  const isETH = pathname.includes(`-${c.symbolETH}`);
+
+  // const isBTC = avgBuyPrice > 32000;
   // const isCustom = title === 'Trading';
 
   const displayAvgBuyPrice = () => {
-    alert(`${c.avg}: ${numberCutter(avgBuyPrice, isBTC ? 0 : 3)}`);
+    alert(`${c.avg}: ${numberCutter(avgBuyPrice, isBTC || isETH ? 0 : 3)}`);
   };
 
   const handleSelectChange = (field: string, value: string) => {
@@ -111,7 +116,7 @@ const MainDividerSection = (props: Props) => {
       {title && <span className="main-divider-section-title">{title}</span>}
       {subTitle && <span className={subTitleStyle}>{subTitle}</span>}
 
-      {ordersNumber > 1 && !isBTC && (
+      {ordersNumber > 1 && !isBTC && !isETH && (
         <Button className={avgStyle} clickContent={displayAvgBuyPrice}>
           {c.avg}
         </Button>
@@ -120,7 +125,7 @@ const MainDividerSection = (props: Props) => {
       {isBTCButton && (
         <div className="main-divider-section-btc-link-box">
           <Link
-            className={`main-divider-section-btc-link ${getStatus()}`}
+            className={'main-divider-section-btc-link'}
             href={'/strategy/BUY-BTC'}
             prefetch={false}
           >
@@ -132,7 +137,7 @@ const MainDividerSection = (props: Props) => {
       {isETHButton && (
         <div className="main-divider-section-eth-link-box">
           <Link
-            className={`main-divider-section-eth-link ${getStatus()}`}
+            className={'main-divider-section-eth-link'}
             href={'/strategy/BUY-ETH'}
             prefetch={false}
           >
