@@ -3,6 +3,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { FaBitcoin } from 'react-icons/fa';
 import useSelectMulti from '@/src/hooks/useSelectMulti';
+import useDCAPStatus from '@/src/hooks/useDCAPStatus';
 import { ExchangeEnum, SortEnum } from '@/src/enums';
 import { numberCutter } from '@/src/utils';
 import { InputEvent, Order } from '@/src/types';
@@ -10,7 +11,6 @@ import SwitchIcon from '@/src/assets/icons/SwitchIcon';
 import SelectMulti from '@/src/components/Form/SelectMulti';
 import Button from '@/src/components/Button/Button';
 import ETHLogo from '@/src/assets/logos/ETHLogo';
-import useStrategyDCA from '@/src/hooks/useStrategyDCA';
 
 type Props = {
   className?:
@@ -76,8 +76,8 @@ const MainDividerSection = (props: Props) => {
   } = props;
 
   const { openDropdownId, toggleDropdown } = useSelectMulti();
+  const { getSpecStatus } = useDCAPStatus();
   const pathname = usePathname();
-  const { getSpecStatus } = useStrategyDCA();
 
   const isBTC = pathname.includes(`-${c.symbolBTC}`);
   const isETH = pathname.includes(`-${c.symbolETH}`);

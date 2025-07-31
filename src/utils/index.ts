@@ -23,6 +23,9 @@ type CreateStrategyEntryArgs = {
 
 export const c = {
   tradeStrategyKey: 'tradeStrategy',
+  stopLoss: 'stop-loss',
+  buy: 'buy',
+  sell: 'sell',
 };
 
 export const normalizeISODate = (date: number | Date, format?: Format) => {
@@ -247,7 +250,50 @@ export const minusPercent = (val: number, percent: PricePercent = 1) => {
   return val * (1 - percent);
 };
 
-// --- TradeStrategyData (localStorage)
+// --- TradeStrategyData
+
+export const getCurrentValues = (tokenPrice: number, avg: number) => {
+  if (!tokenPrice) return;
+  const percent = ((tokenPrice - avg) / avg) * 100;
+  const fivePercentAVG = avg * 0.05;
+  const stopLoss = numberCutter(avg - fivePercentAVG, 0);
+  return { percent, stopLoss };
+};
+
+export const getBuyValues = (orders: Order[]) => {
+  const lowestPriceOrder = orders?.reduce((acc, order) =>
+    order.price < acc.price ? order : acc
+  );
+  const lowestPrice = lowestPriceOrder.price;
+  const lowestPriceAmount = lowestPriceOrder.amount;
+  const twoPercentLow = lowestPrice * 0.02;
+  const buyPrice = lowestPrice - twoPercentLow;
+  const buyAmount = lowestPriceAmount * 1.2;
+  return { buyPrice, buyAmount };
+};
+
+export const getSellValues = (totalAmount: number, avg: number) => {
+  const fourPercentAVG = avg * 0.04;
+  const sellPrice = avg + fourPercentAVG;
+  const sellAmount = totalAmount;
+  return { sellPrice, sellAmount };
+};
+
+export const handleDCAPStatus = (
+  tokenPrice: number,
+  currentStopLoss: number,
+  isActiveBuy: boolean,
+  isActiveSell: boolean
+) =>
+  tokenPrice < currentStopLoss
+    ? c.stopLoss
+    : isActiveBuy
+    ? c.buy
+    : isActiveSell
+    ? c.sell
+    : '';
+
+// --- LS
 
 export const getLSTradeStrategyData = () => {
   const storedTradeStrategyData = localStorage.getItem(c.tradeStrategyKey);
