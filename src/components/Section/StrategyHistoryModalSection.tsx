@@ -6,7 +6,6 @@ import { IoMdTrash } from 'react-icons/io';
 import { HiMiniXMark } from 'react-icons/hi2';
 import { HistoryEntry } from '@/src/types';
 import { normalizeKyivDate } from '@/src/utils';
-// import * as confirmMsg from '@/src/messages/confirm';
 import Button from '@/src/components/Button/Button';
 import useModal from '@/src/hooks/useModal';
 

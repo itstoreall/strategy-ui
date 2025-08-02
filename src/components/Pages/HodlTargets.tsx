@@ -7,29 +7,28 @@ import { useSession } from 'next-auth/react';
 import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import useGlobalState from '@/src/hooks/useGlobalState';
 import useModal from '@/src/hooks/useModal';
+import { QueryKeyEnum } from '@/src/enums';
 import { Order, TradeStrategy } from '@/src/types';
-import { AuthRoleEnum, QueryKeyEnum } from '@/src/enums';
-import AccountSnapshotSection from '@/src/components/Section/AccountSnapshotSection';
+import HodlTargetsSnapshotSection from '@/src/components/Section/HodlTargetsSnapshotSection';
 import GradientProgressLoader from '@/src/assets/animation/GradientProgressLoader';
 import RefetchTokensButtonBlock from '@/src/components/RefetchTokensButtonBlock';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
-import OrderListSection from '@/src/components/Section/OrderListSection';
+// import OrderListSection from '@/src/components/Section/OrderListSection';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import SectionsContainer from '@/src/components/Container/Sections';
-import PricesSection from '@/src/components/Section/PricesSection';
 import MainLoader from '@/src/components/MainLoader';
 
 export type StoredData = TradeStrategy[] | null;
 export type Strategy = TradeStrategy | null;
 
 const c = {
-  dashboardTitle: 'Dashboard',
+  hodlTargetsTitle: 'Hodl Targets',
   deleteLSStrategy: 'LS Strategy will be deleted!',
   triggerSymbol: 'BTC',
 };
 
-const Dashboard = () => {
+const HodlTargets = () => {
   const [isRefetchButton, setIsRefetchButton] = useState<boolean>(false);
   const [isRefetch, setIsRefetch] = useState<boolean>(false);
   const [currentDeposit, setCurrentDeposit] = useState<number>(0);
@@ -40,7 +39,7 @@ const Dashboard = () => {
   const [isProcess, setIsProcess] = useState<boolean>(true);
   // const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
-  const [storedStrategy, setStoredStrategy] = useState<Strategy>(null);
+  // const [storedStrategy, setStoredStrategy] = useState<Strategy>(null);
 
   const { data: session } = useSession();
   const userId = session?.user?.id || null;
@@ -48,28 +47,28 @@ const Dashboard = () => {
   const ordersParam = { enabled: true };
 
   const { userOrders } = useFetchAllUserOrders(currentUser, ordersParam);
-  const { updatedTokens, users, userRole, fetchTokens } = useGlobalState();
+  const { updatedTokens, fetchTokens } = useGlobalState(); // users, userRole,
   const path = useParams();
 
   const {
     RenderModal,
     openModal,
     isFormModal,
-    isStrategyHistoryModal,
+    // isStrategyHistoryModal,
     // isStrategyModal,
     // closeModal,
     // ModalContentEnum,
   } = useModal();
 
-  const currentUserId = currentUser ? currentUser : (userId as string);
+  // const currentUserId = currentUser ? currentUser : (userId as string);
 
   // ---
 
-  useEffect(() => {
-    if (!isStrategyHistoryModal && storedStrategy) {
-      setStoredStrategy(null);
-    }
-  }, [isStrategyHistoryModal]);
+  // useEffect(() => {
+  // if (!isStrategyHistoryModal && storedStrategy) {
+  // setStoredStrategy(null);
+  // }
+  // }, [isStrategyHistoryModal]);
 
   // ---
 
@@ -174,22 +173,22 @@ const Dashboard = () => {
     setIsProcess(false);
   }, [updatedTokens, userOrders]);
 
-  const toggleUser = (currentUser: string) => {
-    if (!users) return;
-    for (let i = 0; i < users.length; i++) {
-      const element = users[i];
-      if (element.id === currentUser) {
-        if (users.length - 1 === i) {
-          const id = users[0].id;
-          setCurrentUser(id);
-        } else {
-          const idx = users.findIndex((item) => item.id === element.id);
-          const id = users[idx + 1].id;
-          setCurrentUser(id);
-        }
-      }
-    }
-  };
+  // const toggleUser = (currentUser: string) => {
+  //   if (!users) return;
+  //   for (let i = 0; i < users.length; i++) {
+  //     const element = users[i];
+  //     if (element.id === currentUser) {
+  //       if (users.length - 1 === i) {
+  //         const id = users[0].id;
+  //         setCurrentUser(id);
+  //       } else {
+  //         const idx = users.findIndex((item) => item.id === element.id);
+  //         const id = users[idx + 1].id;
+  //         setCurrentUser(id);
+  //       }
+  //     }
+  //   }
+  // };
 
   const refetchTokens = () => {
     setIsRefetchButton(false);
@@ -209,15 +208,15 @@ const Dashboard = () => {
 
       <main className="main">
         <PageHeading
-          title={c.dashboardTitle}
+          title={c.hodlTargetsTitle}
           // title={`${c.dashboardTitle} ${count}`}
-          isAdminButton={userRole === AuthRoleEnum.Admin && !!users && !!userId}
+          // isAdminButton={userRole === AuthRoleEnum.Admin && !!users && !!userId}
           // isAdminButton={isAdmin && !!users && !!userId}
-          adminButtonText={currentUserId ? currentUserId.slice(-4) : ''}
-          adminButtonFn={() => toggleUser(currentUserId)}
+          // adminButtonText={currentUserId ? currentUserId.slice(-4) : ''}
+          // adminButtonFn={() => toggleUser(currentUserId)}
           // storedStrategyData={LSStrategyData}
           // storedStrategyData={d}
-          mainButtonText={heading.c.create}
+          mainButtonText={heading.c.addTarget}
           handleModal={(cont) => openModal(cont)}
           isButtonDisabled={!updatedTokens}
         />
@@ -225,7 +224,7 @@ const Dashboard = () => {
         {userOrders && updatedTokens?.length ? (
           <div className="main-content">
             <SectionsContainer>
-              <AccountSnapshotSection
+              <HodlTargetsSnapshotSection
                 tokenAmount={usingTokens}
                 assetAmount={userOrders?.buy.length}
                 depositAmount={usingDeposit}
@@ -234,38 +233,13 @@ const Dashboard = () => {
                 isProcess={isProcess}
               />
 
-              {/* <MainDividerSection
-                className="order-list-devider"
-                title={'Prices'}
-              /> */}
-
-              <PricesSection tokens={updatedTokens} />
-
-              {userOrders.custom.length || userOrders.DCAP.length ? (
-                <OrderListSection
-                  dataDCAP={userOrders.DCAP}
-                  data={userOrders.custom}
-                  tokens={updatedTokens}
-                  userId={userId}
-                  isCustom={true}
-                />
-              ) : null}
-
-              {userOrders.buy.length ? (
+              {/* {userOrders.buy.length ? (
                 <OrderListSection
                   data={userOrders.buy}
                   tokens={updatedTokens}
                   userId={userId}
                 />
-              ) : null}
-
-              {userOrders.sell.length ? (
-                <OrderListSection
-                  data={userOrders.sell}
-                  tokens={updatedTokens}
-                  userId={userId}
-                />
-              ) : null}
+              ) : null} */}
             </SectionsContainer>
           </div>
         ) : isRefetchButton ? (
@@ -291,4 +265,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default HodlTargets;

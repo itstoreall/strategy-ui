@@ -180,17 +180,26 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
 
     return (
       <ul className="section-trade-strategy-dca-plus-list">
-        <li className={curItemStyle}>
+        <li
+          className={curItemStyle}
+          title="Average purchase price of all orders"
+        >
           <span className="dca-plus-list-item-title">{c.avg}</span>
           <span>$ {u.numberCutter(cur.avg, 0)}</span>
           <span>{currentPercentDisplay}</span>
         </li>
-        <li className={buyItemStyle}>
+        <li
+          className={buyItemStyle}
+          title="The purchase price is -2% of the last order price"
+        >
           <span className="dca-plus-list-item-title">{c.buy}</span>
           <span>$ {buy.price}</span>
           <span>{buy.amount}</span>
         </li>
-        <li className={sellItemStyle}>
+        <li
+          className={sellItemStyle}
+          title="The selling price is +4% to the avg price of all orders"
+        >
           <span className="dca-plus-list-item-title">{c.sell}</span>
           <span>$ {sell.price}</span>
           <span>{sell.amount}</span>

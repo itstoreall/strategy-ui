@@ -1,6 +1,7 @@
 import { usePathname, useRouter } from 'next/navigation';
 import { IoArrowUndoSharp } from 'react-icons/io5';
 import { GoClock, GoPeople } from 'react-icons/go';
+import { GiCrosshair } from 'react-icons/gi';
 import useGlobalState from '@/src/hooks/useGlobalState';
 import { ModalContentEnum, OrderTypeEnum } from '@/src/enums';
 import { Role } from '@/src/types';
@@ -38,6 +39,7 @@ export const c = {
   addTarget: 'Add Target',
   chart: '/chart',
   dashboard: '/dashboard',
+  hodlTargets: '/hodl-targets',
   strategy: '/strategy',
   form: 'form',
   ls: 'ls',
@@ -71,8 +73,10 @@ const PageHeading = ({
   const isChart = path === c.chart;
   const isDashboard = path === c.dashboard;
   const isStrategy = path.includes(`${c.strategy}/`);
+  const isHodlTargets = path.includes(`${c.hodlTargets}`);
   const isBear = path.includes(`${c.strategy}/${OrderTypeEnum.Sell}-`);
-  const isButton = mainButtonText && (isDashboard || isStrategy);
+  const isMainButton = isDashboard || isStrategy || isHodlTargets;
+  const isButton = mainButtonText && isMainButton;
 
   const price = assetPrice ? `$${assetPrice}` : null;
 
@@ -90,6 +94,10 @@ const PageHeading = ({
     router.push(c.dashboard);
   };
 
+  const goToHodlTargetsPage = () => {
+    router.push(c.hodlTargets);
+  };
+
   // ---
 
   const pageStyle = isStrategy ? 'strategy-page' : '';
@@ -99,7 +107,7 @@ const PageHeading = ({
     <div className="main-heading">
       <div className={'main-heading-left-side-block'}>
         <span className={titleBlockStyle}>
-          {isStrategy && (
+          {(isStrategy || isHodlTargets) && (
             <Button
               className="main-heading-return-button"
               clickContent={returnFn}
@@ -147,7 +155,16 @@ const PageHeading = ({
             className={'main-heading-trade-strategy-history-button'}
             clickContent={() => openModal(c.ls)}
           >
-            <GoClock size={20} />
+            <GoClock size={21} />
+          </Button>
+        )}
+
+        {false && isDashboard && (
+          <Button
+            className={'main-heading-hodl-targets-button'}
+            clickContent={goToHodlTargetsPage}
+          >
+            <GiCrosshair size={24} />
           </Button>
         )}
 

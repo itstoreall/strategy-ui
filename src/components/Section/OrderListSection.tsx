@@ -12,6 +12,7 @@ import { AggregatedOrderListAcc, Order, Token } from '@/src/types';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
 
 type Props = {
+  dataDCAP?: Order[];
   data: Order[];
   tokens: Token[] | null;
   userId: string | null;
@@ -31,8 +32,8 @@ const c = {
   sell: 'Sell',
 };
 
-const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
-  const isBull = data[0].type === OrderTypeEnum.Buy;
+const OrderListSection = (props: Props) => {
+  const isBull = props.data[0].type === OrderTypeEnum.Buy;
   const currentLsKey = isBull ? c.lsOrderLimitKey : c.lsBuyTargetLimitKey;
 
   const [isBTCButton, setIsBTCButton] = useState<boolean>(false);
@@ -42,12 +43,14 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
     return savedState ? JSON.parse(savedState) : false;
   });
 
+  const { dataDCAP, data, tokens, userId, isCustom } = props;
+
   const { updateData } = useInvalidateQueries();
   const { handleUnrealized } = useGlobalState();
 
   useEffect(() => {
-    if (data) {
-      const BTCOrder = data.find((order) => order.symbol === 'BTC');
+    if (dataDCAP) {
+      const BTCOrder = dataDCAP.find((order) => order.symbol === 'BTC');
       if (BTCOrder) {
         // console.log('isBull 1:', isBull);
         if (isBull) {
@@ -58,7 +61,7 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
         setIsBTCButton(false);
       }
 
-      const ETHOrder = data.find((order) => order.symbol === 'ETH');
+      const ETHOrder = dataDCAP.find((order) => order.symbol === 'ETH');
       if (ETHOrder) {
         // console.log('isBull 1:', isBull);
         if (isBull) {
@@ -300,6 +303,7 @@ const OrderListSection = ({ data, tokens, userId, isCustom }: Props) => {
         resetFilter={resetFilter}
         sortField={sortField}
         handleSortToggle={handleSortToggle}
+        ordersDCAP={dataDCAP}
         orders={data}
         isBTCButton={isBTCButton}
         isETHButton={isETHButton}

@@ -1,4 +1,5 @@
-import { Dispatch, SetStateAction } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { FaBitcoin } from 'react-icons/fa';
@@ -31,6 +32,7 @@ type Props = {
   resetFilter?: () => void;
   sortField?: SortEnum;
   handleSortToggle?: () => void;
+  ordersDCAP?: Order[];
   orders?: Order[];
   isBTCButton?: boolean;
   isETHButton?: boolean;
@@ -52,6 +54,9 @@ const c = {
 };
 
 const MainDividerSection = (props: Props) => {
+  const [btcStatus, setBtcStatus] = useState('');
+  const [ethStatus, setEthStatus] = useState('');
+
   const {
     className,
     title = '',
@@ -67,7 +72,10 @@ const MainDividerSection = (props: Props) => {
     resetFilter,
     sortField,
     handleSortToggle,
+    ordersDCAP,
+    /*
     orders,
+    */
     isDisabled,
     setIsDisabled,
     isBTCButton,
@@ -82,8 +90,24 @@ const MainDividerSection = (props: Props) => {
   const isBTC = pathname.includes(`-${c.symbolBTC}`);
   const isETH = pathname.includes(`-${c.symbolETH}`);
 
-  // const isBTC = avgBuyPrice > 32000;
-  // const isCustom = title === 'Trading';
+  // ---
+
+  useEffect(() => {
+    if (ordersDCAP) {
+      const btcOrders = ordersDCAP.filter((o) => o.symbol === c.symbolBTC);
+      const ethOrders = ordersDCAP.filter((o) => o.symbol === c.symbolETH);
+      if (btcOrders.length) {
+        const status = getSpecStatus(c.symbolBTC, btcOrders);
+        setBtcStatus(status);
+      }
+      if (ethOrders.length) {
+        const status = getSpecStatus(c.symbolETH, ethOrders);
+        setEthStatus(status);
+      }
+    }
+  }, [ordersDCAP]);
+
+  // ---
 
   const displayAvgBuyPrice = () => {
     alert(`${c.avg}: ${numberCutter(avgBuyPrice, isBTC || isETH ? 0 : 3)}`);
@@ -114,8 +138,6 @@ const MainDividerSection = (props: Props) => {
   const isPrices = currentPrice && avgBuyPrice;
   const avgColor = isPrices && currentPrice >= avgBuyPrice ? 'color-green' : '';
   const avgStyle = `main-divider-section-average-price-button ${avgColor}`;
-  const btcStatus = getSpecStatus('BTC', orders ?? []);
-  const ethStatus = getSpecStatus('ETH', orders ?? []);
   const btcBtnStyle = `main-divider-btc-link ${btcStatus}`;
   const ethBtnStyle = `main-divider-eth-icon-box ${ethStatus}`;
 
@@ -151,7 +173,6 @@ const MainDividerSection = (props: Props) => {
           >
             <span className={ethBtnStyle}>
               <ETHLogo />
-              {/* <SiEthereum size={20} /> */}
             </span>
           </Link>
         </div>

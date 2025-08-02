@@ -7,12 +7,10 @@ const useDCAPStatus = () => {
 
   const getSpecStatus = (symbol: string, orders: t.Order[]) => {
     let status = '';
-    if (!symbol || !orders) return '';
     const token = updatedTokens?.find((el) => el?.symbol === symbol);
-    const _orders = orders.filter((order) => order.symbol === symbol);
-    if (token && _orders.length) {
-      const avg = u.calculateAVGPrice(_orders);
-      const totalAmount = _orders.reduce((acc: number, order: t.Order) => {
+    if (token && orders.length) {
+      const avg = u.calculateAVGPrice(orders);
+      const totalAmount = orders.reduce((acc: number, order: t.Order) => {
         acc += order.amount;
         return acc;
       }, 0);

@@ -84,7 +84,8 @@ button.uni-button {
     }
   }
 
-  &.main-heading-trade-strategy-history-button {
+  &.main-heading-trade-strategy-history-button,
+  &.main-heading-hodl-targets-button {
     display: flex;
     justify-content: center;
     align-items: center;
