@@ -49,6 +49,7 @@ const Strategy = () => {
     handleFilterExchange,
   } = useStrategy();
 
+  // console.log('avgBuyPrice:', avgBuyPrice);
 
   const isDCAP = u.checkDCAP(symbol);
 

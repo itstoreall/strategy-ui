@@ -53,6 +53,7 @@ const useStrategy = () => {
     const price = (token ?? { price: 0 }).price;
     setCurrentPrice(price);
     handleAVG(userOrderData.orders);
+    handleFilterExchange(ExchangeEnum.All);
   }, [updatedTokens, userOrderData?.orders]);
 
   // AVG handling in accordance with the Exchange

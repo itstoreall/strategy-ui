@@ -2,13 +2,13 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+// import { useParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import useGlobalState from '@/src/hooks/useGlobalState';
 import useModal from '@/src/hooks/useModal';
 import { QueryKeyEnum } from '@/src/enums';
-import { Order, TradeStrategy } from '@/src/types';
+import { TradeStrategy } from '@/src/types';
 import HodlTargetsSnapshotSection from '@/src/components/Section/HodlTargetsSnapshotSection';
 import GradientProgressLoader from '@/src/assets/animation/GradientProgressLoader';
 import RefetchTokensButtonBlock from '@/src/components/RefetchTokensButtonBlock';
@@ -31,12 +31,12 @@ const c = {
 const HodlTargets = () => {
   const [isRefetchButton, setIsRefetchButton] = useState<boolean>(false);
   const [isRefetch, setIsRefetch] = useState<boolean>(false);
-  const [currentDeposit, setCurrentDeposit] = useState<number>(0);
-  const [currentProfit, setCurrentProfit] = useState<number | null>(null);
-  const [usingDeposit, setUsingDeposit] = useState<number>(0);
+  // const [currentDeposit, setCurrentDeposit] = useState<number>(0);
+  // const [currentProfit, setCurrentProfit] = useState<number | null>(null);
+  // const [usingDeposit, setUsingDeposit] = useState<number>(0);
   const [currentUser, setCurrentUser] = useState<string>('');
-  const [usingTokens, setUsingTokens] = useState<number>(0);
-  const [isProcess, setIsProcess] = useState<boolean>(true);
+  // const [usingTokens, setUsingTokens] = useState<number>(0);
+  // const [isProcess, setIsProcess] = useState<boolean>(true);
   // const [isAdmin, setIsAdmin] = useState<boolean>(false);
 
   // const [storedStrategy, setStoredStrategy] = useState<Strategy>(null);
@@ -48,7 +48,7 @@ const HodlTargets = () => {
 
   const { userOrders } = useFetchAllUserOrders(currentUser, ordersParam);
   const { updatedTokens, fetchTokens } = useGlobalState(); // users, userRole,
-  const path = useParams();
+  // const path = useParams();
 
   const {
     RenderModal,
@@ -104,74 +104,74 @@ const HodlTargets = () => {
   //   });
   // }, [currentUser]);
 
-  useEffect(() => {
-    if (!userOrders) return;
-    if (userOrders?.buy.length) {
-      let totalDeposit = 0;
-      const DCAPAssets = userOrders.DCAP.map((order: Order) => {
-        totalDeposit = totalDeposit + order.fiat;
-        return order.symbol;
-      });
-      const customAssets = userOrders.custom.map((order: Order) => {
-        totalDeposit = totalDeposit + order.fiat;
-        return order.symbol;
-      });
-      const otherAssets = userOrders.buy.map((order: Order) => {
-        totalDeposit = totalDeposit + order.fiat;
-        return order.symbol;
-      });
-      const uniqueSymbols = new Set([
-        ...DCAPAssets,
-        ...customAssets,
-        ...otherAssets,
-      ]);
-      setUsingDeposit(totalDeposit);
-      setUsingTokens(uniqueSymbols.size);
-    } else {
-      setUsingDeposit(0);
-      setUsingTokens(0);
-      setCurrentProfit(0);
-    }
-  }, [userOrders, path]);
+  // useEffect(() => {
+  //   if (!userOrders) return;
+  //   if (userOrders?.buy.length) {
+  //     let totalDeposit = 0;
+  //     const DCAPAssets = userOrders.DCAP.map((order: Order) => {
+  //       totalDeposit = totalDeposit + order.fiat;
+  //       return order.symbol;
+  //     });
+  //     const customAssets = userOrders.custom.map((order: Order) => {
+  //       totalDeposit = totalDeposit + order.fiat;
+  //       return order.symbol;
+  //     });
+  //     const otherAssets = userOrders.buy.map((order: Order) => {
+  //       totalDeposit = totalDeposit + order.fiat;
+  //       return order.symbol;
+  //     });
+  //     const uniqueSymbols = new Set([
+  //       ...DCAPAssets,
+  //       ...customAssets,
+  //       ...otherAssets,
+  //     ]);
+  //     setUsingDeposit(totalDeposit);
+  //     setUsingTokens(uniqueSymbols.size);
+  //   } else {
+  //     setUsingDeposit(0);
+  //     setUsingTokens(0);
+  //     setCurrentProfit(0);
+  //   }
+  // }, [userOrders, path]);
 
-  useEffect(() => {
-    if (!userOrders || !updatedTokens) {
-      return;
-    } else {
-      setIsRefetchButton(false);
-      setIsRefetch(false);
-    }
+  // useEffect(() => {
+  //   if (!userOrders || !updatedTokens) {
+  //     return;
+  //   } else {
+  //     setIsRefetchButton(false);
+  //     setIsRefetch(false);
+  //   }
 
-    // --- Deposit and Profit
+  //   // --- Deposit and Profit
 
-    let totalProfit = 0;
-    let currentDeposit = 0;
-    const updateDepositAndProfit = (order: Order) => {
-      const token = updatedTokens.find((t) => t.symbol === order.symbol);
-      if (token) {
-        currentDeposit = order.amount * token.price + currentDeposit;
-        const unrealizedProfit = (token.price - order.price) * order.amount;
-        if (!unrealizedProfit.toString().includes('-')) {
-          totalProfit += unrealizedProfit;
-        }
-      }
-    };
-    for (let i = 0; i < userOrders.DCAP.length; i++) {
-      const order = userOrders.DCAP[i];
-      updateDepositAndProfit(order);
-    }
-    for (let i = 0; i < userOrders.custom.length; i++) {
-      const order = userOrders.custom[i];
-      updateDepositAndProfit(order);
-    }
-    for (let i = 0; i < userOrders.buy.length; i++) {
-      const order = userOrders.buy[i];
-      updateDepositAndProfit(order);
-    }
-    setCurrentDeposit(+currentDeposit.toFixed());
-    setCurrentProfit(+totalProfit.toFixed(1));
-    setIsProcess(false);
-  }, [updatedTokens, userOrders]);
+  //   let totalProfit = 0;
+  //   let currentDeposit = 0;
+  //   const updateDepositAndProfit = (order: Order) => {
+  //     const token = updatedTokens.find((t) => t.symbol === order.symbol);
+  //     if (token) {
+  //       currentDeposit = order.amount * token.price + currentDeposit;
+  //       const unrealizedProfit = (token.price - order.price) * order.amount;
+  //       if (!unrealizedProfit.toString().includes('-')) {
+  //         totalProfit += unrealizedProfit;
+  //       }
+  //     }
+  //   };
+  //   for (let i = 0; i < userOrders.DCAP.length; i++) {
+  //     const order = userOrders.DCAP[i];
+  //     updateDepositAndProfit(order);
+  //   }
+  //   for (let i = 0; i < userOrders.custom.length; i++) {
+  //     const order = userOrders.custom[i];
+  //     updateDepositAndProfit(order);
+  //   }
+  //   for (let i = 0; i < userOrders.buy.length; i++) {
+  //     const order = userOrders.buy[i];
+  //     updateDepositAndProfit(order);
+  //   }
+  //   setCurrentDeposit(+currentDeposit.toFixed());
+  //   setCurrentProfit(+totalProfit.toFixed(1));
+  //   setIsProcess(false);
+  // }, [updatedTokens, userOrders]);
 
   // const toggleUser = (currentUser: string) => {
   //   if (!users) return;
@@ -225,12 +225,10 @@ const HodlTargets = () => {
           <div className="main-content">
             <SectionsContainer>
               <HodlTargetsSnapshotSection
-                tokenAmount={usingTokens}
-                assetAmount={userOrders?.buy.length}
-                depositAmount={usingDeposit}
-                currentDeposit={currentDeposit}
-                profitAmount={currentProfit}
-                isProcess={isProcess}
+                value1={1}
+                value2={2}
+                value3={3}
+                value4={4}
               />
 
               {/* {userOrders.buy.length ? (

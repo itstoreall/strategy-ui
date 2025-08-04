@@ -98,7 +98,7 @@ const PageHeading = ({
     router.push(c.hodlTargets);
   };
 
-  // ---
+  // --- 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
 
   const pageStyle = isStrategy ? 'strategy-page' : '';
   const titleBlockStyle = `${'main-heading-title-block'} ${pageStyle}`;
