@@ -245,12 +245,8 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
       {isStrategyModal && (
         <RenderModal>
           <TradeStrategyModalContentSection
-            // strategyHistory={strategyHistory}
             storedStrategy={storedStrategy}
-            // updateStrategyHistory={updateStrategyHistory}
-            // createNewBuyTarget={createNewBuyTarget}
             resetTradeStrategy={resetTradeStrategy}
-            // deleteHystory={deleteHystory}
           />
         </RenderModal>
       )}

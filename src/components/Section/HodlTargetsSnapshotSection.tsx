@@ -1,4 +1,4 @@
-import useGlobalState from '@/src/hooks/useGlobalState';
+// import useGlobalState from '@/src/hooks/useGlobalState';
 // import { formatMillionAmount } from '@/src/utils';
 // import * as msg from '@/src/messages/alert';
 // import DotsLoader from '@/src/components/DotsLoader';
@@ -20,9 +20,9 @@ const c = {
 const HodlTargetsSnapshotSection = (props: Props) => {
   const { value1, value2, value3, value4 } = props;
 
-  const { updatedTokens } = useGlobalState();
+  // const { updatedTokens } = useGlobalState();
 
-  console.log('updatedTokens:', updatedTokens);
+  // console.log('updatedTokens:', updatedTokens);
 
   // const handleClickDeposit = () => {
   //   const isFullyProfitable = currentDeposit < depositAmount;

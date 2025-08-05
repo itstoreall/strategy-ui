@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react';
 import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import useGlobalState from '@/src/hooks/useGlobalState';
 import useModal from '@/src/hooks/useModal';
-import { QueryKeyEnum } from '@/src/enums';
+// import { QueryKeyEnum } from '@/src/enums';
 import { TradeStrategy } from '@/src/types';
 import HodlTargetsSnapshotSection from '@/src/components/Section/HodlTargetsSnapshotSection';
 import GradientProgressLoader from '@/src/assets/animation/GradientProgressLoader';
@@ -15,7 +15,8 @@ import RefetchTokensButtonBlock from '@/src/components/RefetchTokensButtonBlock'
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
 // import OrderListSection from '@/src/components/Section/OrderListSection';
 import PageContainer, { Label } from '@/src/components/Container/Page';
-import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
+import AddHodlTargetsForm from '../Form/HodlTarget/AddHodlTargetsForm';
+// import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import SectionsContainer from '@/src/components/Container/Sections';
 import MainLoader from '@/src/components/MainLoader';
 
@@ -248,13 +249,14 @@ const HodlTargets = () => {
 
         {isFormModal && updatedTokens && (
           <RenderModal>
-            <AddOrderForm
+            <AddHodlTargetsForm
               tokens={updatedTokens}
-              invalidateQuery={[
-                QueryKeyEnum.UserOrders,
-                QueryKeyEnum.UserStrategyOrders,
-              ]}
-              buyTargets={userOrders?.sell}
+              invalidateQuery={[]}
+              // invalidateQuery={[
+              //   QueryKeyEnum.UserOrders,
+              //   QueryKeyEnum.UserStrategyOrders,
+              // ]}
+              // buyTargets={userOrders?.sell}
             />
           </RenderModal>
         )}
