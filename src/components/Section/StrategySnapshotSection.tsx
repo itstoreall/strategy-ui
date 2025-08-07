@@ -60,7 +60,8 @@ const StrategySnapshotSection = (props: Props) => {
     ? 0
     : loaderValue;
 
-  const totalValue = isProfit ? total : isAllNegative ? 0 : <DotsLoader />;
+  // const totalValue = isProfit ? total : isAllNegative ? 0 : <DotsLoader />;
+  const totalValue = isProfit ? total : 0;
   const currentProfit = Number(totalValue) - depositAmount;
 
   return (
@@ -104,7 +105,9 @@ const StrategySnapshotSection = (props: Props) => {
                   {currentProfit.toString().includes('-') ? c.losses : c.profit}
                 </span>
                 <span className="content-value">
-                  {numberCutter(currentProfit)}
+                  {typeof currentProfit === 'number'
+                    ? numberCutter(currentProfit)
+                    : currentProfit}
                 </span>
               </>
             ) : (
@@ -123,9 +126,7 @@ const StrategySnapshotSection = (props: Props) => {
             <span className="content-name">
               {isDCAP ? c.total : c.unrealized}
             </span>
-            <span className="content-value">
-              {totalValue ? numberCutter(+totalValue) : 0}
-            </span>
+            <span className="content-value">{numberCutter(+totalValue)}</span>
           </div>
         </li>
       </ul>

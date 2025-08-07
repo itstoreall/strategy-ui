@@ -34,8 +34,8 @@ type Props = {
   handleSortToggle?: () => void;
   ordersDCAP?: Order[];
   orders?: Order[];
-  isBTCButton?: boolean;
-  isETHButton?: boolean;
+  BTCButtonStatus?: string;
+  ETHButtonStatus?: string;
   isSwitchButton?: boolean;
   isDisabled?: boolean;
   setIsDisabled?: Dispatch<SetStateAction<boolean>>;
@@ -78,8 +78,8 @@ const MainDividerSection = (props: Props) => {
     */
     isDisabled,
     setIsDisabled,
-    isBTCButton,
-    isETHButton,
+    BTCButtonStatus,
+    ETHButtonStatus,
     isSwitchButton = false,
   } = props;
 
@@ -87,6 +87,7 @@ const MainDividerSection = (props: Props) => {
   const { getSpecStatus } = useDCAPStatus();
   const pathname = usePathname();
 
+  // const isDashboard = pathname.includes('/dashboard');
   const isBTC = pathname.includes(`-${c.symbolBTC}`);
   const isETH = pathname.includes(`-${c.symbolETH}`);
 
@@ -99,13 +100,17 @@ const MainDividerSection = (props: Props) => {
       if (btcOrders.length) {
         const status = getSpecStatus(c.symbolBTC, btcOrders);
         setBtcStatus(status);
+      } else {
+        setBtcStatus('disable');
       }
       if (ethOrders.length) {
         const status = getSpecStatus(c.symbolETH, ethOrders);
         setEthStatus(status);
+      } else {
+        setEthStatus('disable');
       }
     }
-  }, [ordersDCAP]);
+  }, [ordersDCAP, BTCButtonStatus, ETHButtonStatus]);
 
   // ---
 
@@ -152,7 +157,7 @@ const MainDividerSection = (props: Props) => {
         </Button>
       )}
 
-      {isBTCButton && (
+      {BTCButtonStatus && (
         <div className="main-divider-section-btc-link-box">
           <Link
             className={btcBtnStyle}
@@ -164,7 +169,7 @@ const MainDividerSection = (props: Props) => {
         </div>
       )}
 
-      {isETHButton && (
+      {ETHButtonStatus && (
         <div className="main-divider-section-eth-link-box">
           <Link
             className={'main-divider-eth-link'}

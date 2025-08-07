@@ -36,8 +36,8 @@ const OrderListSection = (props: Props) => {
   const isBull = props.data[0].type === OrderTypeEnum.Buy;
   const currentLsKey = isBull ? c.lsOrderLimitKey : c.lsBuyTargetLimitKey;
 
-  const [isBTCButton, setIsBTCButton] = useState<boolean>(false);
-  const [isETHButton, setIsETHButton] = useState<boolean>(false);
+  const [BTCButtonStatus, setBTCButtonStatus] = useState<string>('');
+  const [ETHButtonStatus, setETHButtonStatus] = useState<string>('');
   const [isExpanded, setIsExpanded] = useState<boolean>(() => {
     const savedState = localStorage.getItem(currentLsKey);
     return savedState ? JSON.parse(savedState) : false;
@@ -52,24 +52,26 @@ const OrderListSection = (props: Props) => {
     if (dataDCAP) {
       const BTCOrder = dataDCAP.find((order) => order.symbol === 'BTC');
       if (BTCOrder) {
-        // console.log('isBull 1:', isBull);
+        // console.log('BTCOrder 1:', isBull);
         if (isBull) {
-          setIsBTCButton(true);
+          // console.log('BTCOrder 2:', isBull);
+          setBTCButtonStatus('active');
         }
       } else {
-        // console.log('isBull 2:', isBull);
-        setIsBTCButton(false);
+        // console.log('BTCOrder 3:', isBull);
+        setBTCButtonStatus('disable');
       }
 
       const ETHOrder = dataDCAP.find((order) => order.symbol === 'ETH');
       if (ETHOrder) {
-        // console.log('isBull 1:', isBull);
+        // console.log('ETHOrder 1:', isBull);
         if (isBull) {
-          setIsETHButton(true);
+          // console.log('ETHOrder 2:', isBull);
+          setETHButtonStatus('active');
         }
       } else {
-        // console.log('isBull 2:', isBull);
-        setIsETHButton(false);
+        // console.log('ETHOrder 3:', isBull);
+        setETHButtonStatus('disable');
       }
     }
   }, [data]);
@@ -305,8 +307,8 @@ const OrderListSection = (props: Props) => {
         handleSortToggle={handleSortToggle}
         ordersDCAP={dataDCAP}
         orders={data}
-        isBTCButton={isBTCButton}
-        isETHButton={isETHButton}
+        BTCButtonStatus={BTCButtonStatus}
+        ETHButtonStatus={ETHButtonStatus}
         isSwitchButton={isToggle && !isCustom}
         isDisabled={!isExpanded}
         setIsDisabled={toggleList}
