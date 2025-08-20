@@ -14,7 +14,7 @@ const c = {
   error: 'Failed to update strategy:',
 };
 
-const useUpdateStrategy = () => {
+const useUpdateStrategy = (updKeys?: QueryKeyEnum[]) => {
   const { updateData } = useInvalidateQueries();
 
   return useMutation({
@@ -25,7 +25,10 @@ const useUpdateStrategy = () => {
     },
     onSuccess: (data) => {
       if (data) {
-        updateData([QueryKeyEnum.UserOrders, QueryKeyEnum.UserStrategyOrders]);
+        const keys = updKeys
+          ? updKeys
+          : [(QueryKeyEnum.UserOrders, QueryKeyEnum.UserStrategyOrders)];
+        updateData(keys);
       }
     },
     onError: (error) => {

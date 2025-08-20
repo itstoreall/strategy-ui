@@ -13,12 +13,15 @@ import HodlTargetsSnapshotSection from '@/src/components/Section/HodlTargetsSnap
 import GradientProgressLoader from '@/src/assets/animation/GradientProgressLoader';
 import RefetchTokensButtonBlock from '@/src/components/RefetchTokensButtonBlock';
 import PageHeading, * as heading from '@/src/components/Layout/PageHeading';
-// import OrderListSection from '@/src/components/Section/OrderListSection';
+import HodlTargetListSection from '@/src/components/Section/HodlTargets/HodlTargetListSection';
 import PageContainer, { Label } from '@/src/components/Container/Page';
 import AddHodlTargetsForm from '../Form/HodlTarget/AddHodlTargetsForm';
 // import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import SectionsContainer from '@/src/components/Container/Sections';
 import MainLoader from '@/src/components/MainLoader';
+// import useFetchAllUserStrategyOrders from '@/src/hooks/order/useFetchAllUserStrategyOrders';
+// import { OrderStatusEnum, OrderTypeEnum } from '@/src/enums';
+import useFetchAllUserHodlTargets from '@/src/hooks/hodlTargets/useFetchAllUserHodlTargets';
 
 export type StoredData = TradeStrategy[] | null;
 export type Strategy = TradeStrategy | null;
@@ -46,6 +49,19 @@ const HodlTargets = () => {
   const userId = session?.user?.id || null;
   // const ordersParam = { enabled: !!userId };
   const ordersParam = { enabled: true };
+
+  // const { userOrderData } = useFetchAllUserStrategyOrders(
+  //   userId,
+  //   OrderTypeEnum.Buy,
+  //   'BTC',
+  //   OrderStatusEnum.Active,
+  //   '', // ExchangeEnum
+  //   { enabled: !!userId }
+  // );
+
+  const { hodlTargetsData } = useFetchAllUserHodlTargets(userId, {
+    enabled: !!userId,
+  });
 
   const { userOrders } = useFetchAllUserOrders(currentUser, ordersParam);
   const { updatedTokens, fetchTokens } = useGlobalState(); // users, userRole,
@@ -96,6 +112,10 @@ const HodlTargets = () => {
       setCurrentUser(userId);
     }
   }, [userId]);
+
+  // useEffect(() => {
+  //   console.log('hodlTargetsData:', hodlTargetsData);
+  // }, [hodlTargetsData]);
 
   // useEffect(() => {
   //   if (!userId) return;
@@ -232,13 +252,14 @@ const HodlTargets = () => {
                 value4={4}
               />
 
-              {/* {userOrders.buy.length ? (
-                <OrderListSection
-                  data={userOrders.buy}
+              {hodlTargetsData?.length && userOrders.buy.length ? (
+                <HodlTargetListSection
+                  // hodlTargetsData={hodlTargetsData}
+                  data={hodlTargetsData}
                   tokens={updatedTokens}
                   userId={userId}
                 />
-              ) : null} */}
+              ) : null}
             </SectionsContainer>
           </div>
         ) : isRefetchButton ? (
@@ -247,11 +268,16 @@ const HodlTargets = () => {
           <MainLoader />
         )}
 
-        {isFormModal && updatedTokens && (
+        {isFormModal && updatedTokens && userOrders && userId && (
           <RenderModal>
             <AddHodlTargetsForm
+              userId={userId}
               tokens={updatedTokens}
-              invalidateQuery={[]}
+              // orders={[
+              //   ...userOrders['DCAP'],
+              //   ...userOrders['buy'],
+              //   ...userOrders['custom'],
+              // ]}
               // invalidateQuery={[
               //   QueryKeyEnum.UserOrders,
               //   QueryKeyEnum.UserStrategyOrders,

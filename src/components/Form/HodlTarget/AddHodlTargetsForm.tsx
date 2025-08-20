@@ -1,33 +1,34 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useTransition } from 'react';
-// import { usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 // import useCreateOrderForm from '@/src/hooks/order/useAddOrderForm';
-// import useSelectMulti from '@/src/hooks/useSelectMulti';
+import useSelectMulti from '@/src/hooks/useSelectMulti';
 import useModal from '@/src/hooks/useModal';
-// import {
-// ExchangeEnum,
-// OrderTypeDisplayEnum,
-//   OrderTypeEnum,
-//   QueryKeyEnum,
-// } from '@/src/enums';
+import {
+  // ExchangeEnum,
+  // OrderTypeDisplayEnum,
+  OrderTypeEnum,
+  // QueryKeyEnum,
+} from '@/src/enums';
 // import { numberCutter } from '@/src/utils';
 import { FormEvent, Token } from '@/src/types';
 import FormWrapper from '@/src/components/Container/FormWrapper';
 import FormBackdropContainer from '@/src/components/Container/FormBackdrop';
 import FormContentContainer from '@/src/components/Container/FormContent';
-// import SelectMulti from '@/src/components/Form/SelectMulti';
+import SelectMulti from '@/src/components/Form/SelectMulti';
 import TextInput from '@/src/components/Form/TextInput';
 import Button from '@/src/components/Button/Button';
 import Title from '@/src/components/Layout/Title';
 import Form from '@/src/components/Form/Form';
 import useAddHodlTargetForm from '@/src/hooks/hodlTargets/useAddHodlTargetForm';
-import { QueryKeyEnum } from '@/src/enums';
+import { updateHodlTargets } from '@/src/messages/confirm';
 
 type Props = {
+  userId: string;
   tokens: Token[];
+  // orders: Order[];
   // initType?: OrderTypeEnum | string;
-  // initSymbol?: string;
-  invalidateQuery: QueryKeyEnum[];
+  // initSymbol: string;
   // buyTargets?: Order[];
 };
 
@@ -65,6 +66,7 @@ const c = {
 // ];
 
 const initForm = {
+  symbol: '',
   volume25: '0.0',
   volume50: '0.0',
   volume75: '0.0',
@@ -75,43 +77,52 @@ const initForm = {
 // initSymbol,
 // buyTargets,
 
-const AddHodlTargetsForm = ({ tokens, invalidateQuery }: Props) => {
-  // const [symbolOptions, setSymbolOptions] = useState<string[]>([]);
+const AddHodlTargetsForm = ({ userId, tokens }: Props) => {
+  const [symbolOptions, setSymbolOptions] = useState<string[]>([]);
   const [isProcess, setIsProcess] = useState(false);
 
   const [isPending, startTransition] = useTransition();
-  // const { openDropdownId, toggleDropdown } = useSelectMulti();
-  const hodlTargetForm = useAddHodlTargetForm(initForm, invalidateQuery);
+  const { openDropdownId, toggleDropdown } = useSelectMulti();
+  const hodlTargetForm = useAddHodlTargetForm({ ...initForm, userId }); // , tokens
   const { closeModal } = useModal();
-  // const path = usePathname();
+  const path = usePathname();
 
   const { errors, creationError } = hodlTargetForm;
-  const { register, onSubmit } = hodlTargetForm; // setValue, watch
+  const { register, onSubmit, setValue, watch } = hodlTargetForm;
 
-  console.log('tokens:', tokens.length);
+  // console.log('tokens:', tokens.length);
 
-  // const formValues = watch();
-  // const { volume25, volume50, volume75, volume100 } = formValues;
+  const formValues = watch();
+  const {
+    symbol,
+    // volume25, volume50, volume75, volume100
+  } = formValues;
+
+  /*
+  useEffect(() => {
+    console.log('formValues:', formValues);
+  }, [formValues]);
+  // */
 
   // const isAsset = type === OrderTypeDisplayEnum.Asset;
   // const isBuyTarget = type === OrderTypeDisplayEnum.BuyTarget;
   // const isInit = !isAsset && !isBuyTarget;
-  // const isStrategyPage = path.includes('/strategy/');
+  const isHodlTargetsPage = path.includes('/hodl-targets');
 
-  // useEffect(() => {
-  //   if (tokens) {
-  //     const options = tokens.map((token) => token.symbol).sort();
-  //     setSymbolOptions(options);
-  //     if (initType) setValue('type', initType, { shouldValidate: true });
-  //     if (initSymbol) setValue('symbol', initSymbol, { shouldValidate: true });
-  //   }
-  // }, [tokens]);
+  useEffect(() => {
+    if (tokens) {
+      const options = tokens.map((token) => token.symbol).sort();
+      setSymbolOptions(options);
+      // if (initType) setValue('type', initType, { shouldValidate: true });
+      // if (initSymbol) setValue('symbol', initSymbol, { shouldValidate: true });
+    }
+  }, [tokens]);
 
   /*
   useEffect(() => {
     console.log('formValues:', formValues);
   }, [type]);
-  */
+  // */
 
   useEffect(() => {
     if (creationError) alert(creationError);
@@ -119,12 +130,12 @@ const AddHodlTargetsForm = ({ tokens, invalidateQuery }: Props) => {
 
   // ---
 
-  // const handleSelectChange = (
-  //   field: keyof typeof formValues,
-  //   value: string | OrderTypeEnum
-  // ) => {
-  //   setValue(field, value, { shouldValidate: true });
-  // };
+  const handleSelectChange = (
+    field: keyof typeof formValues,
+    value: string | OrderTypeEnum
+  ) => {
+    setValue(field, value, { shouldValidate: true });
+  };
 
   const handleNumericInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value.replace(/,/g, '.');
@@ -167,7 +178,7 @@ const AddHodlTargetsForm = ({ tokens, invalidateQuery }: Props) => {
     //   return;
     // }
 
-    // if (confirm(confirmMessage)) {
+    if (!confirm(updateHodlTargets(symbol))) return;
     // /*
     setIsProcess(true);
     // const currentType = isAsset ? OrderTypeEnum.Buy : OrderTypeEnum.Sell;
@@ -212,9 +223,9 @@ const AddHodlTargetsForm = ({ tokens, invalidateQuery }: Props) => {
                 isDisable={isStrategyPage}
               /> */}
 
-              {/* <SelectMulti
+              <SelectMulti
                 options={symbolOptions.filter((opt) => opt !== symbol)}
-                initialOption={symbol}
+                initialOption={null}
                 placeholder={symbolOptions.length ? 'Symbol' : 'No tokens'}
                 onSelect={(value) => handleSelectChange('symbol', value)}
                 isOpen={openDropdownId === 'symbol'}
@@ -222,8 +233,8 @@ const AddHodlTargetsForm = ({ tokens, invalidateQuery }: Props) => {
                   toggleDropdown(openDropdownId === 'symbol' ? '' : 'symbol')
                 }
                 searchEnabled={true}
-                isDisable={!symbolOptions.length || isStrategyPage}
-              /> */}
+                isDisable={!symbolOptions.length || !isHodlTargetsPage}
+              />
 
               {/* {(isAsset || isInit) && (
                 <SelectMulti

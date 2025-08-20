@@ -35,10 +35,17 @@ ${orderInfo} orders will be closed`;
 
 export const recoverTrade = (id: number) => {
   return `Recover!
-${id}`;
+ID: ${id}`;
 };
 
 export const deleteTradeHistoryElement = (id: number) => {
   return `Delete!
 Trade ${u.trimString(id.toString(), 3, 3)} will be deleted`;
+};
+
+// --- Hodl Targets
+
+export const updateHodlTargets = (symbol: string) => {
+  return `Update!
+${symbol} Hodl Targets will be updated`;
 };

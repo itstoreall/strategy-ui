@@ -13,6 +13,7 @@ export enum QueryKeyEnum {
   Orders = 'orders',
   UserOrders = 'userOrders',
   UserStrategyOrders = 'userStrategyOrders',
+  HodlTargets = 'hodlTargets',
 }
 
 export enum MutationKeyEnum {

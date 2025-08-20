@@ -102,7 +102,10 @@ export type HistoryEntry = {
   s: number; // Sell Price
 };
 
-export type UpdatedSrategyData = { history: HistoryEntry[] };
+export type UpdatedSrategyData = {
+  history?: HistoryEntry[];
+  hodlTargets?: HodlTargetsEntry[];
+};
 
 // --- DCA
 
@@ -193,4 +196,17 @@ export type AggregatedOrderListAcc = {
   percent: number;
   unrealized: number | null;
   orderDate: string;
+};
+
+// --- Hodl Targets
+
+export type HodlTargets = { v25: string; v50: string; v75: string; v100: string };
+
+export type HodlTargetsData = { symbol: string; hodlTargets: HodlTargets };
+
+export type HodlTargetsEntry = {
+  volume25: string;
+  volume50: string;
+  volume75: string;
+  volume100: string;
 };

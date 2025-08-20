@@ -1,11 +1,12 @@
 import { Order, TradeStrategy } from '@/src/types';
 import { DCAPTokens } from '../config';
+// import HodlTargets from '../components/Pages/HodlTargets';
 
 export type PricePercent = 1 | 0.1 | 0.08 | 0.07 | 0.04 | 0.02;
 
 type TrimAddress = (address: string, start: number, end: number) => string;
 
-type Format =
+type DateFormat =
   | 'DD-MM-YY'
   | 'MM-YY'
   | 'YY'
@@ -14,21 +15,29 @@ type Format =
   | 'DD-MM-YY HH:mm'
   | 'DD-MM-YY HH:mm:ss';
 
-type CreateStrategyEntryArgs = {
+type UpdStrategyHistoryEntry = {
   a: number;
   b: number;
   s: number;
   stgData: string;
 };
 
+type UpdStgHodlTargEntry = {
+  v25: string;
+  v50: string;
+  v75: string;
+  v100: string;
+  stgData: string;
+};
+
 export const c = {
   tradeStrategyKey: 'tradeStrategy',
-  stopLoss: 'stop-loss',
+  stopLoss: 'buy' /* stop-loss */,
   buy: 'buy',
   sell: 'sell',
 };
 
-export const normalizeISODate = (date: number | Date, format?: Format) => {
+export const normalizeISODate = (date: number | Date, format?: DateFormat) => {
   if (!date) return '';
   const newDate = new Date(date);
   const isoString = newDate.toISOString();
@@ -48,7 +57,7 @@ export const normalizeISODate = (date: number | Date, format?: Format) => {
     : newDate.toISOString();
 };
 
-export const normalizeKyivDate = (date: number | Date, format?: Format) => {
+export const normalizeKyivDate = (date: number | Date, format?: DateFormat) => {
   if (!date) return date;
 
   const kyivFormatter = new Intl.DateTimeFormat('en-GB', {
@@ -312,7 +321,7 @@ export const deleteLSTradeStrategyData = () => {
 
 // --- Strategy Data Updating
 
-export const createStrategyEntry = (args: CreateStrategyEntryArgs) => {
+export const updateStrategyHistoryEntry = (args: UpdStrategyHistoryEntry) => {
   const { a, b, s, stgData } = args;
   const newEntry = { d: Date.now(), a, b, s };
   const strategyData = JSON.parse(stgData);
@@ -322,5 +331,16 @@ export const createStrategyEntry = (args: CreateStrategyEntryArgs) => {
   return {
     ...strategyData,
     history: updatedHistory,
+  };
+};
+
+export const updateStrategyHodlTargetsEntry = (args: UpdStgHodlTargEntry) => {
+  const { v25, v50, v75, v100, stgData } = args;
+  const newEntry = { v25, v50, v75, v100 };
+  const strategyData = JSON.parse(stgData);
+  const updatedHodlTargets = [newEntry];
+  return {
+    ...strategyData,
+    hodlTargets: updatedHodlTargets,
   };
 };

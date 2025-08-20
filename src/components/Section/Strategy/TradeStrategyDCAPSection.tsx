@@ -149,7 +149,7 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
         s: token.price,
         stgData: orderData.strategy.data,
       };
-      const newStrategyData = u.createStrategyEntry(params);
+      const newStrategyData = u.updateStrategyHistoryEntry(params);
       updStg({
         strategyId: orderData.strategy.id,
         newStrategyData,
