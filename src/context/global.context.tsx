@@ -12,7 +12,7 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const c = {
-  appVersion: 'v1.5.89',
+  appVersion: 'v1.5.90',
   localhost: 'localhost',
   adminPath: '/admin',
   chartPath: '/chart',
@@ -84,7 +84,7 @@ export const GlobalProvider = ({ children }: t.ChildrenProps & {}) => {
   }, []);
 
   useEffect(() => {
-    // if (window.location.hostname === c.localhost) return;
+    if (window.location.hostname === c.localhost) return;
     const timeoutId = setTimeout(() => {
       updateTokens(c.updatePrices);
     }, c.cronDelay);

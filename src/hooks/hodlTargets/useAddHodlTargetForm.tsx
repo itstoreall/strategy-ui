@@ -15,10 +15,10 @@ import useModal from '../useModal';
 type Credentials = {
   userId: string;
   symbol: string;
-  volume25: string;
-  volume50: string;
-  volume75: string;
-  volume100: string;
+  volume25: number;
+  volume50: number;
+  volume75: number;
+  volume100: number;
 };
 
 /*
@@ -116,10 +116,10 @@ const useAddHodlTargetForm = (formDefaults: Credentials) => {
     if (!userOrderData || !userOrderData?.strategy) return;
 
     const hodlTargets = {
-      v25: watchedValues.volume25,
-      v50: watchedValues.volume50,
-      v75: watchedValues.volume75,
-      v100: watchedValues.volume100,
+      v25: +watchedValues.volume25,
+      v50: +watchedValues.volume50,
+      v75: +watchedValues.volume75,
+      v100: +watchedValues.volume100,
     };
 
     // console.log('hodlTargets:', hodlTargets);

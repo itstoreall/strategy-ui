@@ -200,13 +200,18 @@ export type AggregatedOrderListAcc = {
 
 // --- Hodl Targets
 
-export type HodlTargets = { v25: string; v50: string; v75: string; v100: string };
+export type HodlTargets = {
+  v25: number;
+  v50: number;
+  v75: number;
+  v100: number;
+};
 
 export type HodlTargetsData = { symbol: string; hodlTargets: HodlTargets };
 
 export type HodlTargetsEntry = {
-  volume25: string;
-  volume50: string;
-  volume75: string;
-  volume100: string;
+  volume25: number;
+  volume50: number;
+  volume75: number;
+  volume100: number;
 };

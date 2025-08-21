@@ -23,10 +23,10 @@ type UpdStrategyHistoryEntry = {
 };
 
 type UpdStgHodlTargEntry = {
-  v25: string;
-  v50: string;
-  v75: string;
-  v100: string;
+  v25: number;
+  v50: number;
+  v75: number;
+  v100: number;
   stgData: string;
 };
 
@@ -236,6 +236,10 @@ export const trimString: TrimAddress = (str, start, end) => {
   return Math.min(start + end, str.length) < str.length
     ? `${str.slice(0, start)}...${str.slice(-end)}`
     : str;
+};
+
+export const sortBySymbol = (arr: { symbol: string }[]) => {
+  return arr.sort((a, b) => a.symbol.localeCompare(b.symbol));
 };
 
 export const calculateAVGPrice = (orders: Order[]) => {

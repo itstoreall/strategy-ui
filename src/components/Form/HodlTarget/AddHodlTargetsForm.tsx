@@ -67,10 +67,10 @@ const c = {
 
 const initForm = {
   symbol: '',
-  volume25: '0.0',
-  volume50: '0.0',
-  volume75: '0.0',
-  volume100: '0.0',
+  volume25: 0,
+  volume50: 0,
+  volume75: 0,
+  volume100: 0,
 };
 
 // initType,

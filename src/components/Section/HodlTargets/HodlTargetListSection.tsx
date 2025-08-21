@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 // import * as u from '@/src/utils';
 import * as t from '@/src/types';
 import MainDividerSection from '@/src/components/Section/MainDividerSection';
+import { sortBySymbol } from '@/src/utils';
 
 type Props = {
   // dataDCAP?: t.Order[];
@@ -19,6 +20,17 @@ type Props = {
   userId: string | null;
   isCustom?: boolean;
 };
+
+// type ListItemProps = {
+//   el: t.HodlTargetsData;
+//   // token: t.Token;
+// };
+
+type ExpandedData = {
+  currentPrice: number;
+  // symbol: string;
+  // hodlTargets: t.HodlTargets;
+} & t.HodlTargetsData;
 
 const c = {
   // lsOrderLimitKey: 'orderListLimited',
@@ -39,21 +51,23 @@ const HodlTargetListSection = (props: Props) => {
 
   // const [BTCButtonStatus, setBTCButtonStatus] = useState<string>('');
   // const [ETHButtonStatus, setETHButtonStatus] = useState<string>('');
+  const [hodlTargets, setHodlTargets] = useState<ExpandedData[] | null>(null);
   const [isExpanded, setIsExpanded] = useState<boolean>(() => {
     const savedState = localStorage.getItem(currentLsKey);
     return savedState ? JSON.parse(savedState) : false;
   });
 
-  const { data, userId } = props;
+  const { data, userId, tokens } = props;
 
   // const { updateData } = useInvalidateQueries();
   // const { handleUnrealized } = useGlobalState();
 
   useEffect(() => {
-    if (data) {
-      console.log('--->', userId, data);
+    if (userId && data && tokens) {
+      const expandedData = extandData(data, tokens);
+      setHodlTargets(sortBySymbol(expandedData) as ExpandedData[]);
     }
-  }, [data]);
+  }, [data, tokens]);
 
   /*
   useEffect(() => {
@@ -84,14 +98,19 @@ const HodlTargetListSection = (props: Props) => {
     }
   }, [data]);
   */
-
-  useEffect(() => {
-    localStorage.setItem(currentLsKey, JSON.stringify(isExpanded));
-  }, [isExpanded]);
-
-  const itemLimit = 5;
+  const itemLimit = 1;
   // const isAdmin = data[0].userId === userId;
   const isToggle = new Set([...data.map((el) => el.symbol)]).size > itemLimit;
+
+  useEffect(() => {
+    if (!hodlTargets || !tokens) return;
+    localStorage.setItem(currentLsKey, JSON.stringify(isExpanded));
+    const limitedData = isExpanded
+      ? hodlTargets.slice(0, itemLimit)
+      : extandData(data, tokens);
+    setHodlTargets(sortBySymbol(limitedData) as ExpandedData[]);
+  }, [isExpanded]);
+
   // const strategy = isBull ? OrderTypeEnum.Buy : OrderTypeEnum.Sell;
 
   // const aggregatedData = Object.values(
@@ -180,6 +199,16 @@ const HodlTargetListSection = (props: Props) => {
 
   // ---
 
+  const extandData = (data: t.HodlTargetsData[], tokens: t.Token[]) =>
+    data.reduce((acc: ExpandedData[], el) => {
+      const currentToken = tokens.find(
+        (t) => t.symbol === el.symbol
+      ) as t.Token;
+      const newEntry = { ...el, currentPrice: currentToken.price };
+      acc = [...acc, newEntry];
+      return acc;
+    }, []);
+
   const toggleList = () => setIsExpanded((prev) => !prev);
 
   /*
@@ -195,8 +224,8 @@ const HodlTargetListSection = (props: Props) => {
 
   // ---
 
-  const HodlTargetListItem = ({ el }: { el: t.HodlTargetsData }) => {
-    const { symbol } = el;
+  const HodlTargetListItem = ({ el }: { el: ExpandedData }) => {
+    const { symbol, hodlTargets, currentPrice } = el;
 
     // const strategyPath = `/strategy/${strategy}-${symbol}`;
     // const percentValue = percent < 0 && percent > -0.09 ? 0 : percent;
@@ -249,57 +278,60 @@ const HodlTargetListSection = (props: Props) => {
     // const reachedTarget = isReachedTarget ? 'color-green' : '';
     // const uniValueStyle = `uni-value ${!isBull ? reachedTarget : ''}`;
 
+    const isAchvd25 = hodlTargets.v25 > 0 && currentPrice >= hodlTargets.v25;
+    const isAchvd50 = hodlTargets.v50 > 0 && currentPrice >= hodlTargets.v50;
+    const isAchvd75 = hodlTargets.v75 > 0 && currentPrice >= hodlTargets.v75;
+    const isAchvd100 = hodlTargets.v100 > 0 && currentPrice >= hodlTargets.v100;
+
+    // const isClosed00 = hodlTargets.v100 > 0 && currentPrice >= hodlTargets.v100;
+
+    const v25Style = isAchvd25 ? 'achieved' : 'disable';
+    const v50Style = isAchvd50 ? 'achieved' : 'disable';
+    const v75Style = isAchvd75 ? 'achieved' : 'disable';
+    const v100Style = isAchvd100 ? 'achieved' : 'disable';
+
+    /*
+    console.log('25-->:', symbol, isAchvd25, hodlTargets.v25, currentPrice);
+    console.log('50--->:', symbol, isAchvd50, hodlTargets.v50, currentPrice);
+    console.log('75---->:', symbol, isAchvd75, hodlTargets.v75, currentPrice);
+    console.log('75---->:', symbol, isAchvd100, hodlTargets.v100, currentPrice);
+    // */
+
+    // disable achieved closed
+
     return (
-      <li className="section-order-list-item">
-        <ul className="section-order-list-item-row-list">
-          <li className="row-list-item order-symbol">
-            <span className="row-list-item-token-symbol">
-              {symbol}
-              {/* {'WERTFGR'} */}
-              {/* {currentTargetPrice && (
-                <span className={tokenPriceStyle}>
-                  {u.handlePriceDisplay(symbol, currentTargetPrice, 3)}
-                </span>
-              )} */}
+      <li className="section-hodl-target-list-item">
+        <div className="section-hodl-target-list-item-content">
+          {/* <span className="hodl-target-values-symbol">{'VIRTUAL'}</span> */}
+          <span className={`hodl-target-values-symbol ${v25Style}`}>
+            {/* {'VIRTUAL'} */}
+            {symbol}
+          </span>
+
+          <div className="hodl-target-values-block">
+            <span className={`hodl-target-content-divider ${v25Style}`}>
+              {!!hodlTargets.v25 && <span>{'25%'}</span>}
             </span>
-          </li>
 
-          <li className="row-list-item uni-value-field">
-            <div className="uni-value-field-content">
-              {1}
-              {/* {isBull && order.unrealized && (
-                <span className="unrealized-value">
-                  {order.unrealized.toFixed()}
-                </span>
-              )}
-
-              <span className={uniValueStyle}>
-                {isBull ? orders : currentBuyTargetValue}
-              </span> */}
-            </div>
-          </li>
-
-          <li className="row-list-item uni-order-amount-and-turget-buy-price">
-            <span>
-              {2}
-              {/* {isBull
-                ? u.formatMillionAmount(
-                    parseFloat(totalAmount.toFixed(6)).toString()
-                  )
-                : u.handlePriceDisplay(symbol, price, 3)}
-              {38564326} */}
+            <span className={`hodl-target-content-divider ${v50Style}`}>
+              {!!hodlTargets.v50 && <span>{'50%'}</span>}
             </span>
-          </li>
 
-          <li>
-            {3}
-            {/* <span title={u.numberCutter(percentValue, 3)}>
-              {handleDisplayPercentValue()}
-            </span> */}
-          </li>
-        </ul>
+            <span className={`hodl-target-content-divider ${v75Style}`}>
+              {!!hodlTargets.v75 && <span>{'75%'}</span>}
+            </span>
+
+            <span className={`hodl-target-content-divider ${v100Style}`}>
+              {!!hodlTargets.v100 && <span>{'100%'}</span>}
+            </span>
+          </div>
+        </div>
       </li>
     );
+  };
+
+  const handleSortToggle = () => {
+    console.log(111);
   };
 
   return (
@@ -311,7 +343,7 @@ const HodlTargetListSection = (props: Props) => {
         // handleFilterChange={isBull && !isCustom ? handleFilterChange : null}
         // resetFilter={resetFilter}
         // sortField={sortField}
-        // handleSortToggle={handleSortToggle}
+        handleSortToggle={handleSortToggle}
         // ordersDCAP={dataDCAP}
         // orders={data}
         // BTCButtonStatus={BTCButtonStatus}
@@ -321,13 +353,19 @@ const HodlTargetListSection = (props: Props) => {
         setIsDisabled={toggleList}
       />
 
-      <section className={`section order-list ${'empty'}`}>
-        <div className="section-content order-list">
-          <ul className="section-order-list">
-            {data.map((el: t.HodlTargetsData, idx) => (
-              <HodlTargetListItem key={idx} el={el} />
-            ))}
-          </ul>
+      <section className={'section hodl-target-list'}>
+        <div className="section-content hodl-target-list">
+          {hodlTargets && tokens && (
+            <ul className="section-hodl-target-list">
+              {hodlTargets.map((el: ExpandedData, idx) => (
+                <HodlTargetListItem
+                  key={idx}
+                  el={el}
+                  // token={tokens.find((t) => t.symbol === el.symbol) as t.Token}
+                />
+              ))}
+            </ul>
+          )}
         </div>
       </section>
     </>
