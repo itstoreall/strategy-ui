@@ -106,6 +106,10 @@ section.hodl-target-list {
               font-size: 0.7rem;
               // background-color: $blue;
 
+              &:nth-child(4) {
+                border-radius: 0 $middleBorderRadius $middleBorderRadius 0;
+              }
+
               @include media-screen-orientation('min', $tablet) {
                 // padding-right: 1rem;
                 width: 25%;
@@ -135,8 +139,8 @@ section.hodl-target-list {
               //   }
               // }
 
-              &.disable {
-                // background-color: $blackMiddle;
+              &.active {
+                background-color: $greyDeepDark;
 
                 > span {
                   // padding-bottom: 1px;

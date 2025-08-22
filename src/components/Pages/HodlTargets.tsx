@@ -8,7 +8,7 @@ import useFetchAllUserOrders from '@/src/hooks/order/useFetchAllUserOrders';
 import useGlobalState from '@/src/hooks/useGlobalState';
 import useModal from '@/src/hooks/useModal';
 // import { QueryKeyEnum } from '@/src/enums';
-import { TradeStrategy } from '@/src/types';
+import { HodlTargetsData, TradeStrategy } from '@/src/types';
 import HodlTargetsSnapshotSection from '@/src/components/Section/HodlTargetsSnapshotSection';
 import GradientProgressLoader from '@/src/assets/animation/GradientProgressLoader';
 import RefetchTokensButtonBlock from '@/src/components/RefetchTokensButtonBlock';
@@ -22,6 +22,7 @@ import MainLoader from '@/src/components/MainLoader';
 // import useFetchAllUserStrategyOrders from '@/src/hooks/order/useFetchAllUserStrategyOrders';
 // import { OrderStatusEnum, OrderTypeEnum } from '@/src/enums';
 import useFetchAllUserHodlTargets from '@/src/hooks/hodlTargets/useFetchAllUserHodlTargets';
+import { ModalContentEnum } from '@/src/enums';
 
 export type StoredData = TradeStrategy[] | null;
 export type Strategy = TradeStrategy | null;
@@ -39,6 +40,7 @@ const HodlTargets = () => {
   // const [currentProfit, setCurrentProfit] = useState<number | null>(null);
   // const [usingDeposit, setUsingDeposit] = useState<number>(0);
   const [currentUser, setCurrentUser] = useState<string>('');
+  const [editTargets, setEditTargets] = useState<HodlTargetsData | null>(null);
   // const [usingTokens, setUsingTokens] = useState<number>(0);
   // const [isProcess, setIsProcess] = useState<boolean>(true);
   // const [isAdmin, setIsAdmin] = useState<boolean>(false);
@@ -112,6 +114,12 @@ const HodlTargets = () => {
       setCurrentUser(userId);
     }
   }, [userId]);
+
+  useEffect(() => {
+    if (editTargets) {
+      openModal(ModalContentEnum.Form);
+    }
+  }, [editTargets]);
 
   // useEffect(() => {
   //   console.log('hodlTargetsData:', hodlTargetsData);
@@ -211,6 +219,12 @@ const HodlTargets = () => {
   //   }
   // };
 
+  const handleEditTargets = (args: HodlTargetsData | null) => {
+    // console.log('handleEditTargets args:', args);
+    // setEditTargets();
+    setEditTargets(args);
+  };
+
   const refetchTokens = () => {
     setIsRefetchButton(false);
     setIsRefetch(false);
@@ -257,7 +271,8 @@ const HodlTargets = () => {
                   // hodlTargetsData={hodlTargetsData}
                   data={hodlTargetsData}
                   tokens={updatedTokens}
-                  userId={userId}
+                  // userId={userId}
+                  handleEditTargets={handleEditTargets}
                 />
               ) : null}
             </SectionsContainer>
@@ -273,6 +288,9 @@ const HodlTargets = () => {
             <AddHodlTargetsForm
               userId={userId}
               tokens={updatedTokens}
+              initialTargets={editTargets}
+              handleEditTargets={handleEditTargets}
+
               // orders={[
               //   ...userOrders['DCAP'],
               //   ...userOrders['buy'],

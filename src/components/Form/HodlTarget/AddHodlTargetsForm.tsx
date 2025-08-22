@@ -4,6 +4,7 @@ import { usePathname } from 'next/navigation';
 // import useCreateOrderForm from '@/src/hooks/order/useAddOrderForm';
 import useSelectMulti from '@/src/hooks/useSelectMulti';
 import useModal from '@/src/hooks/useModal';
+import useAddHodlTargetForm from '@/src/hooks/hodlTargets/useAddHodlTargetForm';
 import {
   // ExchangeEnum,
   // OrderTypeDisplayEnum,
@@ -11,7 +12,13 @@ import {
   // QueryKeyEnum,
 } from '@/src/enums';
 // import { numberCutter } from '@/src/utils';
-import { FormEvent, Token } from '@/src/types';
+import {
+  FormEvent,
+  HodlTargetsData,
+  HodlTargetsEntry,
+  Token,
+} from '@/src/types';
+import { updateHodlTargets } from '@/src/messages/confirm';
 import FormWrapper from '@/src/components/Container/FormWrapper';
 import FormBackdropContainer from '@/src/components/Container/FormBackdrop';
 import FormContentContainer from '@/src/components/Container/FormContent';
@@ -20,12 +27,12 @@ import TextInput from '@/src/components/Form/TextInput';
 import Button from '@/src/components/Button/Button';
 import Title from '@/src/components/Layout/Title';
 import Form from '@/src/components/Form/Form';
-import useAddHodlTargetForm from '@/src/hooks/hodlTargets/useAddHodlTargetForm';
-import { updateHodlTargets } from '@/src/messages/confirm';
 
 type Props = {
   userId: string;
   tokens: Token[];
+  initialTargets: HodlTargetsData | null;
+  handleEditTargets: (args: null) => void;
   // orders: Order[];
   // initType?: OrderTypeEnum | string;
   // initSymbol: string;
@@ -65,7 +72,9 @@ const c = {
 //   ExchangeEnum.Okx,
 // ];
 
-const initForm = {
+type FormState = HodlTargetsEntry & { symbol: string };
+
+const initForm: FormState = {
   symbol: '',
   volume25: 0,
   volume50: 0,
@@ -77,9 +86,11 @@ const initForm = {
 // initSymbol,
 // buyTargets,
 
-const AddHodlTargetsForm = ({ userId, tokens }: Props) => {
+const AddHodlTargetsForm = (props: Props) => {
   const [symbolOptions, setSymbolOptions] = useState<string[]>([]);
   const [isProcess, setIsProcess] = useState(false);
+
+  const { userId, tokens, initialTargets, handleEditTargets } = props;
 
   const [isPending, startTransition] = useTransition();
   const { openDropdownId, toggleDropdown } = useSelectMulti();
@@ -117,6 +128,24 @@ const AddHodlTargetsForm = ({ userId, tokens }: Props) => {
       // if (initSymbol) setValue('symbol', initSymbol, { shouldValidate: true });
     }
   }, [tokens]);
+
+  useEffect(() => {
+    if (initialTargets) {
+      // console.log('initialTargets:', initialTargets);
+      updateFormStates({
+        symbol: initialTargets.symbol,
+        volume25: initialTargets.hodlTargets.v25,
+        volume50: initialTargets.hodlTargets.v50,
+        volume75: initialTargets.hodlTargets.v75,
+        volume100: initialTargets.hodlTargets.v100,
+      });
+      // setValue('symbol', initialTargets.symbol, { shouldValidate: true });
+      // setValue('volume25', initialTargets.hodlTargets.v25);
+      // setValue('volume50', initialTargets.hodlTargets.v50);
+      // setValue('volume75', initialTargets.hodlTargets.v75);
+      // setValue('volume100', initialTargets.hodlTargets.v100);
+    }
+  }, [initialTargets]);
 
   /*
   useEffect(() => {
@@ -190,6 +219,24 @@ const AddHodlTargetsForm = ({ userId, tokens }: Props) => {
     // }
   };
 
+  const updateFormStates = (args: FormState) => {
+    const validateParams = { shouldValidate: true };
+    // console.log('args:', args);
+    setValue('symbol', args.symbol, validateParams);
+    setValue('volume25', args.volume25, validateParams);
+    setValue('volume50', args.volume50, validateParams);
+    setValue('volume75', args.volume75, validateParams);
+    setValue('volume100', args.volume100, validateParams);
+  };
+
+  const handleCloseModal = () => {
+    closeModal();
+    setTimeout(() => {
+      updateFormStates(initForm);
+      handleEditTargets(null);
+    }, 500);
+  };
+
   // const handleTitle = () => {
   //   switch (true) {
   //     case isAsset:
@@ -225,7 +272,7 @@ const AddHodlTargetsForm = ({ userId, tokens }: Props) => {
 
               <SelectMulti
                 options={symbolOptions.filter((opt) => opt !== symbol)}
-                initialOption={null}
+                initialOption={symbol}
                 placeholder={symbolOptions.length ? 'Symbol' : 'No tokens'}
                 onSelect={(value) => handleSelectChange('symbol', value)}
                 isOpen={openDropdownId === 'symbol'}
@@ -330,7 +377,7 @@ const AddHodlTargetsForm = ({ userId, tokens }: Props) => {
 
                 <Button
                   style={{ flex: '0 0 47px', backgroundColor: '#f25c5e' }}
-                  clickContent={closeModal}
+                  clickContent={handleCloseModal}
                   type="button"
                 >
                   {null}

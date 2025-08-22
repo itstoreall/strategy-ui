@@ -113,7 +113,10 @@ const useAddHodlTargetForm = (formDefaults: Credentials) => {
 
   // (data) =>
   const onSubmit = handleSubmit(() => {
-    if (!userOrderData || !userOrderData?.strategy) return;
+    if (!userOrderData || !userOrderData?.strategy) {
+      alert(`No ${watchedValues.symbol} Strategy in DB`);
+      return;
+    }
 
     const hodlTargets = {
       v25: +watchedValues.volume25,

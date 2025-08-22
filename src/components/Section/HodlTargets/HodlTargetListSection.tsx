@@ -17,8 +17,9 @@ type Props = {
   data: t.HodlTargetsData[];
   // hodlTargetsData?: t.HodlTargetsData[];
   tokens: t.Token[] | null;
-  userId: string | null;
-  isCustom?: boolean;
+  // userId: string | null;
+  // isCustom?: boolean;
+  handleEditTargets: (args: t.HodlTargetsData) => void;
 };
 
 // type ListItemProps = {
@@ -57,13 +58,13 @@ const HodlTargetListSection = (props: Props) => {
     return savedState ? JSON.parse(savedState) : false;
   });
 
-  const { data, userId, tokens } = props;
+  const { data, tokens, handleEditTargets } = props;
 
   // const { updateData } = useInvalidateQueries();
   // const { handleUnrealized } = useGlobalState();
 
   useEffect(() => {
-    if (userId && data && tokens) {
+    if (data && tokens) {
       const expandedData = extandData(data, tokens);
       setHodlTargets(sortBySymbol(expandedData) as ExpandedData[]);
     }
@@ -278,19 +279,61 @@ const HodlTargetListSection = (props: Props) => {
     // const reachedTarget = isReachedTarget ? 'color-green' : '';
     // const uniValueStyle = `uni-value ${!isBull ? reachedTarget : ''}`;
 
-    const isAchvd25 = hodlTargets.v25 > 0 && currentPrice >= hodlTargets.v25;
-    const isAchvd50 = hodlTargets.v50 > 0 && currentPrice >= hodlTargets.v50;
-    const isAchvd75 = hodlTargets.v75 > 0 && currentPrice >= hodlTargets.v75;
-    const isAchvd100 = hodlTargets.v100 > 0 && currentPrice >= hodlTargets.v100;
+    // const isTarget =
+    //   hodlTargets.v25 > 0 ||
+    //   hodlTargets.v50 > 0 ||
+    //   hodlTargets.v75 > 0 ||
+    //   hodlTargets.v100 > 0;
+
+    const editHodlTargets = (symbol: string) => {
+      console.log('symbol:', symbol);
+      handleEditTargets({ symbol, hodlTargets });
+    };
+
+    const is25 = hodlTargets.v25 > 0;
+    const is50 = hodlTargets.v50 > 0;
+    const is75 = hodlTargets.v75 > 0;
+    const is100 = hodlTargets.v100 > 0;
+
+    const isMore25 = is50 || is75 || is100;
+    const isMore50 = is75 || is100;
+    const isMore75 = is100;
+
+    const isAchvd25 = is25 && currentPrice >= hodlTargets.v25;
+    const isAchvd50 = is50 && currentPrice >= hodlTargets.v50;
+    const isAchvd75 = is75 && currentPrice >= hodlTargets.v75;
+    const isAchvd100 = is100 && currentPrice >= hodlTargets.v100;
+
+    const isGreen25 =
+      (isMore25 && isAchvd50) ||
+      (isMore25 && isAchvd75) ||
+      (isMore25 && isAchvd100) ||
+      isAchvd25;
+
+    const isGreen50 =
+      (isMore50 && isAchvd75) || (isMore50 && isAchvd100) || isAchvd50;
+
+    const isGreen75 = (isMore75 && isAchvd100) || isAchvd75;
+    // const isGreen100 = is100 && currentPrice >= hodlTargets.v100;
 
     // const isClosed00 = hodlTargets.v100 > 0 && currentPrice >= hodlTargets.v100;
 
-    const v25Style = isAchvd25 ? 'achieved' : 'disable';
-    const v50Style = isAchvd50 ? 'achieved' : 'disable';
-    const v75Style = isAchvd75 ? 'achieved' : 'disable';
-    const v100Style = isAchvd100 ? 'achieved' : 'disable';
+    const v25Style = isGreen25 ? 'achieved' : is25 || isMore25 ? 'active' : '';
+    const v50Style = isGreen50 ? 'achieved' : is50 || isMore50 ? 'active' : '';
+    const v75Style = isGreen75 ? 'achieved' : is75 || isMore75 ? 'active' : '';
+    const v100Style = isAchvd100 ? 'achieved' : is100 ? 'active' : '';
 
     /*
+    if (symbol === 'ETH') {
+      // if (symbol === 'DOGE') {
+      console.log('hodlTargets:', hodlTargets);
+      console.log('||:', isMore75, isAchvd75, isGreen75);
+      console.log('isGreen25-->:', symbol, isGreen25, v75Style);
+    }
+    // */
+
+    /*
+
     console.log('25-->:', symbol, isAchvd25, hodlTargets.v25, currentPrice);
     console.log('50--->:', symbol, isAchvd50, hodlTargets.v50, currentPrice);
     console.log('75---->:', symbol, isAchvd75, hodlTargets.v75, currentPrice);
@@ -301,7 +344,10 @@ const HodlTargetListSection = (props: Props) => {
 
     return (
       <li className="section-hodl-target-list-item">
-        <div className="section-hodl-target-list-item-content">
+        <div
+          className="section-hodl-target-list-item-content"
+          onClick={() => editHodlTargets(symbol)}
+        >
           {/* <span className="hodl-target-values-symbol">{'VIRTUAL'}</span> */}
           <span className={`hodl-target-values-symbol ${v25Style}`}>
             {/* {'VIRTUAL'} */}

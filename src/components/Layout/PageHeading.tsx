@@ -157,7 +157,7 @@ const PageHeading = ({
           </Button>
         )}
 
-        {false && isDashboard && (
+        {isAdminButton && isDashboard && (
           <Button
             className={'main-heading-hodl-targets-button'}
             clickContent={goToHodlTargetsPage}
