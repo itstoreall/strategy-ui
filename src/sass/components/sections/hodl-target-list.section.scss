@@ -40,7 +40,7 @@ section.hodl-target-list {
     > ul.section-hodl-target-list {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 2px;
       // background-color: black;
       // padding: 0;
       // display: flex;
@@ -57,6 +57,47 @@ section.hodl-target-list {
         //   height: 48px;
         // }
 
+        // &:first-child() {
+        //   > div.section-hodl-target-list-item-content {
+        //   }
+        // }
+
+        &:first-child {
+          > div.section-hodl-target-list-item-content {
+            border-radius: $middleBorderRadius $middleBorderRadius 0 0;
+
+            > span.hodl-target-values-symbol {
+              border-radius: $middleBorderRadius 0 0 0;
+            }
+
+            > div.hodl-target-values-block {
+              > span.hodl-target-content-divider {
+                &:nth-child(4) {
+                  border-radius: 0 $middleBorderRadius 0 0;
+                }
+              }
+            }
+          }
+        }
+
+        &:last-child {
+          > div.section-hodl-target-list-item-content {
+            border-radius: 0 0 $middleBorderRadius $middleBorderRadius;
+
+            > span.hodl-target-values-symbol {
+              border-radius: 0 0 0 $middleBorderRadius;
+            }
+
+            > div.hodl-target-values-block {
+              > span.hodl-target-content-divider {
+                &:nth-child(4) {
+                  border-radius: 0 0 $middleBorderRadius 0;
+                }
+              }
+            }
+          }
+        }
+
         > div.section-hodl-target-list-item-content {
           display: flex;
           // gap: 0.5rem;
@@ -64,17 +105,16 @@ section.hodl-target-list {
           // width: 100%;
           // background-color: tomato;
           background-color: $blackMiddle;
-          border-radius: $middleBorderRadius;
+          // background-color: red;
+          // border-radius: $middleBorderRadius;
+          // background-color: red;
 
           > span.hodl-target-values-symbol {
             padding: 0.7rem;
             min-width: 60px;
             font-size: 0.9rem;
-            // background-color: tomato;
-
             background-color: $greyDeepDark;
-
-            border-radius: $middleBorderRadius 0 0 $middleBorderRadius;
+            // border-radius: $middleBorderRadius 0 0 $middleBorderRadius;
 
             &.achieved {
               background-color: $blue;
@@ -106,9 +146,9 @@ section.hodl-target-list {
               font-size: 0.7rem;
               // background-color: $blue;
 
-              &:nth-child(4) {
-                border-radius: 0 $middleBorderRadius $middleBorderRadius 0;
-              }
+              // &:nth-child(4) {
+              //   // border-radius: 0 $middleBorderRadius $middleBorderRadius 0;
+              // }
 
               @include media-screen-orientation('min', $tablet) {
                 // padding-right: 1rem;
