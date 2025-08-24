@@ -1,4 +1,5 @@
-import { Dispatch, SetStateAction } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import useModal from '@/src/hooks/useModal';
 import * as enm from '@/src/enums';
 import { OrderStrategyData, StrategySnapshot, Token } from '@/src/types';
@@ -10,6 +11,7 @@ import SectionsContainer from '@/src/components/Container/Sections';
 import AddOrderForm from '@/src/components/Form/Order/AddOrderForm';
 import { SortedOrders } from '@/src/components/Pages/Strategy';
 import ListLoader from '@/src/components/ListLoader';
+import ClosePriceForm from '../../Form/Order/ClosePriceForm';
 
 type Props = {
   userId: string;
@@ -35,6 +37,10 @@ const c = {
 };
 
 const DCAPStrategySection = (props: Props) => {
+  const [closePrice, setClosePrice] = useState<string | null>(null);
+  const [isClosePrice, setIsClosePrice] = useState<boolean>(false);
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
+
   const {
     userId,
     symbol,
@@ -55,8 +61,33 @@ const DCAPStrategySection = (props: Props) => {
 
   const { RenderModal, isFormModal } = useModal();
 
+  useEffect(() => {
+    if (!isFormModal && isClosePrice) {
+      setIsClosePrice(false);
+    }
+  }, [isFormModal]);
+
   // const isBTC = token.symbol === 'BTC';
   // const isETH = token.symbol === 'ETH';
+
+  const openClosePriceModal = () => {
+    setClosePrice(token.price.toString());
+    setIsClosePrice(true);
+  };
+
+  const handleClosePrice = (price: string) => {
+    let value = price.replace(/,/g, '.');
+    if (/^\d*\.?\d*$/.test(value)) {
+      if (value.startsWith('.')) {
+        value = `0${value}`;
+      }
+      setClosePrice(value);
+    } else {
+      setClosePrice(value.slice(0, -1));
+    }
+  };
+
+  const confirmCloseOrdersSubmit = () => setIsSubmit(true);
 
   // no scss styles!
   return (
@@ -81,6 +112,9 @@ const DCAPStrategySection = (props: Props) => {
               token={token}
               snapshot={snapshot}
               orderData={userOrderData}
+              closePrice={closePrice}
+              isSubmit={isSubmit}
+              openClosePriceModal={openClosePriceModal}
               // exchanges={exchanges}
             />
           )}
@@ -108,6 +142,7 @@ const DCAPStrategySection = (props: Props) => {
                   filterExchange={filterExchange}
                   currentPrice={currentPrice}
                   isEditMenu={isEditMenu}
+                  // isSubmit={isSubmit}
                   handleFilterExchange={handleFilterExchange}
                 />
               </div>
@@ -118,7 +153,7 @@ const DCAPStrategySection = (props: Props) => {
         </SectionsContainer>
       </div>
 
-      {updatedTokens && isFormModal && (
+      {updatedTokens && isFormModal && !isClosePrice && (
         <RenderModal>
           <AddOrderForm
             tokens={updatedTokens}
@@ -132,6 +167,18 @@ const DCAPStrategySection = (props: Props) => {
               enm.QueryKeyEnum.UserOrders,
               enm.QueryKeyEnum.UserStrategyOrders,
             ]}
+          />
+        </RenderModal>
+      )}
+
+      {isClosePrice && (
+        <RenderModal>
+          <ClosePriceForm
+            closePrice={closePrice || ''}
+            isSubmit={isSubmit}
+            handleClosePrice={handleClosePrice}
+            confirmCloseOrdersSubmit={confirmCloseOrdersSubmit}
+            // setIsSubmit={setIsSubmit}
           />
         </RenderModal>
       )}

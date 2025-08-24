@@ -286,7 +286,7 @@ const HodlTargetListSection = (props: Props) => {
     //   hodlTargets.v100 > 0;
 
     const editHodlTargets = (symbol: string) => {
-      console.log('symbol:', symbol);
+      console.log('editHodlTargets symbol:', symbol);
       handleEditTargets({ symbol, hodlTargets });
     };
 

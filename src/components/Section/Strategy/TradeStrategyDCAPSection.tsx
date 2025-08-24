@@ -19,7 +19,10 @@ export type TradeStrategyProps = {
   token: t.Token;
   snapshot: t.StrategySnapshot;
   orderData: t.OrderStrategyData;
+  closePrice: string | null;
+  isSubmit: boolean;
   handleFilterExchange?: (val: ExchangeEnum) => void;
+  openClosePriceModal: () => void;
 };
 
 type DCAPlusListProps = {
@@ -35,6 +38,7 @@ export type CopiedField = {
 
 export type History = t.HistoryEntry[] | null;
 export type Strategy = t.TradeStrategy | null;
+// type ModalContent = ModalContentEnum | null;
 
 const c = {
   avg: 'AVG',
@@ -51,7 +55,7 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
   const [sellPrice, setSellPrice] = useState<string | null>(null);
   const [orders, setOrders] = useState<t.Order[] | null>(null);
 
-  const { token, orderData } = props; //snapshot,
+  const { token, orderData, closePrice, isSubmit, openClosePriceModal } = props; //snapshot,
 
   const { mutate: updStg, isSuccess: isSuccessUpdStg } = useUpdateStrategy();
   const { currentDCAP, buyDCAP, sellDCAP, getStatus } = useStrategyDCA();
@@ -63,9 +67,9 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
 
   const {
     isStrategyModal,
-    // ModalContentEnum,
+    ModalContentEnum,
     RenderModal,
-    // openModal,
+    openModal,
     closeModal,
   } = useModal();
 
@@ -83,8 +87,14 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
   }, [orderData]);
 
   useEffect(() => {
+    if (isSubmit) {
+      handleCloseTrades();
+    }
+  }, [isSubmit]);
+
+  useEffect(() => {
     if (isSuccessUpdStg) {
-      console.log('isSuccessUpdStg:', isSuccessUpdStg);
+      closeModal();
       redirectTo('/dashboard');
     }
   }, [isSuccessUpdStg]);
@@ -136,27 +146,38 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
   const handleCloseTrades = async () => {
     const orderIds = orderData.orders.map((order) => order.id);
     if (!orderIds.length || !currentDCAP) return;
-    if (!confirm(confirmMsg.closeTrades(`${orderIds.length} BTC`))) return;
+    const { symbol } = orderData.orders[0];
+    if (!confirm(confirmMsg.closeDCAP(orderIds.length, symbol))) return;
+    // /*
     const deletedOrders = await deleteManyOrders(orderIds);
-    if (deletedOrders.deletedCount === orderIds.length) {
-      const totalAmount = orderData.orders.reduce((acc, order) => {
-        acc += order.amount;
-        return acc;
-      }, 0);
-      const params = {
-        a: +totalAmount.toString().slice(0, 9),
-        b: currentDCAP.avg,
-        s: token.price,
-        stgData: orderData.strategy.data,
-      };
-      const newStrategyData = u.updateStrategyHistoryEntry(params);
-      updStg({
-        strategyId: orderData.strategy.id,
-        newStrategyData,
-        // newStrategyData: null,
-      });
-      updateData([QueryKeyEnum.UserOrders, QueryKeyEnum.UserStrategyOrders]);
+    if (deletedOrders.deletedCount !== orderIds.length) {
+      return console.error('Error deleting orders!');
     }
+    // */
+    const totalAmount = orderData.orders.reduce((acc, order) => {
+      acc += order.amount;
+      return acc;
+    }, 0);
+    const params = {
+      a: +totalAmount.toString().slice(0, 9),
+      b: currentDCAP.avg,
+      s: closePrice ? +closePrice : token.price,
+      stgData: orderData.strategy.data,
+    };
+    const newStrategyData = u.updateStrategyHistoryEntry(params);
+    // /*
+    updStg({
+      strategyId: orderData.strategy.id,
+      newStrategyData,
+      // newStrategyData: null,
+    });
+    updateData([QueryKeyEnum.UserOrders, QueryKeyEnum.UserStrategyOrders]);
+    // */
+  };
+
+  const closeTrades = () => {
+    openModal(ModalContentEnum.Form);
+    openClosePriceModal();
   };
 
   const DCAPlusList = ({ cur, buy, sell }: DCAPlusListProps) => {
@@ -228,7 +249,8 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
                 <div className="trade-strategy-dca-plus-button-block">
                   <Button
                     className="trade-strategy-dca-plus-button"
-                    clickContent={handleCloseTrades}
+                    // clickContent={handleCloseTrades}
+                    clickContent={closeTrades}
                   >
                     Close
                   </Button>
@@ -242,6 +264,14 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
         </div>
       </section>
 
+      {isStrategyModal && (
+        <RenderModal>
+          <TradeStrategyModalContentSection
+            storedStrategy={storedStrategy}
+            resetTradeStrategy={resetTradeStrategy}
+          />
+        </RenderModal>
+      )}
       {isStrategyModal && (
         <RenderModal>
           <TradeStrategyModalContentSection

@@ -28,6 +28,11 @@ Order ${id} will be archived`;
 
 // --- Strategy
 
+export const closeDCAP = (orders: number, symbol: string) => {
+  return `Close!
+${orders} ${symbol} order${orders > 1 ? 's' : ''} will be closed`;
+};
+
 export const closeTrades = (orderInfo: string) => {
   return `Close!
 ${orderInfo} orders will be closed`;

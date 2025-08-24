@@ -31,8 +31,9 @@ const StrategyHistoryModalSection = (props: Props) => {
 
   useEffect(() => {
     if (strategyData) {
-      const _strategyData = JSON.parse(strategyData);
-      setHistory(_strategyData.history);
+      const { history } = JSON.parse(strategyData);
+      history.sort((x: { d: number }, y: { d: number }) => y.d - x.d);
+      setHistory(history);
     }
   }, [strategyData]);
 
