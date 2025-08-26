@@ -37,14 +37,14 @@ const c = {
   submit: 'Submit',
 };
 
-type FormState = t.HodlTargetsEntry & { symbol: string };
+type FormState = t.HodlTargets & { symbol: string };
 
 const initForm: FormState = {
   symbol: '',
-  volume25: 0,
-  volume50: 0,
-  volume75: 0,
-  volume100: 0,
+  v25: 0,
+  v50: 0,
+  v75: 0,
+  v100: 0,
 };
 
 const hodlTargetInputBlockStyle: React.CSSProperties = {
@@ -101,10 +101,10 @@ const AddHodlTargetsForm = (props: Props) => {
       // console.log('initialTargets:', initialTargets);
       updateFormStates({
         symbol: initialTargets.symbol,
-        volume25: initialTargets.hodlTargets.v25,
-        volume50: initialTargets.hodlTargets.v50,
-        volume75: initialTargets.hodlTargets.v75,
-        volume100: initialTargets.hodlTargets.v100,
+        v25: initialTargets.hodlTargets.v25,
+        v50: initialTargets.hodlTargets.v50,
+        v75: initialTargets.hodlTargets.v75,
+        v100: initialTargets.hodlTargets.v100,
       });
     }
   }, [initialTargets]);
@@ -178,10 +178,10 @@ const AddHodlTargetsForm = (props: Props) => {
   const updateFormStates = (args: FormState) => {
     const validateParams = { shouldValidate: true };
     setValue('symbol', args.symbol, validateParams);
-    setValue('volume25', args.volume25, validateParams);
-    setValue('volume50', args.volume50, validateParams);
-    setValue('volume75', args.volume75, validateParams);
-    setValue('volume100', args.volume100, validateParams);
+    setValue('v25', args.v25, validateParams);
+    setValue('v50', args.v50, validateParams);
+    setValue('v75', args.v75, validateParams);
+    setValue('v100', args.v100, validateParams);
   };
 
   const handleCloseModal = () => {
@@ -225,8 +225,8 @@ const AddHodlTargetsForm = (props: Props) => {
                     type="text"
                     placeholder={c.v25}
                     disabled={isPending}
-                    error={errors.volume25}
-                    {...register('volume25', {
+                    error={errors.v25}
+                    {...register('v25', {
                       /*
                       required: c.priceRequired,
                       validate: (value) =>
@@ -241,7 +241,7 @@ const AddHodlTargetsForm = (props: Props) => {
                   style={hodlTargetCloseButtonStyle}
                   type="button"
                   clickContent={() => handleCloseTarget(c.v25)}
-                  disabled={!formValues.volume25}
+                  disabled={!formValues.v25}
                 >
                   {null}
                 </Button>
@@ -253,8 +253,8 @@ const AddHodlTargetsForm = (props: Props) => {
                     type="text"
                     placeholder={c.v50}
                     disabled={isPending}
-                    error={errors.volume50}
-                    {...register('volume50', {})}
+                    error={errors.v50}
+                    {...register('v50', {})}
                     onInput={handleNumericInput}
                   />
                 </div>
@@ -262,7 +262,7 @@ const AddHodlTargetsForm = (props: Props) => {
                   style={hodlTargetCloseButtonStyle}
                   type="button"
                   clickContent={() => handleCloseTarget(c.v50)}
-                  disabled={!formValues.volume50}
+                  disabled={!formValues.v50}
                 >
                   {null}
                 </Button>
@@ -274,8 +274,8 @@ const AddHodlTargetsForm = (props: Props) => {
                     type="text"
                     placeholder={c.v75}
                     disabled={isPending}
-                    error={errors.volume75}
-                    {...register('volume75', {})}
+                    error={errors.v75}
+                    {...register('v75', {})}
                     onInput={handleNumericInput}
                   />
                 </div>
@@ -283,7 +283,7 @@ const AddHodlTargetsForm = (props: Props) => {
                   style={hodlTargetCloseButtonStyle}
                   type="button"
                   clickContent={() => handleCloseTarget(c.v75)}
-                  disabled={!formValues.volume75}
+                  disabled={!formValues.v75}
                 >
                   {null}
                 </Button>
@@ -295,8 +295,8 @@ const AddHodlTargetsForm = (props: Props) => {
                     type="text"
                     placeholder={c.v100}
                     disabled={isPending}
-                    error={errors.volume100}
-                    {...register('volume100', {})}
+                    error={errors.v100}
+                    {...register('v100', {})}
                     onInput={handleNumericInput}
                   />
                 </div>
@@ -304,7 +304,7 @@ const AddHodlTargetsForm = (props: Props) => {
                   style={hodlTargetCloseButtonStyle}
                   type="button"
                   clickContent={() => handleCloseTarget(c.v100)}
-                  disabled={!formValues.volume100}
+                  disabled={!formValues.v100}
                 >
                   {null}
                 </Button>

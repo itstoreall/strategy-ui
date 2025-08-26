@@ -15,10 +15,10 @@ import useModal from '../useModal';
 type Credentials = {
   userId: string;
   symbol: string;
-  volume25: number;
-  volume50: number;
-  volume75: number;
-  volume100: number;
+  v25: number;
+  v50: number;
+  v75: number;
+  v100: number;
 };
 
 /*
@@ -99,10 +99,10 @@ const useAddHodlTargetForm = (formDefaults: Credentials) => {
     if (creationError) {
       const hasChangedValues =
         watchedValues.symbol !== formDefaults.symbol ||
-        watchedValues.volume25 !== formDefaults.volume25 ||
-        watchedValues.volume50 !== formDefaults.volume50 ||
-        watchedValues.volume75 !== formDefaults.volume75 ||
-        watchedValues.volume100 !== formDefaults.volume100;
+        watchedValues.v25 !== formDefaults.v25 ||
+        watchedValues.v50 !== formDefaults.v50 ||
+        watchedValues.v75 !== formDefaults.v75 ||
+        watchedValues.v100 !== formDefaults.v100;
 
       if (hasChangedValues) {
         setCreationError('');
@@ -118,16 +118,28 @@ const useAddHodlTargetForm = (formDefaults: Credentials) => {
     }
 
     const hodlTargets = {
-      v25: +watchedValues.volume25,
-      v50: +watchedValues.volume50,
-      v75: +watchedValues.volume75,
-      v100: +watchedValues.volume100,
+      v25: +watchedValues.v25,
+      v50: +watchedValues.v50,
+      v75: +watchedValues.v75,
+      v100: +watchedValues.v100,
+      c25: false,
+      c50: true,
+      c75: false,
+      c100: false,
     };
+
+    // const closedHodlTargets = {
+    //   c25: false,
+    //   c50: true,
+    //   c75: false,
+    //   c100: false,
+    // };
 
     // console.log('hodlTargets:', hodlTargets);
 
     const entry = u.updateStrategyHodlTargetsEntry({
-      ...hodlTargets,
+      // closedHodlTargets,
+      hodlTargets,
       stgData: userOrderData.strategy.data,
     });
 

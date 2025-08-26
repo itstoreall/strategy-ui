@@ -1,4 +1,9 @@
-import { Order, TradeStrategy } from '@/src/types';
+import {
+  // ClosedHodlTargets,
+  HodlTargets,
+  Order,
+  TradeStrategy,
+} from '@/src/types';
 import { DCAPTokens } from '../config';
 // import HodlTargets from '../components/Pages/HodlTargets';
 
@@ -22,13 +27,13 @@ type UpdStrategyHistoryEntry = {
   stgData: string;
 };
 
-type UpdStgHodlTargEntry = {
-  v25: number;
-  v50: number;
-  v75: number;
-  v100: number;
-  stgData: string;
-};
+// type UpdStgHodlTargEntry = {
+//   v25: number;
+//   v50: number;
+//   v75: number;
+//   v100: number;
+//   stgData: string;
+// };
 
 export const c = {
   tradeStrategyKey: 'tradeStrategy',
@@ -338,11 +343,16 @@ export const updateStrategyHistoryEntry = (args: UpdStrategyHistoryEntry) => {
   };
 };
 
-export const updateStrategyHodlTargetsEntry = (args: UpdStgHodlTargEntry) => {
-  const { v25, v50, v75, v100, stgData } = args;
-  const newEntry = { v25, v50, v75, v100 };
+export const updateStrategyHodlTargetsEntry = (args: {
+  hodlTargets: HodlTargets;
+  // closedHodlTargets: ClosedHodlTargets;
+  stgData: string;
+}) => {
+  const { hodlTargets, stgData } = args;
+  // const newEntry = hodlTargets;
+  // const newEntry = { v25, v50, v75, v100 };
   const strategyData = JSON.parse(stgData);
-  const updatedHodlTargets = [newEntry];
+  const updatedHodlTargets = [hodlTargets];
   return {
     ...strategyData,
     hodlTargets: updatedHodlTargets,

@@ -104,7 +104,7 @@ export type HistoryEntry = {
 
 export type UpdatedSrategyData = {
   history?: HistoryEntry[];
-  hodlTargets?: HodlTargetsEntry[];
+  hodlTargets?: (HodlTargets & ClosedHodlTargets)[];
 };
 
 // --- DCA
@@ -207,11 +207,21 @@ export type HodlTargets = {
   v100: number;
 };
 
-export type HodlTargetsData = { symbol: string; hodlTargets: HodlTargets };
-
-export type HodlTargetsEntry = {
-  volume25: number;
-  volume50: number;
-  volume75: number;
-  volume100: number;
+export type ClosedHodlTargets = {
+  c75: boolean;
+  c25: boolean;
+  c50: boolean;
+  c100: boolean;
 };
+
+export type HodlTargetsData = {
+  symbol: string;
+  hodlTargets: HodlTargets & ClosedHodlTargets;
+};
+
+// export type HodlTargetsEntry = {
+//   volume25: number;
+//   volume50: number;
+//   volume75: number;
+//   volume100: number;
+// };
