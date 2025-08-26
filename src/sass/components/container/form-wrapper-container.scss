@@ -9,11 +9,11 @@ div.form-wrapper-container {
   text-align: center;
 
   &.auth-form-wrapper,
-  &.create-order-form-wrapper {
+  &.general-form-wrapper {
     width: 100%;
   }
 
-  &.create-order-form-wrapper {
+  &.general-form-wrapper {
     // @extend %extends-hide-scrollbar;
     // max-height: 100svh;
     padding: 0.25rem 0 2rem;

@@ -31,7 +31,7 @@ const ClosePriceForm = (props: Props) => {
   };
 
   return (
-    <FormWrapper className="create-order-form-wrapper">
+    <FormWrapper className="general-form-wrapper">
       <FormBackdropContainer>
         <Title tag={'h3'} className="form-title" text={'Selling price'} />
 

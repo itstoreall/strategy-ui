@@ -121,6 +121,12 @@ const HodlTargets = () => {
     }
   }, [editTargets]);
 
+  useEffect(() => {
+    if (!isFormModal) {
+      setEditTargets(null);
+    }
+  }, [isFormModal]);
+
   // useEffect(() => {
   //   console.log('hodlTargetsData:', hodlTargetsData);
   // }, [hodlTargetsData]);
@@ -289,7 +295,6 @@ const HodlTargets = () => {
               userId={userId}
               tokens={updatedTokens}
               initialTargets={editTargets}
-              handleEditTargets={handleEditTargets}
 
               // orders={[
               //   ...userOrders['DCAP'],

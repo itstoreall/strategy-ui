@@ -19,7 +19,6 @@ type Props = {
   filterExchange: string;
   currentPrice: number;
   isEditMenu: boolean;
-  // isSubmit: boolean;
   handleFilterExchange: (val: ExchangeEnum) => void;
 };
 
@@ -50,7 +49,6 @@ const StrategyOrderListSection = (props: Props) => {
     filterExchange,
     currentPrice,
     isEditMenu,
-    // isSubmit,
     handleFilterExchange,
   } = props;
 

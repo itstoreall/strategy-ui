@@ -66,7 +66,6 @@ const useAddHodlTargetForm = (formDefaults: Credentials) => {
   const { closeModal } = useModal();
   const watchedValues = watch();
 
-  // /* TODO!
   const { userOrderData } = useFetchAllUserStrategyOrders(
     userId,
     OrderTypeEnum.Buy,

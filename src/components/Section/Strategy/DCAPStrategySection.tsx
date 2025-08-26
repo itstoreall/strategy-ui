@@ -142,7 +142,6 @@ const DCAPStrategySection = (props: Props) => {
                   filterExchange={filterExchange}
                   currentPrice={currentPrice}
                   isEditMenu={isEditMenu}
-                  // isSubmit={isSubmit}
                   handleFilterExchange={handleFilterExchange}
                 />
               </div>

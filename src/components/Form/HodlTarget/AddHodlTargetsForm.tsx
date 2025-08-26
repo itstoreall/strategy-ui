@@ -2,26 +2,15 @@
 import { useEffect, useState, useTransition } from 'react';
 import { usePathname } from 'next/navigation';
 // import useCreateOrderForm from '@/src/hooks/order/useAddOrderForm';
+import useAddHodlTargetForm from '@/src/hooks/hodlTargets/useAddHodlTargetForm';
 import useSelectMulti from '@/src/hooks/useSelectMulti';
 import useModal from '@/src/hooks/useModal';
-import useAddHodlTargetForm from '@/src/hooks/hodlTargets/useAddHodlTargetForm';
-import {
-  // ExchangeEnum,
-  // OrderTypeDisplayEnum,
-  OrderTypeEnum,
-  // QueryKeyEnum,
-} from '@/src/enums';
-// import { numberCutter } from '@/src/utils';
-import {
-  FormEvent,
-  HodlTargetsData,
-  HodlTargetsEntry,
-  Token,
-} from '@/src/types';
+import * as t from '@/src/types';
+import { OrderTypeEnum } from '@/src/enums';
 import { updateHodlTargets } from '@/src/messages/confirm';
-import FormWrapper from '@/src/components/Container/FormWrapper';
 import FormBackdropContainer from '@/src/components/Container/FormBackdrop';
 import FormContentContainer from '@/src/components/Container/FormContent';
+import FormWrapper from '@/src/components/Container/FormWrapper';
 import SelectMulti from '@/src/components/Form/SelectMulti';
 import TextInput from '@/src/components/Form/TextInput';
 import Button from '@/src/components/Button/Button';
@@ -30,9 +19,8 @@ import Form from '@/src/components/Form/Form';
 
 type Props = {
   userId: string;
-  tokens: Token[];
-  initialTargets: HodlTargetsData | null;
-  handleEditTargets: (args: null) => void;
+  tokens: t.Token[];
+  initialTargets: t.HodlTargetsData | null;
   // orders: Order[];
   // initType?: OrderTypeEnum | string;
   // initSymbol: string;
@@ -40,39 +28,16 @@ type Props = {
 };
 
 const c = {
-  create: 'Create',
-  newHodlTarget: 'Add Hodl Target',
-  typeRequired: 'Type is required',
-  symbolRequired: 'Symbol is required',
-  amountRequired: 'Amount is required',
-  priceRequired: 'Price is required',
-  symbolValidation: 'Symbol can only contain letters and numbers',
-  amountValidation: 'Amount must be a valid number',
-  priceValidation: 'Price must be a valid number',
-  confirmOrderSubmit: 'Please confirm your order details:',
-  confirmBuyTargetSubmit: 'Please confirm your Buy Target details:',
-  emptyField: 'Please fill in all the fields!',
-  targetExists: 'Buy Target already exists!',
+  // create: 'Create',
+  formTitle: 'Add Hodl Target',
+  v25: '25%',
+  v50: '50%',
+  v75: '75%',
+  v100: '100%',
   submit: 'Submit',
-  creating: 'Creating...',
-  inProgress: 'In progress...',
 };
 
-// const typeOptions = [
-//   OrderTypeDisplayEnum.Asset,
-//   OrderTypeDisplayEnum.BuyTarget,
-// ];
-
-// const exchangeOptions = [
-//   ExchangeEnum.Binance,
-//   ExchangeEnum.Mexc,
-//   ExchangeEnum.Bybit,
-//   ExchangeEnum.Bingx,
-//   ExchangeEnum.Bitget,
-//   ExchangeEnum.Okx,
-// ];
-
-type FormState = HodlTargetsEntry & { symbol: string };
+type FormState = t.HodlTargetsEntry & { symbol: string };
 
 const initForm: FormState = {
   symbol: '',
@@ -82,15 +47,25 @@ const initForm: FormState = {
   volume100: 0,
 };
 
-// initType,
-// initSymbol,
-// buyTargets,
+const hodlTargetInputBlockStyle: React.CSSProperties = {
+  display: 'flex',
+  gap: '1rem',
+  justifyContent: 'space-between',
+};
+
+const hodlTargetInputWrapStyle: React.CSSProperties = {
+  width: '100%',
+};
+
+const hodlTargetCloseButtonStyle: React.CSSProperties = {
+  width: '50px',
+};
 
 const AddHodlTargetsForm = (props: Props) => {
   const [symbolOptions, setSymbolOptions] = useState<string[]>([]);
   const [isProcess, setIsProcess] = useState(false);
 
-  const { userId, tokens, initialTargets, handleEditTargets } = props;
+  const { userId, tokens, initialTargets } = props;
 
   const [isPending, startTransition] = useTransition();
   const { openDropdownId, toggleDropdown } = useSelectMulti();
@@ -101,13 +76,8 @@ const AddHodlTargetsForm = (props: Props) => {
   const { errors, creationError } = hodlTargetForm;
   const { register, onSubmit, setValue, watch } = hodlTargetForm;
 
-  // console.log('tokens:', tokens.length);
-
   const formValues = watch();
-  const {
-    symbol,
-    // volume25, volume50, volume75, volume100
-  } = formValues;
+  const { symbol } = formValues; // volume25...
 
   /*
   useEffect(() => {
@@ -115,9 +85,6 @@ const AddHodlTargetsForm = (props: Props) => {
   }, [formValues]);
   // */
 
-  // const isAsset = type === OrderTypeDisplayEnum.Asset;
-  // const isBuyTarget = type === OrderTypeDisplayEnum.BuyTarget;
-  // const isInit = !isAsset && !isBuyTarget;
   const isHodlTargetsPage = path.includes('/hodl-targets');
 
   useEffect(() => {
@@ -139,19 +106,8 @@ const AddHodlTargetsForm = (props: Props) => {
         volume75: initialTargets.hodlTargets.v75,
         volume100: initialTargets.hodlTargets.v100,
       });
-      // setValue('symbol', initialTargets.symbol, { shouldValidate: true });
-      // setValue('volume25', initialTargets.hodlTargets.v25);
-      // setValue('volume50', initialTargets.hodlTargets.v50);
-      // setValue('volume75', initialTargets.hodlTargets.v75);
-      // setValue('volume100', initialTargets.hodlTargets.v100);
     }
   }, [initialTargets]);
-
-  /*
-  useEffect(() => {
-    console.log('formValues:', formValues);
-  }, [type]);
-  // */
 
   useEffect(() => {
     if (creationError) alert(creationError);
@@ -178,7 +134,7 @@ const AddHodlTargetsForm = (props: Props) => {
     }
   };
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: t.FormEvent) => {
     e.preventDefault();
     console.log('submit!');
     // const confirmMessage = isAsset
@@ -221,7 +177,6 @@ const AddHodlTargetsForm = (props: Props) => {
 
   const updateFormStates = (args: FormState) => {
     const validateParams = { shouldValidate: true };
-    // console.log('args:', args);
     setValue('symbol', args.symbol, validateParams);
     setValue('volume25', args.volume25, validateParams);
     setValue('volume50', args.volume50, validateParams);
@@ -231,45 +186,22 @@ const AddHodlTargetsForm = (props: Props) => {
 
   const handleCloseModal = () => {
     closeModal();
-    setTimeout(() => {
-      updateFormStates(initForm);
-      handleEditTargets(null);
-    }, 500);
   };
 
-  // const handleTitle = () => {
-  //   switch (true) {
-  //     case isAsset:
-  //       return config.newAsset;
-  //     case isBuyTarget:
-  //       return config.newBuyTarget;
-  //     case isProcess:
-  //       return config.inProgress;
-  //     default:
-  //       return config.create;
-  //   }
-  // };
+  const handleCloseTarget = (label: string) => {
+    console.log('label:', label);
+  };
+
+  // console.log('!!initialTargets:', initialTargets, !!initialTargets);
 
   return (
-    <FormWrapper className="create-order-form-wrapper">
+    <FormWrapper className="general-form-wrapper">
       <FormBackdropContainer>
-        <Title tag={'h3'} className="form-title" text={c.newHodlTarget} />
+        <Title tag={'h3'} className="form-title" text={c.formTitle} />
 
         {!isProcess && (
           <Form handleSubmit={(e) => handleSubmit(e)}>
             <FormContentContainer>
-              {/* <SelectMulti
-                options={typeOptions.filter((opt) => opt !== type)}
-                initialOption={type}
-                placeholder="Type"
-                onSelect={(value) => handleSelectChange('type', value)}
-                isOpen={openDropdownId === 'type'}
-                onToggle={() =>
-                  toggleDropdown(openDropdownId === 'type' ? '' : 'type')
-                }
-                isDisable={isStrategyPage}
-              /> */}
-
               <SelectMulti
                 options={symbolOptions.filter((opt) => opt !== symbol)}
                 initialOption={symbol}
@@ -280,99 +212,107 @@ const AddHodlTargetsForm = (props: Props) => {
                   toggleDropdown(openDropdownId === 'symbol' ? '' : 'symbol')
                 }
                 searchEnabled={true}
-                isDisable={!symbolOptions.length || !isHodlTargetsPage}
+                isDisable={
+                  !symbolOptions.length ||
+                  !isHodlTargetsPage ||
+                  !!initialTargets
+                }
               />
 
-              {/* {(isAsset || isInit) && (
-                <SelectMulti
-                  options={exchangeOptions.filter((opt) => opt !== exchange)}
-                  placeholder={'Exchange'}
-                  onSelect={(value) => handleSelectChange('exchange', value)}
-                  isOpen={openDropdownId === exchange}
-                  onToggle={() => toggleDropdown(exchange)}
-                  // isDisable={isBuyTarget}
-                />
-              )} */}
+              <div style={hodlTargetInputBlockStyle}>
+                <div style={hodlTargetInputWrapStyle}>
+                  <TextInput
+                    type="text"
+                    placeholder={c.v25}
+                    disabled={isPending}
+                    error={errors.volume25}
+                    {...register('volume25', {
+                      /*
+                      required: c.priceRequired,
+                      validate: (value) =>
+                        /^\d*\.?\d*$/.test(value.toString()) ||
+                        c.priceValidation,
+                      */
+                    })}
+                    onInput={handleNumericInput}
+                  />
+                </div>
+                <Button
+                  style={hodlTargetCloseButtonStyle}
+                  type="button"
+                  clickContent={() => handleCloseTarget(c.v25)}
+                  disabled={!formValues.volume25}
+                >
+                  {null}
+                </Button>
+              </div>
 
-              <TextInput
-                type="text"
-                placeholder="25%"
-                disabled={isPending}
-                error={errors.volume25}
-                {...register('volume25', {
-                  // required: c.priceRequired,
-                  validate: (value) =>
-                    /^\d*\.?\d*$/.test(value.toString()) || c.priceValidation,
-                })}
-                onInput={handleNumericInput}
-              />
+              <div style={hodlTargetInputBlockStyle}>
+                <div style={hodlTargetInputWrapStyle}>
+                  <TextInput
+                    type="text"
+                    placeholder={c.v50}
+                    disabled={isPending}
+                    error={errors.volume50}
+                    {...register('volume50', {})}
+                    onInput={handleNumericInput}
+                  />
+                </div>
+                <Button
+                  style={hodlTargetCloseButtonStyle}
+                  type="button"
+                  clickContent={() => handleCloseTarget(c.v50)}
+                  disabled={!formValues.volume50}
+                >
+                  {null}
+                </Button>
+              </div>
 
-              <TextInput
-                type="text"
-                placeholder="50%"
-                disabled={isPending}
-                error={errors.volume50}
-                {...register('volume50', {
-                  // required: c.priceRequired,
-                  validate: (value) =>
-                    /^\d*\.?\d*$/.test(value.toString()) || c.priceValidation,
-                })}
-                onInput={handleNumericInput}
-              />
+              <div style={hodlTargetInputBlockStyle}>
+                <div style={hodlTargetInputWrapStyle}>
+                  <TextInput
+                    type="text"
+                    placeholder={c.v75}
+                    disabled={isPending}
+                    error={errors.volume75}
+                    {...register('volume75', {})}
+                    onInput={handleNumericInput}
+                  />
+                </div>
+                <Button
+                  style={hodlTargetCloseButtonStyle}
+                  type="button"
+                  clickContent={() => handleCloseTarget(c.v75)}
+                  disabled={!formValues.volume75}
+                >
+                  {null}
+                </Button>
+              </div>
 
-              <TextInput
-                type="text"
-                placeholder="75%"
-                disabled={isPending}
-                error={errors.volume75}
-                {...register('volume75', {
-                  // required: c.priceRequired,
-                  validate: (value) =>
-                    /^\d*\.?\d*$/.test(value.toString()) || c.priceValidation,
-                })}
-                onInput={handleNumericInput}
-              />
-
-              <TextInput
-                type="text"
-                placeholder="100%"
-                disabled={isPending}
-                error={errors.volume100}
-                {...register('volume100', {
-                  // required: c.priceRequired,
-                  validate: (value) =>
-                    /^\d*\.?\d*$/.test(value.toString()) || c.priceValidation,
-                })}
-                onInput={handleNumericInput}
-              />
-
-              {/* {(isAsset || isInit) && (
-                <TextInput
-                  type="text"
-                  placeholder="Amount"
-                  // placeholder={isAsset ? 'Amount' : '-'}
-                  disabled={isPending}
-                  error={errors.amount}
-                  {...register('amount', {
-                    required: config.amountRequired,
-                    validate: (value) =>
-                      /^\d*\.?\d*$/.test(value.toString()) ||
-                      config.amountValidation,
-                  })}
-                  onInput={handleNumericInput}
-                  // disabled={isPending || isBuyTarget}
-                />
-              )} */}
+              <div style={hodlTargetInputBlockStyle}>
+                <div style={hodlTargetInputWrapStyle}>
+                  <TextInput
+                    type="text"
+                    placeholder={c.v100}
+                    disabled={isPending}
+                    error={errors.volume100}
+                    {...register('volume100', {})}
+                    onInput={handleNumericInput}
+                  />
+                </div>
+                <Button
+                  style={hodlTargetCloseButtonStyle}
+                  type="button"
+                  clickContent={() => handleCloseTarget(c.v100)}
+                  disabled={!formValues.volume100}
+                >
+                  {null}
+                </Button>
+              </div>
 
               <div style={{ display: 'flex', gap: '1rem' }}>
-                <Button
-                  disabled={
-                    isPending
-                    // || !!creationError
-                  }
-                  type="submit"
-                >
-                  {isPending ? c.creating : c.submit}
+                <Button disabled={isPending} type="submit">
+                  {c.submit}
                 </Button>
 
                 <Button

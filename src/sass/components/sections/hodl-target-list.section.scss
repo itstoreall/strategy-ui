@@ -71,7 +71,7 @@ section.hodl-target-list {
             }
 
             > div.hodl-target-values-block {
-              > span.hodl-target-content-divider {
+              > span.hodl-target-part {
                 &:nth-child(4) {
                   border-radius: 0 $middleBorderRadius 0 0;
                 }
@@ -89,7 +89,7 @@ section.hodl-target-list {
             }
 
             > div.hodl-target-values-block {
-              > span.hodl-target-content-divider {
+              > span.hodl-target-part {
                 &:nth-child(4) {
                   border-radius: 0 0 $middleBorderRadius 0;
                 }
@@ -108,6 +108,7 @@ section.hodl-target-list {
           // background-color: red;
           // border-radius: $middleBorderRadius;
           // background-color: red;
+          user-select: none;
 
           > span.hodl-target-values-symbol {
             padding: 0.7rem;
@@ -115,6 +116,7 @@ section.hodl-target-list {
             font-size: 0.9rem;
             background-color: $greyDeepDark;
             // border-radius: $middleBorderRadius 0 0 $middleBorderRadius;
+            cursor: pointer;
 
             &.achieved {
               background-color: $blue;
@@ -134,7 +136,7 @@ section.hodl-target-list {
             // background-color: $blackMiddle;
             width: 100%;
 
-            > span.hodl-target-content-divider {
+            > span.hodl-target-part {
               // width: 10px;
               display: flex;
               justify-content: flex-end;
@@ -162,7 +164,7 @@ section.hodl-target-list {
                 padding-right: 0.7rem;
                 // padding-bottom: 1px;
                 // background-color: red;
-                // font-weight: 500;
+                font-weight: 500;
 
                 @include media-screen-orientation('min', $tablet) {
                   padding-right: 0.9rem;
@@ -181,6 +183,7 @@ section.hodl-target-list {
 
               &.active {
                 background-color: $greyDeepDark;
+                cursor: pointer;
 
                 > span {
                   // padding-bottom: 1px;
@@ -191,17 +194,19 @@ section.hodl-target-list {
 
               &.achieved {
                 background-color: $googleGreen;
+                cursor: pointer;
 
                 > span {
                   // padding-bottom: 1px;
                   // font-weight: 500;
                   color: $blackMiddle;
-                  font-weight: 500;
+                  // font-weight: 600;
                 }
               }
 
               &.closed {
                 background-color: $blue;
+                cursor: pointer;
               }
 
               /*

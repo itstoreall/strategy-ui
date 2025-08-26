@@ -37,13 +37,14 @@ const c = {
   // lsOrderLimitKey: 'orderListLimited',
   // lsBuyTargetLimitKey: 'buyTargetListLimited',
   lsHodlTargetsLimitKey: 'hodlTargetListLimited',
-  confirmDeletion: 'Buy Target will be deleted!',
+  // confirmDeletion: 'Buy Target will be deleted!',
   customTitle: 'Targets',
-  fourPercent: 4,
-  sevenPercent: 7,
-  buy: 'Buy',
-  wait: 'Wait',
-  sell: 'Sell',
+  itemLimit: 5,
+  // fourPercent: 4,
+  // sevenPercent: 7,
+  // buy: 'Buy',
+  // wait: 'Wait',
+  // sell: 'Sell',
 };
 
 const HodlTargetListSection = (props: Props) => {
@@ -99,15 +100,15 @@ const HodlTargetListSection = (props: Props) => {
     }
   }, [data]);
   */
-  const itemLimit = 1;
+  // const itemLimit = 5;
   // const isAdmin = data[0].userId === userId;
-  const isToggle = new Set([...data.map((el) => el.symbol)]).size > itemLimit;
+  const isToggle = new Set([...data.map((el) => el.symbol)]).size > c.itemLimit;
 
   useEffect(() => {
     if (!hodlTargets || !tokens) return;
     localStorage.setItem(currentLsKey, JSON.stringify(isExpanded));
     const limitedData = isExpanded
-      ? hodlTargets.slice(0, itemLimit)
+      ? hodlTargets.slice(0, c.itemLimit)
       : extandData(data, tokens);
     setHodlTargets(sortBySymbol(limitedData) as ExpandedData[]);
   }, [isExpanded]);
@@ -286,7 +287,7 @@ const HodlTargetListSection = (props: Props) => {
     //   hodlTargets.v100 > 0;
 
     const editHodlTargets = (symbol: string) => {
-      console.log('editHodlTargets symbol:', symbol);
+      // console.log('editHodlTargets symbol:', symbol);
       handleEditTargets({ symbol, hodlTargets });
     };
 
@@ -355,19 +356,19 @@ const HodlTargetListSection = (props: Props) => {
           </span>
 
           <div className="hodl-target-values-block">
-            <span className={`hodl-target-content-divider ${v25Style}`}>
+            <span className={`hodl-target-part ${v25Style}`}>
               {!!hodlTargets.v25 && <span>{'25%'}</span>}
             </span>
 
-            <span className={`hodl-target-content-divider ${v50Style}`}>
+            <span className={`hodl-target-part ${v50Style}`}>
               {!!hodlTargets.v50 && <span>{'50%'}</span>}
             </span>
 
-            <span className={`hodl-target-content-divider ${v75Style}`}>
+            <span className={`hodl-target-part ${v75Style}`}>
               {!!hodlTargets.v75 && <span>{'75%'}</span>}
             </span>
 
-            <span className={`hodl-target-content-divider ${v100Style}`}>
+            <span className={`hodl-target-part ${v100Style}`}>
               {!!hodlTargets.v100 && <span>{'100%'}</span>}
             </span>
           </div>

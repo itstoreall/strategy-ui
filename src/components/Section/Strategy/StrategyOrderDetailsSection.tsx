@@ -168,7 +168,7 @@ const StrategyOrderDetailsSection = ({ order, currentPrice, isSOP }: Props) => {
 
   return (
     <section className="section strategy-order-details">
-      <FormWrapper className="create-order-form-wrapper">
+      <FormWrapper className="general-form-wrapper">
         <FormBackdropContainer>
           <Title tag={'h3'} className="form-title" text={'Details'} />
 
