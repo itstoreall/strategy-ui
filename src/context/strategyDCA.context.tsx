@@ -107,8 +107,10 @@ export const StrategyDCAProvider = ({ children }: t.ChildrenProps & {}) => {
   const getStatus = () => {
     if (!tokenDCAP || !currentDCAP || !buyDCAP || !sellDCAP) return '';
     return u.handleDCAPStatus(
+      /* Do not del!
       tokenDCAP.price,
       currentDCAP.stopLoss,
+      */
       buyDCAP.isActive,
       sellDCAP.isActive
     );

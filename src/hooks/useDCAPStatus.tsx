@@ -19,10 +19,12 @@ const useDCAPStatus = () => {
       const sellValues = u.getSellValues(totalAmount, avg);
       if (!token || !curValues || !buyValues || !sellValues) return '';
       status = u.handleDCAPStatus(
-        token.price,
-        +curValues.stopLoss,
         token.price <= buyValues.buyPrice,
         token.price >= sellValues.sellPrice
+        /*
+        token.price,
+        +curValues.stopLoss,
+        */
       );
     }
     return status;

@@ -298,18 +298,24 @@ export const getSellValues = (totalAmount: number, avg: number) => {
 };
 
 export const handleDCAPStatus = (
-  tokenPrice: number,
-  currentStopLoss: number,
   isActiveBuy: boolean,
   isActiveSell: boolean
-) =>
-  tokenPrice < currentStopLoss
-    ? c.stopLoss
-    : isActiveBuy
-    ? c.buy
-    : isActiveSell
-    ? c.sell
-    : '';
+  /* Do not del!
+  tokenPrice: number,
+  currentStopLoss: number,
+  */
+) => {
+  return isActiveBuy ? c.buy : isActiveSell ? c.sell : '';
+  /* Do not del! (the stopLoss logic)
+  return tokenPrice < currentStopLoss
+      ? c.stopLoss
+      : isActiveBuy
+      ? c.buy
+      : isActiveSell
+      ? c.sell
+      : '';
+      */
+};
 
 // --- LS
 
