@@ -37,7 +37,7 @@ const c = {
   submit: 'Submit',
 };
 
-type FormState = t.HodlTargets & { symbol: string };
+type FormState = t.HodlTargets & t.ClosedHodlTargets & { symbol: string };
 
 const initForm: FormState = {
   symbol: '',
@@ -45,6 +45,10 @@ const initForm: FormState = {
   v50: 0,
   v75: 0,
   v100: 0,
+  c25: false,
+  c50: false,
+  c75: false,
+  c100: false,
 };
 
 const hodlTargetInputBlockStyle: React.CSSProperties = {
@@ -73,19 +77,20 @@ const AddHodlTargetsForm = (props: Props) => {
   const { closeModal } = useModal();
   const path = usePathname();
 
-  const { errors, creationError } = hodlTargetForm;
+  // const { errors, creationError } = hodlTargetForm;
   const { register, onSubmit, setValue, watch } = hodlTargetForm;
 
   const formValues = watch();
-  const { symbol } = formValues; // volume25...
+  const { symbol } = formValues;
 
   /*
   useEffect(() => {
     console.log('formValues:', formValues);
-  }, [formValues]);
-  // */
+    }, [formValues]);
+    // */
 
   const isHodlTargetsPage = path.includes('/hodl-targets');
+  const validateParams = { shouldValidate: true };
 
   useEffect(() => {
     if (tokens) {
@@ -105,13 +110,19 @@ const AddHodlTargetsForm = (props: Props) => {
         v50: initialTargets.hodlTargets.v50,
         v75: initialTargets.hodlTargets.v75,
         v100: initialTargets.hodlTargets.v100,
+        c25: initialTargets.hodlTargets.c25,
+        c50: initialTargets.hodlTargets.c50,
+        c75: initialTargets.hodlTargets.c75,
+        c100: initialTargets.hodlTargets.c100,
       });
     }
   }, [initialTargets]);
 
+  /*
   useEffect(() => {
     if (creationError) alert(creationError);
   }, [creationError]);
+  */
 
   // ---
 
@@ -134,62 +145,42 @@ const AddHodlTargetsForm = (props: Props) => {
     }
   };
 
-  const handleSubmit = async (e: t.FormEvent) => {
-    e.preventDefault();
-    console.log('submit!');
-    // const confirmMessage = isAsset
-    //   ? `
-    //   ${type || '--'}: ${symbol || '--'}
-    //   Exchange: ${exchange || '--'}
-    //   Price: ${price || '--'}
-    //   Amount: ${amount || '--'}
-    //   Invested: $${price && amount ? numberCutter(price * amount, 3) : '--'}
-    // `
-    //   : `
-    //   ${type || '--'}: ${symbol || '--'} - ${price || '--'}
-    // `;
-
-    // if (confirmMessage.includes('--')) {
-    //   alert(config.emptyField);
-    //   return;
-    // }
-
-    // const isBuyTargetExists = !!buyTargets?.find(
-    //   (target) => target.symbol === symbol
-    // );
-
-    // if (isBuyTarget && isBuyTargetExists) {
-    //   alert(`${symbol} ${config.targetExists}`);
-    //   return;
-    // }
-
-    if (!confirm(updateHodlTargets(symbol))) return;
-    // /*
-    setIsProcess(true);
-    // const currentType = isAsset ? OrderTypeEnum.Buy : OrderTypeEnum.Sell;
-    // setValue('type', currentType, { shouldValidate: true });
-    startTransition(async () => {
-      onSubmit();
-    });
-    // */
-    // }
-  };
-
   const updateFormStates = (args: FormState) => {
-    const validateParams = { shouldValidate: true };
+    // const validateParams = { shouldValidate: true };
     setValue('symbol', args.symbol, validateParams);
     setValue('v25', args.v25, validateParams);
     setValue('v50', args.v50, validateParams);
     setValue('v75', args.v75, validateParams);
     setValue('v100', args.v100, validateParams);
+    setValue('c25', args.c25, validateParams);
+    setValue('c50', args.c50, validateParams);
+    setValue('c75', args.c75, validateParams);
+    setValue('c100', args.c100, validateParams);
   };
 
   const handleCloseModal = () => {
     closeModal();
   };
 
-  const handleCloseTarget = (label: string) => {
-    console.log('label:', label);
+  const handleCloseTarget = (label: 'c75' | 'c25' | 'c50' | 'c100') => {
+    console.log('label:', label, formValues.c100);
+
+    setValue(label, !formValues.c100, validateParams);
+  };
+
+  const handleSubmit = async (e: t.FormEvent) => {
+    e.preventDefault();
+    console.log('submit!');
+
+    if (!confirm(updateHodlTargets(symbol))) return;
+
+    // /*
+    setIsProcess(true);
+    startTransition(async () => {
+      onSubmit();
+    });
+    // */
+    // }
   };
 
   // console.log('!!initialTargets:', initialTargets, !!initialTargets);
@@ -225,7 +216,7 @@ const AddHodlTargetsForm = (props: Props) => {
                     type="text"
                     placeholder={c.v25}
                     disabled={isPending}
-                    error={errors.v25}
+                    // error={errors.v25}
                     {...register('v25', {
                       /*
                       required: c.priceRequired,
@@ -240,7 +231,7 @@ const AddHodlTargetsForm = (props: Props) => {
                 <Button
                   style={hodlTargetCloseButtonStyle}
                   type="button"
-                  clickContent={() => handleCloseTarget(c.v25)}
+                  clickContent={() => handleCloseTarget('c25')}
                   disabled={!formValues.v25}
                 >
                   {null}
@@ -253,7 +244,6 @@ const AddHodlTargetsForm = (props: Props) => {
                     type="text"
                     placeholder={c.v50}
                     disabled={isPending}
-                    error={errors.v50}
                     {...register('v50', {})}
                     onInput={handleNumericInput}
                   />
@@ -261,7 +251,7 @@ const AddHodlTargetsForm = (props: Props) => {
                 <Button
                   style={hodlTargetCloseButtonStyle}
                   type="button"
-                  clickContent={() => handleCloseTarget(c.v50)}
+                  clickContent={() => handleCloseTarget('c50')}
                   disabled={!formValues.v50}
                 >
                   {null}
@@ -274,7 +264,6 @@ const AddHodlTargetsForm = (props: Props) => {
                     type="text"
                     placeholder={c.v75}
                     disabled={isPending}
-                    error={errors.v75}
                     {...register('v75', {})}
                     onInput={handleNumericInput}
                   />
@@ -282,7 +271,7 @@ const AddHodlTargetsForm = (props: Props) => {
                 <Button
                   style={hodlTargetCloseButtonStyle}
                   type="button"
-                  clickContent={() => handleCloseTarget(c.v75)}
+                  clickContent={() => handleCloseTarget('c75')}
                   disabled={!formValues.v75}
                 >
                   {null}
@@ -295,7 +284,6 @@ const AddHodlTargetsForm = (props: Props) => {
                     type="text"
                     placeholder={c.v100}
                     disabled={isPending}
-                    error={errors.v100}
                     {...register('v100', {})}
                     onInput={handleNumericInput}
                   />
@@ -303,7 +291,7 @@ const AddHodlTargetsForm = (props: Props) => {
                 <Button
                   style={hodlTargetCloseButtonStyle}
                   type="button"
-                  clickContent={() => handleCloseTarget(c.v100)}
+                  clickContent={() => handleCloseTarget('c100')}
                   disabled={!formValues.v100}
                 >
                   {null}

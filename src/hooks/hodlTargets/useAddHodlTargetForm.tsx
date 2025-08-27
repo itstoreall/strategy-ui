@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import useUpdateStrategy from '../strategy/useUpdateStrategy';
-// import { Token } from '@/src/types';
-import useFetchAllUserStrategyOrders from '../order/useFetchAllUserStrategyOrders';
+import useModal from '@/src/hooks/useModal';
+import useFetchAllUserStrategyOrders from '@/src/hooks/order/useFetchAllUserStrategyOrders';
+import useUpdateStrategy from '@/src/hooks/strategy/useUpdateStrategy';
 import { OrderStatusEnum, OrderTypeEnum, QueryKeyEnum } from '@/src/enums';
+import * as t from '@/src/types';
 import * as u from '@/src/utils';
-import useModal from '../useModal';
 // import useUpdateHodlTarget from './useUpdateHodlTarget';
 // import useCreateOrder from '@/src/hooks/order/useCreateOrder';
 // import { QueryKeyEnum } from '@/src/enums';
@@ -15,11 +15,12 @@ import useModal from '../useModal';
 type Credentials = {
   userId: string;
   symbol: string;
-  v25: number;
-  v50: number;
-  v75: number;
-  v100: number;
-};
+  // v25: number;
+  // v50: number;
+  // v75: number;
+  // v100: number;
+} & t.HodlTargets &
+  t.ClosedHodlTargets;
 
 /*
 const config = {
@@ -38,7 +39,9 @@ const useAddHodlTargetForm = (formDefaults: Credentials) => {
   // const { data: session } = useSession();
   // const userId = session?.user?.id;
 
+  /*
   const [creationError, setCreationError] = useState('');
+  */
 
   const { register, handleSubmit, formState, watch, setValue } =
     useForm<Credentials>({
@@ -61,7 +64,7 @@ const useAddHodlTargetForm = (formDefaults: Credentials) => {
 
   // const { mutate: createOrder, isSuccess, isError } = useCreateOrder(queryKeys);
   const { userId } = formDefaults;
-  const { errors, isSubmitting } = formState;
+  const { isSubmitting } = formState; // errors
 
   const { closeModal } = useModal();
   const watchedValues = watch();
@@ -95,6 +98,7 @@ const useAddHodlTargetForm = (formDefaults: Credentials) => {
     }
   }, [isSuccess, isError]);
 
+  /*
   useEffect(() => {
     if (creationError) {
       const hasChangedValues =
@@ -109,6 +113,7 @@ const useAddHodlTargetForm = (formDefaults: Credentials) => {
       }
     }
   }, [watchedValues]);
+  // */
 
   // (data) =>
   const onSubmit = handleSubmit(() => {
@@ -122,10 +127,10 @@ const useAddHodlTargetForm = (formDefaults: Credentials) => {
       v50: +watchedValues.v50,
       v75: +watchedValues.v75,
       v100: +watchedValues.v100,
-      c25: false,
-      c50: true,
-      c75: false,
-      c100: false,
+      c25: watchedValues.c25,
+      c50: watchedValues.c50,
+      c75: watchedValues.c75,
+      c100: watchedValues.c100,
     };
 
     // const closedHodlTargets = {
@@ -135,7 +140,7 @@ const useAddHodlTargetForm = (formDefaults: Credentials) => {
     //   c100: false,
     // };
 
-    // console.log('hodlTargets:', hodlTargets);
+    // console.log('watchedValues:', watchedValues);
 
     const entry = u.updateStrategyHodlTargetsEntry({
       // closedHodlTargets,
@@ -185,9 +190,9 @@ const useAddHodlTargetForm = (formDefaults: Credentials) => {
     setValue,
     onSubmit,
     watch,
-    errors,
+    // errors,
     isSubmitting,
-    creationError,
+    // creationError,
   };
 };
 
