@@ -188,7 +188,6 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
     }, [sell, cur]);
 
     const status = getStatus();
-    console.log('status:', status);
     const currentPercentDisplay =
       cur.percent < 0
         ? `${u.numberCutter(cur.percent)}%`

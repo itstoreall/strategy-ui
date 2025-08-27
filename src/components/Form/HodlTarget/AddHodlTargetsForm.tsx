@@ -17,6 +17,8 @@ import Button from '@/src/components/Button/Button';
 import Title from '@/src/components/Layout/Title';
 import Form from '@/src/components/Form/Form';
 
+type CSS = React.CSSProperties;
+
 type Props = {
   userId: string;
   tokens: t.Token[];
@@ -26,6 +28,8 @@ type Props = {
   // initSymbol: string;
   // buyTargets?: Order[];
 };
+
+type Label = 'c75' | 'c25' | 'c50' | 'c100';
 
 const c = {
   // create: 'Create',
@@ -86,8 +90,8 @@ const AddHodlTargetsForm = (props: Props) => {
   /*
   useEffect(() => {
     console.log('formValues:', formValues);
-    }, [formValues]);
-    // */
+  }, [formValues]);
+  // */
 
   const isHodlTargetsPage = path.includes('/hodl-targets');
   const validateParams = { shouldValidate: true };
@@ -162,10 +166,10 @@ const AddHodlTargetsForm = (props: Props) => {
     closeModal();
   };
 
-  const handleCloseTarget = (label: 'c75' | 'c25' | 'c50' | 'c100') => {
-    console.log('label:', label, formValues.c100);
+  const handleCloseTarget = (label: Label) => {
+    console.log('label:', label);
 
-    setValue(label, !formValues.c100, validateParams);
+    setValue(label, !formValues[label], validateParams);
   };
 
   const handleSubmit = async (e: t.FormEvent) => {
@@ -184,6 +188,45 @@ const AddHodlTargetsForm = (props: Props) => {
   };
 
   // console.log('!!initialTargets:', initialTargets, !!initialTargets);
+
+  const blue = '#225695';
+  const greyLight = '#c2c4c5';
+  const greyDeepDark = '#1d2228';
+
+  const closeStyle: CSS = {
+    color: greyLight,
+    backgroundColor: blue,
+    borderColor: blue,
+  };
+
+  const { v25, v50, v75, v100, c25, c50, c75, c100 } = formValues;
+
+  const v25InputStyle: CSS = v25 && c25 ? closeStyle : {};
+  const v50InputStyle: CSS = v50 && c50 ? closeStyle : {};
+  const v75InputStyle: CSS = v75 && c75 ? closeStyle : {};
+  const v100InputStyle: CSS = v100 && c100 ? closeStyle : {};
+
+  const c25ButtonStyle: CSS = {
+    ...hodlTargetCloseButtonStyle,
+    backgroundColor: !v25 ? greyDeepDark : '',
+  };
+
+  const c50ButtonStyle: CSS = {
+    ...hodlTargetCloseButtonStyle,
+    backgroundColor: !v50 ? greyDeepDark : '',
+  };
+
+  const c75ButtonStyle: CSS = {
+    ...hodlTargetCloseButtonStyle,
+    backgroundColor: !v75 ? greyDeepDark : '',
+  };
+
+  const c100ButtonStyle: CSS = {
+    ...hodlTargetCloseButtonStyle,
+    backgroundColor: !v100 ? greyDeepDark : '',
+  };
+
+  // console.log('formValues:', formValues);
 
   return (
     <FormWrapper className="general-form-wrapper">
@@ -213,6 +256,7 @@ const AddHodlTargetsForm = (props: Props) => {
               <div style={hodlTargetInputBlockStyle}>
                 <div style={hodlTargetInputWrapStyle}>
                   <TextInput
+                    style={v25InputStyle}
                     type="text"
                     placeholder={c.v25}
                     disabled={isPending}
@@ -229,7 +273,7 @@ const AddHodlTargetsForm = (props: Props) => {
                   />
                 </div>
                 <Button
-                  style={hodlTargetCloseButtonStyle}
+                  style={c25ButtonStyle}
                   type="button"
                   clickContent={() => handleCloseTarget('c25')}
                   disabled={!formValues.v25}
@@ -241,6 +285,7 @@ const AddHodlTargetsForm = (props: Props) => {
               <div style={hodlTargetInputBlockStyle}>
                 <div style={hodlTargetInputWrapStyle}>
                   <TextInput
+                    style={v50InputStyle}
                     type="text"
                     placeholder={c.v50}
                     disabled={isPending}
@@ -249,7 +294,7 @@ const AddHodlTargetsForm = (props: Props) => {
                   />
                 </div>
                 <Button
-                  style={hodlTargetCloseButtonStyle}
+                  style={c50ButtonStyle}
                   type="button"
                   clickContent={() => handleCloseTarget('c50')}
                   disabled={!formValues.v50}
@@ -261,6 +306,7 @@ const AddHodlTargetsForm = (props: Props) => {
               <div style={hodlTargetInputBlockStyle}>
                 <div style={hodlTargetInputWrapStyle}>
                   <TextInput
+                    style={v75InputStyle}
                     type="text"
                     placeholder={c.v75}
                     disabled={isPending}
@@ -269,7 +315,7 @@ const AddHodlTargetsForm = (props: Props) => {
                   />
                 </div>
                 <Button
-                  style={hodlTargetCloseButtonStyle}
+                  style={c75ButtonStyle}
                   type="button"
                   clickContent={() => handleCloseTarget('c75')}
                   disabled={!formValues.v75}
@@ -281,6 +327,7 @@ const AddHodlTargetsForm = (props: Props) => {
               <div style={hodlTargetInputBlockStyle}>
                 <div style={hodlTargetInputWrapStyle}>
                   <TextInput
+                    style={v100InputStyle}
                     type="text"
                     placeholder={c.v100}
                     disabled={isPending}
@@ -289,7 +336,7 @@ const AddHodlTargetsForm = (props: Props) => {
                   />
                 </div>
                 <Button
-                  style={hodlTargetCloseButtonStyle}
+                  style={c100ButtonStyle}
                   type="button"
                   clickContent={() => handleCloseTarget('c100')}
                   disabled={!formValues.v100}
