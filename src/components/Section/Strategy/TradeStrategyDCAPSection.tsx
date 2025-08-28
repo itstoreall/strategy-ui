@@ -42,6 +42,8 @@ export type Strategy = t.TradeStrategy | null;
 
 const c = {
   avg: 'AVG',
+  btcSymbol: 'BTC',
+  ethSymbol: 'ETH',
   deleteLSStrategy: 'LS Strategy will be deleted!',
   loading: 'loading',
   stopLoss: 'stop-loss',
@@ -63,7 +65,10 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
   const redirectTo = useRedirect();
 
   const isDisplayCloseButton = sellPrice && token.price >= +sellPrice;
-  // const isDisplayCloseButton = true;
+  /*
+  const isBTC = token.symbol === c.btcSymbol;
+  const isDisplayCloseButton = true;
+  */
 
   const {
     isStrategyModal,
@@ -215,7 +220,7 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
         >
           <span className="dca-plus-list-item-title">{c.buy}</span>
           <span>$ {buy.price}</span>
-          <span>{buy.amount}</span>
+          <span>{+buy.amount}</span>
         </li>
         <li
           className={sellItemStyle}
@@ -223,7 +228,7 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
         >
           <span className="dca-plus-list-item-title">{c.sell}</span>
           <span>$ {sell.price}</span>
-          <span>{sell.amount}</span>
+          <span>{+sell.amount}</span>
         </li>
       </ul>
     );
