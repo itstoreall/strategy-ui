@@ -119,7 +119,15 @@ section.hodl-target-list {
             cursor: pointer;
 
             &.achieved {
+              background-color: $googleGreen;
+              // background-color: $blue;
+              color: $blackMiddle;
+              // font-weight: 500;
+            }
+
+            &.closed {
               background-color: $blue;
+              // cursor: pointer;
             }
 
             @include media-screen-orientation('min', $tablet) {

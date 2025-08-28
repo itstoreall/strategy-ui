@@ -54,3 +54,8 @@ export const updateHodlTargets = (symbol: string) => {
   return `Update!
 ${symbol} Hodl Targets will be updated`;
 };
+
+export const deleteHodlTargets = (symbol: string) => {
+  return `Delete!
+${symbol} Hodl Targets will be deleted`;
+};

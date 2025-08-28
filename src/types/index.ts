@@ -218,10 +218,3 @@ export type HodlTargetsData = {
   symbol: string;
   hodlTargets: HodlTargets & ClosedHodlTargets;
 };
-
-// export type HodlTargetsEntry = {
-//   volume25: number;
-//   volume50: number;
-//   volume75: number;
-//   volume100: number;
-// };

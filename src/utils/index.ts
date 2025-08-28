@@ -351,16 +351,23 @@ export const updateStrategyHistoryEntry = (args: UpdStrategyHistoryEntry) => {
 
 export const updateStrategyHodlTargetsEntry = (args: {
   hodlTargets: HodlTargets;
-  // closedHodlTargets: ClosedHodlTargets;
   stgData: string;
 }) => {
   const { hodlTargets, stgData } = args;
-  // const newEntry = hodlTargets;
-  // const newEntry = { v25, v50, v75, v100 };
+  const emptyEntry = Object.values(hodlTargets).every((val) => !val);
   const strategyData = JSON.parse(stgData);
-  const updatedHodlTargets = [hodlTargets];
-  return {
-    ...strategyData,
-    hodlTargets: updatedHodlTargets,
-  };
+  if (emptyEntry) {
+    delete strategyData.hodlTargets;
+    if (!Object.keys(strategyData).length) {
+      return null;
+    } else {
+      return strategyData;
+    }
+  } else {
+    const updatedHodlTargets = [hodlTargets];
+    return {
+      ...strategyData,
+      hodlTargets: updatedHodlTargets,
+    };
+  }
 };

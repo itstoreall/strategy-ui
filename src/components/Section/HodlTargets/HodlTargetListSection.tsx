@@ -319,10 +319,51 @@ const HodlTargetListSection = (props: Props) => {
 
     // const isClosed00 = hodlTargets.v100 > 0 && currentPrice >= hodlTargets.v100;
 
-    const v25Style = isGreen25 ? 'achieved' : is25 || isMore25 ? 'active' : '';
-    const v50Style = isGreen50 ? 'achieved' : is50 || isMore50 ? 'active' : '';
-    const v75Style = isGreen75 ? 'achieved' : is75 || isMore75 ? 'active' : '';
-    const v100Style = isAchvd100 ? 'achieved' : is100 ? 'active' : '';
+    const isClosed25 = hodlTargets.c25;
+    const isClosed50 = hodlTargets.c50;
+    const isClosed75 = hodlTargets.c75;
+    const isClosed100 = hodlTargets.c100;
+
+    // console.log('hodlTargets:', hodlTargets);
+
+    const isBlue25 = isClosed25 || isClosed50 || isClosed75 || isClosed100;
+    const isBlue50 = isClosed50 || isClosed75 || isClosed100;
+    const isBlue75 = isClosed75 || isClosed100;
+    const isBlue100 = isClosed100;
+
+    // console.log('isBlue25 50 75:', isBlue25, isBlue50, isBlue75);
+
+    const v25Style = isBlue25
+      ? 'closed'
+      : isGreen25
+      ? 'achieved'
+      : is25 || isMore25
+      ? 'active'
+      : '';
+
+    const v50Style = isBlue50
+      ? 'closed'
+      : isGreen50
+      ? 'achieved'
+      : is50 || isMore50
+      ? 'active'
+      : '';
+
+    const v75Style = isBlue75
+      ? 'closed'
+      : isGreen75
+      ? 'achieved'
+      : is75 || isMore75
+      ? 'active'
+      : '';
+
+    const v100Style = isBlue100
+      ? 'closed'
+      : isAchvd100
+      ? 'achieved'
+      : is100
+      ? 'active'
+      : '';
 
     /*
     if (symbol === 'ETH') {

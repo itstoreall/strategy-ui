@@ -1,13 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useTransition } from 'react';
 import { usePathname } from 'next/navigation';
+import { IoMdTrash } from 'react-icons/io';
 // import useCreateOrderForm from '@/src/hooks/order/useAddOrderForm';
 import useAddHodlTargetForm from '@/src/hooks/hodlTargets/useAddHodlTargetForm';
 import useSelectMulti from '@/src/hooks/useSelectMulti';
 import useModal from '@/src/hooks/useModal';
 import * as t from '@/src/types';
 import { OrderTypeEnum } from '@/src/enums';
-import { updateHodlTargets } from '@/src/messages/confirm';
+import * as confirmMsg from '@/src/messages/confirm';
 import FormBackdropContainer from '@/src/components/Container/FormBackdrop';
 import FormContentContainer from '@/src/components/Container/FormContent';
 import FormWrapper from '@/src/components/Container/FormWrapper';
@@ -38,6 +39,10 @@ const c = {
   v50: '50%',
   v75: '75%',
   v100: '100%',
+  c25: 'c25',
+  c50: 'c50',
+  c75: 'c75',
+  c100: 'c100',
   submit: 'Submit',
 };
 
@@ -167,24 +172,114 @@ const AddHodlTargetsForm = (props: Props) => {
   };
 
   const handleCloseTarget = (label: Label) => {
-    console.log('label:', label);
+    // console.log('label:', label);
+    // const initC25 = formValues.c25;
+    const initC50 = formValues.c50;
+    const initC75 = formValues.c75;
+    const initC100 = formValues.c100;
 
-    setValue(label, !formValues[label], validateParams);
+    const handleC50 = () => {
+      setValue('c25', !formValues[label], validateParams);
+    };
+
+    const setC75 = () => {
+      setValue('c50', !formValues[label], validateParams);
+    };
+
+    const setC100 = () => {
+      setValue('c75', !formValues[label], validateParams);
+    };
+
+    const updateC50 = () => {
+      const val = !formValues[label] === false ? false : initC50;
+      setValue('c50', val, validateParams);
+    };
+
+    const updateC75 = () => {
+      const val = !formValues[label] === false ? false : initC75;
+      setValue('c75', val, validateParams);
+    };
+
+    const updateC100 = () => {
+      const val = !formValues[label] === false ? false : initC100;
+      setValue('c100', val, validateParams);
+    };
+
+    if (label === c.c25) {
+      setValue(label, !formValues[label], validateParams);
+
+      if (!!formValues.v50) {
+        updateC50();
+      }
+      if (!!formValues.v75) {
+        updateC75();
+      }
+      if (!!formValues.v100) {
+        updateC100();
+      }
+    } else if (label === c.c50) {
+      setValue(label, !formValues[label], validateParams);
+
+      if (!!formValues.v25) {
+        handleC50();
+      }
+      if (!!formValues.v75) {
+        updateC75();
+      }
+      if (!!formValues.v100) {
+        updateC100();
+      }
+    } else if (label === c.c75) {
+      setValue(label, !formValues[label], validateParams);
+
+      if (!!formValues.v25) {
+        handleC50();
+      }
+      if (!!formValues.v50) {
+        setC75();
+      }
+      if (!!formValues.v100) {
+        updateC100();
+      }
+    } else if (label === c.c100) {
+      setValue(label, !formValues[label], validateParams);
+      if (!!formValues.v25) {
+        handleC50();
+      }
+      if (!!formValues.v50) {
+        setC75();
+      }
+      if (!!formValues.v75) {
+        setC100();
+      }
+    }
+  };
+
+  const deleteHodlTargets = () => {
+    if (!confirm(confirmMsg.deleteHodlTargets(symbol))) return;
+    updateFormStates({
+      symbol,
+      v25: initForm.v25,
+      v50: initForm.v50,
+      v75: initForm.v75,
+      v100: initForm.v100,
+      c25: initForm.c25,
+      c50: initForm.c50,
+      c75: initForm.c75,
+      c100: initForm.c100,
+    });
   };
 
   const handleSubmit = async (e: t.FormEvent) => {
     e.preventDefault();
     console.log('submit!');
-
-    if (!confirm(updateHodlTargets(symbol))) return;
-
+    if (!confirm(confirmMsg.updateHodlTargets(symbol))) return;
     // /*
     setIsProcess(true);
     startTransition(async () => {
       onSubmit();
     });
     // */
-    // }
   };
 
   // console.log('!!initialTargets:', initialTargets, !!initialTargets);
@@ -201,10 +296,21 @@ const AddHodlTargetsForm = (props: Props) => {
 
   const { v25, v50, v75, v100, c25, c50, c75, c100 } = formValues;
 
-  const v25InputStyle: CSS = v25 && c25 ? closeStyle : {};
-  const v50InputStyle: CSS = v50 && c50 ? closeStyle : {};
-  const v75InputStyle: CSS = v75 && c75 ? closeStyle : {};
-  const v100InputStyle: CSS = v100 && c100 ? closeStyle : {};
+  const isClosed25 = v25 && c25;
+  const isClosed50 = v50 && c50;
+  const isClosed75 = v75 && c75;
+  const isClosed100 = v100 && c100;
+
+  // const isBlue25 =
+  //   isClosed25 || (isClosed25 && (isClosed50 || isClosed75 || isClosed100));
+
+  // const isClosed50isBlue50 =
+  //   isClosed50 || (isClosed50 && (isClosed75 || isClosed100));
+
+  const v25InputStyle: CSS = isClosed25 ? closeStyle : {};
+  const v50InputStyle: CSS = isClosed50 ? closeStyle : {};
+  const v75InputStyle: CSS = isClosed75 ? closeStyle : {};
+  const v100InputStyle: CSS = isClosed100 ? closeStyle : {};
 
   const c25ButtonStyle: CSS = {
     ...hodlTargetCloseButtonStyle,
@@ -346,6 +452,21 @@ const AddHodlTargetsForm = (props: Props) => {
               </div>
 
               <div style={{ display: 'flex', gap: '1rem' }}>
+                <Button
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flex: '0 0 47px',
+                    padding: 0,
+                    backgroundColor: '#fbbc05',
+                  }}
+                  clickContent={deleteHodlTargets}
+                  type="button"
+                >
+                  <IoMdTrash size={28} fill="#151a1e" />
+                </Button>
+
                 <Button disabled={isPending} type="submit">
                   {c.submit}
                 </Button>

@@ -10,7 +10,7 @@ import { ExchangeEnum, QueryKeyEnum } from '@/src/enums';
 import * as confirmMsg from '@/src/messages/confirm';
 import * as t from '@/src/types';
 import * as u from '@/src/utils';
-import TradeStrategyModalContentSection from '@/src/components/Section/Strategy/TradeStrategyModalContentSection';
+// import TradeStrategyModalContentSection from '@/src/components/Section/Strategy/TradeStrategyModalContentSection';
 import ListLoader from '@/src/components/ListLoader';
 import Button from '@/src/components/Button/Button';
 
@@ -53,7 +53,7 @@ const c = {
 
 const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
   // const [copiedField, setCopiedField] = useState<CopiedField | null>(null);
-  const [storedStrategy, setStoredStrategy] = useState<Strategy>(null);
+  // const [storedStrategy, setStoredStrategy] = useState<Strategy>(null);
   const [sellPrice, setSellPrice] = useState<string | null>(null);
   const [orders, setOrders] = useState<t.Order[] | null>(null);
 
@@ -71,21 +71,23 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
   */
 
   const {
-    isStrategyModal,
+    // isStrategyModal,
     ModalContentEnum,
-    RenderModal,
+    // RenderModal,
     openModal,
     closeModal,
   } = useModal();
 
   // ---
 
+  /*
   useEffect(() => {
     const lsData = getLSCurrentStrategy(token.symbol);
     if (lsData) {
       setStoredStrategy(lsData);
     }
   }, []);
+  */
 
   useLayoutEffect(() => {
     setOrders(orderData.orders);
@@ -106,6 +108,7 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
 
   // ---
 
+  /*
   const getLSCurrentStrategy = (_symbol: string): t.TradeStrategy | null => {
     const lsData = u.getLSTradeStrategyData();
     const lsStrategy = lsData
@@ -115,29 +118,30 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
       : null;
     return lsStrategy ? lsStrategy : null;
   };
+  */
 
-  const resetTradeStrategy = (isClose: boolean) => {
-    const storedData = u.getLSTradeStrategyData();
-    const confirmMsg = `${token.symbol} ${c.deleteLSStrategy}`;
-    if (!confirm(confirmMsg) || !storedData) return;
-    const dataWithoutCurrentToken = storedData.filter((el: t.TradeStrategy) => {
-      return el.symbol !== token.symbol;
-    });
+  // const resetTradeStrategy = (isClose: boolean) => {
+  //   const storedData = u.getLSTradeStrategyData();
+  //   const confirmMsg = `${token.symbol} ${c.deleteLSStrategy}`;
+  //   if (!confirm(confirmMsg) || !storedData) return;
+  //   const dataWithoutCurrentToken = storedData.filter((el: t.TradeStrategy) => {
+  //     return el.symbol !== token.symbol;
+  //   });
 
-    if (dataWithoutCurrentToken.length) {
-      if (storedData.length > dataWithoutCurrentToken.length) {
-        u.updateLSTradeStrategyData(dataWithoutCurrentToken);
-        setStoredStrategy(null);
-      }
-    } else {
-      u.deleteLSTradeStrategyData();
-      setStoredStrategy(null);
-    }
-    if (isClose) {
-      closeModal();
-      return;
-    }
-  };
+  //   if (dataWithoutCurrentToken.length) {
+  //     if (storedData.length > dataWithoutCurrentToken.length) {
+  //       u.updateLSTradeStrategyData(dataWithoutCurrentToken);
+  //       setStoredStrategy(null);
+  //     }
+  //   } else {
+  //     u.deleteLSTradeStrategyData();
+  //     setStoredStrategy(null);
+  //   }
+  //   if (isClose) {
+  //     closeModal();
+  //     return;
+  //   }
+  // };
 
   /*
   const handleCopyValue = (id: number, key: string, val: number) => {
@@ -269,22 +273,22 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
         </div>
       </section>
 
-      {isStrategyModal && (
+      {/* {isStrategyModal && (
         <RenderModal>
           <TradeStrategyModalContentSection
             storedStrategy={storedStrategy}
             resetTradeStrategy={resetTradeStrategy}
           />
         </RenderModal>
-      )}
-      {isStrategyModal && (
+      )} */}
+      {/* {isStrategyModal && (
         <RenderModal>
           <TradeStrategyModalContentSection
             storedStrategy={storedStrategy}
             resetTradeStrategy={resetTradeStrategy}
           />
         </RenderModal>
-      )}
+      )} */}
     </>
   ) : null;
 };

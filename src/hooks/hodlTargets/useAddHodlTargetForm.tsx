@@ -133,17 +133,7 @@ const useAddHodlTargetForm = (formDefaults: Credentials) => {
       c100: watchedValues.c100,
     };
 
-    // const closedHodlTargets = {
-    //   c25: false,
-    //   c50: true,
-    //   c75: false,
-    //   c100: false,
-    // };
-
-    // console.log('watchedValues:', watchedValues);
-
     const entry = u.updateStrategyHodlTargetsEntry({
-      // closedHodlTargets,
       hodlTargets,
       stgData: userOrderData.strategy.data,
     });
