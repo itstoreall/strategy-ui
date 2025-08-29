@@ -227,7 +227,7 @@ const HodlTargetListSection = (props: Props) => {
   // ---
 
   const HodlTargetListItem = ({ el }: { el: ExpandedData }) => {
-    const { symbol, hodlTargets, currentPrice } = el;
+    const { symbol, hodlTargets: targets, currentPrice } = el;
 
     // const strategyPath = `/strategy/${strategy}-${symbol}`;
     // const percentValue = percent < 0 && percent > -0.09 ? 0 : percent;
@@ -288,22 +288,22 @@ const HodlTargetListSection = (props: Props) => {
 
     const editHodlTargets = (symbol: string) => {
       // console.log('editHodlTargets:', symbol, hodlTargets);
-      handleEditTargets({ symbol, hodlTargets });
+      handleEditTargets({ symbol, hodlTargets: targets });
     };
 
-    const is25 = hodlTargets.v25 > 0;
-    const is50 = hodlTargets.v50 > 0;
-    const is75 = hodlTargets.v75 > 0;
-    const is100 = hodlTargets.v100 > 0;
+    const is25 = targets.v25 > 0;
+    const is50 = targets.v50 > 0;
+    const is75 = targets.v75 > 0;
+    const is100 = targets.v100 > 0;
 
     const isMore25 = is50 || is75 || is100;
     const isMore50 = is75 || is100;
     const isMore75 = is100;
 
-    const isAchvd25 = is25 && currentPrice >= hodlTargets.v25;
-    const isAchvd50 = is50 && currentPrice >= hodlTargets.v50;
-    const isAchvd75 = is75 && currentPrice >= hodlTargets.v75;
-    const isAchvd100 = is100 && currentPrice >= hodlTargets.v100;
+    const isAchvd25 = is25 && currentPrice >= targets.v25;
+    const isAchvd50 = is50 && currentPrice >= targets.v50;
+    const isAchvd75 = is75 && currentPrice >= targets.v75;
+    const isAchvd100 = is100 && currentPrice >= targets.v100;
 
     const isGreen25 =
       (isMore25 && isAchvd50) ||
@@ -319,10 +319,10 @@ const HodlTargetListSection = (props: Props) => {
 
     // const isClosed00 = hodlTargets.v100 > 0 && currentPrice >= hodlTargets.v100;
 
-    const isClosed25 = hodlTargets.c25;
-    const isClosed50 = hodlTargets.c50;
-    const isClosed75 = hodlTargets.c75;
-    const isClosed100 = hodlTargets.c100;
+    const isClosed25 = targets.c25;
+    const isClosed50 = targets.c50;
+    const isClosed75 = targets.c75;
+    const isClosed100 = targets.c100;
 
     // console.log('hodlTargets:', hodlTargets);
 
@@ -382,10 +382,12 @@ const HodlTargetListSection = (props: Props) => {
     console.log('75---->:', symbol, isAchvd100, hodlTargets.v100, currentPrice);
     // */
 
-    // disable achieved closed
+    const isSingleItem = hodlTargets?.length === 1 ? 'single-item' : '';
+
+    const listItemStyle = `section-hodl-target-list-item ${isSingleItem}`;
 
     return (
-      <li className="section-hodl-target-list-item">
+      <li className={listItemStyle}>
         <div
           className="section-hodl-target-list-item-content"
           onClick={() => editHodlTargets(symbol)}
@@ -398,19 +400,19 @@ const HodlTargetListSection = (props: Props) => {
 
           <div className="hodl-target-values-block">
             <span className={`hodl-target-part ${v25Style}`}>
-              {!!hodlTargets.v25 && <span>{'25%'}</span>}
+              {!!targets.v25 && <span>{'25%'}</span>}
             </span>
 
             <span className={`hodl-target-part ${v50Style}`}>
-              {!!hodlTargets.v50 && <span>{'50%'}</span>}
+              {!!targets.v50 && <span>{'50%'}</span>}
             </span>
 
             <span className={`hodl-target-part ${v75Style}`}>
-              {!!hodlTargets.v75 && <span>{'75%'}</span>}
+              {!!targets.v75 && <span>{'75%'}</span>}
             </span>
 
             <span className={`hodl-target-part ${v100Style}`}>
-              {!!hodlTargets.v100 && <span>{'100%'}</span>}
+              {!!targets.v100 && <span>{'100%'}</span>}
             </span>
           </div>
         </div>

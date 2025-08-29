@@ -98,6 +98,22 @@ section.hodl-target-list {
           }
         }
 
+        &.single-item {
+          > div.section-hodl-target-list-item-content {
+            > span.hodl-target-values-symbol {
+              border-radius: $middleBorderRadius 0 0 $middleBorderRadius;
+            }
+
+            > div.hodl-target-values-block {
+              > span.hodl-target-part {
+                &:nth-child(4) {
+                  border-radius: 0 $middleBorderRadius $middleBorderRadius 0;
+                }
+              }
+            }
+          }
+        }
+
         > div.section-hodl-target-list-item-content {
           display: flex;
           // gap: 0.5rem;

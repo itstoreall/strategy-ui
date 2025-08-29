@@ -30,8 +30,6 @@ type Props = {
   // buyTargets?: Order[];
 };
 
-type Label = 'c75' | 'c25' | 'c50' | 'c100';
-
 const c = {
   // create: 'Create',
   formTitle: 'Add Hodl Target',
@@ -45,6 +43,8 @@ const c = {
   c100: 'c100',
   submit: 'Submit',
 };
+
+type Label = 'c25' | 'c50' | 'c75' | 'c100';
 
 type FormState = t.HodlTargets & t.ClosedHodlTargets & { symbol: string };
 
@@ -155,7 +155,6 @@ const AddHodlTargetsForm = (props: Props) => {
   };
 
   const updateFormStates = (args: FormState) => {
-    // const validateParams = { shouldValidate: true };
     setValue('symbol', args.symbol, validateParams);
     setValue('v25', args.v25, validateParams);
     setValue('v50', args.v50, validateParams);
@@ -172,86 +171,44 @@ const AddHodlTargetsForm = (props: Props) => {
   };
 
   const handleCloseTarget = (label: Label) => {
-    // console.log('label:', label);
-    // const initC25 = formValues.c25;
-    const initC50 = formValues.c50;
-    const initC75 = formValues.c75;
-    const initC100 = formValues.c100;
+    setValue(label, !formValues[label], validateParams);
 
-    const handleC50 = () => {
-      setValue('c25', !formValues[label], validateParams);
+    const updBefore = (label: Label) => {
+      const newValue = !formValues[label];
+      const val =
+        newValue === true
+          ? true
+          : !!initialTargets?.hodlTargets[label]
+          ? initialTargets.hodlTargets[label]
+          : formValues[label];
+      setValue(label, val, validateParams);
     };
 
-    const setC75 = () => {
-      setValue('c50', !formValues[label], validateParams);
+    const updAfter = (label: Label) => {
+      setValue(label, false, validateParams);
     };
 
-    const setC100 = () => {
-      setValue('c75', !formValues[label], validateParams);
-    };
-
-    const updateC50 = () => {
-      const val = !formValues[label] === false ? false : initC50;
-      setValue('c50', val, validateParams);
-    };
-
-    const updateC75 = () => {
-      const val = !formValues[label] === false ? false : initC75;
-      setValue('c75', val, validateParams);
-    };
-
-    const updateC100 = () => {
-      const val = !formValues[label] === false ? false : initC100;
-      setValue('c100', val, validateParams);
-    };
-
-    if (label === c.c25) {
-      setValue(label, !formValues[label], validateParams);
-
-      if (!!formValues.v50) {
-        updateC50();
-      }
-      if (!!formValues.v75) {
-        updateC75();
-      }
-      if (!!formValues.v100) {
-        updateC100();
-      }
-    } else if (label === c.c50) {
-      setValue(label, !formValues[label], validateParams);
-
-      if (!!formValues.v25) {
-        handleC50();
-      }
-      if (!!formValues.v75) {
-        updateC75();
-      }
-      if (!!formValues.v100) {
-        updateC100();
-      }
-    } else if (label === c.c75) {
-      setValue(label, !formValues[label], validateParams);
-
-      if (!!formValues.v25) {
-        handleC50();
-      }
-      if (!!formValues.v50) {
-        setC75();
-      }
-      if (!!formValues.v100) {
-        updateC100();
-      }
-    } else if (label === c.c100) {
-      setValue(label, !formValues[label], validateParams);
-      if (!!formValues.v25) {
-        handleC50();
-      }
-      if (!!formValues.v50) {
-        setC75();
-      }
-      if (!!formValues.v75) {
-        setC100();
-      }
+    switch (label) {
+      case c.c25:
+        if (!!formValues.v50) updAfter('c50');
+        if (!!formValues.v75) updAfter('c75');
+        if (!!formValues.v100) updAfter('c100');
+        break;
+      case c.c50:
+        if (!!formValues.v25) updBefore('c25');
+        if (!!formValues.v75) updAfter('c75');
+        if (!!formValues.v100) updAfter('c100');
+        break;
+      case c.c75:
+        if (!!formValues.v25) updBefore('c25');
+        if (!!formValues.v50) updBefore('c50');
+        if (!!formValues.v100) updAfter('c100');
+        break;
+      case c.c100:
+        if (!!formValues.v25) updBefore('c25');
+        if (!!formValues.v50) updBefore('c50');
+        if (!!formValues.v75) updBefore('c75');
+        break;
     }
   };
 
@@ -281,8 +238,6 @@ const AddHodlTargetsForm = (props: Props) => {
     });
     // */
   };
-
-  // console.log('!!initialTargets:', initialTargets, !!initialTargets);
 
   const blue = '#225695';
   const greyLight = '#c2c4c5';
@@ -459,8 +414,8 @@ const AddHodlTargetsForm = (props: Props) => {
                     alignItems: 'center',
                     flex: '0 0 47px',
                     padding: 0,
-                    backgroundColor: '#fbbc05',
                   }}
+                  className="yellow-button"
                   clickContent={deleteHodlTargets}
                   type="button"
                 >
