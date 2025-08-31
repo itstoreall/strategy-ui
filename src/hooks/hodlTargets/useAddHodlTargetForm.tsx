@@ -119,6 +119,7 @@ const useAddHodlTargetForm = (formDefaults: Credentials) => {
   const onSubmit = handleSubmit(() => {
     if (!userOrderData || !userOrderData?.strategy) {
       alert(`No ${watchedValues.symbol} Strategy in DB`);
+      closeModal();
       return;
     }
 
