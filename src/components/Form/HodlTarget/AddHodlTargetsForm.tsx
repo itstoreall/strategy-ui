@@ -229,7 +229,11 @@ const AddHodlTargetsForm = (props: Props) => {
 
   const handleSubmit = async (e: t.FormEvent) => {
     e.preventDefault();
-    console.log('submit!');
+    if (!symbol) {
+      alert('Symbol is required!');
+      return;
+    }
+    console.log(`${symbol} submit!`);
     if (!confirm(confirmMsg.updateHodlTargets(symbol))) return;
     // /*
     setIsProcess(true);

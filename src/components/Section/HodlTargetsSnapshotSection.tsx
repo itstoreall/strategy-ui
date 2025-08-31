@@ -3,22 +3,26 @@
 // import * as msg from '@/src/messages/alert';
 // import DotsLoader from '@/src/components/DotsLoader';
 
+import { HodlTargetsData } from '@/src/types';
+
 type Props = {
-  value1: number;
+  assets: HodlTargetsData[];
   value2: number;
   value3: number;
   value4: number;
 };
 
 const c = {
-  empty1: 'Empty 1',
+  assets: 'Assets',
   empty2: 'Empty 2',
   empty3: 'Empty 3',
   empty4: 'Empty 4',
 };
 
 const HodlTargetsSnapshotSection = (props: Props) => {
-  const { value1, value2, value3, value4 } = props;
+  const { assets, value2, value3, value4 } = props;
+
+  const assetsNumber = assets ? assets.length : 0;
 
   // const { updatedTokens } = useGlobalState();
 
@@ -40,8 +44,8 @@ const HodlTargetsSnapshotSection = (props: Props) => {
       <ul className="section-content snapshot-list">
         <li className="snapshot-item">
           <div className="item-content">
-            <span className="content-name">{c.empty1}</span>
-            <span className="content-value">{value1}</span>
+            <span className="content-name">{c.assets}</span>
+            <span className="content-value">{assetsNumber}</span>
           </div>
         </li>
 

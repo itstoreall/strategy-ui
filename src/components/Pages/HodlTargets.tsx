@@ -265,12 +265,14 @@ const HodlTargets = () => {
         {userOrders && updatedTokens?.length ? (
           <div className="main-content">
             <SectionsContainer>
-              <HodlTargetsSnapshotSection
-                value1={1}
-                value2={2}
-                value3={3}
-                value4={4}
-              />
+              {hodlTargetsData && (
+                <HodlTargetsSnapshotSection
+                  assets={hodlTargetsData}
+                  value2={2}
+                  value3={3}
+                  value4={4}
+                />
+              )}
 
               {hodlTargetsData?.length && userOrders.buy.length ? (
                 <HodlTargetListSection
