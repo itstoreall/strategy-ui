@@ -6,9 +6,10 @@ type Props = {
   tokens: Token[] | null;
 };
 
-const set1 = [{ symbols: ['BTC', 'ETH'] }, { symbols: ['SUI', 'CETUS'] }];
-const set2 = [{ symbols: ['ENA', 'ONDO'] }, { symbols: ['TON', 'SEI'] }];
-const set3 = [{ symbols: ['W', 'SAHARA'] }, { symbols: ['STRK', 'PEPE'] }];
+const set1 = [{ symbols: ['BTC', 'ETH'] }, { symbols: ['SUI', 'SEI'] }];
+const set2 = [{ symbols: ['ENA', 'ONDO'] }, { symbols: ['TON', 'LDO'] }];
+const set3 = [{ symbols: ['EIGEN', 'ETHFI'] }, { symbols: ['ZRO', 'ZK'] }];
+const set4 = [{ symbols: ['W', 'WLFI'] }, { symbols: ['STRK', 'PEPE'] }];
 
 const PricesSection = ({ tokens }: Props) => {
   const ItemContent = ({ symbol }: { symbol: string }) => {
@@ -43,6 +44,7 @@ const PricesSection = ({ tokens }: Props) => {
         <PriceList tokenSet={set1} />
         <PriceList tokenSet={set2} />
         <PriceList tokenSet={set3} />
+        <PriceList tokenSet={set4} />
       </div>
     </section>
   );
