@@ -7,9 +7,9 @@ type Props = {
 };
 
 const set1 = [{ symbols: ['BTC', 'ETH'] }, { symbols: ['SUI', 'SEI'] }];
-const set2 = [{ symbols: ['ENA', 'ONDO'] }, { symbols: ['TON', 'LDO'] }];
-const set3 = [{ symbols: ['EIGEN', 'ETHFI'] }, { symbols: ['ZRO', 'ZK'] }];
-const set4 = [{ symbols: ['W', 'WLFI'] }, { symbols: ['STRK', 'PEPE'] }];
+const set2 = [{ symbols: ['ENA', 'ONDO'] }, { symbols: ['TON', 'ZRO'] }];
+const set3 = [{ symbols: ['EIGEN', 'LDO'] }, { symbols: ['PENDLE', 'IOTA'] }];
+const set4 = [{ symbols: ['PYTH', 'WLFI'] }, { symbols: ['STRK', 'PEPE'] }];
 
 const PricesSection = ({ tokens }: Props) => {
   const ItemContent = ({ symbol }: { symbol: string }) => {
