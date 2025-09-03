@@ -219,6 +219,9 @@ const OrderListSection = (props: Props) => {
       currentTargetPrice &&
       currentTargetPrice > u.plusPercent(order.price, 0.04);
 
+    const symbolDisplay =
+      symbol.length <= 7 ? symbol : `${symbol.slice(0, 6)}..`;
+
     // --- Styles
 
     const customStatus =
@@ -249,8 +252,8 @@ const OrderListSection = (props: Props) => {
           <ul className="section-order-list-item-row-list">
             <li className="row-list-item order-symbol">
               <span className="row-list-item-token-symbol">
-                {symbol}
-                {/* {'WERTFGR'} */}
+                {symbolDisplay}
+                {/* {'VELODROME'} */}
                 {currentTargetPrice && (
                   <span className={tokenPriceStyle}>
                     {u.handlePriceDisplay(symbol, currentTargetPrice, 3)}
