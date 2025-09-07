@@ -66,8 +66,10 @@ const HodlTargetListSection = (props: Props) => {
 
   useEffect(() => {
     if (data && tokens) {
-      const expandedData = extandData(data, tokens);
-      setHodlTargets(sortBySymbol(expandedData) as ExpandedData[]);
+      const limitedData = isExpanded
+        ? extandData(data, tokens)
+        : sortBySymbol(data).slice(0, c.itemLimit);
+      setHodlTargets(sortBySymbol(limitedData) as ExpandedData[]);
     }
   }, [data, tokens]);
 
@@ -108,8 +110,8 @@ const HodlTargetListSection = (props: Props) => {
     if (!hodlTargets || !tokens) return;
     localStorage.setItem(currentLsKey, JSON.stringify(isExpanded));
     const limitedData = isExpanded
-      ? hodlTargets.slice(0, c.itemLimit)
-      : extandData(data, tokens);
+      ? extandData(data, tokens)
+      : hodlTargets.slice(0, c.itemLimit);
     setHodlTargets(sortBySymbol(limitedData) as ExpandedData[]);
   }, [isExpanded]);
 
