@@ -39,7 +39,7 @@ const c = {
   lsHodlTargetsLimitKey: 'hodlTargetListLimited',
   // confirmDeletion: 'Buy Target will be deleted!',
   customTitle: 'Targets',
-  itemLimit: 5,
+  itemLimit: 8,
   // fourPercent: 4,
   // sevenPercent: 7,
   // buy: 'Buy',
