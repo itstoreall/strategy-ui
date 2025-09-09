@@ -37,28 +37,25 @@ const c = {
   v50: '50%',
   v75: '75%',
   v100: '100%',
+  w: 'w',
   c25: 'c25',
   c50: 'c50',
   c75: 'c75',
   c100: 'c100',
   submit: 'Submit',
+  price: 'price',
 };
 
 type Label = 'c25' | 'c50' | 'c75' | 'c100';
 
 type FormState = t.HodlTargets & t.ClosedHodlTargets & { symbol: string };
 
-const initForm: FormState = {
-  symbol: '',
-  v25: 0,
-  v50: 0,
-  v75: 0,
-  v100: 0,
-  c25: false,
-  c50: false,
-  c75: false,
-  c100: false,
-};
+// --- CSS Styles
+
+const blue = '#225695';
+const greyLight = '#c2c4c5';
+const greyDeepDark = '#1d2228';
+const violetLight = '#a676a6';
 
 const hodlTargetInputBlockStyle: React.CSSProperties = {
   display: 'flex',
@@ -72,6 +69,46 @@ const hodlTargetInputWrapStyle: React.CSSProperties = {
 
 const hodlTargetCloseButtonStyle: React.CSSProperties = {
   width: '50px',
+};
+
+const additionValueStyle: React.CSSProperties = {
+  marginRight: '5px',
+  textTransform: 'capitalize',
+  fontSize: '1rem',
+  color: violetLight,
+};
+
+const weeklyInputStyle: React.CSSProperties = {
+  padding: 0,
+  height: '16px',
+  width: '95px',
+  fontSize: '1rem',
+  color: violetLight,
+  backgroundColor: 'transparent',
+  // backgroundColor: 'teal',
+  border: 'none',
+  borderRadius: 0,
+};
+
+const closeStyle: CSS = {
+  color: greyLight,
+  backgroundColor: blue,
+  borderColor: blue,
+};
+
+// --- c
+
+const initForm: FormState = {
+  symbol: '',
+  v25: 0,
+  v50: 0,
+  v75: 0,
+  v100: 0,
+  w: 0, // weekly quantity of assets for sale
+  c25: false,
+  c50: false,
+  c75: false,
+  c100: false,
 };
 
 const AddHodlTargetsForm = (props: Props) => {
@@ -91,6 +128,8 @@ const AddHodlTargetsForm = (props: Props) => {
 
   const formValues = watch();
   const { symbol } = formValues;
+  const selectedAsset = tokens.find((t) => t.symbol === symbol);
+  const selectedAssetPrice = selectedAsset?.price || 0;
 
   /*
   useEffect(() => {
@@ -119,6 +158,7 @@ const AddHodlTargetsForm = (props: Props) => {
         v50: initialTargets.hodlTargets.v50,
         v75: initialTargets.hodlTargets.v75,
         v100: initialTargets.hodlTargets.v100,
+        w: initialTargets.hodlTargets.w,
         c25: initialTargets.hodlTargets.c25,
         c50: initialTargets.hodlTargets.c50,
         c75: initialTargets.hodlTargets.c75,
@@ -160,6 +200,7 @@ const AddHodlTargetsForm = (props: Props) => {
     setValue('v50', args.v50, validateParams);
     setValue('v75', args.v75, validateParams);
     setValue('v100', args.v100, validateParams);
+    setValue('w', args.w, validateParams);
     setValue('c25', args.c25, validateParams);
     setValue('c50', args.c50, validateParams);
     setValue('c75', args.c75, validateParams);
@@ -220,6 +261,7 @@ const AddHodlTargetsForm = (props: Props) => {
       v50: initForm.v50,
       v75: initForm.v75,
       v100: initForm.v100,
+      w: initForm.w,
       c25: initForm.c25,
       c50: initForm.c50,
       c75: initForm.c75,
@@ -243,15 +285,11 @@ const AddHodlTargetsForm = (props: Props) => {
     // */
   };
 
-  const blue = '#225695';
-  const greyLight = '#c2c4c5';
-  const greyDeepDark = '#1d2228';
-
-  const closeStyle: CSS = {
-    color: greyLight,
-    backgroundColor: blue,
-    borderColor: blue,
-  };
+  // const closeStyle: CSS = {
+  //   color: greyLight,
+  //   backgroundColor: blue,
+  //   borderColor: blue,
+  // };
 
   const { v25, v50, v75, v100, c25, c50, c75, c100 } = formValues;
 
@@ -290,8 +328,6 @@ const AddHodlTargetsForm = (props: Props) => {
     ...hodlTargetCloseButtonStyle,
     backgroundColor: !v100 ? greyDeepDark : '',
   };
-
-  // console.log('formValues:', formValues);
 
   return (
     <FormWrapper className="general-form-wrapper">
@@ -408,6 +444,25 @@ const AddHodlTargetsForm = (props: Props) => {
                 >
                   {null}
                 </Button>
+              </div>
+
+              <div style={{ display: 'flex', gap: '1.5rem' }}>
+                <span>
+                  <span style={additionValueStyle}>{`${c.price}:`}</span>
+                  <span style={additionValueStyle}>{selectedAssetPrice}</span>
+                </span>
+                <span style={{ display: 'flex' }}>
+                  <span style={additionValueStyle}>{`${c.w}:`}</span>
+                  <TextInput
+                    style={weeklyInputStyle}
+                    type="text"
+                    placeholder={'0.0'}
+                    disabled={isPending}
+                    {...register('w', {})}
+                    onInput={handleNumericInput}
+                  />
+                  {/* </div> */}
+                </span>
               </div>
 
               <div style={{ display: 'flex', gap: '1rem' }}>

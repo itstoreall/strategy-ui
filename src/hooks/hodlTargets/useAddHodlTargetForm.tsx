@@ -128,6 +128,7 @@ const useAddHodlTargetForm = (formDefaults: Credentials) => {
       v50: +watchedValues.v50,
       v75: +watchedValues.v75,
       v100: +watchedValues.v100,
+      w: +watchedValues.w,
       c25: watchedValues.c25,
       c50: watchedValues.c50,
       c75: watchedValues.c75,

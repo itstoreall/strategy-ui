@@ -205,6 +205,7 @@ export type HodlTargets = {
   v50: number;
   v75: number;
   v100: number;
+  w: number;
 };
 
 export type ClosedHodlTargets = {
