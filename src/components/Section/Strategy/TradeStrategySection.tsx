@@ -127,7 +127,8 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     }
   }, [orderData]);
 
-  useLayoutEffect(() => {
+  // useLayoutEffect(() => {
+  useEffect(() => {
     const exs = getCurrentExchanges(orderData.orders);
     // setSelectedOrders(new Set());
     console.log('exs & handleFilterExchange:', exs, !!handleFilterExchange); // Set(1) {'BINANCE'} true
