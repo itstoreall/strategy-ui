@@ -71,7 +71,7 @@ const useStrategy = () => {
   // ---
 
   const handleFilterExchange = (val: ExchangeEnum) => {
-    console.log('handleFilterExchange!!!');
+    console.log('handleFilterExchange val:', val);
     setFilterExchange(val);
   };
 
