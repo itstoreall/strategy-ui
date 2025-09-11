@@ -60,6 +60,8 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     handleSelectAllOrders,
   } = useTakeProfitOrders({ orders });
 
+  console.log('orders:', orders?.length);
+
   /*
   const { userOrders } = useFetchAllUserOrders(userId, { enabled: !!userId });
 
