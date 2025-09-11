@@ -60,10 +60,6 @@ const DCAStrategySection = (props: Props) => {
   // userId && isTakeProfit && token && userOrderData;
 
   console.log('-');
-  console.log('userId:', userId);
-  console.log('isTakeProfit:', isTakeProfit);
-  console.log('token:', token);
-  console.log('userOrderData:', userOrderData);
 
   // no scss styles!
   return (
