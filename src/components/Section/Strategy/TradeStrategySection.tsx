@@ -130,10 +130,11 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
   useLayoutEffect(() => {
     const exs = getCurrentExchanges(orderData.orders);
     // setSelectedOrders(new Set());
-    console.log('exs & handleFilterExchange:', exs, !!handleFilterExchange);
+    console.log('exs & handleFilterExchange:', exs, !!handleFilterExchange); // Set(1) {'BINANCE'} true
     if (exs.size && handleFilterExchange) {
-      console.log('filterExchange & size:', filterExchange, exs.size);
+      console.log('filterExchange & size 1:', filterExchange, exs.size); // ALL 1
       if (filterExchange === ExchangeEnum.All && exs.size === 1) {
+        console.log('filterExchange & size 2:', filterExchange, exs.size); // ALL 1
         handleFilterExchange(Array.from(exs)[0]);
       }
       handleSelectedOrders();
@@ -199,7 +200,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
       return order.exchange === filterExchange && percent > 0;
       // return order.exchange === selectedEx && percent > 0;
     });
-    console.log('selectedOrders:', selectedOrders);
+    console.log('selectedOrders:', selectedOrders); // []
     if (selectedOrders) {
       setOrders(selectedOrders);
     }
