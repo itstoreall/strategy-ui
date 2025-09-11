@@ -94,7 +94,7 @@ const Strategy = () => {
   const progressTrigger =
     updatedTokens?.find((t) => t.symbol === c.triggerSymbol)?.price ?? 0;
 
-  console.log('Strategy filterExchange:', filterExchange);
+  // console.log('Strategy filterExchange:', filterExchange);
 
   return (
     <PageContainer label={Label.Main}>

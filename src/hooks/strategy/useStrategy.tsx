@@ -71,7 +71,7 @@ const useStrategy = () => {
   // ---
 
   const handleFilterExchange = (val: ExchangeEnum) => {
-    console.log('handleFilterExchange val:', val);
+    // console.log('handleFilterExchange val:', val);
     setFilterExchange(val);
   };
 
@@ -158,7 +158,7 @@ const useStrategy = () => {
     } else return a.priority - b.priority;
   });
 
-  console.log('filterExchange:', filterExchange);
+  // console.log('filterExchange:', filterExchange);
 
   return {
     userId,
