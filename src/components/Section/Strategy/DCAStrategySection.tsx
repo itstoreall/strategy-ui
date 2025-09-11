@@ -59,6 +59,8 @@ const DCAStrategySection = (props: Props) => {
 
   // userId && isTakeProfit && token && userOrderData;
 
+  console.log('DCAStrategySection filterExchange:', filterExchange);
+
   console.log('-');
 
   // no scss styles!

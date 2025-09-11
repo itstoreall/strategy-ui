@@ -60,6 +60,7 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     handleSelectAllOrders,
   } = useTakeProfitOrders({ orders });
 
+  console.log('TradeStrategySection filterExchange:', filterExchange);
   console.log('orders:', orders?.length);
 
   /*
