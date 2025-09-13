@@ -423,7 +423,7 @@ const HodlTargetListSection = (props: Props) => {
   };
 
   const handleSortToggle = () => {
-    console.log(111);
+    console.log('click sort!');
   };
 
   return (

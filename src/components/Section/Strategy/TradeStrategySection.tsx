@@ -121,10 +121,8 @@ const TradeStrategySection = (props: TradeStrategyProps) => {
     if (orderData.orders && handleFilterExchange) {
       const exs = getCurrentExchanges(orderData.orders);
       if (exs.size === 1) {
-        console.log(11);
         handleFilterExchange(Array.from(exs)[0]);
       } else if (exs.size > 1) {
-        console.log(22);
         handleFilterExchange(ExchangeEnum.All);
       }
     }
