@@ -10,6 +10,7 @@ import Button from '@/src/components/Button/Button';
 import useModal from '@/src/hooks/useModal';
 
 type Props = {
+  symbol: string;
   strategyData: string;
   deleteTradeHistoryElement: (tradeId: number) => void;
 };
@@ -22,7 +23,7 @@ const StrategyHistoryModalSection = (props: Props) => {
   const [history, setHistory] = useState<HistoryEntry[] | null>(null);
   const [isScrollable, setIsScrollable] = useState(false);
 
-  const { strategyData, deleteTradeHistoryElement } = props;
+  const { symbol, strategyData, deleteTradeHistoryElement } = props;
 
   const contentRef = useRef<HTMLDivElement>(null);
   const { closeModal } = useModal();
@@ -164,7 +165,7 @@ const StrategyHistoryModalSection = (props: Props) => {
             <span>{trade.d}</span>
           </span>
           <span className="strategy-history-list-item-content">
-            <span>{`Amount (${'BTC'}):`}</span>
+            <span>{`Amount (${symbol}):`}</span>
             <span>{trade.a}</span>
           </span>
           <span className="strategy-history-list-item-content">

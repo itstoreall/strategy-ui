@@ -157,6 +157,7 @@ const Strategy = () => {
         {isStrategyHistoryModal && userOrderData && (
           <RenderModal>
             <StrategyHistoryModalSection
+              symbol={symbol}
               strategyData={userOrderData.strategy.data}
               deleteTradeHistoryElement={deleteTradeHistoryElement}
             />

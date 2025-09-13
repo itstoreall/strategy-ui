@@ -64,10 +64,11 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
   const { updateData } = useInvalidateQueries();
   const redirectTo = useRedirect();
 
-  const isDisplayCloseButton = sellPrice && token.price >= +sellPrice;
+  const isDisplayCloseButton = sellPrice ? true : true;
+
   /*
   const isBTC = token.symbol === c.btcSymbol;
-  const isDisplayCloseButton = true;
+  const isDisplayCloseButton = sellPrice && token.price >= +sellPrice;
   */
 
   const {
@@ -238,6 +239,8 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
     );
   };
 
+  const disableBtnStyle = !sellDCAP?.isActive ? 'disabled' : '';
+
   return orders?.length ? (
     <>
       {/* <MainDividerSection
@@ -255,9 +258,9 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
             <div className="section-trade-strategy-dca-plus-values-block">
               <DCAPlusList cur={currentDCAP} buy={buyDCAP} sell={sellDCAP} />
               {isDisplayCloseButton && (
-                <div className="trade-strategy-dca-plus-button-block">
+                <div className={'trade-strategy-dca-plus-button-block'}>
                   <Button
-                    className="trade-strategy-dca-plus-button"
+                    className={`trade-strategy-dca-plus-button ${disableBtnStyle}`}
                     // clickContent={handleCloseTrades}
                     clickContent={closeTrades}
                   >
