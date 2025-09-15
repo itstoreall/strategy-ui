@@ -8,7 +8,7 @@ type Props = {
 
 const set1 = [{ symbols: ['BTC', 'ETH'] }, { symbols: ['SUI', 'SEI'] }];
 const set2 = [{ symbols: ['ENA', 'ONDO'] }, { symbols: ['ZRO', 'ZK'] }];
-const set3 = [{ symbols: ['EIGEN', 'LDO'] }, { symbols: ['PENDLE', 'IOTA'] }];
+const set3 = [{ symbols: ['EIGEN', 'LDO'] }, { symbols: ['LINEA', 'IOTA'] }];
 const set4 = [{ symbols: ['PYTH', 'WLFI'] }, { symbols: ['STRK', 'TON'] }];
 
 const PricesSection = ({ tokens }: Props) => {
