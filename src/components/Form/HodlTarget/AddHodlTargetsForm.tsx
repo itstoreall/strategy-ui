@@ -80,7 +80,7 @@ const additionValueStyle: React.CSSProperties = {
 
 const weeklyInputStyle: React.CSSProperties = {
   padding: 0,
-  height: '16px',
+  minHeight: '20px',
   width: '95px',
   fontSize: '1rem',
   color: violetLight,
@@ -88,6 +88,7 @@ const weeklyInputStyle: React.CSSProperties = {
   // backgroundColor: 'teal',
   border: 'none',
   borderRadius: 0,
+  transform: 'translateY(-2px)',
 };
 
 const closeStyle: CSS = {
