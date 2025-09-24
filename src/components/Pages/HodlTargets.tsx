@@ -72,7 +72,7 @@ const HodlTargets = () => {
   const {
     RenderModal,
     openModal,
-    isFormModal,
+    isFormXLModal,
     // isStrategyHistoryModal,
     // isStrategyModal,
     // closeModal,
@@ -117,15 +117,15 @@ const HodlTargets = () => {
 
   useEffect(() => {
     if (editTargets) {
-      openModal(ModalContentEnum.Form);
+      openModal(ModalContentEnum.FormXL);
     }
   }, [editTargets]);
 
   useEffect(() => {
-    if (!isFormModal) {
+    if (!isFormXLModal) {
       setEditTargets(null);
     }
-  }, [isFormModal]);
+  }, [isFormXLModal]);
 
   // useEffect(() => {
   //   console.log('hodlTargetsData:', hodlTargetsData);
@@ -291,7 +291,7 @@ const HodlTargets = () => {
           <MainLoader />
         )}
 
-        {isFormModal && updatedTokens && userOrders && userId && (
+        {isFormXLModal && updatedTokens && userOrders && userId && (
           <RenderModal>
             <AddHodlTargetsForm
               userId={userId}

@@ -37,13 +37,15 @@ const c = {
   v50: '50%',
   v75: '75%',
   v100: '100%',
-  w: 'w',
+  w: 'Weekly',
+  b: 'AVG',
   c25: 'c25',
   c50: 'c50',
   c75: 'c75',
   c100: 'c100',
   submit: 'Submit',
   price: 'price',
+  total: 'P/L',
 };
 
 type Label = 'c25' | 'c50' | 'c75' | 'c100';
@@ -78,18 +80,18 @@ const additionValueStyle: React.CSSProperties = {
   color: violetLight,
 };
 
-const weeklyInputStyle: React.CSSProperties = {
-  padding: 0,
-  minHeight: '20px',
-  width: '95px',
-  fontSize: '1rem',
-  color: violetLight,
-  backgroundColor: 'transparent',
-  // backgroundColor: 'teal',
-  border: 'none',
-  borderRadius: 0,
-  transform: 'translateY(-2px)',
-};
+// const weeklyInputStyle: React.CSSProperties = {
+//   padding: 0,
+//   minHeight: '20px',
+//   width: '95px',
+//   fontSize: '1rem',
+//   color: violetLight,
+//   backgroundColor: 'transparent',
+//   // backgroundColor: 'teal',
+//   border: 'none',
+//   borderRadius: 0,
+//   transform: 'translateY(-2px)',
+// };
 
 const closeStyle: CSS = {
   color: greyLight,
@@ -106,6 +108,7 @@ const initForm: FormState = {
   v75: 0,
   v100: 0,
   w: 0, // weekly quantity of assets for sale
+  b: 0, // average purchase price
   c25: false,
   c50: false,
   c75: false,
@@ -131,6 +134,8 @@ const AddHodlTargetsForm = (props: Props) => {
   const { symbol } = formValues;
   const selectedAsset = tokens.find((t) => t.symbol === symbol);
   const selectedAssetPrice = selectedAsset?.price || 0;
+
+  const { v25, v50, v75, v100, b: avg, c25, c50, c75, c100 } = formValues;
 
   /*
   useEffect(() => {
@@ -160,6 +165,7 @@ const AddHodlTargetsForm = (props: Props) => {
         v75: initialTargets.hodlTargets.v75,
         v100: initialTargets.hodlTargets.v100,
         w: initialTargets.hodlTargets.w,
+        b: initialTargets.hodlTargets.b,
         c25: initialTargets.hodlTargets.c25,
         c50: initialTargets.hodlTargets.c50,
         c75: initialTargets.hodlTargets.c75,
@@ -195,6 +201,13 @@ const AddHodlTargetsForm = (props: Props) => {
     }
   };
 
+  const calculatePercent = (curPrice: number, avgPrice: number): string => {
+    if (!avgPrice || avgPrice <= 0) return '0';
+    const res = ((curPrice - avgPrice) / avgPrice) * 100;
+    if (Number.isNaN(res)) return '0';
+    return `${res.toFixed()}%`;
+  };
+
   const updateFormStates = (args: FormState) => {
     setValue('symbol', args.symbol, validateParams);
     setValue('v25', args.v25, validateParams);
@@ -202,6 +215,7 @@ const AddHodlTargetsForm = (props: Props) => {
     setValue('v75', args.v75, validateParams);
     setValue('v100', args.v100, validateParams);
     setValue('w', args.w, validateParams);
+    setValue('b', args.b, validateParams);
     setValue('c25', args.c25, validateParams);
     setValue('c50', args.c50, validateParams);
     setValue('c75', args.c75, validateParams);
@@ -263,6 +277,7 @@ const AddHodlTargetsForm = (props: Props) => {
       v75: initForm.v75,
       v100: initForm.v100,
       w: initForm.w,
+      b: initForm.b,
       c25: initForm.c25,
       c50: initForm.c50,
       c75: initForm.c75,
@@ -291,8 +306,6 @@ const AddHodlTargetsForm = (props: Props) => {
   //   backgroundColor: blue,
   //   borderColor: blue,
   // };
-
-  const { v25, v50, v75, v100, c25, c50, c75, c100 } = formValues;
 
   const isClosed25 = v25 && c25;
   const isClosed50 = v50 && c50;
@@ -447,23 +460,43 @@ const AddHodlTargetsForm = (props: Props) => {
                 </Button>
               </div>
 
-              <div style={{ display: 'flex', gap: '1.5rem' }}>
-                <span>
-                  <span style={additionValueStyle}>{`${c.price}:`}</span>
-                  <span style={additionValueStyle}>{selectedAssetPrice}</span>
-                </span>
-                <span style={{ display: 'flex' }}>
-                  <span style={additionValueStyle}>{`${c.w}:`}</span>
+              {symbol && (
+                <div style={{ display: 'flex', gap: '1.5rem' }}>
+                  <span>
+                    <span style={additionValueStyle}>{`${c.price}:`}</span>
+                    <span style={additionValueStyle}>{selectedAssetPrice}</span>
+                  </span>
+                  <span>
+                    <span style={additionValueStyle}>{`${c.total}:`}</span>
+                    <span style={additionValueStyle}>
+                      {calculatePercent(selectedAssetPrice, avg)}
+                    </span>
+                  </span>
+                </div>
+              )}
+
+              <div style={hodlTargetInputBlockStyle}>
+                <div style={hodlTargetInputWrapStyle}>
                   <TextInput
-                    style={weeklyInputStyle}
                     type="text"
-                    placeholder={'0.0'}
+                    placeholder={c.w}
                     disabled={isPending}
                     {...register('w', {})}
                     onInput={handleNumericInput}
                   />
-                  {/* </div> */}
-                </span>
+                </div>
+              </div>
+
+              <div style={hodlTargetInputBlockStyle}>
+                <div style={hodlTargetInputWrapStyle}>
+                  <TextInput
+                    type="text"
+                    placeholder={c.b}
+                    disabled={isPending}
+                    {...register('b', {})}
+                    onInput={handleNumericInput}
+                  />
+                </div>
               </div>
 
               <div style={{ display: 'flex', gap: '1rem' }}>

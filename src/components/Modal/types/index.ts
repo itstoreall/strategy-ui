@@ -10,6 +10,7 @@ export type ModalContextProps = {
   ModalContentEnum: typeof ModalContentEnum;
   RenderModal: ({ children }: ChildrenProps) => JSX.Element;
   isFormModal: boolean;
+  isFormXLModal: boolean;
   isStrategyModal: boolean;
   isStrategyHistoryModal: boolean;
   isStrategyOrderDetails: boolean;

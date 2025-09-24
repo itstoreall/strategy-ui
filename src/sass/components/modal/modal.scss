@@ -29,6 +29,25 @@
     }
   }
 
+  &.FORM_XL {
+    > div.modal {
+      padding: 1rem;
+      max-width: $mobile;
+
+      // Form-Modal:
+      > div.form-modal-content {
+        @extend %extends-hide-scrollbar;
+        position: relative;
+        width: 100%;
+
+        @include media-screen-height('max', 775px) {
+          height: 100svh;
+          overflow-y: scroll;
+        }
+      }
+    }
+  }
+
   &.STRATEGY {
     > div.modal {
       width: 100%;

@@ -85,7 +85,7 @@ const PageHeading = ({
       handleModal(
         content === c.ls
           ? ModalContentEnum.StrategyHistory
-          : ModalContentEnum.Form
+          : ModalContentEnum.FormXL
       );
     }
   };

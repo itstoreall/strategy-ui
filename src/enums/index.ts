@@ -93,6 +93,7 @@ export enum ChartIntervalEnum {
 
 export enum ModalContentEnum {
   Form = 'FORM',
+  FormXL = 'FORM_XL',
   Strategy = 'STRATEGY',
   StrategyHistory = 'STRATEGY_HISTORY',
   OrderDetails = 'ORDER_DETAILS',
