@@ -225,7 +225,7 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
         >
           <span className="dca-plus-list-item-title">{c.buy}</span>
           <span>$ {buy.price}</span>
-          <span>{+buy.amount}</span>
+          <span>{Number(buy.amount).toFixed(4)}</span>
         </li>
         <li
           className={sellItemStyle}

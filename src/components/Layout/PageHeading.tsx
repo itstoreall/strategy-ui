@@ -42,7 +42,7 @@ export const c = {
   hodlTargets: '/hodl-targets',
   strategy: '/strategy',
   form: 'form',
-  ls: 'ls',
+  tradeHistory: 'tradeHistory',
 };
 
 const PageHeading = ({
@@ -82,10 +82,13 @@ const PageHeading = ({
 
   const openModal = (content: string) => {
     if (handleModal) {
+      const formModal = isHodlTargets
+        ? ModalContentEnum.FormXL
+        : ModalContentEnum.Form;
       handleModal(
-        content === c.ls
+        content === c.tradeHistory
           ? ModalContentEnum.StrategyHistory
-          : ModalContentEnum.FormXL
+          : formModal
       );
     }
   };
@@ -151,7 +154,7 @@ const PageHeading = ({
         {isStrategy && isDCAP && (
           <Button
             className={'main-heading-trade-strategy-history-button'}
-            clickContent={() => openModal(c.ls)}
+            clickContent={() => openModal(c.tradeHistory)}
           >
             <GoClock size={21} />
           </Button>
