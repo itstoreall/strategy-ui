@@ -44,6 +44,12 @@
           height: 100svh;
           overflow-y: scroll;
         }
+
+        > div.general-form-wrapper-full-height {
+          display: flex;
+          justify-content: center;
+          height: 94svh;
+        }
       }
     }
   }

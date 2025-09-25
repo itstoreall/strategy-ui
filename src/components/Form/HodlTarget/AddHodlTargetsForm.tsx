@@ -24,15 +24,11 @@ type Props = {
   userId: string;
   tokens: t.Token[];
   initialTargets: t.HodlTargetsData | null;
-  // orders: Order[];
-  // initType?: OrderTypeEnum | string;
-  // initSymbol: string;
-  // buyTargets?: Order[];
 };
 
 const c = {
-  // create: 'Create',
   formTitle: 'Add Hodl Target',
+  updating: 'Updating...',
   v25: '25%',
   v50: '50%',
   v75: '75%',
@@ -57,7 +53,9 @@ type FormState = t.HodlTargets & t.ClosedHodlTargets & { symbol: string };
 const blue = '#225695';
 const greyLight = '#c2c4c5';
 const greyDeepDark = '#1d2228';
+const greyDeepDarkPlus = '#151a1e';
 const violetLight = '#a676a6';
+const lightRed = '#f25c5e';
 
 const hodlTargetInputBlockStyle: React.CSSProperties = {
   display: 'flex',
@@ -79,19 +77,6 @@ const additionValueStyle: React.CSSProperties = {
   fontSize: '1rem',
   color: violetLight,
 };
-
-// const weeklyInputStyle: React.CSSProperties = {
-//   padding: 0,
-//   minHeight: '20px',
-//   width: '95px',
-//   fontSize: '1rem',
-//   color: violetLight,
-//   backgroundColor: 'transparent',
-//   // backgroundColor: 'teal',
-//   border: 'none',
-//   borderRadius: 0,
-//   transform: 'translateY(-2px)',
-// };
 
 const closeStyle: CSS = {
   color: greyLight,
@@ -132,6 +117,7 @@ const AddHodlTargetsForm = (props: Props) => {
 
   const formValues = watch();
   const { symbol } = formValues;
+  const titleText = isProcess ? c.updating : c.formTitle;
   const selectedAsset = tokens.find((t) => t.symbol === symbol);
   const selectedAssetPrice = selectedAsset?.price || 0;
 
@@ -301,22 +287,10 @@ const AddHodlTargetsForm = (props: Props) => {
     // */
   };
 
-  // const closeStyle: CSS = {
-  //   color: greyLight,
-  //   backgroundColor: blue,
-  //   borderColor: blue,
-  // };
-
   const isClosed25 = v25 && c25;
   const isClosed50 = v50 && c50;
   const isClosed75 = v75 && c75;
   const isClosed100 = v100 && c100;
-
-  // const isBlue25 =
-  //   isClosed25 || (isClosed25 && (isClosed50 || isClosed75 || isClosed100));
-
-  // const isClosed50isBlue50 =
-  //   isClosed50 || (isClosed50 && (isClosed75 || isClosed100));
 
   const v25InputStyle: CSS = isClosed25 ? closeStyle : {};
   const v50InputStyle: CSS = isClosed50 ? closeStyle : {};
@@ -343,10 +317,13 @@ const AddHodlTargetsForm = (props: Props) => {
     backgroundColor: !v100 ? greyDeepDark : '',
   };
 
+  const fullHeight = !isProcess ? '' : '-full-height';
+  const formWrapStyle = `general-form-wrapper${fullHeight}`;
+
   return (
-    <FormWrapper className="general-form-wrapper">
+    <FormWrapper className={formWrapStyle}>
       <FormBackdropContainer>
-        <Title tag={'h3'} className="form-title" text={c.formTitle} />
+        <Title tag={'h3'} className="form-title" text={titleText} />
 
         {!isProcess && (
           <Form handleSubmit={(e) => handleSubmit(e)}>
@@ -512,7 +489,7 @@ const AddHodlTargetsForm = (props: Props) => {
                   clickContent={deleteHodlTargets}
                   type="button"
                 >
-                  <IoMdTrash size={28} fill="#151a1e" />
+                  <IoMdTrash size={28} fill={greyDeepDarkPlus} />
                 </Button>
 
                 <Button disabled={isPending} type="submit">
@@ -520,7 +497,7 @@ const AddHodlTargetsForm = (props: Props) => {
                 </Button>
 
                 <Button
-                  style={{ flex: '0 0 47px', backgroundColor: '#f25c5e' }}
+                  style={{ flex: '0 0 47px', backgroundColor: lightRed }}
                   clickContent={handleCloseModal}
                   type="button"
                 >
