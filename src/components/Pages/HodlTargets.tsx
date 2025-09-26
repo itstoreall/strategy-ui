@@ -282,7 +282,9 @@ const HodlTargets = () => {
                   // userId={userId}
                   handleEditTargets={handleEditTargets}
                 />
-              ) : null}
+              ) : (
+                <MainLoader />
+              )}
             </SectionsContainer>
           </div>
         ) : isRefetchButton ? (
