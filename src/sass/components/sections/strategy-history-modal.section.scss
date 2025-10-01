@@ -29,22 +29,51 @@ section.strategy-history-modal-scrollable {
     width: 100%;
     height: 48px;
     z-index: 1;
+    background-color: $blackMiddle;
 
     > div.strategy-history-modal-heading-content {
+      position: relative;
       display: flex;
       justify-content: flex-end;
       align-items: center;
       padding-left: 15px;
       width: 100%;
-      max-width: $max;
-      // width: 320px;
-      // background-color: $black;
+      min-width: 305px;
       // background-color: teal;
+
+      > div.strategy-history-modal-heading-calc-block {
+        position: absolute;
+        right: 50%;
+        transform: translateX(110px);
+        display: flex;
+        gap: 1rem;
+        width: 260px;
+
+        > span.strategy-history-modal-heading-calc-box {
+          font-size: 0.8rem;
+
+          > span {
+            &:nth-child(1) {
+              margin-right: 0.3rem;
+              color: $greyMiddle;
+            }
+
+            &:nth-child(2) {
+              > span {
+                &:nth-child(1) {
+                  font-weight: 500;
+                  color: $greyLight;
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 
   div.section-content.strategy-history-modal {
-    // padding-top: 55px;
+    padding-top: 55px;
     // background-color: $blue;
 
     > ul {

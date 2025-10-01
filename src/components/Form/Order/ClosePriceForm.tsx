@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import useModal from '@/src/hooks/useModal';
 import { FormEvent } from '@/src/types';
+import { vars } from '@/src/config';
 import FormWrapper from '@/src/components/Container/FormWrapper';
 import FormBackdropContainer from '@/src/components/Container/FormBackdrop';
 import FormContentContainer from '@/src/components/Container/FormContent';
@@ -49,7 +50,7 @@ const ClosePriceForm = (props: Props) => {
               <Button type="submit">{config.submit}</Button>
 
               <Button
-                style={{ flex: '0 0 47px', backgroundColor: '#f25c5e' }}
+                style={{ flex: '0 0 47px', backgroundColor: vars.lightRed }}
                 clickContent={closeModal}
                 type="button"
               >

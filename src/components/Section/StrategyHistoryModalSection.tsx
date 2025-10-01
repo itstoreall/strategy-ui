@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from 'react';
 /*
 import { RiExchangeDollarLine } from 'react-icons/ri';
@@ -15,12 +16,24 @@ type Props = {
   deleteTradeHistoryElement: (tradeId: number) => void;
 };
 
-type ListItemProps = {
-  trade: { d: number; a: number; b: number; s: number };
+type Trade = { d: number; a: number; b: number; s: number };
+type ListItemProps = { trade: Trade };
+
+const c = {
+  turnover: 'Turnover:',
+  profit: 'Profit:',
+  id: 'ID:',
+  amount: 'Amount',
+  avg: 'Buy (AVG):',
+  sell: 'Sell:',
+  date: 'Date:',
+  noHistory: 'No history!',
 };
 
 const StrategyHistoryModalSection = (props: Props) => {
   const [history, setHistory] = useState<HistoryEntry[] | null>(null);
+  const [totalTurnover, setTotalTurnover] = useState<number>(0);
+  const [totalProfit, setTotalProfit] = useState<number>(0);
   const [isScrollable, setIsScrollable] = useState(false);
 
   const { symbol, strategyData, deleteTradeHistoryElement } = props;
@@ -35,6 +48,10 @@ const StrategyHistoryModalSection = (props: Props) => {
       const { history } = JSON.parse(strategyData);
       history.sort((x: { d: number }, y: { d: number }) => y.d - x.d);
       setHistory(history);
+      //
+      const { turnover, profit } = calculateGeneralValues(history);
+      setTotalTurnover(turnover);
+      setTotalProfit(profit);
     }
   }, [strategyData]);
 
@@ -130,6 +147,28 @@ const StrategyHistoryModalSection = (props: Props) => {
   ];
   // */
 
+  const getTradeValues = (trade: Trade) => {
+    const amount = trade.a;
+    const avg = trade.b;
+    const sell = trade.s;
+    const invested = amount * trade.b;
+    const sold = amount * trade.s;
+    const profit = sold - invested;
+    return { amount, avg, sell, invested, sold, profit };
+  };
+
+  const calculateGeneralValues = (history: HistoryEntry[]) => {
+    let turnover = 0;
+    let profit = 0;
+    for (let i = 0; i < history.length; i++) {
+      const trade = history[i];
+      const { invested, profit: elementProfit } = getTradeValues(trade);
+      profit += elementProfit;
+      turnover += invested;
+    }
+    return { profit, turnover };
+  };
+
   const HistoryListItem = ({ trade }: ListItemProps) => {
     /*
     const recoverTrade = (id: number) => {
@@ -138,10 +177,6 @@ const StrategyHistoryModalSection = (props: Props) => {
       }
     };
     */
-
-    const invested = trade.a * trade.b;
-    const sold = trade.a * trade.s;
-    const profit = sold - invested;
 
     return (
       <li className="strategy-history-modal-list-item">
@@ -161,33 +196,35 @@ const StrategyHistoryModalSection = (props: Props) => {
         </div>
         <div className="strategy-history-list-item-content-block">
           <span className="strategy-history-list-item-content">
-            <span>{'ID:'}</span>
+            <span>{c.id}</span>
             <span>{trade.d}</span>
           </span>
           <span className="strategy-history-list-item-content">
-            <span>{`Amount (${symbol}):`}</span>
+            <span>{`${c.amount} (${symbol}):`}</span>
             <span>{trade.a}</span>
           </span>
           <span className="strategy-history-list-item-content">
-            <span>{'Buy (AVG):'}</span>
+            <span>{c.avg}</span>
             <span>{`${trade.b} $`}</span>
           </span>
           <span className="strategy-history-list-item-content">
-            <span>{'Sell:'}</span>
+            <span>{c.sell}</span>
             <span>{`${trade.s} $`}</span>
           </span>
           <span className="strategy-history-list-item-content">
-            <span>{'Profit:'}</span>
-            <span>{`${profit.toFixed(2)} $`}</span>
+            <span>{c.profit}</span>
+            <span>{`${getTradeValues(trade).profit.toFixed(2)} $`}</span>
           </span>
           <span className="strategy-history-list-item-content">
-            <span>{'Date:'}</span>
+            <span>{c.date}</span>
             <span>{normalizeKyivDate(trade.d, 'DD-MM-YY HH:mm')}</span>
           </span>
         </div>
       </li>
     );
   };
+
+  // console.log('history:', history);
 
   return (
     <section
@@ -197,7 +234,21 @@ const StrategyHistoryModalSection = (props: Props) => {
     >
       <div className="strategy-history-modal-heading">
         <div className="strategy-history-modal-heading-content">
-          {/* <span /> */}
+          <div className="strategy-history-modal-heading-calc-block">
+            <span className="strategy-history-modal-heading-calc-box">
+              <span>{c.turnover}</span>
+              <span>
+                <span>{totalTurnover.toFixed(2)}</span>
+              </span>
+            </span>
+            <span className="strategy-history-modal-heading-calc-box">
+              <span>{c.profit}</span>
+              <span>
+                <span>{totalProfit.toFixed(2)}</span>
+              </span>
+            </span>
+          </div>
+
           <Button
             className="strategy-history-modal-heading-button"
             clickContent={closeModal}
@@ -220,7 +271,7 @@ const StrategyHistoryModalSection = (props: Props) => {
             </ul>
           </>
         ) : (
-          <div>No history!</div>
+          <div>{c.noHistory}</div>
         )}
       </div>
     </section>

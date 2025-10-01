@@ -1,4 +1,6 @@
-const currentColor = '#80669d';
+import { vars } from '@/src/config';
+
+const currentColor = vars.violetDark;
 
 const BallTriangleLoader = () => (
   <svg

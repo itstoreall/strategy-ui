@@ -1,8 +1,5 @@
 import DotsLoader from '@/src/components/DotsLoader';
-
-const c = {
-  listLoaderColor: '#3a3f46',
-};
+import { vars } from '@/src/config';
 
 const ListLoader = ({ text }: { text: string }) => {
   return (
@@ -11,12 +8,12 @@ const ListLoader = ({ text }: { text: string }) => {
         display: 'flex',
         paddingTop: '12px',
         fontSize: '0.9rem',
-        color: c.listLoaderColor,
+        color: vars.greyDark,
         whiteSpace: 'nowrap',
       }}
     >
       {text}
-      <DotsLoader inlineStyle={{ color: c.listLoaderColor }} />
+      <DotsLoader inlineStyle={{ color: vars.greyDark }} />
     </span>
   );
 };

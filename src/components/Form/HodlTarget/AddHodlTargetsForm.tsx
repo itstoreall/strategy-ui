@@ -2,10 +2,10 @@
 import { useEffect, useState, useTransition } from 'react';
 import { usePathname } from 'next/navigation';
 import { IoMdTrash } from 'react-icons/io';
-// import useCreateOrderForm from '@/src/hooks/order/useAddOrderForm';
 import useAddHodlTargetForm from '@/src/hooks/hodlTargets/useAddHodlTargetForm';
 import useSelectMulti from '@/src/hooks/useSelectMulti';
 import useModal from '@/src/hooks/useModal';
+import { vars } from '@/src/config';
 import * as t from '@/src/types';
 import { OrderTypeEnum } from '@/src/enums';
 import * as confirmMsg from '@/src/messages/confirm';
@@ -50,13 +50,6 @@ type FormState = t.HodlTargets & t.ClosedHodlTargets & { symbol: string };
 
 // --- CSS Styles
 
-const blue = '#225695';
-const greyLight = '#c2c4c5';
-const greyDeepDark = '#1d2228';
-const greyDeepDarkPlus = '#151a1e';
-const violetLight = '#a676a6';
-const lightRed = '#f25c5e';
-
 const hodlTargetInputBlockStyle: React.CSSProperties = {
   display: 'flex',
   gap: '1rem',
@@ -75,13 +68,13 @@ const additionValueStyle: React.CSSProperties = {
   marginRight: '5px',
   textTransform: 'capitalize',
   fontSize: '1rem',
-  color: violetLight,
+  color: vars.violetLight,
 };
 
 const closeStyle: CSS = {
-  color: greyLight,
-  backgroundColor: blue,
-  borderColor: blue,
+  color: vars.greyLight,
+  backgroundColor: vars.blue,
+  borderColor: vars.blue,
 };
 
 // --- c
@@ -299,22 +292,22 @@ const AddHodlTargetsForm = (props: Props) => {
 
   const c25ButtonStyle: CSS = {
     ...hodlTargetCloseButtonStyle,
-    backgroundColor: !v25 ? greyDeepDark : '',
+    backgroundColor: !v25 ? vars.greyDeepDark : '',
   };
 
   const c50ButtonStyle: CSS = {
     ...hodlTargetCloseButtonStyle,
-    backgroundColor: !v50 ? greyDeepDark : '',
+    backgroundColor: !v50 ? vars.greyDeepDark : '',
   };
 
   const c75ButtonStyle: CSS = {
     ...hodlTargetCloseButtonStyle,
-    backgroundColor: !v75 ? greyDeepDark : '',
+    backgroundColor: !v75 ? vars.greyDeepDark : '',
   };
 
   const c100ButtonStyle: CSS = {
     ...hodlTargetCloseButtonStyle,
-    backgroundColor: !v100 ? greyDeepDark : '',
+    backgroundColor: !v100 ? vars.greyDeepDark : '',
   };
 
   const fullHeight = !isProcess ? '' : '-full-height';
@@ -489,7 +482,7 @@ const AddHodlTargetsForm = (props: Props) => {
                   clickContent={deleteHodlTargets}
                   type="button"
                 >
-                  <IoMdTrash size={28} fill={greyDeepDarkPlus} />
+                  <IoMdTrash size={28} fill={vars.greyDeepDarkPlus} />
                 </Button>
 
                 <Button disabled={isPending} type="submit">
@@ -497,7 +490,7 @@ const AddHodlTargetsForm = (props: Props) => {
                 </Button>
 
                 <Button
-                  style={{ flex: '0 0 47px', backgroundColor: lightRed }}
+                  style={{ flex: '0 0 47px', backgroundColor: vars.lightRed }}
                   clickContent={handleCloseModal}
                   type="button"
                 >

@@ -7,62 +7,23 @@ import useUpdateStrategy from '@/src/hooks/strategy/useUpdateStrategy';
 import { OrderStatusEnum, OrderTypeEnum, QueryKeyEnum } from '@/src/enums';
 import * as t from '@/src/types';
 import * as u from '@/src/utils';
-// import useUpdateHodlTarget from './useUpdateHodlTarget';
-// import useCreateOrder from '@/src/hooks/order/useCreateOrder';
-// import { QueryKeyEnum } from '@/src/enums';
-// import { useSession } from 'next-auth/react';
 
-type Credentials = {
-  userId: string;
-  symbol: string;
-  // v25: number;
-  // v50: number;
-  // v75: number;
-  // v100: number;
-} & t.HodlTargets &
+type Credentials = { userId: string; symbol: string } & t.HodlTargets &
   t.ClosedHodlTargets;
 
-/*
-const config = {
-  error: 'Order creation unsuccessful.',
-  errType: 'Type is required!',
-  errSymbol: 'Symbol is required!',
-  errExchange: 'Exchange is required!',
-  errAmount: 'Amount must be a positive number!',
-  errPrice: 'Price must be a positive number!',
-  errUserId: 'User ID is required to create an order!',
-};
-*/
-
-// , tokens: Token[]
 const useAddHodlTargetForm = (formDefaults: Credentials) => {
-  // const { data: session } = useSession();
-  // const userId = session?.user?.id;
-
-  /*
-  const [creationError, setCreationError] = useState('');
-  */
-
   const { register, handleSubmit, formState, watch, setValue } =
     useForm<Credentials>({
       defaultValues: {
-        // volume25: formDefaults.volume25,
-        // volume50: formDefaults.volume50,
-        // volume75: formDefaults.volume75,
-        // volume100: formDefaults.volume100,
         symbol: formDefaults.symbol,
         userId: '',
       },
     });
 
-  const {
-    mutate: updStg,
-    isSuccess,
-    isError,
-  } = useUpdateStrategy([QueryKeyEnum.HodlTargets]);
-  // const { onSubmit: updateHodlTarget } = useUpdateHodlTarget(formDefaults);
+  const { mutate: updStg, isSuccess } = useUpdateStrategy([
+    QueryKeyEnum.HodlTargets,
+  ]); // isError
 
-  // const { mutate: createOrder, isSuccess, isError } = useCreateOrder(queryKeys);
   const { userId } = formDefaults;
   const { isSubmitting } = formState; // errors
 
@@ -77,9 +38,6 @@ const useAddHodlTargetForm = (formDefaults: Credentials) => {
     '', // ExchangeEnum
     { enabled: !!userId }
   );
-  // */
-
-  // console.log('sym, userOrderData:', watchedValues.symbol, userOrderData?.strategy);
 
   useEffect(() => {
     if (userId) {
@@ -92,30 +50,8 @@ const useAddHodlTargetForm = (formDefaults: Credentials) => {
       console.log('isSuccess:', isSuccess);
       closeModal();
     }
-    if (isError) {
-      console.log('isError:', isError);
-      // setCreationError(config.error);
-    }
-  }, [isSuccess, isError]);
+  }, [isSuccess]);
 
-  /*
-  useEffect(() => {
-    if (creationError) {
-      const hasChangedValues =
-        watchedValues.symbol !== formDefaults.symbol ||
-        watchedValues.v25 !== formDefaults.v25 ||
-        watchedValues.v50 !== formDefaults.v50 ||
-        watchedValues.v75 !== formDefaults.v75 ||
-        watchedValues.v100 !== formDefaults.v100;
-
-      if (hasChangedValues) {
-        setCreationError('');
-      }
-    }
-  }, [watchedValues]);
-  // */
-
-  // (data) =>
   const onSubmit = handleSubmit(() => {
     if (!userOrderData || !userOrderData?.strategy) {
       alert(`No ${watchedValues.symbol} Strategy in DB`);
@@ -146,36 +82,6 @@ const useAddHodlTargetForm = (formDefaults: Credentials) => {
     // /*
     updStg({ strategyId: userOrderData.strategy.id, newStrategyData: entry });
     // */
-
-    /*
-    const isBull = data.type === 'BUY';
-    if (!data.type) {
-      return setCreationError(config.errType);
-    } else if (!data.symbol) {
-      return setCreationError(config.errSymbol);
-    } else if (!data.exchange) {
-      if (isBull) return setCreationError(config.errExchange);
-    } else if (isBull && (isNaN(data.amount) || data.amount <= 0)) {
-      return setCreationError(config.errAmount);
-    } else if (isNaN(data.price) || data.price <= 0) {
-      if (isBull) return setCreationError(config.errPrice);
-    } else if (!userId) {
-      return setCreationError(config.errUserId);
-    }
-    */
-
-    // const payload = {
-    //   ...data,
-    //   volume25: data.volume25,
-    //   volume50: data.volume50,
-    //   volume75: data.volume75,
-    //   volume100: data.volume100,
-    //   userId: data.userId,
-    // };
-
-    // console.log('payload:', payload);
-
-    // updateHodlTarget();
   });
 
   return {
@@ -183,9 +89,7 @@ const useAddHodlTargetForm = (formDefaults: Credentials) => {
     setValue,
     onSubmit,
     watch,
-    // errors,
     isSubmitting,
-    // creationError,
   };
 };
 

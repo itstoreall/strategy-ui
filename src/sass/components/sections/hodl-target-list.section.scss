@@ -116,14 +116,7 @@ section.hodl-target-list {
 
         > div.section-hodl-target-list-item-content {
           display: flex;
-          // gap: 0.5rem;
-          // padding: 1rem;
-          // width: 100%;
-          // background-color: tomato;
           background-color: $blackMiddle;
-          // background-color: red;
-          // border-radius: $middleBorderRadius;
-          // background-color: red;
           user-select: none;
 
           > span.hodl-target-values-symbol {
@@ -131,19 +124,15 @@ section.hodl-target-list {
             min-width: 60px;
             font-size: 0.9rem;
             background-color: $greyDeepDark;
-            // border-radius: $middleBorderRadius 0 0 $middleBorderRadius;
             cursor: pointer;
 
             &.achieved {
               background-color: $googleGreen;
-              // background-color: $blue;
               color: $blackMiddle;
-              // font-weight: 500;
             }
 
             &.closed {
               background-color: $blue;
-              // cursor: pointer;
             }
 
             @include media-screen-orientation('min', $tablet) {
@@ -155,39 +144,23 @@ section.hodl-target-list {
           > div.hodl-target-values-block {
             display: flex;
             align-items: center;
-            // gap: 0.5rem;
-            // padding: 1rem;
-            // background-color: $blackMiddle;
             width: 100%;
 
             > span.hodl-target-part {
-              // width: 10px;
               display: flex;
               justify-content: flex-end;
               align-items: center;
-              // padding-right: 0.7rem;
               width: 25%;
-              // width: calc(25% - 0.7rem);
               height: 100%;
               font-size: 0.7rem;
-              // background-color: $blue;
-
-              // &:nth-child(4) {
-              //   // border-radius: 0 $middleBorderRadius $middleBorderRadius 0;
-              // }
 
               @include media-screen-orientation('min', $tablet) {
-                // padding-right: 1rem;
                 width: 25%;
-                // width: calc(25% - 1rem);
                 font-size: 1rem;
               }
 
               > span {
-                // padding-right: 2px;
                 padding-right: 0.7rem;
-                // padding-bottom: 1px;
-                // background-color: red;
                 font-weight: 500;
 
                 @include media-screen-orientation('min', $tablet) {

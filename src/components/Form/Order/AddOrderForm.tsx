@@ -10,6 +10,7 @@ import {
   OrderTypeEnum,
   QueryKeyEnum,
 } from '@/src/enums';
+import { vars } from '@/src/config';
 import { numberCutter } from '@/src/utils';
 import { FormEvent, Order, Token } from '@/src/types';
 import FormWrapper from '@/src/components/Container/FormWrapper';
@@ -273,7 +274,7 @@ const AddOrderForm = ({
                 </Button>
 
                 <Button
-                  style={{ flex: '0 0 47px', backgroundColor: '#f25c5e' }}
+                  style={{ flex: '0 0 47px', backgroundColor: vars.lightRed }}
                   clickContent={closeModal}
                   type="button"
                 >
