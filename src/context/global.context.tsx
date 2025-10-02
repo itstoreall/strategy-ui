@@ -12,7 +12,7 @@ import * as t from '@/src/types';
 type SortTokens = (a: t.Token, b: t.Token) => number;
 
 const c = {
-  appVersion: 'v1.6.16',
+  appVersion: 'v1.6.17',
   localhost: 'localhost',
   adminPath: '/admin',
   chartPath: '/chart',

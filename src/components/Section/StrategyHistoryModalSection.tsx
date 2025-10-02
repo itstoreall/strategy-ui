@@ -20,7 +20,7 @@ type Trade = { d: number; a: number; b: number; s: number };
 type ListItemProps = { trade: Trade };
 
 const c = {
-  turnover: 'Turnover:',
+  total: 'Total:',
   profit: 'Profit:',
   id: 'ID:',
   amount: 'Amount',
@@ -32,6 +32,7 @@ const c = {
 
 const StrategyHistoryModalSection = (props: Props) => {
   const [history, setHistory] = useState<HistoryEntry[] | null>(null);
+  const [totalAmount, setTotalAmount] = useState<number>(0);
   const [totalTurnover, setTotalTurnover] = useState<number>(0);
   const [totalProfit, setTotalProfit] = useState<number>(0);
   const [isScrollable, setIsScrollable] = useState(false);
@@ -49,7 +50,8 @@ const StrategyHistoryModalSection = (props: Props) => {
       history.sort((x: { d: number }, y: { d: number }) => y.d - x.d);
       setHistory(history);
       //
-      const { turnover, profit } = calculateGeneralValues(history);
+      const { quantity, turnover, profit } = calculateGeneralValues(history);
+      setTotalAmount(quantity);
       setTotalTurnover(turnover);
       setTotalProfit(profit);
     }
@@ -158,15 +160,17 @@ const StrategyHistoryModalSection = (props: Props) => {
   };
 
   const calculateGeneralValues = (history: HistoryEntry[]) => {
+    let quantity = 0;
     let turnover = 0;
     let profit = 0;
     for (let i = 0; i < history.length; i++) {
       const trade = history[i];
-      const { invested, profit: elementProfit } = getTradeValues(trade);
+      const { amount, invested, profit: elementProfit } = getTradeValues(trade);
+      quantity += amount;
       profit += elementProfit;
       turnover += invested;
     }
-    return { profit, turnover };
+    return { quantity, profit, turnover };
   };
 
   const HistoryListItem = ({ trade }: ListItemProps) => {
@@ -236,15 +240,21 @@ const StrategyHistoryModalSection = (props: Props) => {
         <div className="strategy-history-modal-heading-content">
           <div className="strategy-history-modal-heading-calc-block">
             <span className="strategy-history-modal-heading-calc-box">
-              <span>{c.turnover}</span>
+              <span>{`${symbol}:`}</span>
               <span>
-                <span>{totalTurnover.toFixed(2)}</span>
+                <span>{totalAmount.toFixed(4)}</span>
+              </span>
+            </span>
+            <span className="strategy-history-modal-heading-calc-box">
+              <span>{c.total}</span>
+              <span>
+                <span>{totalTurnover.toFixed(1)}</span>
               </span>
             </span>
             <span className="strategy-history-modal-heading-calc-box">
               <span>{c.profit}</span>
               <span>
-                <span>{totalProfit.toFixed(2)}</span>
+                <span>{totalProfit.toFixed(1)}</span>
               </span>
             </span>
           </div>
