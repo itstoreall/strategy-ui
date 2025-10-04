@@ -56,6 +56,15 @@ section.strategy-order-details {
             color: $black;
           }
         }
+
+        &.BITUNIX {
+          background-color: $bitunixColor;
+
+          > span {
+            font-weight: 600;
+            color: $black;
+          }
+        }
       }
 
       > span.details-heading-info-box {
