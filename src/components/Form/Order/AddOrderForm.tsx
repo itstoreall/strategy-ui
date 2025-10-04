@@ -59,8 +59,8 @@ const exchangeOptions = [
   ExchangeEnum.Binance,
   ExchangeEnum.Mexc,
   ExchangeEnum.Bybit,
-  ExchangeEnum.Bingx,
   ExchangeEnum.Bitunix,
+  ExchangeEnum.Bingx,
   ExchangeEnum.Bitget,
   ExchangeEnum.Okx,
 ];
