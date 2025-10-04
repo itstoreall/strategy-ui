@@ -60,6 +60,7 @@ const exchangeOptions = [
   ExchangeEnum.Mexc,
   ExchangeEnum.Bybit,
   ExchangeEnum.Bingx,
+  ExchangeEnum.Bitunix,
   ExchangeEnum.Bitget,
   ExchangeEnum.Okx,
 ];

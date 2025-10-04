@@ -55,6 +55,7 @@ export enum ExchangeEnum {
   Binance = 'BINANCE',
   Bybit = 'BYBIT',
   Mexc = 'MEXC',
+  Bitunix = 'BITUNIX',
   Bitget = 'BITGET',
   Bingx = 'BINGX',
   Okx = 'OKX',
