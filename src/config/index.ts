@@ -10,4 +10,6 @@ export const vars = {
   violetLight: '#a676a6',
   violetDark: '#80669d',
   lightRed: '#f25c5e',
+  googleGreen: '#34a853',
+  googleRed: '#ea4335',
 };

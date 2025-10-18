@@ -313,6 +313,11 @@ const AddHodlTargetsForm = (props: Props) => {
   const fullHeight = !isProcess ? '' : '-full-height';
   const formWrapStyle = `general-form-wrapper${fullHeight}`;
 
+  const pnl = calculatePercent(selectedAssetPrice, avg);
+  const isProfit = !pnl.includes('-');
+  const pnlStyle = isProfit ? vars.googleGreen : vars.googleRed;
+  const additionValueStatusStyle = { ...additionValueStyle, color: pnlStyle };
+
   return (
     <FormWrapper className={formWrapStyle}>
       <FormBackdropContainer>
@@ -438,7 +443,7 @@ const AddHodlTargetsForm = (props: Props) => {
                   </span>
                   <span>
                     <span style={additionValueStyle}>{`${c.total}:`}</span>
-                    <span style={additionValueStyle}>
+                    <span style={additionValueStatusStyle}>
                       {calculatePercent(selectedAssetPrice, avg)}
                     </span>
                   </span>
