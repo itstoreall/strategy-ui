@@ -314,8 +314,14 @@ const AddHodlTargetsForm = (props: Props) => {
   const formWrapStyle = `general-form-wrapper${fullHeight}`;
 
   const pnl = calculatePercent(selectedAssetPrice, avg);
-  const isProfit = !pnl.includes('-');
-  const pnlStyle = isProfit ? vars.googleGreen : vars.googleRed;
+  const isZero = pnl === '0';
+  const isLoss = pnl.includes('-') && !isZero;
+  const isProfit = !pnl.includes('-') && !isZero;
+  const pnlStyle = isProfit
+    ? vars.googleGreen
+    : isLoss
+    ? vars.googleRed
+    : vars.violetLight;
   const additionValueStatusStyle = { ...additionValueStyle, color: pnlStyle };
 
   return (
