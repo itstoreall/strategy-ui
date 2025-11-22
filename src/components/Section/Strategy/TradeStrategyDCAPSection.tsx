@@ -203,6 +203,7 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
         ? `${u.numberCutter(cur.percent)}%`
         : `+${u.numberCutter(cur.percent)}%`;
 
+    const isBTC = token.symbol === 'BTC';
     const isBuy = buy.isActive ? c.buy : '';
     const isSell = sell.isActive ? c.sell : '';
     const curItemStyle = `section-trade-strategy-dca-plus-list-item ${status}`;
@@ -225,7 +226,7 @@ const TradeStrategyDCAPSection = (props: TradeStrategyProps) => {
         >
           <span className="dca-plus-list-item-title">{c.buy}</span>
           <span>$ {buy.price}</span>
-          <span>{Number(buy.amount).toFixed(4)}</span>
+          <span>{Number(buy.amount).toFixed(isBTC ? 5 : 4)}</span>
         </li>
         <li
           className={sellItemStyle}

@@ -47,7 +47,7 @@ const useAddHodlTargetForm = (formDefaults: Credentials) => {
 
   useEffect(() => {
     if (isSuccess) {
-      console.log('isSuccess:', isSuccess);
+      // console.log('isSuccess:', isSuccess);
       closeModal();
     }
   }, [isSuccess]);
