@@ -33,7 +33,8 @@ const c = {
 };
 
 const OrderListSection = (props: Props) => {
-  const isBull = props.data[0].type === OrderTypeEnum.Buy;
+  // const isBull = props.data.length && props.data[0].type === OrderTypeEnum.Buy;
+  const isBull = true;
   const currentLsKey = isBull ? c.lsOrderLimitKey : c.lsBuyTargetLimitKey;
 
   const [BTCButtonStatus, setBTCButtonStatus] = useState<string>('');
@@ -81,7 +82,8 @@ const OrderListSection = (props: Props) => {
   }, [isExpanded]);
 
   const itemLimit = 5;
-  const isAdmin = data[0].userId === userId;
+  // const isAdmin = true;
+  const isAdmin = data.length && data[0].userId === userId;
   const isToggle = new Set([...data.map((el) => el.symbol)]).size > itemLimit;
   const strategy = isBull ? OrderTypeEnum.Buy : OrderTypeEnum.Sell;
 

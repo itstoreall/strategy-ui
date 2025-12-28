@@ -259,13 +259,13 @@ const Dashboard = () => {
                 />
               ) : null}
 
-              {userOrders.sell.length ? (
+              {/* {userOrders.sell.length ? (
                 <OrderListSection
                   data={userOrders.sell}
                   tokens={updatedTokens}
                   userId={userId}
                 />
-              ) : null}
+              ) : null} */}
             </SectionsContainer>
           </div>
         ) : isRefetchButton ? (
